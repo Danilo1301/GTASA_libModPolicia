@@ -1,0 +1,68 @@
+---------------------------
+To release
+
+Test first on SAMP, then test on offline
+Check logs
+Check Mod::m_Version
+Check EN and PT .fxt
+Check .fxt mod version
+Check game more than once to make sure
+Check if config is saving
+
+Change version file in the .zip
+
+TODO
+
+Check Todo to see if all changes are correcly documented
+
+README
+
+Change readme EN and PT if necessary
+
+---------------------------
+Todo
+
+[0.1.0]
+Initial release
+
+---------------------------
+Sugestoes:
+
+---------------------------
+Other suggestions / todo:
+
+-------------
+
+tested SAUtils
+1.6			( GTA SA 2.0: OK | SAMP: ?? )
+1.5.1		?
+1.4.1		( GTA SA 2.0: OK | SAMP: ?? )
+1.4			?
+1.3.1       ?
+
+tested AML (and headers)
+1.2.1		( GTA SA 2.0: OK | SAMP: ??, HEADERS: ?? )
+1.2			no files
+1.1			?
+1.0.3.1		( GTA SA 2.0: OK | SAMP: ??, HEADERS: OK)
+1.0.3		?
+1.0.2.2		?
+1.0.2.1		?
+1.0.2		?
+1.0.1		? 
+1.0.0.6
+1.0.0.0
+
+tested CLEO
+2.0.1.3		( GTA SA 2.0: OK | SAMP: ?? )
+2.0.1.2		?
+2.0.1.1		?
+2.0.1		?
+
+-----------
+
+To update AML
+
+go to https://github.com/RusJJ/AndroidModLoader
+download project
+copy files from 'mod' to 'GTASA_libGiroflexVSL\CLEOMod\mod'

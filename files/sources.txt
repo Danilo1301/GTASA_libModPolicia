@@ -1,0 +1,20 @@
+widget ids
+https://gtaforums.com/topic/972564-gta-sa-android-widget-ids/
+
+opcodes
+https://library.sannybuilder.com/#/sa_mobile/default/0256
+
+set marker on actor
+https://gtaforums.com/topic/988972-actor-marker-problem/
+
+script commands
+https://github.com/AndroidModLoader/SAUtils/blob/main/sautils.cpp
+
+PMV1
+https://www.youtube.com/watch?v=3L29Irfc14k&t=244s
+
+rg
+https://leonardoconcon.com.br/wp-content/uploads/2015/09/Modelo_da_nova_carteira_de_identidade_brasileira.jpg
+
+cnh
+https://images.app.goo.gl/VXJUDRRNJrzDDYPS7

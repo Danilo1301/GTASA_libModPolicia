@@ -1,0 +1,55 @@
+MPFX1 ~1~
+MPFX2 ~1~, ~1~
+MPFX3 ~1~, ~1~, ~1~
+MPFX4 <
+MPFX5 >
+MPFX6 Mod Policia v0.1.0 (by Danilo1301)
+MPFX7 Fechar
+MPFX8 Voltar
+MPFX9 Editar posicao
+MPFX10 X
+MPFX11 Y
+MPFX12 Z
+MPFX13 Editar cor
+MPFX14 R
+MPFX15 G
+MPFX16 B
+MPFX17 A
+MPFX18 X
+MPFX19 -
+MPFX20 +
+MPFX21 X
+MPFX22 Info
+MPFX23 Test ~1~
+MPFX24 Sim
+MPFX25 Nao
+MPFX26 <  ( Coloque no CENTRO )  >
+MPFX27 Ped ID ~1~
+MPFX28 Test ~1~
+MPFX29 ShowDebug
+MPFX30 Short description of something
+MPFX31 ~b~[Policial] ~w~Parado, aqui e a policia!
+MPFX32 Nao foi possivel encontrar ninguem para abordar
+MPFX33 Revistar
+MPFX34 Pedir RG
+MPFX35 Me de o seu RG
+MPFX36 Eu esqueci em casa, senhor
+MPFX37 Aqui esta!
+MPFX38 ~1~.~1~
+MPFX39 WWWWWWWWW WWWWWWWW
+MPFX40 ~1~.~1~.484-6
+MPFX41 ~1~.~1~.705-93
+MPFX42 ~1~/~1~
+MPFX43 /~1~
+MPFX44 Pedir CNH
+MPFX45 Celular
+MPFX46 Carteira
+MPFX47 Cigarro
+MPFX48 Maconha
+MPFX49 x~1~
+MPFX50 Consultar IMEI
+MPFX51 Apreender
+MPFX52 Fumar
+MPFX53 ~g~[COPOM] ~w~IMEI registrado como produto de furto
+MPFX54 ~g~[COPOM] ~w~Nada consta no IMEI
+MPFX55 ~b~[Policial] ~w~Voce esta liberado!

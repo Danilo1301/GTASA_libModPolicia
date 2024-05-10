@@ -1,0 +1,41 @@
+{$CLEO .csa}
+03A4: script_name 'TestModPolicia'
+
+:Main
+wait 0
+
+/*
+if
+    04EE: animation "GANGS" loaded
+then
+else
+    04ED: load_animation "GANGS"
+    036D: show_text_2numbers_styled GXT 'MPFX1' numbers 1 0 time 2000 style 7  
+    jump @Main
+end
+
+if
+    04EE: animation "POLICE" loaded
+then
+else
+    04ED: load_animation "POLICE"
+    036D: show_text_2numbers_styled GXT 'MPFX1' numbers 2 0 time 2000 style 7
+    jump @Main
+end  
+*/
+    
+if 
+    0256: player $PLAYER_CHAR defined
+jf @Main
+
+if
+    0A51: is_widget_pressed 7 
+then
+    //04C4: store_coords_to 25@ 26@ 27@ from_actor $PLAYER_ACTOR with_offset 0.0 5.0 0.0 
+    //00BA: show_text_styled GXT 'PEDE' time 1000 style 7  // Beefy Baron
+    //0605: actor $PLAYER_ACTOR perform_animation "CopTraf_Stop" IFP "POLICE" framedelta 4.0 loop 0 lockX 0 lockY 0 lockF 0 time -1
+     
+    //073E: get_car_in_sphere 25@ 26@ 27@ radius 5.0 model -1 handle_as 28@
+end
+
+0002: jump @Main 

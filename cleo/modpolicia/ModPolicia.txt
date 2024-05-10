@@ -1,0 +1,544 @@
+{$CLEO .csa}
+03A4: script_name 'ModPolicia'
+
+//----------------------------------------------------
+
+const
+    eDrawType_BOX = 0
+    eDrawType_TEXT = 1
+    eDrawType_SPRITE = 2
+end
+
+const
+    eTextAlign_ALIGN_LEFT = 0   
+    eTextAlign_ALIGN_CENTER = 1
+    eTextAlign_ALIGN_RIGHT = 2
+end
+
+const
+    eDrawInfoType_AMOUNT_OF_DRAWITEMS = 0
+    eDrawInfoType_TYPE = 1
+    eDrawInfoType_POS_X = 2
+    eDrawInfoType_POS_Y = 3
+    eDrawInfoType_SIZE_X = 4
+    eDrawInfoType_SIZE_Y = 5
+    eDrawInfoType_COLOR_R = 6
+    eDrawInfoType_COLOR_G = 7
+    eDrawInfoType_COLOR_B = 8
+    eDrawInfoType_COLOR_A = 9
+    eDrawInfoType_GXT_ID = 10
+    eDrawInfoType_NUM_1 = 11    
+    eDrawInfoType_NUM_2 = 12
+    eDrawInfoType_ALIGN = 13
+    eDrawInfoType_SPRITE_ID = 14
+    eDrawInfoType_MENU_OFFSET_X = 15
+end
+
+const
+    VAR_Integer1 = 0@
+    VAR_Integer2 = 1@
+    
+    VAR_Type = 2@
+    VAR_PosX = 3@
+    VAR_PosY = 4@
+    VAR_PosZ = 5@
+    
+    VAR_SizeX = 6@
+    VAR_SizeY = 7@
+    
+    VAR_ColorR = 8@
+    VAR_ColorG = 9@
+    VAR_ColorB = 10@
+    VAR_ColorA = 11@
+    
+    VAR_GxtId = 12@
+    VAR_Num1 = 13@
+    VAR_Num2 = 14@
+    
+    MenuOffsetX = 15@
+    
+    VAR_Align = 16@
+    
+    VAR_STR_1 = 17@v //jump +4
+    
+    VAR_SpriteID = 21@
+    
+    VAR_DeltaTime = 22@
+    
+    Clock = 23@
+    PrevClock = 24@ 
+end
+
+var
+    VAR_Integer1 : Int = 0
+    VAR_Integer2 : Int = 0
+    
+    VAR_PosX : Float = 0.0    
+    VAR_PosY : Float = 0.0
+    VAR_PosZ : Float = 0.0
+    MenuOffsetX : Float = 0.0
+    
+    PrevClock : Int = 0
+    Clock : Int = 0
+    
+    VAR_DeltaTime : Int = 0
+end
+
+//----------------------------------------------------
+
+0000:
+0390: load_txd_dictionary 'TXD'
+038F: load_texture "mptx1" as 100
+038F: load_texture "mptx2" as 101
+jump @LOOP
+
+//----------------------------------------------------
+
+:LOOP
+0001: wait 0 ms 
+
+gosub @SEND_TOUCH
+
+gosub @GET_DELTA_TIME
+
+0F20: process_modpolicia_lib deltaMs VAR_DeltaTime
+
+/*
+if
+    0A51: is_widget_pressed 7 
+then
+    04C4: store_coords_to 25@ 26@ 27@ from_actor $PLAYER_ACTOR with_offset 0.0 5.0 0.0 
+    00BA: show_text_styled GXT 'PEDE' time 1000 style 7  // Beefy Baron
+    0605: actor $PLAYER_ACTOR perform_animation "CopTraf_Stop" IFP "POLICE" framedelta 4.0 loop 0 lockX 0 lockY 0 lockF 0 time -1 
+    073E: get_car_in_sphere 25@ 26@ 27@ radius 5.0 model -1 handle_as 28@
+    
+    if
+        056E: car 28@ defined 
+    then
+        046C: 29@ = car 28@ driver
+        
+        if
+        	056D: actor 29@ defined 
+        then
+            0187: 30@ = create_marker_above_actor 29@ 
+            02D4: car 28@ turn_off_engine
+        end
+    end
+end
+*/
+
+/*
+if
+    0A51: is_widget_pressed 38 
+then
+    01F5: 25@ = get_player_actor 0 
+
+    00A0: store_actor 25@ position_to 26@ 27@ 28@
+    0092: 29@ = float 26@ to_integer
+    0092: 30@ = float 27@ to_integer
+    036D: show_text_2numbers_styled GXT 'MPFX2' numbers 29@ 30@ time 5000 style 5   
+end
+*/
+
+/*
+03F0: enable_text_draw 1
+0340: set_text_draw_RGBA 0 20 255 255 
+033F: set_text_draw_letter_size 0.5 3.0 
+0343: set_text_draw_linewidth 640.0
+045B: draw_text_2numbers 300.0 200.0 GXT 'MPFX2' numbers 1 2
+*/
+
+0F21: MenuOffsetX = get_draw_item_info eDrawInfoType_MENU_OFFSET_X id 0
+
+0050: gosub @DRAW_ITEMS
+
+0002: jump @LOOP 
+
+//----------------------------------------------------
+
+:SEND_TOUCH
+
+for VAR_Integer1 = 1 to 9
+    0DE0: VAR_Integer2 = get_touch_point_state VAR_Integer1 mintime 0
+    0F22: send_touch_state VAR_Integer1 state VAR_Integer2
+end
+return
+
+//----------------------------------------------------
+
+:GET_DELTA_TIME
+
+VAR_Integer1 = 1
+
+01BD: Clock = current_time_in_ms
+
+if PrevClock == Clock
+then
+else
+    VAR_Integer1 = 0
+    VAR_Integer1 = Clock
+    VAR_Integer1 -= PrevClock
+    VAR_DeltaTime = VAR_Integer1
+    01BD: PrevClock = current_time_in_ms 
+end   
+return
+
+//----------------------------------------------------
+
+
+:DRAW_ITEMS
+
+VAR_Integer1 = 0
+0F21: VAR_Integer2 = get_draw_item_info eDrawInfoType_AMOUNT_OF_DRAWITEMS id 0
+
+while VAR_Integer1 < VAR_Integer2
+    0F21: VAR_Type = get_draw_item_info eDrawInfoType_TYPE id VAR_Integer1
+    
+    if VAR_Type == eDrawType_BOX
+    then
+        gosub @DRAW_BOX
+    end
+    
+    if VAR_Type == eDrawType_TEXT
+    then
+        gosub @DRAW_TEXT
+    end
+    
+    if VAR_Type == eDrawType_SPRITE
+    then
+        gosub @DRAW_SPRITE
+    end
+
+    VAR_Integer1 += 1
+    
+end
+return
+
+//----------------------------------------------------
+
+:DRAW_BOX
+
+0F21: VAR_PosX = get_draw_item_info eDrawInfoType_POS_X id VAR_Integer1
+0F21: VAR_PosY = get_draw_item_info eDrawInfoType_POS_Y id VAR_Integer1
+
+VAR_PosX += MenuOffsetX // why tf is (0,0) offseted to (-195,0)
+//VAR_PosY -= 50.0
+
+0F21: VAR_SizeX = get_draw_item_info eDrawInfoType_SIZE_X id VAR_Integer1
+0F21: VAR_SizeY = get_draw_item_info eDrawInfoType_SIZE_Y id VAR_Integer1
+
+0F21: VAR_ColorR = get_draw_item_info eDrawInfoType_COLOR_R id VAR_Integer1
+0F21: VAR_ColorG = get_draw_item_info eDrawInfoType_COLOR_G id VAR_Integer1
+0F21: VAR_ColorB = get_draw_item_info eDrawInfoType_COLOR_B id VAR_Integer1
+0F21: VAR_ColorA = get_draw_item_info eDrawInfoType_COLOR_A id VAR_Integer1
+
+03F0: enable_text_draw 1
+038E: draw_box_position VAR_PosX VAR_Posy size VAR_SizeX VAR_SizeY RGBA VAR_ColorR VAR_ColorG VAR_ColorB VAR_ColorA
+return
+
+//----------------------------------------------------
+
+:DRAW_TEXT
+
+0F21: VAR_PosX = get_draw_item_info eDrawInfoType_POS_X id VAR_Integer1
+0F21: VAR_PosY = get_draw_item_info eDrawInfoType_POS_Y id VAR_Integer1
+
+VAR_PosX += MenuOffsetX // why tf is (0,0) offseted to (-195,0)
+VAR_PosY -= 10.0
+
+0F21: VAR_ColorR = get_draw_item_info eDrawInfoType_COLOR_R id VAR_Integer1
+0F21: VAR_ColorG = get_draw_item_info eDrawInfoType_COLOR_G id VAR_Integer1
+0F21: VAR_ColorB = get_draw_item_info eDrawInfoType_COLOR_B id VAR_Integer1
+0F21: VAR_ColorA = get_draw_item_info eDrawInfoType_COLOR_A id VAR_Integer1
+
+0F21: VAR_GxtId = get_draw_item_info eDrawInfoType_GXT_ID id VAR_Integer1
+
+0F21: VAR_Num1 = get_draw_item_info eDrawInfoType_NUM_1 id VAR_Integer1
+0F21: VAR_Num2 = get_draw_item_info eDrawInfoType_NUM_2 id VAR_Integer1
+
+0F21: VAR_Align = get_draw_item_info eDrawInfoType_ALIGN id VAR_Integer1
+
+
+03E4: set_text_draw_align_right 0 
+0342: set_text_draw_centered 0
+060D: draw_text_shadow 0 rgba 0 0 0 255 
+
+if
+    VAR_Align == eTextAlign_ALIGN_CENTER
+then
+    0342: set_text_draw_centered 1
+end
+
+
+if
+    VAR_Align == eTextAlign_ALIGN_RIGHT
+then
+   03E4: set_text_draw_align_right 1
+end
+
+VAR_STR_1 = "MPFX0"
+gosub @FIND_GFX
+
+03F0: enable_text_draw 1
+
+0341: set_text_draw_align_justify 0 
+
+0340: set_text_draw_RGBA VAR_ColorR VAR_ColorG VAR_ColorB VAR_ColorA
+033F: set_text_draw_letter_size 0.3 1.9 //0.5 3.0 origi 
+0343: set_text_draw_linewidth 640.0
+045B: draw_text_2numbers VAR_PosX VAR_PosY GXT VAR_STR_1 numbers VAR_Num1 VAR_Num2
+return
+
+//----------------------------------------------------
+
+
+:DRAW_SPRITE
+
+0F21: VAR_SpriteID = get_draw_item_info eDrawInfoType_SPRITE_ID id VAR_Integer1
+
+0F21: VAR_PosX = get_draw_item_info eDrawInfoType_POS_X id VAR_Integer1
+0F21: VAR_PosY = get_draw_item_info eDrawInfoType_POS_Y id VAR_Integer1
+
+VAR_PosX += MenuOffsetX // why tf is (0,0) offseted to (-195,0)
+//VAR_PosY -= 50.0
+
+0F21: VAR_SizeX = get_draw_item_info eDrawInfoType_SIZE_X id VAR_Integer1
+0F21: VAR_SizeY = get_draw_item_info eDrawInfoType_SIZE_Y id VAR_Integer1
+
+0F21: VAR_ColorR = get_draw_item_info eDrawInfoType_COLOR_R id VAR_Integer1
+0F21: VAR_ColorG = get_draw_item_info eDrawInfoType_COLOR_G id VAR_Integer1
+0F21: VAR_ColorB = get_draw_item_info eDrawInfoType_COLOR_B id VAR_Integer1
+0F21: VAR_ColorA = get_draw_item_info eDrawInfoType_COLOR_A id VAR_Integer1
+
+038D: draw_texture VAR_SpriteID position VAR_PosX VAR_Posy size VAR_SizeX VAR_SizeY RGBA VAR_ColorR VAR_ColorG VAR_ColorB VAR_ColorA
+return
+
+//----------------------------------------------------
+
+:FIND_GFX
+
+if VAR_GxtId == 0
+then
+     VAR_STR_1 = "MPFX0"
+end
+if VAR_GxtId == 1
+then
+     VAR_STR_1 = "MPFX1"
+end
+if VAR_GxtId == 2
+then
+     VAR_STR_1 = "MPFX2"
+end
+if VAR_GxtId == 3
+then
+     VAR_STR_1 = "MPFX3"
+end
+if VAR_GxtId == 4
+then
+     VAR_STR_1 = "MPFX4"
+end
+if VAR_GxtId == 5
+then
+     VAR_STR_1 = "MPFX5"
+end
+if VAR_GxtId == 6
+then
+     VAR_STR_1 = "MPFX6"
+end
+if VAR_GxtId == 7
+then
+     VAR_STR_1 = "MPFX7"
+end
+if VAR_GxtId == 8
+then
+     VAR_STR_1 = "MPFX8"
+end
+if VAR_GxtId == 9
+then
+     VAR_STR_1 = "MPFX9"
+end
+if VAR_GxtId == 10
+then
+     VAR_STR_1 = "MPFX10"
+end
+if VAR_GxtId == 11
+then
+     VAR_STR_1 = "MPFX11"
+end
+if VAR_GxtId == 12
+then
+     VAR_STR_1 = "MPFX12"
+end
+if VAR_GxtId == 13
+then
+     VAR_STR_1 = "MPFX13"
+end
+if VAR_GxtId == 14
+then
+     VAR_STR_1 = "MPFX14"
+end
+if VAR_GxtId == 15
+then
+     VAR_STR_1 = "MPFX15"
+end
+if VAR_GxtId == 16
+then
+     VAR_STR_1 = "MPFX16"
+end
+if VAR_GxtId == 17
+then
+     VAR_STR_1 = "MPFX17"
+end
+if VAR_GxtId == 18
+then
+     VAR_STR_1 = "MPFX18"
+end
+if VAR_GxtId == 19
+then
+     VAR_STR_1 = "MPFX19"
+end
+if VAR_GxtId == 20
+then
+     VAR_STR_1 = "MPFX20"
+end
+if VAR_GxtId == 21
+then
+     VAR_STR_1 = "MPFX21"
+end
+if VAR_GxtId == 22
+then
+     VAR_STR_1 = "MPFX22"
+end
+if VAR_GxtId == 23
+then
+     VAR_STR_1 = "MPFX23"
+end
+if VAR_GxtId == 24
+then
+     VAR_STR_1 = "MPFX24"
+end
+if VAR_GxtId == 25
+then
+     VAR_STR_1 = "MPFX25"
+end
+if VAR_GxtId == 26
+then
+     VAR_STR_1 = "MPFX26"
+end
+if VAR_GxtId == 27
+then
+     VAR_STR_1 = "MPFX27"
+end
+if VAR_GxtId == 28
+then
+     VAR_STR_1 = "MPFX28"
+end
+if VAR_GxtId == 29
+then
+     VAR_STR_1 = "MPFX29"
+end
+if VAR_GxtId == 30
+then
+     VAR_STR_1 = "MPFX30"
+end
+if VAR_GxtId == 31
+then
+     VAR_STR_1 = "MPFX31"
+end
+if VAR_GxtId == 32
+then
+     VAR_STR_1 = "MPFX32"
+end
+if VAR_GxtId == 33
+then
+     VAR_STR_1 = "MPFX33"
+end
+if VAR_GxtId == 34
+then
+     VAR_STR_1 = "MPFX34"
+end
+if VAR_GxtId == 35
+then
+     VAR_STR_1 = "MPFX35"
+end
+if VAR_GxtId == 36
+then
+     VAR_STR_1 = "MPFX36"
+end
+if VAR_GxtId == 37
+then
+     VAR_STR_1 = "MPFX37"
+end
+if VAR_GxtId == 38
+then
+     VAR_STR_1 = "MPFX38"
+end
+if VAR_GxtId == 39
+then
+     VAR_STR_1 = "MPFX39"
+end
+if VAR_GxtId == 40
+then
+     VAR_STR_1 = "MPFX40"
+end
+if VAR_GxtId == 41
+then
+     VAR_STR_1 = "MPFX41"
+end
+if VAR_GxtId == 42
+then
+     VAR_STR_1 = "MPFX42"
+end
+if VAR_GxtId == 43
+then
+     VAR_STR_1 = "MPFX43"
+end
+if VAR_GxtId == 44
+then
+     VAR_STR_1 = "MPFX44"
+end
+if VAR_GxtId == 45
+then
+     VAR_STR_1 = "MPFX45"
+end
+if VAR_GxtId == 46
+then
+     VAR_STR_1 = "MPFX46"
+end
+if VAR_GxtId == 47
+then
+     VAR_STR_1 = "MPFX47"
+end
+if VAR_GxtId == 48
+then
+     VAR_STR_1 = "MPFX48"
+end
+if VAR_GxtId == 49
+then
+     VAR_STR_1 = "MPFX49"
+end
+if VAR_GxtId == 50
+then
+     VAR_STR_1 = "MPFX50"
+end
+if VAR_GxtId == 51
+then
+     VAR_STR_1 = "MPFX51"
+end
+if VAR_GxtId == 52
+then
+     VAR_STR_1 = "MPFX52"
+end
+if VAR_GxtId == 53
+then
+     VAR_STR_1 = "MPFX53"
+end
+if VAR_GxtId == 54
+then
+     VAR_STR_1 = "MPFX54"
+end
+if VAR_GxtId == 55
+then
+     VAR_STR_1 = "MPFX55"
+end
+return
