@@ -23,7 +23,7 @@
 <h1>How to use</h1>
 
 * You need to be on foot or in a vehicle
-* Press the horn button (police siren) to stop a pedestrian or a vehicle
+* Press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE)) to stop a pedestrian or a vehicle
 * Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu
 
 <h1>Tutorials</h1>

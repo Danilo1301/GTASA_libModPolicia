@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia v0.2.0 (by Danilo1301)
+MPFX6 Mod Policia v0.3.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -62,3 +62,13 @@ MPFX61 Revolver 38
 MPFX62 Pistola
 MPFX63 Chegue mais perto!
 MPFX64 Conduzir para a DP
+MPFX65 Aperte ~y~2 + Buzina ~w~para abordar
+MPFX66 Consultar RG
+MPFX67 Consultar placa
+MPFX68 ~b~[Policial] ~w~COPOM, consulta de placa...
+MPFX69 ~g~[COPOM] ~w~Veiculo sem queixas
+MPFX70 ~g~[COPOM] ~w~Veiculo cadastrado como produto de roubo
+MPFX71 ~b~[Policial] ~w~COPOM, consulta de individuo...
+MPFX72 ~g~[COPOM] ~w~Individuo sem queixas
+MPFX73 ~g~[COPOM] ~w~Individuo com mandado de prisao em aberto
+MPFX74 ~r~O individuo apreendeu fuga!

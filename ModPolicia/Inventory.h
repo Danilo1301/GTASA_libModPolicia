@@ -11,6 +11,7 @@ public:
     bool created = false;
 
     bool HasItemOfType(Item_Type type);
+    std::vector<InventoryItem*> GetItemsOfType(Item_Type type);
     InventoryItem* AddItemToInventory(Item_Type type);
     void RemoveItemFromInventory(InventoryItem* item);
     void RemoveAllItemsFromInventory(Item_Type type);

@@ -1,6 +1,8 @@
 #include "WindowDocument.h"
 
 #include "Log.h"
+#include "CleoFunctions.h"
+#include "Pullover.h"
 
 Window* WindowDocument::m_Window = NULL;
 DOC_TYPE WindowDocument::m_DocumentType = DOC_TYPE::RG;
@@ -24,6 +26,31 @@ void WindowDocument::Create()
             m_OnClose = NULL;
         }
     };
+
+    if(m_DocumentType == DOC_TYPE::RG)
+    {
+        auto confirm_consultarrg = window->AddFloatingButton(66, 0,0, CVector2D(660, 160), CVector2D(100, 30));
+        confirm_consultarrg->onClick = []()
+        {
+            Remove();
+
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX71", 0, 0, 0, 3000, 1); //consultar rg
+
+            CleoFunctions::WAIT(2000, []() {
+                auto ped = m_Ped;
+                if(ped->isWanted)
+                {
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX73", 0, 0, 0, 3000, 1); //com mandado
+                } else {
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX72", 0, 0, 0, 3000, 1); //sem queixas
+                }
+
+                CleoFunctions::WAIT(1000, []() {
+                    Create();
+                });
+            });
+        };
+    }
 }
 
 void WindowDocument::Remove()
@@ -54,7 +81,6 @@ void WindowDocument::Draw()
 
     if(m_DocumentType == DOC_TYPE::RG)
     {
-
         //Fundo RG
         Draw::DrawSprite(100, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
 
@@ -96,37 +122,4 @@ void WindowDocument::Draw()
         Draw::DrawText(42, m_Ped->cnhValidDay, m_Ped->cnhValidMonth, CVector2D(426, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
         Draw::DrawText(43, m_Ped->cnhValidYear, 0, CVector2D(480, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
     }
-
-    /*
-    if(m_DocumentType == DOC_TYPE::RG)
-    {
-        //Fundo RG
-        Draw::DrawSprite(1, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
-
-        //Test text
-        Draw::DrawText(2, 555, 369, m_TestPosition, CRGBA(0, 0, 0));
-
-        //
-
-        //Registro Geral
-        Draw::DrawText(40, 495, 369, CVector2D(310, 150), CRGBA(120, 0, 0));
-        
-        //ID
-        //Draw::DrawText(2, 495, 369, CVector2D(310, 150), CRGBA(180, 0, 0));
-        
-        //Nome
-        Draw::DrawText(39, 495, 369, CVector2D(400, 237), CRGBA(180, 0, 0));
-
-        //Data de nascimento
-        Draw::DrawText(42, 25, 9, CVector2D(400, 287), CRGBA(180, 0, 0));
-
-        //CPF
-        Draw::DrawText(41, 495, 369, CVector2D(400, 325), CRGBA(180, 0, 0));
-    } else if (m_DocumentType == DOC_TYPE::CNH) {
-        //Fundo CNH
-        Draw::DrawSprite(2, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
-    }
-    */
-
-   Log::file << "6" << std::endl;
 }

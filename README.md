@@ -27,8 +27,8 @@
 <h1>Como usar</h1>
 
 * Você precisa estar a pé ou de carro
-* Aperte o botão de buzina (sirene da polícia) para abordar um pedestre ou um veículo
-* Pressione os números imaginários 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes
+* Aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE)) para abordar um pedestre ou um veículo
+* Pressione os 'números imaginários' 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes
 
 <h1>Tutoriais</h1>
 

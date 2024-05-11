@@ -2,6 +2,7 @@
 
 #include "Log.h"
 #include "Mod.h"
+#include "CleoFunctions.h"
 
 extern void* (*GetPedFromRef)(int);
 
@@ -29,11 +30,25 @@ Ped::Ped(int hPed)
     this->cnhValidDay = Mod::GetRandomNumber(1, 29);
     this->cnhValidMonth = Mod::GetRandomNumber(1, 12);
     this->cnhValidYear = Mod::GetRandomNumber(2024 - 5, 2024 + 10);
+
+    this->isWanted = Mod::CalculateProbability(0.1);
 }
 
 Ped::~Ped()
 {
     
+}
+
+void Ped::Update(int dt)
+{
+    if(shouldHandsup)
+    {
+        if(!CleoFunctions::ACTOR_PERFORMING_ANIMATION(hPed, "handsup"))
+        {
+            Log::file << "Performing animation: handsup" << std::endl;
+            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
+        }
+    }
 }
 
 void Ped::UpdateInventory()
@@ -72,4 +87,18 @@ bool Ped::HasDocuments()
     UpdateInventory();
 
     return inventory->HasItemOfType(Item_Type::DOCUMENTS);
+}
+
+void Ped::AddBlip()
+{
+    if(blip > 0) RemoveBlip();
+    blip = CleoFunctions::ADD_BLIP_FOR_CHAR(hPed);
+}
+
+void Ped::RemoveBlip()
+{
+    if(blip <= 0) return;
+
+    CleoFunctions::DISABLE_MARKER(blip);
+    blip = 0;
 }

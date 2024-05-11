@@ -33,12 +33,21 @@ public:
     int cnhValidMonth;
     int cnhValidYear;
 
+    bool shouldHandsup = false;
+
+    bool isWanted = false;
+
     Inventory* inventory = new Inventory();
 
     Ped(int hPed);
 	~Ped();
 
+    void Update(int dt);
+
     void UpdateInventory();
 
     bool HasDocuments();
+
+    void AddBlip();
+    void RemoveBlip();
 };

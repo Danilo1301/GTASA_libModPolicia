@@ -22,6 +22,10 @@ public:
     static Vehicle* m_PullingVehicle;
     static Ped* m_ScorchingPed;
     static int m_ScorchingPedSphere;
+    static int m_ScorchingPedBlip;
+    static int m_ScorchingToDpIndex;
+
+    static std::vector<CVector> m_PoliceDepartmentPositions;
 
 
     static PULLOVER_TYPE m_FriskType;
@@ -33,6 +37,9 @@ public:
     static void FriskVehicle();
     static void FreePed();
     static void FreeVehicle();
+    static void AskPedToLeaveCar(Ped* ped);
+    static void SartScorchingPed(Ped* ped);
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);
+    static int GetClosestPoliceDepartment();
 };

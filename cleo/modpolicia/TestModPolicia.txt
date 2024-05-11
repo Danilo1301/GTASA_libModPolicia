@@ -30,7 +30,40 @@ if
 jf @Main
 
 if
-    0A51: is_widget_pressed 38 
+    0A51: is_widget_pressed 37 
+then
+    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0
+    
+    03BC: 6@ = create_sphere_at 0@ 1@ 2@ radius 3.0
+    
+    //02A8: 7@ = create_marker 33 at 0@ 1@ 2@ 
+    0167: 7@ = create_marker_at 0@ 1@ 2@ color 0 flag 3     
+     
+    073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@
+    
+    if 056E: car 3@ defined
+    then
+        02D4: car 3@ turn_off_engine 
+    
+        046C: 4@ = car 3@ driver
+        
+        if 056D: actor 4@ defined
+        then
+            0187: 5@ = create_marker_above_actor 4@
+            
+            0423: set_car 3@ improved_handling_to 2.0
+            00AE: set_car 3@ traffic_behaviour_to 2
+            00AD: set_car 3@ max_speed_to 50.0             
+            00A8: set_car 3@ to_psycho_driver
+            03CC: enable_car 3@ stuck_check_distance_to 50.0 time_to 50.0
+        end 
+    end
+end
+
+/*
+//if press widget, char will.. ah whatever, just read the code
+if
+    0A51: is_widget_pressed 37 
 then
     04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0 
     073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@
@@ -67,6 +100,7 @@ then
         end 
     end
 end
+*/
 
 /*
 if

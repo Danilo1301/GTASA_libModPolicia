@@ -3,15 +3,18 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
-
-
+static DEFOPCODE(0167, CREATE_MARKER_AT, fffiiv); //0167: 7@ = create_marker_at 0@ 1@ 2@ color 0 flag 3
+static DEFOPCODE(0611, ACTOR_PERFORMING_ANIMATION, is); //0611: actor 2@ performing_animation "LRGIRL_IDLE_TO_L0" 
+static DEFOPCODE(056E, CAR_DEFINED, i); //056E: car 3@ defined
+static DEFOPCODE(00AE, SET_CAR_TRAFFIC_BEHAVIOUR, ii); //00AE: set_car 3@ traffic_behaviour_to 2
+static DEFOPCODE(00AD, SET_CAR_MAX_SPEED, if); //00AD: set_car 3@ max_speed_to 50.0  
+static DEFOPCODE(00A8, SET_CAR_TO_PSYCHO_DRIVER, i); //00A8: set_car 52@ to_psycho_driver 
 static DEFOPCODE(009B, DESTROY_ACTOR, i); //009B: destroy_actor 4@ 
 static DEFOPCODE(03BD, DESTROY_SPHERE, i); //03BD: destroy_sphere 7@
 static DEFOPCODE(03BC, CREATE_SPHERE, ffffv); //03BC: 7@ = create_sphere_at 1536.1325 -1671.2093 13.3828 radius 3.0 
 static DEFOPCODE(0631, PUT_ACTOR_IN_GROUP, ii); //0631: put_actor 4@ in_group 6@
 static DEFOPCODE(0630, PUT_ACTOR_IN_GROUP_AS_LEADER, ii); //0630: put_actor $PLAYER_ACTOR in_group 4@ as_leader
 static DEFOPCODE(07AF, GET_PLAYER_GROUP, iv); //07AF: 6@ = player $PLAYER_CHAR group
-
 static DEFOPCODE(05CB, ENTER_CAR_AS_DRIVER_AS_ACTOR, iii); //05CB: AS_actor 21@ enter_car 0@ as_driver 20000 ms
 static DEFOPCODE(0633, EXIT_CAR_AS_ACTOR, i); //0633: AS_actor 4@ exit_car
 static DEFOPCODE(02D4, CAR_TURN_OFF_ENGINE, i); //02D4: car 3@ turn_off_engine 
@@ -98,6 +101,40 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+int CleoFunctions::CREATE_MARKER_AT(float x, float y, float z, int color, int display)
+{
+    int blip = 0;
+    sautils->ScriptCommand(&scm_CREATE_MARKER_AT, x, y, z, color, display, &blip);
+    return blip;
+}
+
+bool CleoFunctions::ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName)
+{
+    bool result = sautils->ScriptCommand(&scm_ACTOR_PERFORMING_ANIMATION, _char, animationName);
+    return result;
+}
+
+bool CleoFunctions::CAR_DEFINED(int car)
+{
+    bool result = sautils->ScriptCommand(&scm_CAR_DEFINED, car);
+    return result;
+}
+
+void CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(int car, int drivingStyle)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_TRAFFIC_BEHAVIOUR, car, drivingStyle);
+}
+
+void CleoFunctions::SET_CAR_MAX_SPEED(int car, float maxSpeed)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_MAX_SPEED, car, maxSpeed);
+}
+
+void CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(int car)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_TO_PSYCHO_DRIVER, car);
 }
 
 void CleoFunctions::DESTROY_ACTOR(int actor)

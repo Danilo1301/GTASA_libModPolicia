@@ -99,6 +99,19 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         };
     }
 
+    if(item->type == Item_Type::PISTOL || item->type == Item_Type::REVOLVER_38)
+    {
+        auto button_apreender = window->AddButton(51);
+        button_apreender->onClick = [ped, vehicle, item, onClose]()
+        {
+            if(Pullover::m_FriskType == PULLOVER_TYPE::PULLING_PED) ped->inventory->RemoveItemFromInventory(item);
+            else vehicle->inventory->RemoveItemFromInventory(item);
+
+            RemoveItemActions();
+            onClose();
+        };
+    }
+
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = [onClose]()
     {

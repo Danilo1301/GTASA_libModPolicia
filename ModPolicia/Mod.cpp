@@ -9,13 +9,14 @@
 #include "Pullover.h"
 #include "CleoFunctions.h"
 #include "InventoryItem.h"
+#include "Chase.h"
 #include "windows/WindowDocument.h"
 
 #include "windows/WindowTest.h"
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.2.0";
+const char* Mod::m_Version = "0.3.0";
 unsigned int Mod::m_TimePassed = 0;
 
 bool loadedAnimations = false;
@@ -37,6 +38,7 @@ void Mod::Update(int dt)
 
     Peds::Update(dt);
 
+    Chase::Update(dt);
     Pullover::Update(dt);
 
     CleoFunctions::Update(dt);
@@ -87,12 +89,6 @@ void Mod::Update(int dt)
             }
         }
     }
-    
-    if(Widgets::IsWidgetPressed(7))
-    {
-        //Log::file << "[Mod] Widget 7 is pressed" << std::endl;
-    }
-
 
     /*
     if(Widgets::IsWidgetJustPressed(38)) //POWER

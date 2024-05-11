@@ -23,13 +23,18 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static int CREATE_MARKER_AT(float x, float y, float z, int color, int display);
+    static bool ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName);
+    static bool CAR_DEFINED(int car);
+    static void SET_CAR_TRAFFIC_BEHAVIOUR(int car, int drivingStyle);
+    static void SET_CAR_MAX_SPEED(int car, float maxSpeed);
+    static void SET_CAR_TO_PSYCHO_DRIVER(int car);
     static void DESTROY_ACTOR(int actor);
     static void DESTROY_SPHERE(int sphere);
     static int CREATE_SPHERE(float x, float y, float z, float radius);
     static void PUT_ACTOR_IN_GROUP(int group, int _char);
     static void PUT_ACTOR_IN_GROUP_AS_LEADER(int group, int _char);
     static int GET_PLAYER_GROUP(int player);
-
     static void ENTER_CAR_AS_DRIVER_AS_ACTOR(int _char, int vehicle, int time);
     static void EXIT_CAR_AS_ACTOR(int _actor);
     static void CAR_TURN_OFF_ENGINE(int car);

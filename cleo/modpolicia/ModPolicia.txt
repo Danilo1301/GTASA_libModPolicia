@@ -577,4 +577,44 @@ if VAR_GxtId == 64
 then
      VAR_STR_1 = "MPFX64"
 end
+if VAR_GxtId == 65
+then
+     VAR_STR_1 = "MPFX65"
+end
+if VAR_GxtId == 66
+then
+     VAR_STR_1 = "MPFX66"
+end
+if VAR_GxtId == 67
+then
+     VAR_STR_1 = "MPFX67"
+end
+if VAR_GxtId == 68
+then
+     VAR_STR_1 = "MPFX68"
+end
+if VAR_GxtId == 69
+then
+     VAR_STR_1 = "MPFX69"
+end
+if VAR_GxtId == 70
+then
+     VAR_STR_1 = "MPFX70"
+end
+if VAR_GxtId == 71
+then
+     VAR_STR_1 = "MPFX71"
+end
+if VAR_GxtId == 72
+then
+     VAR_STR_1 = "MPFX72"
+end
+if VAR_GxtId == 73
+then
+     VAR_STR_1 = "MPFX73"
+end
+if VAR_GxtId == 74
+then
+     VAR_STR_1 = "MPFX74"
+end
 return

@@ -22,10 +22,6 @@ void WindowTest::Create()
 {
 	if (m_Window) return;
 
-    if(!Pullover::m_PullingPed) Pullover::m_PullingPed = Peds::TryCreatePed(69420);
-
-    auto ped = Pullover::m_PullingPed;
-
     auto window = m_Window = Menu::AddWindow(6);
     window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;

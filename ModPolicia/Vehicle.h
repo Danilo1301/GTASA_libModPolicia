@@ -13,10 +13,17 @@ public:
 
     int blip = 0;
     
+    bool isStolen = false;
+
     Inventory* inventory = new Inventory();
 
     Vehicle(int hVehicle);
 	~Vehicle();
 
     void UpdateInventory();
+
+    bool HasIlegalStuff();
+
+    void AddBlip();
+    void RemoveBlip();
 };

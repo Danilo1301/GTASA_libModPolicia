@@ -12,6 +12,13 @@ std::map<int, Ped*> Peds::m_Peds;
 void Peds::Update(int dt)
 {
     TryFindNewPeds();
+
+    for(auto pair : m_Peds)
+    {
+        auto ped = pair.second;
+
+        ped->Update(dt);
+    }
 }
 
 void Peds::TryFindNewPeds()

@@ -1,7 +1,6 @@
 ---------------------------
 To release
 
-Test first on SAMP, then test on offline
 Check logs
 Check Mod::m_Version
 Check EN and PT .fxt
@@ -32,6 +31,14 @@ Initial release
 [X] ADD: frisk vehicles
 [X] UPDATE: rework on ped frisk system
 [X] ADD: new items: Beer, Revolver 38, Pistol
+
+[0.3.0]
+[X] CHANGE: button to pullover
+[X] ADD: a chase gets started if a car has illegal stuff
+[X] ADD: a chase gets started if a car is stolen
+[X] ADD: option to verify if vehicle is stolen
+[X] ADD: option to verify if ped is wanted
+[X] ADD: multiple different police departments
 
 ---------------------------
 Sugestoes:

@@ -73,6 +73,30 @@ void WindowPullover::CreatePullingPed()
             });
         };
     }
+    
+    if(ped->vehicleOwned)
+    {
+        auto button_consultarplaca = window->AddButton(67);
+        button_consultarplaca->onClick = [ped]()
+        {
+            Remove();
+
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
+
+            CleoFunctions::WAIT(2000, [ped]() {
+                if(ped->vehicleOwned->isStolen)
+                {
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
+                } else {
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
+                }
+
+                CleoFunctions::WAIT(1000, []() {
+                    CreatePullingPed();
+                });
+            });
+        };
+    }
 
     auto button_revistar = window->AddButton(33, 1, 0);
     button_revistar->onClick = [playerActor, ped]()
@@ -118,9 +142,7 @@ void WindowPullover::CreatePullingPed()
     {
         if(ped->HasDocuments())
         {
-            //CleoFunctions::SHOW_TEXT_3NUMBERS("MODPMV1", ped->birthDay, ped->birthMonth, ped->birthYear, 3000, 1);
-
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+            //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
 
             Remove();
 
@@ -138,7 +160,7 @@ void WindowPullover::CreatePullingPed()
     {
         if(ped->HasDocuments())
         {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+            //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
 
             Remove();
 
@@ -155,50 +177,7 @@ void WindowPullover::CreatePullingPed()
     button_conduzir->onClick = [playerActor, ped]()
     {
         Remove();
-
-        Pullover::m_ScorchingPed = ped;
-
-        if(ped->vehicleOwned)
-        {
-            if(ped->vehicleOwned->blip > 0)
-            {
-                CleoFunctions::DISABLE_MARKER(ped->vehicleOwned->blip);
-                ped->vehicleOwned->blip = 0;
-            }
-        }
-
-        Log::file << "Conduzir para a DP" << std::endl;
-
-        /*
-        01C2: remove_references_to_actor 4@
-
-        07AF: 6@ = player $PLAYER_CHAR group 
-
-        //062F: 6@ = create_group_type 0 //is this really encessary    
-        0630: put_actor $PLAYER_ACTOR in_group 4@ as_leader 
-        0631: put_actor 4@ in_group 6@
-        */
-        CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(ped->hPed);
-            
-        auto playerGroup = CleoFunctions::GET_PLAYER_GROUP(0);
-
-        Log::file << "playerGroup = " << playerGroup << std::endl;
-
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-        /*
-        CleoFunctions::PUT_ACTOR_IN_GROUP_AS_LEADER(playerActor, ped->hPed);
-        CleoFunctions::PUT_ACTOR_IN_GROUP(ped->hPed, playerGroup);
-        */
-
-        CleoFunctions::PUT_ACTOR_IN_GROUP_AS_LEADER(ped->hPed, playerActor);
-        CleoFunctions::PUT_ACTOR_IN_GROUP(playerGroup, ped->hPed);
-
-        Log::file << "create sphere" << std::endl;
-
-        Pullover::m_ScorchingPedSphere = CleoFunctions::CREATE_SPHERE(1536.1325, -1671.2093, 13.3828, 3.0);
-
-        Log::file << "sphere = " << Pullover::m_ScorchingPedSphere << std::endl;
+        Pullover::SartScorchingPed(ped);
     };
 
     if(ped->vehicleOwned)
@@ -233,20 +212,8 @@ void WindowPullover::CreatePullingCar()
     button_sairdocarro->onClick = [ped]()
     {
         Remove();
-        /*
-        0633: AS_actor 21@ exit_car
-        wait 1000 
-        0812: AS_actor 21@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1 // versionB 
-        */
-        CleoFunctions::EXIT_CAR_AS_ACTOR(ped->hPed);
-        
-        CleoFunctions::WAIT(1000, [ped]() {
-            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(ped->hPed, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
-        });
 
-        CleoFunctions::WAIT(2000, []() {
-            CreatePullingPed();
-        });
+        Pullover::AskPedToLeaveCar(ped);
     };
     
     auto button_close = window->AddButton(57, CRGBA(170, 70, 70));

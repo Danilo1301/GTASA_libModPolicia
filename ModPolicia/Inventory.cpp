@@ -12,6 +12,19 @@ bool Inventory::HasItemOfType(Item_Type type)
     return false;
 }
 
+std::vector<InventoryItem*> Inventory::GetItemsOfType(Item_Type type)
+{
+    std::vector<InventoryItem*> foundItems;
+    for(auto item : items)
+    {
+        if(item->type == type)
+        {
+            foundItems.push_back(item);
+        }
+    }
+    return foundItems;
+}
+
 InventoryItem* Inventory::AddItemToInventory(Item_Type type)
 {
     auto item = new InventoryItem();
