@@ -94,6 +94,8 @@ public:
 
 	float btnWidth = 50.0f;
 
+	bool waitingForTouchRelease = false;
+
 	Item(eItemType type);
 
 	void AddColorIndicator(CRGBA* color);

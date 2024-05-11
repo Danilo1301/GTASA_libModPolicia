@@ -30,8 +30,12 @@ public:
 	bool showPageControls = false;
 	bool showTitle = true;
 
+	bool waitingForTouchRelease = false;
+
 	Window();
 
+	void AddItem(Item* item);
+	void AddFloatingItem(Item* item);
 	Item* AddButton(int gxtId, int num1, int num2, CRGBA color);
 	Item* AddButton(int gxtId);
 	Item* AddButton(int gxtId, int num1, int num2);
@@ -49,6 +53,7 @@ public:
 	void Destroy();
 
 	std::vector<Item*> GetItemsToDraw();
+	std::vector<Item*> GetTotalItems();
 
 	void GoToPrevWindow();
 	void RemoveThisWindow();

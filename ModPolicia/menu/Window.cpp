@@ -7,6 +7,8 @@ CRGBA Window::defaultButtonColor = CRGBA(0, 0, 50);
 
 Window::Window()
 {
+	Log::file << "[Window] Constructor" << std::endl;
+
 	btnLeft = new Item(eItemType::ITEM_BUTTON);
 	btnRight = new Item(eItemType::ITEM_BUTTON);
 	btnBack = new Item(eItemType::ITEM_BUTTON);
@@ -26,6 +28,27 @@ Window::Window()
 		window->page -= 1;
 		if (window->page < 0) window->page = 0;
 	};
+
+	//fix issue when accidentally clicking on an item
+	if(Input::isTouchPressed)
+	{	
+		Log::file << "[Window] Blocking buttons while input is not released" << std::endl;
+		waitingForTouchRelease = true;
+	}
+}
+
+void Window::AddItem(Item* item)
+{
+	item->waitingForTouchRelease = waitingForTouchRelease;
+
+	items.push_back(item);
+}
+
+void Window::AddFloatingItem(Item* item)
+{
+	item->waitingForTouchRelease = waitingForTouchRelease;
+
+	floatingItems.push_back(item);
 }
 
 Item* Window::AddButton(int gxtId, int num1, int num2, CRGBA color)
@@ -41,7 +64,7 @@ Item* Window::AddButton(int gxtId, int num1, int num2, CRGBA color)
 	item->box->size = { 200, 35 };
 	item->useFullWidth = true;
 
-	items.push_back(item);
+	AddItem(item);
 
 	Log::file << "Window: AddButton" << std::endl;
 
@@ -77,7 +100,7 @@ Item* Window::AddFloatingButton(int gxtId, int num1, int num2, CVector2D positio
 	item->box->color = color;
 	item->box->size = size;
 
-	floatingItems.push_back(item);
+	AddFloatingItem(item);
 
 	Log::file << "Window: AddFloatingButton" << std::endl;
 
@@ -102,7 +125,7 @@ Item* Window::AddCheckbox(int gxtId, bool* value)
 
 	item->box->size = { 200, 35 };
 
-	items.push_back(item);
+	AddItem(item);
 
 	Log::file << "Window: AddCheckbox" << std::endl;
 
@@ -119,7 +142,7 @@ Item* Window::AddOptions(int gxtId)
 	item->box->color = CRGBA(120, 120, 120);
 	item->box->size = { 178, 35 };
 
-	items.push_back(item);
+	AddItem(item);
 
 	Log::file << "Window: AddOptions" << std::endl;
 
@@ -139,7 +162,7 @@ Item* Window::AddFloatRange(int gxtId, float* value, float min, float max, float
 	item->box->color = CRGBA(120, 120, 120);
 	item->box->size = { 150, 35 };
 
-	items.push_back(item);
+	AddItem(item);
 
 	Log::file << "Window: AddFloatRange" << std::endl;
 
@@ -160,7 +183,7 @@ Item* Window::AddIntRange(int gxtId, int* value, int min, int max, int addBy)
 	item->box->color = CRGBA(120, 120, 120);
 	item->box->size = { 150, 35 };
 
-	items.push_back(item);
+	AddItem(item);
 
 	Log::file << "Window: AddIntRange" << std::endl;
 
@@ -178,7 +201,7 @@ Item* Window::AddText(int gxtId, CRGBA color)
 	item->useFullWidth = true;
 	item->box->size.y = 25;
 
-	items.push_back(item);
+	AddItem(item);
 
 	Log::file << "Window: AddText" << std::endl;
 
@@ -198,6 +221,17 @@ void Window::Update()
 	}
 
 	auto itemsToDraw = GetItemsToDraw();
+
+	if(waitingForTouchRelease)
+	{
+		if(!Input::isTouchPressed && !Input::hasTouchBeenReleasedThisFrame)
+		{
+			waitingForTouchRelease = false;
+			Log::file << "[Window] You can now press buttons safely" << std::endl;
+		}
+
+		for(auto item : GetTotalItems()) item->waitingForTouchRelease = waitingForTouchRelease;
+	}
 
     for (auto item : itemsToDraw)
     {
@@ -296,7 +330,6 @@ void Window::Draw()
     }
 
 	//draw floating items
-
 	for (auto item : floatingItems)
     {
 		item->Draw();
@@ -328,6 +361,16 @@ std::vector<Item*> Window::GetItemsToDraw()
 	}
 
 	return itemsToDraw;
+}
+
+std::vector<Item*> Window::GetTotalItems()
+{
+	std::vector<Item*> totalItems;
+
+	for(auto item : items) totalItems.push_back(item);
+	for(auto item : floatingItems) totalItems.push_back(item);
+
+	return totalItems;
 }
 
 void Window::GoToPrevWindow()

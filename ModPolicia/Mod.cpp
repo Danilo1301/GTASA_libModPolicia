@@ -16,7 +16,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.3.0";
+const char* Mod::m_Version = "0.3.1";
 unsigned int Mod::m_TimePassed = 0;
 
 bool loadedAnimations = false;

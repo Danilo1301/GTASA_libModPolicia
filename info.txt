@@ -40,8 +40,16 @@ Initial release
 [X] ADD: option to verify if ped is wanted
 [X] ADD: multiple different police departments
 
+[0.3.1]
+[X] ADD: english version
+[X] FIX: crash when frisking vehicle after its owner left the vehicle during a chase (yes very specific)
+[X] FIX: menu issue: accidentally selecting an opting when menu open (need to add a check if its first touch release)
+[X] FIX: widget 7 is constantly beeing pressed wtf, like SERIOUESLY WTF (wait if fixed by itself ??)
 ---------------------------
 Sugestoes:
+
+[X] adicionar novas delegacias
+[ ] add spikes during chase
 
 ---------------------------
 Other suggestions / todo:

@@ -55,7 +55,7 @@ void Item::Update()
 	if (isPointerOver)
 	{
 		//if (Input::hasTouchBeenPressedThisFrame && onClick && type == eItemType::ITEM_BUTTON) onClick();
-		if (Input::hasTouchBeenReleasedThisFrame)
+		if (Input::hasTouchBeenReleasedThisFrame && !waitingForTouchRelease)
 		{
 			if (type == eItemType::ITEM_BUTTON || type == eItemType::CHECKBOX)
 			{

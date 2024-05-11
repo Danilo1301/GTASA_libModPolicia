@@ -12,7 +12,7 @@ Vehicle::Vehicle(int hVehicle)
 
     this->pVehicle = (CVehicle*)GetVehicleFromRef(hVehicle);
 
-    this->isStolen = Mod::CalculateProbability(0.5);
+    this->isStolen = Mod::CalculateProbability(0.1);
 }
 
 Vehicle::~Vehicle()

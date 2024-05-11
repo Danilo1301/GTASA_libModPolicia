@@ -230,6 +230,8 @@ void Pullover::TryPullOverPed()
 
     m_PullingPed->shouldHandsup = true;
 
+    if(m_PullingPed->vehicleOwned) m_PullingVehicle = m_PullingPed->vehicleOwned;
+
     CleoFunctions::WAIT(2000, [playerActor, randomChar]() {
         WindowPullover::CreatePullingPed();
     });

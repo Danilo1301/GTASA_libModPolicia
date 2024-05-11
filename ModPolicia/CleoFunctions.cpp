@@ -34,7 +34,7 @@ static DEFOPCODE(073F, GET_RANDOM_CHAR_IN_SPHERE, ffffbbbv);
 static DEFOPCODE(0164, DISABLE_MARKER, i); //0164: disable_marker $482 
 static DEFOPCODE(0186, ADD_BLIP_FOR_CAR, iv); //0186: $60 = create_marker_above_car $59 
 static DEFOPCODE(0187, ADD_BLIP_FOR_CHAR, iv); //0187: 47@ = create_marker_above_actor 75@ 
-static DEFOPCODE(0A51, IS_WIDGET_PRESSED, i);
+static DEFOPCODE(0A51, IS_WIDGET_PRESSED, i); //0A51: is_widget_pressed 37 
 static DEFOPCODE(0256, PLAYER_DEFINED, i); //0256: player $PLAYER_CHAR defined 
 static DEFOPCODE(04EE, HAS_ANIMATION_LOADED, s); //04EE: animation "GANGS" loaded 
 static DEFOPCODE(04ED, LOAD_ANIMATION, s); //04ED: load_animation "GANGS"
