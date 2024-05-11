@@ -7,7 +7,7 @@ DOC_TYPE WindowDocument::m_DocumentType = DOC_TYPE::RG;
 Ped* WindowDocument::m_Ped = NULL;
 std::function<void()> WindowDocument::m_OnClose;
 
-CVector2D WindowDocument::m_TestPosition = CVector2D(535, 370);
+CVector2D WindowDocument::m_TestPosition = CVector2D(548, 404);
 
 void WindowDocument::Create()
 {

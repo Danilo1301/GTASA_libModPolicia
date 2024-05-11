@@ -38,82 +38,38 @@ Ped::~Ped()
 
 void Ped::UpdateInventory()
 {
-    if(updatedInventory) return;
+    if(inventory->created) return;
 
-    updatedInventory = true;
+    inventory->created = true;
 
     bool hasDocuments = !Mod::CalculateProbability(CHANCE_FORGETTING_DOCUMENTS_AT_HOME);
     if(hasDocuments)
     {
-        AddItemToInventory(Item_Type::DOCUMENTS);
+        inventory->AddItemToInventory(Item_Type::DOCUMENTS);
     }
 
     bool hasDrugs = Mod::CalculateProbability(CHANCE_CONSUME_DRUGS);
     if(hasDrugs)
     {
-        AddItemToInventory(Item_Type::WEED);
+        inventory->AddItemToInventory(Item_Type::WEED);
     }
 
     bool hasCellphone = Mod::CalculateProbability(0.95);
     if(hasCellphone)
     {
-        auto cellphone = AddItemToInventory(Item_Type::CELLPHONE);
+        auto cellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
     }
 
     if(Mod::CalculateProbability(0.10))
     {
-        auto stolenCellphone = AddItemToInventory(Item_Type::CELLPHONE);
+        auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
         stolenCellphone->isSlotenCellphone = true;
     }
-}
-
-bool Ped::HasItemOfType(Item_Type type)
-{
-    for(auto item : inventoryItems)
-    {
-        if(item->type == type) return true;
-    }
-    return false;
-}
-
-InventoryItem* Ped::AddItemToInventory(Item_Type type)
-{
-    auto item = new InventoryItem();
-
-    for(auto itemInfo : InventoryItems::m_Items)
-    {
-        if(itemInfo.type != type) continue;
-
-        item->itemNameGxtId = itemInfo.itemNameGxtId;
-        item->type = itemInfo.type;
-        item->amount = Mod::GetRandomNumber(itemInfo.amountMin, itemInfo.amountMax);
-        item->amountMin = itemInfo.amountMin;
-        item->amountMax = itemInfo.amountMax;
-        item->isSlotenCellphone = itemInfo.isSlotenCellphone;
-
-    }
-
-    inventoryItems.push_back(item);
-
-    return item;
-}
-
-void Ped::RemoveItemFromInventory(InventoryItem* item)
-{
-    auto it = std::find(inventoryItems.begin(), inventoryItems.end(), item);
-    if (it == inventoryItems.end()) return;
-    inventoryItems.erase(it);
-    delete item;
-}
-
-void Ped::RemoveAllItemsFromInventory(Item_Type type)
-{
-    Log::file << "Not implemented" << std::endl;
 }
 
 bool Ped::HasDocuments()
 {
     UpdateInventory();
 
-    return HasItemOfType(Item_Type::DOCUMENTS);
+    return inventory->HasItemOfType(Item_Type::DOCUMENTS);
 }

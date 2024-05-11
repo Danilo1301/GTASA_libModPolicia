@@ -22,7 +22,8 @@
 
 <h1>How to use</h1>
 
-* Press the horn button (police siren) to stop a pedestrian
+* You need to be on foot or in a vehicle
+* Press the horn button (police siren) to stop a pedestrian or a vehicle
 * Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu
 
 <h1>Tutorials</h1>
@@ -30,7 +31,6 @@
 * Installing the police mod: https://youtu.be/4mq7lfXUUfY
 * Installing GTA SA 2.00 with original data: https://youtu.be/wT4N_NAYFOI
 * Installing the textures of the mod: https://youtu.be/ghzIKrxtvx4
-
 
 <h1>Issues</h1>
 

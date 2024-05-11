@@ -14,6 +14,8 @@ public:
 	static void Create();
 	static void Remove();
 
-	static void CreateItemActions(InventoryItem* item);
+	static void CreateItemActions(InventoryItem* item, std::function<void()> onClose);
 	static void RemoveItemActions();
+
+	static void CreateFriskCar();
 };

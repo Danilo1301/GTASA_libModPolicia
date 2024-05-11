@@ -30,61 +30,6 @@ void WindowTest::Create()
     window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
 
-    auto text_id = window->AddText(27, CRGBA(255, 255, 255));
-    text_id->text->num1 = ped->hPed;
-
-    auto floating_button_1 = window->AddFloatingButton(23, 3, 0, CVector2D(0, 180), CVector2D(200, 40));
-    floating_button_1->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MODPMV1", 1, 2, 3, 3000, 1);
-    };
-
-    auto button_revistar = window->AddButton(33, 1, 0);
-    button_revistar->onClick = []()
-    {   
-        WindowTest::Remove();
-        Pullover::FriskPed();
-    };
-
-    auto button_rg = window->AddButton(34, 0, 0);
-    button_rg->onClick = [ped]()
-    {
-        if(ped->HasDocuments())
-        {
-            //CleoFunctions::SHOW_TEXT_3NUMBERS("MODPMV1", ped->birthDay, ped->birthMonth, ped->birthYear, 3000, 1);
-
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
-
-            WindowTest::Remove();
-
-            WindowDocument::ToggleDocuments(DOC_TYPE::RG, ped);
-            WindowDocument::m_OnClose = []() {
-                Create();
-            };
-        } else {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
-        }
-    };
-
-    auto button_cnh = window->AddButton(44, 0, 0);
-    button_cnh->onClick = [ped]()
-    {
-        if(ped->HasDocuments())
-        {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
-
-            WindowTest::Remove();
-
-            WindowDocument::ToggleDocuments(DOC_TYPE::CNH, ped);
-            WindowDocument::m_OnClose = []() {
-                Create();
-            };
-        } else {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
-        }
-        
-    };
-
     auto button_position = window->AddButton(9, 1, 0);
     button_position->onClick = [window]() {
         Menu::AddPosition2DWindow(window, &WindowDocument::m_TestPosition, -1000.0f, 1000.0f, 0.5f, []() {});
@@ -180,7 +125,6 @@ void WindowTest::Create()
     button_close->onClick = []()
     {
         WindowTest::Remove();
-        Pullover::FreePed();
     };
 }
 

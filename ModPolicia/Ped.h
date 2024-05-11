@@ -4,7 +4,8 @@
 
 #include "SimpleGTA.h"
 
-#include "InventoryItem.h"
+#include "Inventory.h"
+#include "Vehicle.h"
 
 class Ped {
 public:
@@ -14,6 +15,10 @@ public:
 
     int hPed;
     CPed* pPed = NULL;
+
+    Vehicle* vehicleOwned = NULL;
+
+    int blip = 0;
 
     int birthDay;
     int birthMonth;
@@ -28,17 +33,12 @@ public:
     int cnhValidMonth;
     int cnhValidYear;
 
-    std::vector<InventoryItem*> inventoryItems;
-    bool updatedInventory = false;
+    Inventory* inventory = new Inventory();
 
     Ped(int hPed);
 	~Ped();
 
     void UpdateInventory();
-    bool HasItemOfType(Item_Type type);
-    InventoryItem* AddItemToInventory(Item_Type type);
-    void RemoveItemFromInventory(InventoryItem* item);
-    void RemoveAllItemsFromInventory(Item_Type type);
 
     bool HasDocuments();
 };

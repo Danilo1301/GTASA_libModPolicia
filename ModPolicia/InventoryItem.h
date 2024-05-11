@@ -6,7 +6,10 @@ enum Item_Type {
     CELLPHONE,
     DOCUMENTS,
     CIGARETTE,
-    WEED
+    WEED,
+    BEER,
+    REVOLVER_38,
+    PISTOL
 };
 
 struct InventoryItem {

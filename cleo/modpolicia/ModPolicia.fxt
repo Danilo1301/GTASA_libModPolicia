@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia v0.1.0 (by Danilo1301)
+MPFX6 Mod Policia v0.2.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -53,3 +53,12 @@ MPFX52 Fumar
 MPFX53 ~g~[COPOM] ~w~IMEI registrado como produto de furto
 MPFX54 ~g~[COPOM] ~w~Nada consta no IMEI
 MPFX55 ~b~[Policial] ~w~Voce esta liberado!
+MPFX56 ~y~[Aviso] ~w~Voce esta muito longe!
+MPFX57 Liberar
+MPFX58 Pedir para sair
+MPFX59 Revistar carro
+MPFX60 Cerveja
+MPFX61 Revolver 38
+MPFX62 Pistola
+MPFX63 Chegue mais perto!
+MPFX64 Conduzir para a DP

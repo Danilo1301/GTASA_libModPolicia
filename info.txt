@@ -25,6 +25,14 @@ Todo
 [0.1.0]
 Initial release
 
+[0.2.0]
+[X] ADD: scorch do police department
+[X] ADD: pullover on foot, and on car
+[X] ADD: pullover vehicles
+[X] ADD: frisk vehicles
+[X] UPDATE: rework on ped frisk system
+[X] ADD: new items: Beer, Revolver 38, Pistol
+
 ---------------------------
 Sugestoes:
 
