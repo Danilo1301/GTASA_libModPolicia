@@ -9,9 +9,11 @@
 
 class Ped {
 public:
-    static float CHANCE_FORGETTING_DOCUMENTS_AT_HOME;
-    static float CHANCE_BEEING_DRUG_DEALER;
-    static float CHANCE_CONSUME_DRUGS;
+    static float CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME;
+    static float CHANCE_PED_BEEING_DRUG_DEALER;
+    static float CHANCE_PED_CONSUME_DRUGS;
+    static float CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE;
+    static float CHANCE_PED_BEEING_WANTED;
 
     int hPed;
     CPed* pPed = NULL;
@@ -36,6 +38,8 @@ public:
     bool shouldHandsup = false;
 
     bool isWanted = false;
+
+    bool beeingScorched = false;
 
     Inventory* inventory = new Inventory();
 

@@ -3,6 +3,19 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0118, ACTOR_DEAD, i); //0118: actor 0@ dead 
+static DEFOPCODE(056D, ACTOR_DEFINED, i); //056D:   actor 0@ defined 
+static DEFOPCODE(09B6, SET_ACTOR_WANTED_BY_POLICE, ib); //09B6: set_actor 6@ wanted_by_police 1 
+static DEFOPCODE(05E2, KILL_ACTOR, ii); //05E2: AS_actor 6@ kill_actor 7@ 
+static DEFOPCODE(05DD, FLEE_FROM_ACTOR, iifi); //05DD: AS_actor 7@ flee_from_actor 6@ from_origin_radius 1000.0 timelimit -1
+static DEFOPCODE(02C0, STORE_PED_PATH_COORDS_CLOSEST_TO, fffvvv); //02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
+static DEFOPCODE(009A, CREATE_ACTOR_PEDTYPE, iifffv); //009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@
+static DEFOPCODE(0168, SET_MARKER_SIZE, ii); //0168: set_marker 9@ size 3
+static DEFOPCODE(0457, PLAYER_AIMING_AT_ACTOR, ii); //0457: player $PLAYER_CHAR aiming_at_actor 0@
+static DEFOPCODE(07F8, CAR_FOLLOR_CAR, iif); //07F8: car 6@ follow_car 8@ radius 8.0
+static DEFOPCODE(0129, CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, iiiv); //0129: 10@ = create_actor_pedtype 23 model #LAPD1 in_car 6@ driverseat
+static DEFOPCODE(00A5, CREATE_CAR_AT, ifffv); //00A5: 6@ = create_car #COPCARLA at 3@ 4@ 5@
+static DEFOPCODE(04D3, GET_NEAREST_CAR_PATH_COORDS_FROM, fffivvv); //04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 3@ 4@ 5@
 static DEFOPCODE(0167, CREATE_MARKER_AT, fffiiv); //0167: 7@ = create_marker_at 0@ 1@ 2@ color 0 flag 3
 static DEFOPCODE(0611, ACTOR_PERFORMING_ANIMATION, is); //0611: actor 2@ performing_animation "LRGIRL_IDLE_TO_L0" 
 static DEFOPCODE(056E, CAR_DEFINED, i); //056E: car 3@ defined
@@ -101,6 +114,82 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+bool CleoFunctions::ACTOR_DEAD(int actor)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_DEAD, actor);
+    return result;
+}
+
+bool CleoFunctions::ACTOR_DEFINED(int actor)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_DEFINED, actor);
+    return result;
+}
+
+void CleoFunctions::SET_ACTOR_WANTED_BY_POLICE(int _char, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_ACTOR_WANTED_BY_POLICE, _char, state);
+}
+
+void CleoFunctions::KILL_ACTOR(int killer, int target)
+{
+    sautils->ScriptCommand(&scm_KILL_ACTOR, killer, target);
+}
+
+void CleoFunctions::FLEE_FROM_ACTOR(int _char, int threat, float radius, int time)
+{
+    sautils->ScriptCommand(&scm_FLEE_FROM_ACTOR, _char, threat, radius, time);
+}
+
+void CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(float x, float y, float z, float* nodeX, float* nodeY, float* nodeZ)
+{
+    sautils->ScriptCommand(&scm_STORE_PED_PATH_COORDS_CLOSEST_TO, x, y, z, nodeX, nodeY, nodeZ);
+}
+
+int CleoFunctions::CREATE_ACTOR_PEDTYPE(int pedType, int modelId, float x, float y, float z)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE, pedType, modelId, x, y, z, &_char);
+    return _char;
+}
+
+void CleoFunctions::SET_MARKER_SIZE(int blip, int size)
+{
+    sautils->ScriptCommand(&scm_SET_MARKER_SIZE, blip, size);
+}
+
+bool CleoFunctions::PLAYER_AIMING_AT_ACTOR(int player, int _char)
+{
+    bool result = sautils->ScriptCommand(&scm_PLAYER_AIMING_AT_ACTOR, player, _char);
+    return result;
+}
+
+void CleoFunctions::CAR_FOLLOR_CAR(int car, int followCar, float radius)
+{
+    sautils->ScriptCommand(&scm_CAR_FOLLOR_CAR, car, followCar, radius);
+}
+
+int CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(int car, int pedType, int modelId)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, car, pedType, modelId, &_char);
+    return _char;
+}
+
+int CleoFunctions::CREATE_CAR_AT(int modelId, float x, float y, float z)
+{
+    int car = 0;
+    sautils->ScriptCommand(&scm_CREATE_CAR_AT, modelId, x, y, z, &car);
+    return car;
+}
+
+void CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(float fromX, float fromY, float fromZ, int type, float* x, float* y, float* z)
+{
+    sautils->ScriptCommand(&scm_GET_NEAREST_CAR_PATH_COORDS_FROM, fromX, fromY, fromZ, type, x, y, z);
 }
 
 int CleoFunctions::CREATE_MARKER_AT(float x, float y, float z, int color, int display)
@@ -309,3 +398,9 @@ void CleoFunctions::LOAD_ANIMATION(const char* animationFile)
     sautils->ScriptCommand(&scm_LOAD_ANIMATION, animationFile);
 }
 
+int CleoFunctions::CreateMarker(float x, float y, float z, int color, int display, int size)
+{
+    int blip = CREATE_MARKER_AT(x, y, z, color, display);
+    SET_MARKER_SIZE(blip, size);
+    return blip;
+}

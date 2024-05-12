@@ -10,13 +10,15 @@
 #include "CleoFunctions.h"
 #include "InventoryItem.h"
 #include "Chase.h"
-#include "windows/WindowDocument.h"
+#include "ModConfig.h"
+#include "Callouts.h"
 
+#include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.3.1";
+const char* Mod::m_Version = "0.4.0";
 unsigned int Mod::m_TimePassed = 0;
 
 bool loadedAnimations = false;
@@ -40,6 +42,7 @@ void Mod::Update(int dt)
 
     Chase::Update(dt);
     Pullover::Update(dt);
+    Callouts::Update(dt);
 
     CleoFunctions::Update(dt);
 
@@ -145,7 +148,8 @@ bool Mod::CalculateProbability(float chance)
 
 void Mod::ProcessMenuButtons(int dt)
 {
-    Mod::ProcessTestMenuButtons(dt);
+    if(ModConfig::EnableTestMenu)
+        Mod::ProcessTestMenuButtons(dt);
 
     //test menu, 5 and 6
     if (Input::GetTouchIdState(6) && Input::GetTouchIdState(5))

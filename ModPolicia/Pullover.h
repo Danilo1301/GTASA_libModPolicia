@@ -31,11 +31,13 @@ public:
     static PULLOVER_TYPE m_FriskType;
 
     static void Update(int dt);
-    static void TryPullOverPedOrCar();
-    static void TryPullOverPed();
+    static void PullOverPed(int hPed);
+    static void TryPullOverCar();
+    static int FindAimingPed();
     static void FriskPed();
     static void FriskVehicle();
     static void FreePed();
+    static void MakePedWait();
     static void FreeVehicle();
     static void AskPedToLeaveCar(Ped* ped);
     static void SartScorchingPed(Ped* ped);

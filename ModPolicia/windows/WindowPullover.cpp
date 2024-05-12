@@ -28,6 +28,13 @@ void WindowPullover::CreatePullingPed()
         CleoFunctions::SHOW_TEXT_3NUMBERS("MODPMV1", 1, 2, 3, 3000, 1);
     };
 
+    auto button_pediraguardar = window->AddButton(79);
+    button_pediraguardar->onClick = []()
+    {
+        Remove();
+        Pullover::MakePedWait();
+    };
+
     if(ped->vehicleOwned)
     {
         auto button_revistarcarro = window->AddButton(59);
@@ -189,7 +196,7 @@ void WindowPullover::CreatePullingPed()
             Pullover::FreeVehicle();
         };
     } else {
-        auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+        auto button_close = window->AddButton(57, CRGBA(170, 70, 70));
         button_close->onClick = []()
         {
             Remove();

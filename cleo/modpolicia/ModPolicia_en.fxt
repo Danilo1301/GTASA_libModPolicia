@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod BETA v0.3.1 (by Danilo1301)
+MPFX6 Police Mod BETA v0.4.0 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -72,6 +72,15 @@ MPFX71 ~b~[Officer] ~w~To inform: I need to check the suspect's ID...
 MPFX72 ~g~[RADIO] ~w~No records found for this person
 MPFX73 ~g~[RADIO] ~w~Individual with an arrest warrant
 MPFX74 ~r~The suspect is running!
+MPFX75 Call backup
+MPFX76 Call backup (BIKE)
+MPFX77 ~b~[Officer] ~w~I need backup
+MPFX78 ~b~[Officer] ~w~I need a bike backup
+MPFX79 Ask to wait
+MPFX80 ~b~[Officer] ~w~Wait here, please
+MPFX81 ~g~[RADIO] ~w~I request a patrol car to respond to a dispute incident
+MPFX82 Go to the ~y~local
 
+//Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v
 //If someone knows english, I'd like a help

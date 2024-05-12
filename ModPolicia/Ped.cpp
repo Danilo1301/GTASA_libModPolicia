@@ -6,9 +6,11 @@
 
 extern void* (*GetPedFromRef)(int);
 
-float Ped::CHANCE_FORGETTING_DOCUMENTS_AT_HOME = 0.1f;
-float Ped::CHANCE_BEEING_DRUG_DEALER = 0.3f;
-float Ped::CHANCE_CONSUME_DRUGS = 0.3f;
+float Ped::CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME = 0.1f;
+float Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.3f;
+float Ped::CHANCE_PED_CONSUME_DRUGS = 0.3f;
+float Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE = 0.2f;
+float Ped::CHANCE_PED_BEEING_WANTED = 0.1f;
 
 Ped::Ped(int hPed)
 {
@@ -26,12 +28,15 @@ Ped::Ped(int hPed)
     this->cpf[0] = Mod::GetRandomNumber(100, 999);
     this->cpf[1] = Mod::GetRandomNumber(100, 999);
 
+    int currentYear = 2024;
+    
     this->cnhRegisterNum = Mod::GetRandomNumber(100000, 999999);
     this->cnhValidDay = Mod::GetRandomNumber(1, 29);
     this->cnhValidMonth = Mod::GetRandomNumber(1, 12);
-    this->cnhValidYear = Mod::GetRandomNumber(2024 - 5, 2024 + 10);
+    this->cnhValidYear = Mod::GetRandomNumber(currentYear, currentYear + 10);
+    if(Mod::CalculateProbability(CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE)) this->cnhValidYear = Mod::GetRandomNumber(currentYear - 5, currentYear);
 
-    this->isWanted = Mod::CalculateProbability(0.1);
+    this->isWanted = Mod::CalculateProbability(CHANCE_PED_BEEING_WANTED);
 }
 
 Ped::~Ped()
@@ -57,25 +62,25 @@ void Ped::UpdateInventory()
 
     inventory->created = true;
 
-    bool hasDocuments = !Mod::CalculateProbability(CHANCE_FORGETTING_DOCUMENTS_AT_HOME);
+    bool hasDocuments = !Mod::CalculateProbability(CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME);
     if(hasDocuments)
     {
         inventory->AddItemToInventory(Item_Type::DOCUMENTS);
     }
 
-    bool hasDrugs = Mod::CalculateProbability(CHANCE_CONSUME_DRUGS);
+    bool hasDrugs = Mod::CalculateProbability(CHANCE_PED_CONSUME_DRUGS);
     if(hasDrugs)
     {
         inventory->AddItemToInventory(Item_Type::WEED);
     }
 
-    bool hasCellphone = Mod::CalculateProbability(0.95);
+    bool hasCellphone = Mod::CalculateProbability(0.92);
     if(hasCellphone)
     {
         auto cellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
     }
 
-    if(Mod::CalculateProbability(0.10))
+    if(Mod::CalculateProbability(0.1))
     {
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
         stolenCellphone->isSlotenCellphone = true;

@@ -23,6 +23,19 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static bool ACTOR_DEAD(int actor);
+    static bool ACTOR_DEFINED(int actor);
+    static void SET_ACTOR_WANTED_BY_POLICE(int _char, bool state);
+    static void KILL_ACTOR(int killer, int target);
+    static void FLEE_FROM_ACTOR(int _char, int threat, float radius, int time);
+    static void STORE_PED_PATH_COORDS_CLOSEST_TO(float x, float y, float z, float* nodeX, float* nodeY, float* nodeZ);
+    static int CREATE_ACTOR_PEDTYPE(int pedType, int modelId, float x, float y, float z);
+    static void SET_MARKER_SIZE(int blip, int size);
+    static bool PLAYER_AIMING_AT_ACTOR(int player, int _char);
+    static void CAR_FOLLOR_CAR(int car, int followCar, float radius);
+    static int CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(int car, int pedType, int modelId);
+    static int CREATE_CAR_AT(int modelId, float x, float y, float z);
+    static void GET_NEAREST_CAR_PATH_COORDS_FROM(float fromX, float fromY, float fromZ, int type, float* x, float* y, float* z);
     static int CREATE_MARKER_AT(float x, float y, float z, int color, int display);
     static bool ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName);
     static bool CAR_DEFINED(int car);
@@ -60,4 +73,6 @@ public:
     static bool PLAYER_DEFINED(int player);
     static bool HAS_ANIMATION_LOADED(const char* animationFile);
     static void LOAD_ANIMATION(const char* animationFile);
+
+    static int CreateMarker(float x, float y, float z, int color, int display, int size);
 };

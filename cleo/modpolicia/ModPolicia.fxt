@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia BETA v0.3.1 (by Danilo1301)
+MPFX6 Mod Policia BETA v0.4.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -55,14 +55,14 @@ MPFX54 ~g~[COPOM] ~w~Nada consta no IMEI
 MPFX55 ~b~[Policial] ~w~Voce esta liberado!
 MPFX56 ~y~[Aviso] ~w~Voce esta muito longe!
 MPFX57 Liberar
-MPFX58 Pedir para sair
+MPFX58 Pedir para sair do carro
 MPFX59 Revistar carro
 MPFX60 Cerveja
 MPFX61 Revolver 38
 MPFX62 Pistola
 MPFX63 Chegue mais perto!
 MPFX64 Conduzir para a DP
-MPFX65 Aperte ~y~2 + Buzina ~w~para abordar
+MPFX65 Mire e aperte ~y~Buzina ~w~para abordar um ped
 MPFX66 Consultar RG
 MPFX67 Consultar placa
 MPFX68 ~b~[Policial] ~w~COPOM, consulta de placa...
@@ -72,3 +72,11 @@ MPFX71 ~b~[Policial] ~w~COPOM, consulta de individuo...
 MPFX72 ~g~[COPOM] ~w~Individuo sem queixas
 MPFX73 ~g~[COPOM] ~w~Individuo com mandado de prisao em aberto
 MPFX74 ~r~O individuo apreendeu fuga!
+MPFX75 Chamar reforco
+MPFX76 Chamar reforco (ROCAM)
+MPFX77 ~b~[Policial] ~w~COPOM, solicito apoio acompanhamento
+MPFX78 ~b~[Policial] ~w~COPOM, solicito apoio da ROCAM
+MPFX79 Pedir para aguardar
+MPFX80 ~b~[Policial] ~w~Aguarde aqui no local
+MPFX81 ~g~[COPOM] ~w~Solicito uma viatura para atender ocorrencia de desentendimento
+MPFX82 Dirija-se ate o ~y~local

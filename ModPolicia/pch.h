@@ -3,8 +3,15 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <algorithm>
+#include <filesystem>
+//#include <windows.h>
+#include <sys/stat.h>
 
 #include "SimpleGTA.h"
+
+#include "json/json.h"
 
 static double distanceBetweenTwoPoints(double x, double y, double a, double b)
 {
@@ -18,4 +25,18 @@ static double DistanceBetweenPoints(CVector point1, CVector point2)
     double dz = point1.z - point2.z;
 
     return sqrt( dx * dx + dy * dy + dz * dz );
+}
+
+static std::string to_upper(std::string data) {
+    std::for_each(data.begin(), data.end(), [](char& c) {
+        c = ::toupper(c);
+        });
+    return data;
+}
+
+static std::string to_lower(std::string data) {
+    std::for_each(data.begin(), data.end(), [](char& c) {
+        c = ::tolower(c);
+        });
+    return data;
 }

@@ -4,7 +4,7 @@ To release
 Check logs
 Check Mod::m_Version
 Check EN and PT .fxt
-Check .fxt mod version
+Check .fxt mod version (EN and PT)
 Check game more than once to make sure
 Check if config is saving
 
@@ -45,11 +45,22 @@ Initial release
 [X] FIX: crash when frisking vehicle after its owner left the vehicle during a chase (yes very specific)
 [X] FIX: menu issue: accidentally selecting an opting when menu open (need to add a check if its first touch release)
 [X] FIX: widget 7 is constantly beeing pressed wtf, like SERIOUESLY WTF (wait if fixed by itself ??)
+[X] ADD: config
+
+[0.4.0]
+[X] ADD: backup units ROCAM and vtr
+[X] CHANGE: pull over peds by aiming
+[X] FIX: you can now pull all peds
+[X] ADD: option to ask for suspect to wait there
+[X] ADD: callouts system
+[X] ADD: assault callout
+
 ---------------------------
 Sugestoes:
 
 [X] adicionar novas delegacias
 [ ] add spikes during chase
+[ ] adicionar radio COPOM, com audios, para consultar RG etc
 
 ---------------------------
 Other suggestions / todo:

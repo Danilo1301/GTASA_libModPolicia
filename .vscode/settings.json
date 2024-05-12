@@ -59,6 +59,19 @@
         "list": "cpp",
         "unordered_map": "cpp",
         "xhash": "cpp",
-        "xstddef": "cpp"
+        "xstddef": "cpp",
+        "iostream": "cpp",
+        "array": "cpp",
+        "chrono": "cpp",
+        "deque": "cpp",
+        "filesystem": "cpp",
+        "forward_list": "cpp",
+        "iomanip": "cpp",
+        "mutex": "cpp",
+        "ratio": "cpp",
+        "set": "cpp",
+        "stack": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     }
 }

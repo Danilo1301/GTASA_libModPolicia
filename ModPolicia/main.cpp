@@ -1,13 +1,14 @@
+#include "pch.h"
+
 #include <mod/amlmod.h>
 #include <mod/logger.h>
 #include <mod/config.h>
 
 #include "Log.h"
 #include "Mod.h"
+#include "ModConfig.h"
 
 #include "opcodes.h"
-
-#include "dlfcn.h"
 
 // ---------------------------------------
 
@@ -56,6 +57,8 @@ void TestChanged(int oldVal, int newVal, void* data)
 
 extern "C" void OnModPreLoad()
 {
+    ModConfig::MakePaths();
+
     char logPath[512];
 	sprintf(logPath, "%s/modPolicia/modPolicia.log", aml->GetConfigPath());
     Log::Open(logPath);
@@ -144,5 +147,10 @@ extern "C" void OnModLoad()
     __reg_op_func(GET_DRAW_ITEM_INFO, GET_DRAW_ITEM_INFO);
     __reg_op_func(SEND_TOUCH_STATE, SEND_TOUCH_STATE);
     
-    Mod::Load();
+    ModConfig::ProcessVersionChanges_PreConfigLoad();
+    ModConfig::Load();
+    ModConfig::ProcessVersionChanges_PostConfigLoad();
+    ModConfig::Save();
+
+    Mod::Load();    
 }

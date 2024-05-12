@@ -6,13 +6,16 @@
 
 extern void* (*GetVehicleFromRef)(int);
 
+float Vehicle::CHANCE_VEHICLE_BEEING_STOLEN = 0.1;
+float Vehicle::CHANCE_VEHICLE_HAVING_GUNS = 0.2;
+
 Vehicle::Vehicle(int hVehicle)
 {
     this->hVehicle = hVehicle;
 
     this->pVehicle = (CVehicle*)GetVehicleFromRef(hVehicle);
 
-    this->isStolen = Mod::CalculateProbability(0.1);
+    this->isStolen = Mod::CalculateProbability(CHANCE_VEHICLE_BEEING_STOLEN);
 }
 
 Vehicle::~Vehicle()
@@ -36,7 +39,7 @@ void Vehicle::UpdateInventory()
         inventory->AddItemToInventory(Item_Type::BEER);
     }
 
-    if(Mod::CalculateProbability(0.2))
+    if(Mod::CalculateProbability(CHANCE_VEHICLE_HAVING_GUNS))
     {
         inventory->AddItemToInventory(Item_Type::REVOLVER_38);
 

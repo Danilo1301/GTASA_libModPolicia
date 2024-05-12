@@ -57,5 +57,5 @@ void Inventory::RemoveItemFromInventory(InventoryItem* item)
 
 void Inventory::RemoveAllItemsFromInventory(Item_Type type)
 {
-    Log::file << "Not implemented" << std::endl;
+    throw "Not implemented";
 }

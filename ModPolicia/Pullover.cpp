@@ -37,18 +37,43 @@ void Pullover::Update(int dt)
 {
     if(!m_PullingPed && !m_PullingVehicle && !Chase::m_ChasingPed)
     {
+        //press horn
         if(Widgets::IsWidgetJustPressed(7))
-        {
+        {   
+            int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
             Log::file << "[Mod] Widget 7 has just been pressed" << std::endl;
 
-            if(Input::GetTouchIdState(2))
-            {
-                TryPullOverPedOrCar();
-            } else {
-                int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-                if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+            Log::file << "FindAimingPed" << std::endl;
+
+            int aimingPed = FindAimingPed();
+
+            Log::file << "aimingPed = " << aimingPed << std::endl;
+
+            //if aiming ped
+            if(aimingPed != -1)
+            {   
+                if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(aimingPed))
                 {
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX65", 0, 0, 0, 2000, 1); //aperte para abordar
+                    PullOverPed(aimingPed);
+                } else {
+                    //TODO: get car of aiming ped, and pull the car (if possible)
+
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
+                }
+                
+            } else {
+                //if not aiming anyone
+
+                if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+                {
+                    //if horn + 2
+                    if(Input::GetTouchIdState(2))
+                    {
+                        TryPullOverCar();
+                    }
+                } else {
+                    TryPullOverCar();
                 }
             }
         }
@@ -72,6 +97,8 @@ void Pullover::Update(int dt)
             */
 
             CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(m_ScorchingPed->hPed);
+
+            m_ScorchingPed->beeingScorched = false;
 
             CleoFunctions::DESTROY_ACTOR(m_ScorchingPed->hPed);
             m_ScorchingPed = NULL;
@@ -104,105 +131,12 @@ void Pullover::Update(int dt)
     }
 }
 
-void Pullover::TryPullOverPedOrCar()
+void Pullover::PullOverPed(int hPed)
 {
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    Log::file << "pull over ped" << std::endl;
 
-    float range = 4.0f;
-    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) range = 7.0f;
-
-    float x = 0.0f, y = 0.0f, z = 0.0f;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0.0f, range, 0.0f, &x, &y, &z);
-
-    int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(x, y, z, 5.0f, -1);
-
-    if(randomCar > 0)
-    {
-        int driver = CleoFunctions::GET_DRIVER_OF_CAR(randomCar);
-        bool hasNoDriver = driver <= 0;
-        Log::file << "driver: " << driver << std::endl;
-
-        if(hasNoDriver)
-        {
-            TryPullOverPed();
-            return;
-        }
-    }
-
-    if(randomCar > 0)
-    {
-        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
-                CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
-
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
-
-        /*
-        float carX = 0.0f, carY = 0.0f, carZ = 0.0f;
-        CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(randomCar, 0.0f, 0.0f, 0.0f, &carX, &carY, &carZ);
-        Log::file << "carX: " << carX << std::endl;
-        Log::file << "carY: " << carY << std::endl;
-        Log::file << "carZ: " << carZ << std::endl;
-        */
-
-        auto vehicle = Vehicles::TryCreateVehicle(randomCar);
-        vehicle->UpdateInventory();
-        vehicle->blip = CleoFunctions::ADD_BLIP_FOR_CAR(randomCar);
-
-        int driver = CleoFunctions::GET_DRIVER_OF_CAR(randomCar);
-        auto ped = Peds::TryCreatePed(driver);
-        ped->UpdateInventory();
-        ped->vehicleOwned = vehicle;
-        ped->AddBlip();
-
-        if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
-        {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
-
-            Chase::MakeCarStartRunning(vehicle, ped);
-            return;
-        }
-
-        m_PullingVehicle = vehicle;
-        m_PullingPed = ped;
-
-        CleoFunctions::CAR_TURN_OFF_ENGINE(randomCar);
-        
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
-
-        //wait to get closer to the car
-        CleoFunctions::AddWaitForFunction([playerActor, randomCar] () {
-            
-            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
-
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
-
-            Log::file << "distance from car: " << distance << std::endl;
-
-            if(distance < PULLOVER_MIN_DISTANCE_VEHICLE) return true;
-            if(distance > PULLOVER_MAX_DISTANCE) return true;
-
-            return false;
-        },
-        [playerActor, randomCar] () {
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
-
-            if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
-            {
-                Log::file << "Create pulling car menu" << std::endl;
-                WindowPullover::CreatePullingCar();
-            } else {
-                Log::file << "Car is too far away!" << std::endl;
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
-            }
-        });
-    } else {
-        TryPullOverPed();
-    }
-}
-
-void Pullover::TryPullOverPed()
-{
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    /*
+    
 
     float range = 4.0f;
     if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) range = 7.0f;
@@ -217,24 +151,147 @@ void Pullover::TryPullOverPed()
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
         return;
     }
+    */
+
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
 
-    m_PullingPed = Peds::TryCreatePed(randomChar);
+    m_PullingPed = Peds::TryCreatePed(hPed);
     m_PullingPed->UpdateInventory();
 
-    m_PullingPed->blip = CleoFunctions::ADD_BLIP_FOR_CHAR(randomChar);
+    m_PullingPed->blip = CleoFunctions::ADD_BLIP_FOR_CHAR(hPed);
 
     m_PullingPed->shouldHandsup = true;
 
     if(m_PullingPed->vehicleOwned) m_PullingVehicle = m_PullingPed->vehicleOwned;
 
-    CleoFunctions::WAIT(2000, [playerActor, randomChar]() {
+    CleoFunctions::WAIT(2000, []() {
         WindowPullover::CreatePullingPed();
     });
+}
+
+void Pullover::TryPullOverCar()
+{
+    Log::file << "try pull over car " << std::endl;
+
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float range = 4.0f;
+    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) range = 7.0f;
+
+    float x = 0.0f, y = 0.0f, z = 0.0f;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0.0f, range, 0.0f, &x, &y, &z);
+
+    int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(x, y, z, 5.0f, -1);
+
+    //if no car is found
+    if(randomCar <= 0)
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
+        return;
+    }
+
+    int driver = CleoFunctions::GET_DRIVER_OF_CAR(randomCar);
+    
+    //if has no driver
+    if(driver <= 0)
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
+        return;
+    }
+    
+    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+        CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
+
+    /*
+    float carX = 0.0f, carY = 0.0f, carZ = 0.0f;
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(randomCar, 0.0f, 0.0f, 0.0f, &carX, &carY, &carZ);
+    Log::file << "carX: " << carX << std::endl;
+    Log::file << "carY: " << carY << std::endl;
+    Log::file << "carZ: " << carZ << std::endl;
+    */
+
+    auto vehicle = Vehicles::TryCreateVehicle(randomCar);
+    vehicle->UpdateInventory();
+    vehicle->blip = CleoFunctions::ADD_BLIP_FOR_CAR(randomCar);
+
+    auto ped = Peds::TryCreatePed(driver);
+    ped->UpdateInventory();
+    ped->vehicleOwned = vehicle;
+    ped->AddBlip();
+
+    if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
+
+        Chase::MakeCarStartRunning(vehicle, ped);
+        return;
+    }
+
+    m_PullingVehicle = vehicle;
+    m_PullingPed = ped;
+
+    CleoFunctions::CAR_TURN_OFF_ENGINE(randomCar);
+    
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
+
+    //wait to get closer to the car
+    CleoFunctions::AddWaitForFunction([playerActor, randomCar] () {
+        
+        if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
+
+        auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
+
+        Log::file << "distance from car: " << distance << std::endl;
+
+        if(distance < PULLOVER_MIN_DISTANCE_VEHICLE) return true;
+        if(distance > PULLOVER_MAX_DISTANCE) return true;
+
+        return false;
+    },
+    [playerActor, randomCar] () {
+        auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
+
+        if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
+        {
+            Log::file << "Create pulling car menu" << std::endl;
+            WindowPullover::CreatePullingCar();
+        } else {
+            Log::file << "Car is too far away!" << std::endl;
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+        }
+    });
+}
+
+int Pullover::FindAimingPed()
+{
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    for(int ped = 0; ped < 35584; ped++)
+    {
+        //Log::file << "ped " << ped << ", playerActor " << playerActor << std::endl;
+
+
+         
+        //Log::file << "test1" << std::endl;
+        //CleoFunctions::PLAYER_AIMING_AT_ACTOR(0, ped);
+
+        //Log::file << "test2" << std::endl;
+        //CleoFunctions::PLAYER_AIMING_AT_ACTOR(playerActor, ped);
+
+        //Log::file << "test3" << std::endl;
+        if(CleoFunctions::PLAYER_AIMING_AT_ACTOR(0, ped))
+        {
+            return ped;
+        }
+    }
+    return -1;
 }
 
 void Pullover::FriskPed()
@@ -270,9 +327,23 @@ void Pullover::FreePed()
     m_PullingPed->RemoveBlip();
     m_PullingPed->shouldHandsup = false;
 
+    Log::file << "Remove references to actor " << m_PullingPed->hPed << std::endl;
     CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(m_PullingPed->hPed);
-
+        
+    CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(m_PullingPed->hPed, "hndshkfa_swt", "gangs", 200.0f, 0, 0, 0, 0, 10);
+            
     m_PullingPed = NULL;
+}
+
+void Pullover::MakePedWait()
+{
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX80", 0, 0, 0, 3000, 1); //aguarde no local
+
+    m_PullingPed->RemoveBlip();
+    if(m_PullingPed->vehicleOwned) m_PullingPed->vehicleOwned->RemoveBlip();
+    
+    m_PullingPed = NULL;
+
 }
 
 void Pullover::FreeVehicle()
@@ -310,11 +381,15 @@ void Pullover::SartScorchingPed(Ped* ped)
 {
     Pullover::m_ScorchingPed = ped;
 
+    ped->beeingScorched = true;
+
     if(ped->vehicleOwned)
     {
         ped->vehicleOwned->RemoveBlip();
     }
 
+    ped->vehicleOwned = NULL;
+    
     Log::file << "Conduzir para a DP" << std::endl;
 
     /*
@@ -352,7 +427,7 @@ void Pullover::SartScorchingPed(Ped* ped)
     Pullover::m_ScorchingPedSphere = CleoFunctions::CREATE_SPHERE(dpPosition.x, dpPosition.y, dpPosition.z, 3.0);
     Log::file << "sphere = " << Pullover::m_ScorchingPedSphere << std::endl;
 
-    Pullover::m_ScorchingPedBlip = CleoFunctions::CREATE_MARKER_AT(dpPosition.x, dpPosition.y, dpPosition.z, 0, 3);
+    Pullover::m_ScorchingPedBlip = CleoFunctions::CreateMarker(dpPosition.x, dpPosition.y, dpPosition.z, 0, 3, 3);
     Log::file << "blip = " << Pullover::m_ScorchingPedBlip << std::endl;
 }
 

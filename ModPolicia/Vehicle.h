@@ -8,6 +8,9 @@
 
 class Vehicle {
 public:
+    static float CHANCE_VEHICLE_BEEING_STOLEN;
+    static float CHANCE_VEHICLE_HAVING_GUNS;
+
     int hVehicle;
     CVehicle* pVehicle = NULL;
 
