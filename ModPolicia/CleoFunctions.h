@@ -23,6 +23,9 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void SET_MARKER_COLOR_TO(int blip, int color);
+    static void SET_ACTOR_WEAPON_AND_AMMO(int _char, int weaponType, int ammo);
+    static void ENABLE_CAR_SIREN(int car, bool state);
     static bool ACTOR_DEAD(int actor);
     static bool ACTOR_DEFINED(int actor);
     static void SET_ACTOR_WANTED_BY_POLICE(int _char, bool state);

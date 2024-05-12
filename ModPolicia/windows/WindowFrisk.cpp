@@ -31,7 +31,7 @@ void WindowFrisk::Create()
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
-        Pullover::m_FriskType = PULLOVER_TYPE::PULLING_NONE;
+        Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
         Remove();
         WindowPullover::CreatePullingPed();
     };
@@ -67,7 +67,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         auto button_apreender = window->AddButton(51);
         button_apreender->onClick = [ped, vehicle, item, onClose]()
         {
-            if(Pullover::m_FriskType == PULLOVER_TYPE::PULLING_PED) ped->inventory->RemoveItemFromInventory(item);
+            if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
             else vehicle->inventory->RemoveItemFromInventory(item);
 
             RemoveItemActions();
@@ -80,7 +80,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         auto button_apreender = window->AddButton(51);
         button_apreender->onClick = [ped, vehicle, item, onClose]()
         {
-            if(Pullover::m_FriskType == PULLOVER_TYPE::PULLING_PED) ped->inventory->RemoveItemFromInventory(item);
+            if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
             else vehicle->inventory->RemoveItemFromInventory(item);
 
             RemoveItemActions();
@@ -90,7 +90,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         auto button_fumar = window->AddButton(52);
         button_fumar->onClick = [ped, vehicle, item, onClose]()
         {
-            if(Pullover::m_FriskType == PULLOVER_TYPE::PULLING_PED) ped->inventory->RemoveItemFromInventory(item);
+            if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
             else vehicle->inventory->RemoveItemFromInventory(item);
 
             ped->inventory->RemoveItemFromInventory(item);
@@ -104,7 +104,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         auto button_apreender = window->AddButton(51);
         button_apreender->onClick = [ped, vehicle, item, onClose]()
         {
-            if(Pullover::m_FriskType == PULLOVER_TYPE::PULLING_PED) ped->inventory->RemoveItemFromInventory(item);
+            if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
             else vehicle->inventory->RemoveItemFromInventory(item);
 
             RemoveItemActions();
@@ -150,7 +150,7 @@ void WindowFrisk::CreateFriskCar()
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
-        Pullover::m_FriskType = PULLOVER_TYPE::PULLING_NONE;
+        Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
         Remove();
         WindowPullover::CreatePullingPed();
     };

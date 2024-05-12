@@ -27,6 +27,6 @@ public:
 
     bool HasIlegalStuff();
 
-    void AddBlip();
+    int AddBlip();
     void RemoveBlip();
 };

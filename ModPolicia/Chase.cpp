@@ -4,10 +4,12 @@
 #include "Pullover.h"
 #include "Widgets.h"
 #include "Log.h"
+#include "Vehicles.h"
 
 #include "windows/WindowBackup.h"
 
 Ped* Chase::m_ChasingPed = NULL;
+std::vector<Vehicle*> Chase::m_BackupVehicles;
 
 void Chase::Update(int dt)
 {
@@ -79,6 +81,8 @@ void Chase::UpdateBackup(int dt)
 
 void Chase::CallBackup(int vehicleModelId, int pedModelId)
 {
+    Log::file << "call backup vehicleModelId: " << vehicleModelId << ", pedModelId: " << pedModelId << std::endl;
+
     /*
     04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 3@ 4@ 5@
 
@@ -93,6 +97,7 @@ void Chase::CallBackup(int vehicleModelId, int pedModelId)
     07F8: car 6@ follow_car 8@ radius 8.0
     */
 
+
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float x = 0, y = 0, z = 0;
@@ -105,19 +110,23 @@ void Chase::CallBackup(int vehicleModelId, int pedModelId)
     Log::file << "spawnY = " << spawnY << std::endl;
     Log::file << "spawnZ = " << spawnZ << std::endl;
 
-    int car = CleoFunctions::CREATE_CAR_AT(vehicleModelId, spawnX, spawnY, spawnZ);
-
+    auto car = CleoFunctions::CREATE_CAR_AT(vehicleModelId, spawnX, spawnY, spawnZ);
     Log::file << "car = " << car << std::endl;
 
-    int blipCar = CleoFunctions::ADD_BLIP_FOR_CAR(car);
+    auto vehicle = Vehicles::TryCreateVehicle(car);
 
-    Log::file << "blipCar = " << blipCar << std::endl;
+    m_BackupVehicles.push_back(vehicle);
+
+    //int blipCar = vehicle->AddBlip();
+    //Log::file << "blipCar = " << blipCar << std::endl;
+
+    //CleoFunctions::SET_MARKER_COLOR_TO(blipCar, 2);
 
     int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 23, pedModelId);
 
     Log::file << "ped = " << ped << std::endl;
 
-    //0397: enable_car 6@ siren 1
+    CleoFunctions::ENABLE_CAR_SIREN(car, true);
     CleoFunctions::SET_CAR_MAX_SPEED(car, 50.0f);
     //0423: set_car 6@ improved_handling_to 1.5
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(car, 2);
@@ -126,7 +135,7 @@ void Chase::CallBackup(int vehicleModelId, int pedModelId)
 
     CleoFunctions::CAR_FOLLOR_CAR(car, m_ChasingPed->vehicleOwned->hVehicle, 8.0f);
 
-    Log::file << "end" << std::endl;
+    Log::file << "end call backup" << std::endl;
 }
 
 void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
@@ -146,5 +155,15 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 
 void Chase::EndChase()
 {
+    Log::file << "end chase" << std::endl;
+
     m_ChasingPed = NULL;
+
+    for(auto vehicle : m_BackupVehicles)
+    {
+        vehicle->RemoveBlip();
+    }
+    m_BackupVehicles.clear();
+
+    Log::file << "cleared backup vehicles" << std::endl;
 }

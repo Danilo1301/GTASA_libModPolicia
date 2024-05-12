@@ -5,6 +5,8 @@
 #include "Widgets.h"
 #include "Peds.h"
 #include "Log.h"
+#include "Pullover.h"
+#include "Chase.h"
 
 int Callouts::m_TimeBetweenCallouts = 30000;
 int Callouts::m_TimeToCallout = 0;
@@ -17,27 +19,33 @@ std::vector<Ped*> Callouts::m_Criminals;
 bool Callouts::m_AproachingCallout = false;
 
 void Callouts::Update(int dt)
-{
-    if(m_CurrentCalloutIndex == -1)
-    {
-        m_TimeToCallout += dt;
-    }
-    
+{ 
     if(!IsModulatingCallout())
     {
-        if(m_TimeToCallout >= m_TimeBetweenCallouts)
+        if(!Pullover::m_PullingPed && !Chase::m_ChasingPed)
         {
-            m_TimeToCallout = 0;
+            if(m_CurrentCalloutIndex == -1)
+            {
+                m_TimeToCallout += dt;
+            }
+            
+            if(m_TimeToCallout >= m_TimeBetweenCallouts)
+            {
+                m_TimeToCallout = 0;
 
-            m_ModulatingCalloutIndex = Mod::GetRandomNumber(0, m_Callouts.size() - 1);
+                m_ModulatingCalloutIndex = Mod::GetRandomNumber(0, m_Callouts.size() - 1);
 
-            auto callout = m_Callouts[m_ModulatingCalloutIndex];
+                auto callout = m_Callouts[m_ModulatingCalloutIndex];
 
-            char buffer[256];
-            sprintf(buffer, "MPFX%i", callout.gxtId);
-            CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
+                Log::file << "Modulating callout " << m_ModulatingCalloutIndex << std::endl;
+
+                char buffer[256];
+                sprintf(buffer, "MPFX%i", callout.gxtId);
+                CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
+            }
         }
     } else {
+        m_TimeToCallout += dt;
         if(m_TimeToCallout >= 5000)
         {
             m_TimeToCallout = 0;
@@ -51,10 +59,11 @@ void Callouts::Update(int dt)
         {
             if(Widgets::IsWidgetJustPressed(37)) //green button
             {
-                Log::file << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
 
                 m_CurrentCalloutIndex = m_ModulatingCalloutIndex;
                 m_ModulatingCalloutIndex = -1;
+
+                Log::file << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
 
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX82", 0, 0, 0, 3000, 1);
                     
@@ -156,13 +165,14 @@ void Callouts::StartAssaultCallout()
         m_AproachingCallout = false;
         Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
-        int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, 131, nodePosition.x, nodePosition.y, nodePosition.z);
-        int criminalBlip = CleoFunctions::ADD_BLIP_FOR_CHAR(criminal);
+        int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, 19, nodePosition.x, nodePosition.y, nodePosition.z);
 
-        Log::file << "criminal defined: " << (CleoFunctions::ACTOR_DEFINED(criminal) ? "TRUE" : "FALSE") << std::endl;
-        Log::file << "criminal dead: " << (CleoFunctions::ACTOR_DEAD(criminal) ? "TRUE" : "FALSE") << std::endl;
+        auto criminalPed = Peds::TryCreatePed(criminal);
+        m_Criminals.push_back(criminalPed);
 
-        m_Criminals.push_back(Peds::TryCreatePed(criminal));
+        criminalPed->AddBlip();
+
+        CleoFunctions::SET_ACTOR_WEAPON_AND_AMMO(criminal, 4, 1);
 
         float findX = 0, findY = 0, findZ = 0;
         CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(criminal, -2.0f, -2.0f, 0.0f, &findX, &findY, &findZ);
@@ -170,12 +180,13 @@ void Callouts::StartAssaultCallout()
         float pedX = 0, pedY = 0, pedZ = 0;
         CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(findX, findY, findZ, &pedX, &pedY, &pedZ);
 
-        int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, 87, pedX, pedY, pedZ);
+        int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, 193, pedX, pedY, pedZ);
 
         CleoFunctions::FLEE_FROM_ACTOR(ped, criminal, 1000.0f, -1);
 
         CleoFunctions::KILL_ACTOR(criminal, ped);
-        CleoFunctions::SET_ACTOR_WANTED_BY_POLICE(criminal, true);
+
+        //CleoFunctions::SET_ACTOR_WANTED_BY_POLICE(criminal, true); //this makes the criminal forget about the victim and chase the police nearby
     }); 
 
     /*

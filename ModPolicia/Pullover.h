@@ -6,10 +6,10 @@
 #include "Vehicle.h"
 
 //change to FRISK_TYPE
-enum PULLOVER_TYPE {
-    PULLING_NONE,
-    PULLING_PED,
-    PULLING_VEHICLE
+enum FRISK_TYPE {
+    FRISK_NONE,
+    FRISK_PED,
+    FRISK_VEHICLE
 };
 
 class Pullover {
@@ -27,10 +27,13 @@ public:
 
     static std::vector<CVector> m_PoliceDepartmentPositions;
 
-
-    static PULLOVER_TYPE m_FriskType;
+    static FRISK_TYPE m_FriskType;
 
     static void Update(int dt);
+    static void UpdateWidgetPress(int dt);
+    static void UpdateScorchingPed(int dt);
+    static void UpdatePullingPed(int dt);
+
     static void PullOverPed(int hPed);
     static void TryPullOverCar();
     static int FindAimingPed();
@@ -40,7 +43,7 @@ public:
     static void MakePedWait();
     static void FreeVehicle();
     static void AskPedToLeaveCar(Ped* ped);
-    static void SartScorchingPed(Ped* ped);
+    static void StartScorchingPed(Ped* ped);
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);
     static int GetClosestPoliceDepartment();

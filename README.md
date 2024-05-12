@@ -26,8 +26,9 @@
 
 <h1>Como usar</h1>
 
-* Você precisa estar a pé ou de carro
-* Aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE)) para abordar um pedestre ou um veículo
+* Você precisa estar a pé ou de carro para abordar
+* Para abordar a pé: mire em alguém e aperte o botão de buzina
+* Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE))
 * Pressione os 'números imaginários' 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes
 
 <h1>Tutoriais</h1>

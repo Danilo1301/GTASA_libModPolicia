@@ -3,10 +3,12 @@
 #include "pch.h"
 
 #include "Ped.h"
+#include "Vehicle.h"
 
 class Chase {
 public:
     static Ped* m_ChasingPed;
+    static std::vector<Vehicle*> m_BackupVehicles;
 
     static void Update(int dt);
     static void UpdateChase(int dt);

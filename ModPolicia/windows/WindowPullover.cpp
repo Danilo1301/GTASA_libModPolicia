@@ -71,7 +71,7 @@ void WindowPullover::CreatePullingPed()
 
                 if(distance <= Pullover::PULLOVER_MIN_DISTANCE_VEHICLE)
                 {
-                    Pullover::m_FriskType = PULLOVER_TYPE::PULLING_VEHICLE;
+                    Pullover::m_FriskType = FRISK_TYPE::FRISK_VEHICLE;
                     Pullover::FriskVehicle();
                 } else {
                     Log::file << "Car is too far away!" << std::endl;
@@ -135,7 +135,7 @@ void WindowPullover::CreatePullingPed()
 
             if(distance <= Pullover::PULLOVER_MIN_DISTANCE_PED)
             {
-                Pullover::m_FriskType = PULLOVER_TYPE::PULLING_PED;
+                Pullover::m_FriskType = FRISK_TYPE::FRISK_PED;
                 Pullover::FriskPed();
             } else {
                 Log::file << "Ped is too far away!" << std::endl;
@@ -184,7 +184,7 @@ void WindowPullover::CreatePullingPed()
     button_conduzir->onClick = [playerActor, ped]()
     {
         Remove();
-        Pullover::SartScorchingPed(ped);
+        Pullover::StartScorchingPed(ped);
     };
 
     if(ped->vehicleOwned)

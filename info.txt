@@ -54,6 +54,12 @@ Initial release
 [X] ADD: option to ask for suspect to wait there
 [X] ADD: callouts system
 [X] ADD: assault callout
+[X] ADD: customize chances in settings.ini
+
+[0.4.1]
+[X] FIX: bug when killing the suspect being scorched
+[X] FIX: callouts in the middle of a pullover or of another callout
+[X] FIX: bug beeing unable to pullover a ped after you ask him to leave the car and wait there
 
 ---------------------------
 Sugestoes:
@@ -61,6 +67,14 @@ Sugestoes:
 [X] adicionar novas delegacias
 [ ] add spikes during chase
 [ ] adicionar radio COPOM, com audios, para consultar RG etc
+[ ] issue ticket to ped/vehicle
+[ ] chamar IML
+[ ] chamar ambulancia
+[ ] nas ocorrências, automaticamente designar viaturas perto do local, sem precisar chamar reforços
+[ ] chamar bombeiros se houver uma explosão dos veículos e junto vim os dois caminhões do jogo e mais o veículo 
+[ ] mudar mensagem da ocorrencia pra deixar claro q esta pedindo reforço
+[ ] suspeito entrou no carro não pode sair mais
+[ ] descer do carro ao chegar na DP
 
 ---------------------------
 Other suggestions / todo:

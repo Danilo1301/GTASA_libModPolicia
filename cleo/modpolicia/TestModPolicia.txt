@@ -2,27 +2,27 @@
 03A4: script_name 'TestModPolicia'
 
 0000:
-0247: load_model #COPCARLA
-0247: load_model #LAPD1
+0247: load_model 596
+0247: load_model 280
 
-0247: load_model #COPCARSF
-0247: load_model #SFPD1
+0247: load_model 597
+0247: load_model 281
 
-0247: load_model #COPCARVG
-0247: load_model #LVPD1
+0247: load_model 598
+0247: load_model 282
 
-0247: load_model #COPCARRU
-0247: load_model #CSHER
+0247: load_model 599
+0247: load_model 283
 
-0247: load_model #COPBIKE
-0247: load_model #LAPDM1
+0247: load_model 523
+0247: load_model 284
 
-0247: load_model #POLMAV
+0247: load_model 497
 
-//
-
-0247: load_model #DNFYLC
-0247: load_model #VWFYST1
+//assault
+0247: load_model 19
+0247: load_model 193
+0247: load_model 335
 
 //
 
@@ -31,29 +31,31 @@ jump @PRELOAD
 
 :PRELOAD
 if and
-    0248: model #COPCARLA available
-    0248: model #LAPD1 available
+    0248: model 596 available
+    0248: model 280 available
     
-    0248: model #COPCARSF available
-    0248: model #SFPD1 available
+    0248: model 597 available
+    0248: model 281 available
     
-    0248: model #COPCARVG available
-    0248: model #LVPD1 available
+    0248: model 598 available
+    0248: model 282 available
     
-    0248: model #COPCARRU available
-    0248: model #CSHER available
+    0248: model 599 available
+    0248: model 283 available
 jf @PRELOAD
 
 if and
-    0248: model #COPBIKE available
-    0248: model #LAPDM1 available
+    0248: model 523 available
+    0248: model 284 available
     
-    0248: model #POLMAV available
+    0248: model 497 available
 jf @PRELOAD
 
+//assault
 if and
-    0248: model #DNFYLC available
-    0248: model #VWFYST1 available
+    0248: model 19 available
+    0248: model 193 available
+    0248: model 335 available
 jf @PRELOAD
     
 jump @Main 
@@ -99,6 +101,8 @@ then
     
     0167: 9@ = create_marker_at 3@ 4@ 5@ color 2 flag 3
     0168: set_marker 9@ size 3
+    0165: set_marker 9@ color_to 2 
+
     //07E0: set_marker 9@ type_to 1 
 
     //02A8: 9@ = create_marker $440 at $458 $459 $460 //this uses icon
@@ -110,13 +114,14 @@ then
     //0165: set_marker 50@ color_to 1 
 
     
-    009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@  //criminal
-    0187: 8@ = create_marker_above_actor 6@ 
+    009A: 6@ = create_actor_pedtype 20 model 19 at 3@ 4@ 5@  //criminal
+    0187: 8@ = create_marker_above_actor 6@
+    0165: set_marker 8@ color_to 2 
     
     04C4: store_coords_to 0@ 1@ 2@ from_actor 6@ with_offset -8.0 -7.0 0.0
     02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
     
-    009A: 7@ = create_actor_pedtype 23 model #VWFYST1 at 3@ 4@ 5@ //ped
+    009A: 7@ = create_actor_pedtype 23 model 193 at 3@ 4@ 5@ //ped
     
     05DD: AS_actor 7@ flee_from_actor 6@ from_origin_radius 1000.0 timelimit -1
     

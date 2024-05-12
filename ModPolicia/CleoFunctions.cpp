@@ -3,6 +3,9 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0165, SET_MARKER_COLOR_TO, ii); //0165: set_marker 9@ color_to 2
+static DEFOPCODE(0114, SET_ACTOR_WEAPON_AND_AMMO, iii); //0114: set_actor $PLAYER_ACTOR weapon 38 add_ammo 200000 
+static DEFOPCODE(0397, ENABLE_CAR_SIREN, ib); //0397: enable_car 6@ siren 1
 static DEFOPCODE(0118, ACTOR_DEAD, i); //0118: actor 0@ dead 
 static DEFOPCODE(056D, ACTOR_DEFINED, i); //056D:   actor 0@ defined 
 static DEFOPCODE(09B6, SET_ACTOR_WANTED_BY_POLICE, ib); //09B6: set_actor 6@ wanted_by_police 1 
@@ -114,6 +117,21 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::SET_MARKER_COLOR_TO(int blip, int color)
+{
+    sautils->ScriptCommand(&scm_SET_MARKER_COLOR_TO, blip, color);
+}
+
+void CleoFunctions::SET_ACTOR_WEAPON_AND_AMMO(int _char, int weaponType, int ammo)
+{
+    sautils->ScriptCommand(&scm_SET_ACTOR_WEAPON_AND_AMMO, _char, weaponType, ammo);
+}
+
+void CleoFunctions::ENABLE_CAR_SIREN(int car, bool state)
+{
+    sautils->ScriptCommand(&scm_ENABLE_CAR_SIREN, car, state);
 }
 
 bool CleoFunctions::ACTOR_DEAD(int actor)

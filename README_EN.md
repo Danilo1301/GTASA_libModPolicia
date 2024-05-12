@@ -22,8 +22,9 @@
 
 <h1>How to use</h1>
 
-* You need to be on foot or in a vehicle
-* Press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE)) to stop a pedestrian or a vehicle
+* You need to be on foot or in a vehicle to pull over
+* To stop in foot: aim to someone and press horn button
+* To stop from a vehicle: press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE))
 * Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu
 
 <h1>Tutorials</h1>

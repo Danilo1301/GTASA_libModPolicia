@@ -109,8 +109,9 @@ end
 0247: load_model #POLMAV
 
 //assault
-0247: load_model #DNFYLC
-0247: load_model #VWFYST1
+0247: load_model 19
+0247: load_model 193
+0247: load_model 335
 
 038B: load_requested_models 
 
@@ -146,8 +147,9 @@ jf @PRELOAD
 
 //assault
 if and
-    0248: model #DNFYLC available
-    0248: model #VWFYST1 available
+    0248: model 19 available
+    0248: model 193 available
+    0248: model 335 available
 jf @PRELOAD
 
 jump @LOOP

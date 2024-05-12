@@ -18,7 +18,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.4.0";
+const char* Mod::m_Version = "0.4.1";
 unsigned int Mod::m_TimePassed = 0;
 
 bool loadedAnimations = false;
@@ -38,13 +38,21 @@ void Mod::Update(int dt)
 
     //
 
+    Log::file << "1" << std::endl;
+
     Peds::Update(dt);
 
+    Log::file << "2" << std::endl;
+
     Chase::Update(dt);
+    Log::file << "3" << std::endl;
     Pullover::Update(dt);
+    Log::file << "4" << std::endl;
     Callouts::Update(dt);
+    Log::file << "5" << std::endl;
 
     CleoFunctions::Update(dt);
+    Log::file << "6" << std::endl;
 
     WindowDocument::Draw();
 
@@ -58,7 +66,7 @@ void Mod::Update(int dt)
 
     Mod::ProcessMenuButtons(dt);
 
-
+    Log::file << "7" << std::endl;
     //
 
     //Draw::DrawBoxWithText(2, 1, 2, {0, 0}, {50, 50}, {255, 0, 0, 255}, {0, 0, 0, 255});
@@ -92,6 +100,8 @@ void Mod::Update(int dt)
             }
         }
     }
+
+    Log::file << "8 end" << std::endl;
 
     /*
     if(Widgets::IsWidgetJustPressed(38)) //POWER

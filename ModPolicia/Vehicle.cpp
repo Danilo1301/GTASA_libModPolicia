@@ -70,10 +70,11 @@ bool Vehicle::HasIlegalStuff()
     return false;
 }
 
-void Vehicle::AddBlip()
+int Vehicle::AddBlip()
 {
     if(blip > 0) RemoveBlip();
-    blip = CleoFunctions::ADD_BLIP_FOR_CHAR(hVehicle);
+    blip = CleoFunctions::ADD_BLIP_FOR_CAR(hVehicle);
+    return blip;
 }
 
 void Vehicle::RemoveBlip()
