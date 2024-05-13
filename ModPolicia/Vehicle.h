@@ -6,6 +6,12 @@
 
 #include "Inventory.h"
 
+enum CHASE_STATUS {
+    NOT_CHASING = 0,
+    CHASING,
+    MOVING_AWAY_FROM_CHASE
+};
+
 class Vehicle {
 public:
     static float CHANCE_VEHICLE_BEEING_STOLEN;
@@ -22,7 +28,10 @@ public:
 
     int hDriver = 0;
 
+    CVector fromPos = CVector(0, 0, 0);
     CVector drivingTo = CVector(0, 0, 0);
+
+    CHASE_STATUS chaseStatus = CHASE_STATUS::NOT_CHASING;
 
     Vehicle(int hVehicle);
 	~Vehicle();
@@ -32,5 +41,6 @@ public:
     bool HasIlegalStuff();
 
     int AddBlip();
+    int AddBlip(int color);
     void RemoveBlip();
 };

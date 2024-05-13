@@ -111,8 +111,14 @@ end
 //assault
 0247: load_model 19
 0247: load_model 193
-0247: load_model 335
+0247: load_model 335 //knife
 
+//gang
+0247: load_model 102
+0247: load_model 103
+0247: load_model 104
+0247: load_model 346 //pistol
+          
 038B: load_requested_models 
 
 01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
@@ -150,6 +156,14 @@ if and
     0248: model 19 available
     0248: model 193 available
     0248: model 335 available
+jf @PRELOAD
+
+//gang
+if and
+    0248: model 102 available
+    0248: model 103 available
+    0248: model 104 available
+    0248: model 346 available
 jf @PRELOAD
 
 jump @LOOP
@@ -722,5 +736,25 @@ end
 if VAR_GxtId == 85
 then
      VAR_STR_1 = "MPFX85"
+end
+if VAR_GxtId == 86
+then
+     VAR_STR_1 = "MPFX86"
+end
+if VAR_GxtId == 87
+then
+     VAR_STR_1 = "MPFX87"
+end
+if VAR_GxtId == 88
+then
+     VAR_STR_1 = "MPFX88"
+end
+if VAR_GxtId == 89
+then
+     VAR_STR_1 = "MPFX89"
+end
+if VAR_GxtId == 90
+then
+     VAR_STR_1 = "MPFX90"
 end
 return

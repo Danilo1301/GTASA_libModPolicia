@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod BETA v0.4.1 (by Danilo1301)
+MPFX6 Police Mod BETA v0.5.0 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -83,6 +83,11 @@ MPFX82 Go to the ~y~local
 MPFX83 Call police car
 MPFX84 Teleport
 MPFX85 ~b~[Policial] ~w~To inform: I request a police car to transport the suspect
+MPFX86 The helicopter is in their way!
+MPFX87 Call backup (HELI)
+MPFX88 ~b~[Officer] ~w~I need a helicopter backup
+MPFX89 ~g~[RADIO] ~w~I request a patrol car to respond to a shots fired scene
+MPFX90 Incident ~g~ended~w~!
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

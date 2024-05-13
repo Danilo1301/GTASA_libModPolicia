@@ -152,7 +152,7 @@ void Pullover::UpdateScorchingPed(int dt)
 
             if(distance > 80)
             {
-                ped->scorchStatus = SCORCH_STATUS::NONE;
+                ped->scorchStatus = SCORCH_STATUS::NOT_SCORCHING;
                 ped->arrested = true;
 
                 removePeds.push_back(ped);
@@ -186,7 +186,7 @@ void Pullover::UpdateScorchingPed(int dt)
     {
         Log::file << "Scorching ped became undefined or is now dead" << std::endl;
 
-        m_ScorchingPed->scorchStatus = SCORCH_STATUS::NONE;
+        m_ScorchingPed->scorchStatus = SCORCH_STATUS::NOT_SCORCHING;
         m_ScorchingPed->RemoveBlip();
         m_ScorchingPed = NULL;
         
@@ -215,7 +215,7 @@ void Pullover::UpdateScorchingPed(int dt)
 
         CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(m_ScorchingPed->hPed);
 
-        m_ScorchingPed->scorchStatus = SCORCH_STATUS::NONE;
+        m_ScorchingPed->scorchStatus = SCORCH_STATUS::NOT_SCORCHING;
         m_ScorchingPed->arrested = true;
 
         CleoFunctions::DESTROY_ACTOR(m_ScorchingPed->hPed);
@@ -627,7 +627,7 @@ void Pullover::CallVehicleToScorchPed(Ped* ped)
     //CleoFunctions::SET_CAR_LOCKED(car, false);
     CleoFunctions::SET_CAR_DOOR_STATUS(car, 1);
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(car, 2);
-    vehicle->AddBlip();
+    vehicle->AddBlip(2);
     
     ped->waitingForScorchVehicleHandle = car;
 

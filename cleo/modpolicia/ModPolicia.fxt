@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia BETA v0.4.1 (by Danilo1301)
+MPFX6 Mod Policia BETA v0.5.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -84,3 +84,7 @@ MPFX83 Chamar viatura
 MPFX84 Teleportar
 MPFX85 ~b~[Policial] ~w~COPOM, solicito uma viatura para transportar um suspeito
 MPFX86 O Aguia esta se deslocando a caminho!
+MPFX87 Chamar reforco (AGUIA)
+MPFX88 ~b~[Policial] ~w~COPOM, solicito apoio do Aguia
+MPFX89 ~g~[COPOM] ~w~Solicito uma viatura para atender ocorrencia de tiros disparados
+MPFX90 Ocorrencia ~g~finalizada~w~!

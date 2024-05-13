@@ -5,13 +5,15 @@
 #include "Ped.h"
 
 enum CALLOUT_TYPE {
-    CALLOUT_ASSAULT
+    CALLOUT_ASSAULT,
+    GANG_SHOTS_FIRED
 };
 
 struct Callout
 {
     CALLOUT_TYPE type;
     int gxtId;
+    float chance;
 };
 
 class Callouts {
@@ -28,8 +30,13 @@ public:
     
     static void UpdateCriminals(int dt);
 
+    static int GetRandomCallout();
+
     static bool IsModulatingCallout();
     static Callout GetCurrentCallout();
 
     static void StartAssaultCallout();
+    static void StartGangShotsFiredCallout();
+
+    static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);
 };

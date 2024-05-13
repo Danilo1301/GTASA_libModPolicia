@@ -5,6 +5,7 @@
 #include "Widgets.h"
 #include "Log.h"
 #include "Vehicles.h"
+#include "Mod.h"
 
 #include "windows/WindowBackup.h"
 
@@ -69,6 +70,51 @@ void Chase::UpdateBackup(int dt)
         }
     }
 
+    std::vector<Vehicle*> removeBackup;
+    for(auto vehicle : m_BackupVehicles)
+    {
+        if(vehicle->chaseStatus == CHASE_STATUS::CHASING)
+        {
+            if(!m_ChasingPed)
+            {
+                Log::file << "making backup stop chase and move away" << std::endl;
+
+                vehicle->chaseStatus = CHASE_STATUS::MOVING_AWAY_FROM_CHASE;
+
+                float findX = 0, findY = 0, findZ = 0;
+                CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(vehicle->hVehicle, 0, 200, 0, &findX, &findY, &findZ);
+
+                CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, findX, findY, findZ);
+
+                vehicle->fromPos = Mod::GetCarPosition(vehicle->hVehicle);
+            }
+            continue;
+        }
+
+        if(vehicle->chaseStatus == CHASE_STATUS::MOVING_AWAY_FROM_CHASE)
+        {
+            auto distance = DistanceBetweenPoints(vehicle->fromPos, Mod::GetCarPosition(vehicle->hVehicle));
+
+            if(distance > 80)
+            {
+                Log::file << "destroying backup" << std::endl;
+
+                vehicle->chaseStatus = CHASE_STATUS::NOT_CHASING;
+
+                CleoFunctions::DESTROY_ACTOR(vehicle->hDriver);
+                CleoFunctions::DESTROY_CAR(vehicle->hVehicle);
+
+                removeBackup.push_back(vehicle);
+            }
+        }
+    }
+
+    for(auto vehicle : removeBackup)
+    {
+        auto it = std::find(m_BackupVehicles.begin(), m_BackupVehicles.end(), vehicle);
+        m_BackupVehicles.erase(it);
+    }
+
     if(!m_ChasingPed) return;
 
     if(WindowBackup::m_Window) return;
@@ -114,15 +160,16 @@ void Chase::CallBackup(int vehicleModelId, int pedModelId)
     Log::file << "car = " << car << std::endl;
 
     auto vehicle = Vehicles::TryCreateVehicle(car);
+    vehicle->chaseStatus = CHASE_STATUS::CHASING;
 
     m_BackupVehicles.push_back(vehicle);
 
-    //int blipCar = vehicle->AddBlip();
-    //Log::file << "blipCar = " << blipCar << std::endl;
-
-    //CleoFunctions::SET_MARKER_COLOR_TO(blipCar, 2);
+    int blipCar = vehicle->AddBlip(2);
+    Log::file << "blipCar = " << blipCar << std::endl;
 
     int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 23, pedModelId);
+
+    vehicle->hDriver = ped;
 
     Log::file << "ped = " << ped << std::endl;
 
@@ -136,6 +183,55 @@ void Chase::CallBackup(int vehicleModelId, int pedModelId)
     CleoFunctions::CAR_FOLLOR_CAR(car, m_ChasingPed->hVehicleOwned, 8.0f);
 
     Log::file << "end call backup" << std::endl;
+}
+
+void Chase::CallHeliBackup()
+{
+    /*
+    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 50.0
+    00A5: 3@ = create_car 497 at 0@ 1@ 2@
+    0129: 7@ = create_actor_pedtype 23 model 280 in_car 3@ driverseat 
+    0825: set_helicopter 3@ instant_rotor_start
+    0918: set_car 3@ engine_operation 1 
+    
+    0186: 4@ = create_marker_above_car 3@
+
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 3000 flag 1
+
+    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+
+    073E: get_car_in_sphere 0@ 1@ 2@ radius 20.0 model -1 handle_as 5@
+
+    if 056E: car 5@ defined
+    then
+        0186: 6@ = create_marker_above_car 5@
+        
+        0726: heli 3@ follow_actor -1 follow_car 5@ radius 15.0 
+        03E5: show_text_box 'MPFX86' 
+    end
+    */
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float spawnX = 0, spawnY = 0, spawnZ = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 100, 100, 100, &spawnX, &spawnY, &spawnZ);
+
+    auto heli = CleoFunctions::CREATE_CAR_AT(497, spawnX, spawnY, spawnZ);
+    int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(heli, 23, 280);
+    CleoFunctions::SET_HELICOPTER_INSTANT_ROTOR_START(heli);
+    CleoFunctions::SET_CAR_ENGINE_OPERATION(heli, true);
+
+    auto heliVehicle = Vehicles::TryCreateVehicle(heli);
+    heliVehicle->AddBlip(2);
+    heliVehicle->chaseStatus = CHASE_STATUS::CHASING;
+    heliVehicle->hDriver = driver;
+
+    m_BackupVehicles.push_back(heliVehicle);
+
+    CleoFunctions::HELI_FOLLOW(heli, m_ChasingPed->hPed, -1, 50.0f);
+
+    CleoFunctions::WAIT(3000, []() {
+        CleoFunctions::SHOW_TEXT_BOX("MPFX86");
+    });
 }
 
 void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
@@ -163,7 +259,7 @@ void Chase::EndChase()
     {
         vehicle->RemoveBlip();
     }
-    m_BackupVehicles.clear();
+    //m_BackupVehicles.clear();
 
-    Log::file << "cleared backup vehicles" << std::endl;
+    //Log::file << "cleared backup vehicles" << std::endl;
 }

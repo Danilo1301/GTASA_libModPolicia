@@ -18,7 +18,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.4.1";
+const char* Mod::m_Version = "0.5.0";
 unsigned int Mod::m_TimePassed = 0;
 
 bool loadedAnimations = false;
@@ -38,19 +38,19 @@ void Mod::Update(int dt)
 
     //
 
-    Log::file << "Peds::Update" << std::endl;
+    //Log::file << "1" << std::endl;
 
     Peds::Update(dt);
 
-    Log::file << "Chase::Update" << std::endl;
+    //Log::file << "2" << std::endl;
 
     Chase::Update(dt);
-    Log::file << "Pullover::Update" << std::endl;
+    //Log::file << "3" << std::endl;
     Pullover::Update(dt);
-    Log::file << "Callouts::Update" << std::endl;
+    //Log::file << "4" << std::endl;
     Callouts::Update(dt);
 
-    Log::file << "CleoFunctions::Update" << std::endl;
+    //Log::file << "5" << std::endl;
     CleoFunctions::Update(dt);
 
     WindowDocument::Draw();
@@ -127,7 +127,7 @@ void Mod::Update(int dt)
     }
     */
 
-   Log::file << "Mod::Update end" << std::endl;
+   //Log::file << "6 end" << std::endl;
 }
 
 void Mod::Load()

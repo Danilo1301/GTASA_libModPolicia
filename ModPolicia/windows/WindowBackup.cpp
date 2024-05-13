@@ -15,9 +15,7 @@ void WindowBackup::Create()
     button_normalBackup->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        
         Chase::CallBackup(596, 280);
-
         Remove();
     };
 
@@ -25,9 +23,15 @@ void WindowBackup::Create()
     button_backupRocam->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
-
         Chase::CallBackup(523, 284);
+        Remove();
+    };
 
+    auto button_backupHeli = window->AddButton(87);
+    button_backupHeli->onClick = []()
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX88", 0, 0, 0, 3000, 1); //apoio
+        Chase::CallHeliBackup();
         Remove();
     };
 

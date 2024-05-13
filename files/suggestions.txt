@@ -1,0 +1,51 @@
+by RAI gameplay:
+uma opção pra agente editar o tamanho e a posição do menu de abordagem
+
+by GAMER NEWS:
+Sugestões e Correções para o Mod de Polícia no GTA San Andreas:
+
+Aguardar Suspeito:
+Adicionar opção para chamar uma viatura enquanto o suspeito aguarda.
+Viatura chega em 5 segundos.
+Possibilidade de o policial levar o suspeito para a delegacia se a viatura não puder vir.
+
+Eventos Aleatórios:
+Mudar NPCs para aleatórios durante as ocorrências para evitar repetição.
+
+Ocorrências da Central:
+Adicionar eventos aleatórios de ambulância e bombeiros apenas quando estiver no veículo correto.
+Para ambulância (funciona apenas quando estiver dirigindo uma ambulância):
+Resgatar vítima com animação de salvamento, polícia dar apoio.
+Para bombeiros (funciona apenas quando estiver dirigindo um caminhão de bombeiros):
+Enfrentar incêndios em veículos ou casas, polícia dar apoio.
+
+Roubo de Carro e Tiroteios:
+Viatura de apoio para roubo de carro.
+Duas viaturas para tiroteios, sem policiais atirando no jogador.
+
+IDs Necessários:
+
+Veículos de Emergência:
+Ambulância: ID 416 (Ambulan)
+Caminhão de Bombeiros (FIRELA): ID 544 (Firela)
+Caminhão de Bombeiros (Fire Truck): ID 407 (Firetruk)
+Veículos de Emergência da Polícia:
+FBI Car: ID 596 (Fbicar)
+FBI Rancher: ID 490 (Fbiranch)
+FBI Truck: ID 528 (Fbirtwin)
+
+Policiais:
+Policial: ID 280 (Lapd1), ID 281 (Lapdm1), ID 282 (Lapdm2), ID 283 (Sfpd1), ID 284 (Sfpdm1), ID 285 (Sfpdm2)
+Viatura de Polícia: ID 596 (Copcarla), ID 597 (Copcarsf), ID 598 (Copcarvg), ID 599 (Copcarru), ID 596 (Copcarla)
+
+Bombeiros:
+Bombeiro: ID 274 (Fireman)
+
+Gangues:
+Gangue Grove Street: ID 105 (Gangrl3), ID 106 (Gangrl2), ID 107 (Gangrl1)
+Gangue Ballas: ID 102 (Ballas1), ID 103 (Ballas2), ID 104 (Ballas3)
+Gangue Vagos: ID 108 (Vagos1), ID 109 (Vagos2), ID 110 (Vagos3)
+
+Peds do FBI e SWAT:
+FBI: ID 286 (FbiMan)
+SWAT: ID 285 (Sfpdm2)

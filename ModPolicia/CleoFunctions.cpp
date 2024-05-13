@@ -3,6 +3,11 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(01B2, GIVE_ACTOR_WEAPON, iii); //01B2: give_actor 3@ weapon 22 ammo 10000
+static DEFOPCODE(03E5, SHOW_TEXT_BOX, s); //03E5: show_text_box 'MPFX86'
+static DEFOPCODE(0726, HELI_FOLLOW, iiif); //0726: heli 3@ follow_actor -1 follow_car 5@ radius 15.0
+static DEFOPCODE(0918, SET_CAR_ENGINE_OPERATION, ib); //0918: set_car 3@ engine_operation 1 
+static DEFOPCODE(0825, SET_HELICOPTER_INSTANT_ROTOR_START, i); //0825: set_helicopter 3@ instant_rotor_start
 static DEFOPCODE(016A, FADE, ii); //016A: fade 1 time 500
 static DEFOPCODE(00A6, DESTROY_CAR, i); //00A6: destroy_car 7@
 static DEFOPCODE(020A, SET_CAR_DOOR_STATUS, ii); //020A: set_car 0@ door_status_to 1 
@@ -123,6 +128,31 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo)
+{
+    sautils->ScriptCommand(&scm_GIVE_ACTOR_WEAPON, _char, weaponType, ammo);
+}
+
+void CleoFunctions::SHOW_TEXT_BOX(const char* key)
+{
+    sautils->ScriptCommand(&scm_SHOW_TEXT_BOX, key);
+}
+
+void CleoFunctions::HELI_FOLLOW(int heli, int _char, int vehicle, float radius)
+{
+    sautils->ScriptCommand(&scm_HELI_FOLLOW, heli, _char, vehicle, radius);
+}
+
+void CleoFunctions::SET_CAR_ENGINE_OPERATION(int car, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_ENGINE_OPERATION, car, state);
+}
+
+void CleoFunctions::SET_HELICOPTER_INSTANT_ROTOR_START(int heli)
+{
+    sautils->ScriptCommand(&scm_SET_HELICOPTER_INSTANT_ROTOR_START, heli);
 }
 
 void CleoFunctions::FADE(int time, int direction)

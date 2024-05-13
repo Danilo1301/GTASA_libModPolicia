@@ -3,7 +3,7 @@
 #include "../Log.h"
 #include "../Input.h"
 
-std::string Menu::m_Version = "1.2.1";
+std::string Menu::m_Version = "1.2.2";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);
 

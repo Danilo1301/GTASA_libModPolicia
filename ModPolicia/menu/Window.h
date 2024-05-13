@@ -4,8 +4,10 @@
 
 class Window {
 public:
-	static CRGBA defaultButtonColor;
-
+	static CRGBA COLOR_BUTTON_DEFAULT;
+	static CRGBA COLOR_TITLE_BOX;
+	static CRGBA COLOR_BACKGROUND;
+	
 	std::vector<Item*> items;
 	std::vector<Item*> floatingItems;
 
@@ -14,8 +16,6 @@ public:
 
 	int titleGtxId = 0;
 	CVector2D position = { 0, 0 };
-	CRGBA titleBoxColor = CRGBA(23, 30, 53);
-	CRGBA backgroundColor = CRGBA(54, 70, 124);
 
 	Window* parentWindow = NULL;
 

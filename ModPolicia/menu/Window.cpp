@@ -3,7 +3,9 @@
 #include "../Input.h"
 #include "Menu.h"
 
-CRGBA Window::defaultButtonColor = CRGBA(0, 0, 50);
+CRGBA Window::COLOR_BUTTON_DEFAULT = CRGBA(30, 30, 30);
+CRGBA Window::COLOR_TITLE_BOX = CRGBA(58, 58, 58);
+CRGBA Window::COLOR_BACKGROUND = CRGBA(0, 0, 0);
 
 Window::Window()
 {
@@ -73,12 +75,12 @@ Item* Window::AddButton(int gxtId, int num1, int num2, CRGBA color)
 
 Item* Window::AddButton(int gxtId)
 {
-	return AddButton(gxtId, 0, 0, defaultButtonColor);	
+	return AddButton(gxtId, 0, 0, COLOR_BUTTON_DEFAULT);	
 }
 
 Item* Window::AddButton(int gxtId, int num1, int num2)
 {
-	return AddButton(gxtId, num1, num2, defaultButtonColor);	
+	return AddButton(gxtId, num1, num2, COLOR_BUTTON_DEFAULT);	
 }
 
 Item* Window::AddButton(int gxtId, CRGBA color)
@@ -109,7 +111,7 @@ Item* Window::AddFloatingButton(int gxtId, int num1, int num2, CVector2D positio
 
 Item* Window::AddFloatingButton(int gxtId, int num1, int num2, CVector2D position, CVector2D size)
 {
-	return AddFloatingButton(gxtId, num1, num2, position, size, defaultButtonColor);
+	return AddFloatingButton(gxtId, num1, num2, position, size, COLOR_BUTTON_DEFAULT);
 }
 
 Item* Window::AddCheckbox(int gxtId, bool* value)
@@ -251,14 +253,14 @@ void Window::Draw()
 	CVector2D pos = position;
 
 	if(showTitle)
-		Draw::DrawBoxWithText(titleGtxId, 0, 0, pos, CVector2D(width, titleHeight), titleBoxColor, CRGBA(255, 255, 255), eTextAlign::ALIGN_LEFT);
+		Draw::DrawBoxWithText(titleGtxId, 0, 0, pos, CVector2D(width, titleHeight), COLOR_TITLE_BOX, CRGBA(255, 255, 255), eTextAlign::ALIGN_LEFT);
 
 	//
 
 	if (showPageControls)
 	{
 		auto btnSize = CVector2D(40.0f, 40.0f);
-		auto btnColor = backgroundColor;
+		auto btnColor = COLOR_BACKGROUND;
 
 		bool canGoLeft = page > 0;
 		bool canGoRight = page < GetMaxPages() - 1;
@@ -305,7 +307,7 @@ void Window::Draw()
 
 		if (item->useFullWidth) item->box->size.x = width - padding*2;
 
-		Draw::DrawBox(pos, CVector2D(width, item->box->size.y + padding * 2), backgroundColor);
+		Draw::DrawBox(pos, CVector2D(width, item->box->size.y + padding * 2), COLOR_BACKGROUND);
 
 		pos.y += padding;
 

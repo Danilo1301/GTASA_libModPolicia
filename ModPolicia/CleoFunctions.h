@@ -23,6 +23,11 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo);
+    static void SHOW_TEXT_BOX(const char* key);
+    static void HELI_FOLLOW(int heli, int _char, int vehicle, float radius);
+    static void SET_CAR_ENGINE_OPERATION(int car, bool state);
+    static void SET_HELICOPTER_INSTANT_ROTOR_START(int heli);
     static void FADE(int time, int direction);
     static void DESTROY_CAR(int car);
     static void SET_CAR_DOOR_STATUS(int car, int lockStatus);

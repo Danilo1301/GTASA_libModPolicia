@@ -23,11 +23,13 @@ void WindowPullover::CreatePullingPed()
     auto text_id = window->AddText(27, CRGBA(255, 255, 255));
     text_id->text->num1 = ped->hPed;
 
+    /*
     auto floating_button_1 = window->AddFloatingButton(23, 3, 0, CVector2D(0, 380), CVector2D(170, 40));
     floating_button_1->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MODPMV1", 1, 2, 3, 3000, 1);
     };
+    */
 
     auto button_pediraguardar = window->AddButton(79);
     button_pediraguardar->onClick = []()

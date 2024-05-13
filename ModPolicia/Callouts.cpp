@@ -8,10 +8,11 @@
 #include "Pullover.h"
 #include "Chase.h"
 
-int Callouts::m_TimeBetweenCallouts = 30000;
+int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81}
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
+    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 0.3f}
 };
 int Callouts::m_CurrentCalloutIndex = -1;
 int Callouts::m_ModulatingCalloutIndex = -1;
@@ -33,7 +34,7 @@ void Callouts::Update(int dt)
             {
                 m_TimeToCallout = 0;
 
-                m_ModulatingCalloutIndex = Mod::GetRandomNumber(0, m_Callouts.size() - 1);
+                m_ModulatingCalloutIndex = GetRandomCallout();
 
                 auto callout = m_Callouts[m_ModulatingCalloutIndex];
 
@@ -70,7 +71,8 @@ void Callouts::Update(int dt)
                 m_AproachingCallout = true;
                 Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
-                StartAssaultCallout();
+                if(m_CurrentCalloutIndex == 0) StartAssaultCallout();
+                else if(m_CurrentCalloutIndex == 1) StartGangShotsFiredCallout();
             }
         }
     }
@@ -106,6 +108,21 @@ void Callouts::UpdateCriminals(int dt)
         }
     }
 
+    //if(m_CurrentCalloutIndex == 0 || m_CurrentCalloutIndex == 1)
+    if(m_CurrentCalloutIndex > 0)
+    {
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        if(CleoFunctions::ACTOR_DEAD(playerActor))
+        {
+            for(auto criminal : m_Criminals)
+            {
+                CleoFunctions::DESTROY_ACTOR(criminal->hPed);
+
+                removeCriminals.push_back(criminal);
+            }
+        }
+    }
+
     for(auto ped : removeCriminals)
     {
         auto it = std::find(m_Criminals.begin(), m_Criminals.end(), ped);
@@ -118,8 +135,30 @@ void Callouts::UpdateCriminals(int dt)
         {
             Log::file << "Criminal number is 0, clearing callout" << std::endl;
             m_CurrentCalloutIndex = -1;
+
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX90", 0, 0, 0, 3000, 1);
         }
     }
+}
+
+int Callouts::GetRandomCallout()
+{
+    std::vector<int> ids;
+    for(int calloutIndex = 0; calloutIndex < m_Callouts.size(); calloutIndex++)
+    {
+        auto callout = m_Callouts[calloutIndex];
+        int chance = (int)(callout.chance * 100.0f);
+        for(int i = 0; i < chance; i++) {
+            ids.push_back(calloutIndex);
+        }
+        Log::file << "callout " << calloutIndex << " chance " << chance << " total " << ids.size() << std::endl;
+    }
+
+    int randomCalloutIndex = ids[Mod::GetRandomNumber(0, ids.size() - 1)];
+
+    ids.clear();
+
+    return randomCalloutIndex;
 }
 
 bool Callouts::IsModulatingCallout()
@@ -203,4 +242,75 @@ void Callouts::StartAssaultCallout()
     05E2: AS_actor 6@ kill_actor 7@ 
     09B6: set_actor 6@ wanted_by_police 1 
     */
+}
+
+void Callouts::StartGangShotsFiredCallout()
+{
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 300, 0, &x, &y, &z);
+
+    float nodeX = 0, nodeY = 0, nodeZ = 0;
+    CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
+    CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
+
+    int marker = CleoFunctions::CreateMarker(nodeX, nodeY, nodeZ, 0, 3, 3);
+
+    CleoFunctions::AddWaitForFunction([playerActor, nodePosition] () {
+        float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
+        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
+
+        auto distance = DistanceBetweenPoints(CVector(playerX, playerY, playerZ), nodePosition);
+
+        if(distance < 100) return true;
+
+        return false;
+    }, [marker, playerActor, nodePosition] () {
+        CleoFunctions::DISABLE_MARKER(marker);
+
+        m_AproachingCallout = false;
+        Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
+
+        for(int i = 0; i < 5; i++)
+        {
+            auto criminal = SpawnPedInRandomPedPathLocation(23, 102, nodePosition, 10.0f);
+            criminal->AddBlip();
+
+            m_Criminals.push_back(criminal);
+
+            if(i < 2)
+                CleoFunctions::GIVE_ACTOR_WEAPON(criminal->hPed, 22, 10000);
+
+            CleoFunctions::KILL_ACTOR(criminal->hPed, playerActor);
+        }
+    }); 
+}
+
+Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius)
+{
+    Log::file << "SpawnPedInRandomPedPathLocation " << std::endl;
+
+    Log::file << "position.x = " << position.x << std::endl;
+    Log::file << "position.y = " << position.y << std::endl;
+    Log::file << "position.z = " << position.z << std::endl;
+
+    CVector offset = CVector(
+      radius/2 + (float)(Mod::GetRandomNumber(0, (int)radius)),
+      radius/2 + (float)(Mod::GetRandomNumber(0, (int)radius)),
+      0
+    );
+
+    Log::file << "offset.x = " << offset.x << std::endl;
+    Log::file << "offset.y = " << offset.y << std::endl;
+    Log::file << "offset.z = " << offset.z << std::endl;
+
+    CVector tryPosition = position + offset;
+
+    float nodeX = 0, nodeY = 0, nodeZ = 0;
+    CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(tryPosition.x, tryPosition.y, tryPosition.z, &nodeX, &nodeY, &nodeZ);
+
+    int hPed = CleoFunctions::CREATE_ACTOR_PEDTYPE(pedType, modelId, nodeX, nodeY, nodeZ);
+
+    return Peds::TryCreatePed(hPed);
 }

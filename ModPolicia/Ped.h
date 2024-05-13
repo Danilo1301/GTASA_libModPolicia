@@ -7,7 +7,7 @@
 #include "Inventory.h"
 
 enum SCORCH_STATUS {
-    NONE = 0,
+    NOT_SCORCHING = 0,
     WAITING_FOR_CAR,
     ENTERING_CAR,
     BEEING_SCORCHED,
@@ -46,7 +46,7 @@ public:
 
     bool isWanted = false;
 
-    SCORCH_STATUS scorchStatus = SCORCH_STATUS::NONE;
+    SCORCH_STATUS scorchStatus = SCORCH_STATUS::NOT_SCORCHING;
 
     bool arrested = false;
 

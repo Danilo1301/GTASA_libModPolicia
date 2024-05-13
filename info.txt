@@ -61,10 +61,13 @@ Initial release
 [X] FIX: callouts in the middle of a pullover or of another callout
 [X] FIX: bug beeing unable to pullover a ped after you ask him to leave the car and wait there
 
+[0.5]
 [X] ADD: option to call vehicle to scorch suspect
 [X] ADD: option to teleport suspect to prision
-[ ] CHANGE: menu colors
-[ ] ADD: helicopter backup 
+[X] ADD: helicopter backup 
+[X] CHANGE: menu colors
+[X] ADD: gang shots fired callout
+[X] FIX: backup cars stand still if chase ends
 
 ---------------------------
 Sugestoes:
@@ -73,9 +76,9 @@ Sugestoes:
 [ ] aniação mão pra tras
 [ ] add spikes during chase
 [ ] add roadblocks
-[ ] call helicopter
+[X] call helicopter
 [ ] colocar animação para colocar as mãos para trás
-[ ] opção para chamar viatura até o local e levar o suspeito
+[X] opção para chamar viatura até o local e levar o suspeito
 [ ] adicionar radio COPOM, com audios, para consultar RG etc
 [ ] issue ticket to ped/vehicle / multa
 [ ] chamar IML
@@ -87,7 +90,6 @@ Sugestoes:
 [ ] NPC deve ir no banco de trás.
 [ ] quando for levar o npc pra dp, fazer ele entrar no carro primeiro, permitindo q o jogador entre depois
 [ ] descer do carro ao chegar na DP
-[ ] CHAMAR VIATURA PARA BUSCAR O PRESO
 [ ] GUINCHO PARA CARRO E MOTO
 [ ] OCORRÊNCIA DE MANDATO DE PRISÃO 
 [ ] FAZER PERGUNTAS AO PRESO IGUAL NO LSPDFR DO GTA 5 (Essa droga é sua?, mora aonde?, Esse carro é seu?, Já foi preso ou tem passagem)

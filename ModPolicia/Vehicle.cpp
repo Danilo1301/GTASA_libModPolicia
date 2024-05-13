@@ -77,6 +77,13 @@ int Vehicle::AddBlip()
     return blip;
 }
 
+int Vehicle::AddBlip(int color)
+{
+    int blip = AddBlip();
+    CleoFunctions::SET_MARKER_COLOR_TO(blip, color);
+    return blip;
+}
+
 void Vehicle::RemoveBlip()
 {
     if(blip <= 0) return;
