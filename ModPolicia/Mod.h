@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pch.h"
+
 class Mod {
 public:
     static const char* m_Version;
@@ -22,4 +24,7 @@ public:
 
     static void ProcessMenuButtons(int dt);
     static void ProcessTestMenuButtons(int dt);
+
+    static CVector GetCarPosition(int hVehicle);
+    static CVector GetPedPosition(int hPed);
 };

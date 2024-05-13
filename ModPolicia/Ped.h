@@ -5,7 +5,14 @@
 #include "SimpleGTA.h"
 
 #include "Inventory.h"
-#include "Vehicle.h"
+
+enum SCORCH_STATUS {
+    NONE = 0,
+    WAITING_FOR_CAR,
+    ENTERING_CAR,
+    BEEING_SCORCHED,
+    BEEING_DRIVEN_TO_FAR_AWAY
+};
 
 class Ped {
 public:
@@ -18,7 +25,7 @@ public:
     int hPed;
     CPed* pPed = NULL;
 
-    Vehicle* vehicleOwned = NULL;
+    int hVehicleOwned = 0;
 
     int blip = 0;
 
@@ -39,7 +46,11 @@ public:
 
     bool isWanted = false;
 
-    bool beeingScorched = false;
+    SCORCH_STATUS scorchStatus = SCORCH_STATUS::NONE;
+
+    bool arrested = false;
+
+    int waitingForScorchVehicleHandle = 0;
 
     Inventory* inventory = new Inventory();
 

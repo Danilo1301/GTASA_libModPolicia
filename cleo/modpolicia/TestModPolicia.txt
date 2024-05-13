@@ -24,10 +24,13 @@
 0247: load_model 193
 0247: load_model 335
 
-//
+038B: load_requested_models
 
-038B: load_requested_models 
+10@ = 0
+ 
 jump @PRELOAD
+
+//----------------------------------------
 
 :PRELOAD
 if and
@@ -60,6 +63,8 @@ jf @PRELOAD
     
 jump @Main 
 
+//----------------------------------------
+
 :Main
 wait 0
 
@@ -67,240 +72,340 @@ if
     0256: player $PLAYER_CHAR defined
 jf @Main
 
-/*
-if
-    04EE: animation "GANGS" loaded
-then
-else
-    04ED: load_animation "GANGS"
-    036D: show_text_2numbers_styled GXT 'MPFX1' numbers 1 0 time 2000 style 7  
-    jump @Main
-end
-
-if
-    04EE: animation "POLICE" loaded
-then
-else
-    04ED: load_animation "POLICE"
-    036D: show_text_2numbers_styled GXT 'MPFX1' numbers 2 0 time 2000 style 7
-    jump @Main
-end  
-*/
-
 if
     0A51: is_widget_pressed 69 //69 = checkmark / top left (beating)
 then
-    gosub @Find_1 
-
-    //CREATE ASSAULT SCENE:
+    gosub @Find_1
     
+    10@ += 1
     
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 10.0 0.0 0.0
-    
-    02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
-    
-    0167: 9@ = create_marker_at 3@ 4@ 5@ color 2 flag 3
-    0168: set_marker 9@ size 3
-    0165: set_marker 9@ color_to 2 
-
-    //07E0: set_marker 9@ type_to 1 
-
-    //02A8: 9@ = create_marker $440 at $458 $459 $460 //this uses icon
-    //04CE: $30 = create_icon_marker 18 at 2447.364 -1974.496 12.5469 //uses icon too
-    //0570: $629 = create_asset_radar_marker_with_icon 36 at $3754 $3755 $3756 //uses icon too
-     
-
- 
-    //0165: set_marker 50@ color_to 1 
-
-    
-    009A: 6@ = create_actor_pedtype 20 model 19 at 3@ 4@ 5@  //criminal
-    0187: 8@ = create_marker_above_actor 6@
-    0165: set_marker 8@ color_to 2 
-    
-    04C4: store_coords_to 0@ 1@ 2@ from_actor 6@ with_offset -8.0 -7.0 0.0
-    02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
-    
-    009A: 7@ = create_actor_pedtype 23 model 193 at 3@ 4@ 5@ //ped
-    
-    05DD: AS_actor 7@ flee_from_actor 6@ from_origin_radius 1000.0 timelimit -1
-    
-    05E2: AS_actor 6@ kill_actor 7@ 
-    09B6: set_actor 6@ wanted_by_police 1 
-end
- 
- /*    
-if
-    0A51: is_widget_pressed 69 //69 = checkmark / top left (beating)
-then
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 30.0 0.0 0.0
-    
-    04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 3@ 4@ 5@
-    
-    00A5: 6@ = create_car #COPCARLA at 3@ 4@ 5@
-    0129: 10@ = create_actor_pedtype 23 model #LAPD1 in_car 6@ driverseat
-            
-    0397: enable_car 6@ siren 1
-    00AD: set_car 6@ max_speed_to 50.0
-    0423: set_car 6@ improved_handling_to 1.5
-    00AE: set_car 6@ traffic_behaviour_to 2  
-
-    0186: 7@ = create_marker_above_car 6@
-    
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
-            
-    073E: get_car_in_sphere 0@ 1@ 2@ radius 10.0 model -1 handle_as 8@
-    
-    if 056E: car 8@ defined
+    if 10@ == 1
     then
-        0186: 9@ = create_marker_above_car 8@
-        
-        07F8: car 6@ follow_car 8@ radius 8.0
+        gosub @Heli
+       //gosub @Apoio1 
     end
     
-    wait 1000   
-end
-*/
-
-/*
-if
-    0A51: is_widget_pressed 37 //37 = green button
-then
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0
-    
-    03BC: 6@ = create_sphere_at 0@ 1@ 2@ radius 3.0
-    
-    //02A8: 7@ = create_marker 33 at 0@ 1@ 2@ 
-    0167: 7@ = create_marker_at 0@ 1@ 2@ color 0 flag 3     
-     
-    073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@
-    
-    if 056E: car 3@ defined
+    if 10@ == 2
     then
-        02D4: car 3@ turn_off_engine 
+       //gosub @Apoio2 
+    end
     
-        046C: 4@ = car 3@ driver
-        
-        if 056D: actor 4@ defined
-        then
-            0187: 5@ = create_marker_above_actor 4@
-            
-            0423: set_car 3@ improved_handling_to 2.0
-            00AE: set_car 3@ traffic_behaviour_to 2
-            00AD: set_car 3@ max_speed_to 50.0             
-            00A8: set_car 3@ to_psycho_driver
-            03CC: enable_car 3@ stuck_check_distance_to 50.0 time_to 50.0
-        end 
+    if 10@ == 3
+    then
+       //gosub @Apoio3 
+    end
+    
+    if 10@ == 4
+    then
+       //gosub @Apoio4
+    end
+    
+    if 10@ == 5
+    then
+       10@ = 0
+       wait 2000  
     end
 end
-*/
-
-/*
-//if press widget, char will.. ah whatever, just read the code
-if
-    0A51: is_widget_pressed 37 
-then
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0 
-    073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@
-    
-    if 056E: car 3@ defined
-    then
-        02D4: car 3@ turn_off_engine 
-    
-        046C: 4@ = car 3@ driver
-        
-        if 056D: actor 4@ defined
-        then
-            0187: 5@ = create_marker_above_actor 4@
-            
-            0633: AS_actor 4@ exit_car
-            wait 1000 
-            0812: AS_actor 4@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
-            
-            wait 3000
-            
-            01C2: remove_references_to_actor 4@
-            
-            07AF: 6@ = player $PLAYER_CHAR group 
-            
-            //062F: 6@ = create_group_type 0 //is this really encessary
-            0630: put_actor $PLAYER_ACTOR in_group 4@ as_leader 
-            0631: put_actor 4@ in_group 6@
-                        
-            03BC: 7@ = create_sphere_at 1536.1325 -1671.2093 13.3828 radius 3.0 
-            
-            02FF: show_text_3numbers GXT 'MPFX3' numbers 9999999 $PLAYER_GROUP 6@ time 3000 flag 1
-            
-            jump @Esperando 
-        end 
-    end
-end
-*/
-
-/*
-if
-    0A51: is_widget_pressed 38 
-then
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0 
-    //00BA: show_text_styled GXT 'PEDE2' time 1000 style 7  // Beefy Baron
-    073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@ 
-    
-    if 056E: car 3@ defined
-    then
-        02D4: car 3@ turn_off_engine 
-    
-        046C: 4@ = car 3@ driver
-        
-        if 056D: actor 4@ defined
-        then
-            0187: 5@ = create_marker_above_actor 4@
-            
-            0633: AS_actor 4@ exit_car
-            wait 1000 
-            0812: AS_actor 4@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
-        end
-            
-        if 0431: car 3@ passenger_seat_free 0
-        then
-            02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 3000 flag 1
-        else
-            02FF: show_text_3numbers GXT 'MPFX1' numbers 0 0 0 time 3000 flag 1
-            
-           0432: 6@ = get_actor_handle_from_car 3@ passenger_seat 0
-           0187: 5@ = create_marker_above_actor 6@  
-        end
-        
-        //crash when trying to get seat free 1 of 0, or 2 of 0
-        if 0431: car 3@ passenger_seat_free 1
-        then
-        else
-            0432: 6@ = get_actor_handle_from_car 3@ passenger_seat 1
-            0187: 5@ = create_marker_above_actor 6@  
-        end  
-        
-        if 0431: car 3@ passenger_seat_free 2
-        then
-        else
-            0432: 6@ = get_actor_handle_from_car 3@ passenger_seat 2
-            0187: 5@ = create_marker_above_actor 6@  
-        end  
-    end 
-end
-*/
-
-/*
-if
-    0A51: is_widget_pressed 7 
-then
-    //04C4: store_coords_to 25@ 26@ 27@ from_actor $PLAYER_ACTOR with_offset 0.0 5.0 0.0 
-    //00BA: show_text_styled GXT 'PEDE' time 1000 style 7  // Beefy Baron
-    //0605: actor $PLAYER_ACTOR perform_animation "CopTraf_Stop" IFP "POLICE" framedelta 4.0 loop 0 lockX 0 lockY 0 lockF 0 time -1
-     
-    //073E: get_car_in_sphere 25@ 26@ 27@ radius 5.0 model -1 handle_as 28@
-end
-*/
 
 0002: jump @Main 
+
+//----------------------------------------
+//cria um heli e segue um carro
+
+:Heli
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 50.0
+00A5: 3@ = create_car 497 at 0@ 1@ 2@
+0129: 7@ = create_actor_pedtype 23 model 280 in_car 3@ driverseat 
+0825: set_helicopter 3@ instant_rotor_start
+0918: set_car 3@ engine_operation 1 
+ 
+
+0186: 4@ = create_marker_above_car 3@
+
+02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 3000 flag 1
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+
+073E: get_car_in_sphere 0@ 1@ 2@ radius 20.0 model -1 handle_as 5@
+
+wait 1000
+
+if 056E: car 5@ defined
+then
+    0186: 6@ = create_marker_above_car 5@
+    
+    0726: heli 3@ follow_actor -1 follow_car 5@ radius 15.0 
+    03E5: show_text_box 'MPFX86' 
+end
+
+return
+
+
+//----------------------------------------
+
+:Apoio1
+
+02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 3000 flag 1
+
+//Cria um ped, spawna uma vtr, faz a vtr ir ate o ped
+
+016A: fade 1 time 500 
+    
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+
+009A: 3@ = create_actor_pedtype 23 model 193 at 0@ 1@ 2@ //ped
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 100.0 0.0 0.0
+04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 4@ 5@ 6@
+
+00A5: 7@ = create_car 596 at 4@ 5@ 6@
+0397: enable_car 7@ siren 1
+//0519: set_car 7@ locked 0 //wrong opcode
+020A: set_car 0@ door_status_to 1 
+ 
+00AE: set_car 7@ traffic_behaviour_to 2
+0186: 9@ = create_marker_above_car 7@
+    
+0129: 8@ = create_actor_pedtype 23 model 280 in_car 7@ driverseat
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor 3@ with_offset 0.0 0.0 0.0
+ 
+00A7: car 7@ drive_to 0@ 1@ 2@
+    
+wait 2000
+
+return
+
+:Apoio2
+
+02FF: show_text_3numbers GXT 'MPFX1' numbers 2 0 0 time 3000 flag 1
+
+05CA: AS_actor 3@ enter_car 7@ passenger_seat 1 time 10000
+
+wait 2000
+
+return
+
+:Apoio3
+
+02FF: show_text_3numbers GXT 'MPFX1' numbers 3 0 0 time 3000 flag 1
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 200.0 0.0 0.0
+
+00A7: car 7@ drive_to 0@ 1@ 2@
+
+wait 2000
+
+return
+
+:Apoio4
+
+02FF: show_text_3numbers GXT 'MPFX1' numbers 4 0 0 time 3000 flag 1
+
+009B: destroy_actor 3@ 
+009B: destroy_actor 8@
+00A6: destroy_car 7@  
+
+wait 2000
+
+return
+
+//----------------------------------------
+
+:Apoio
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 30.0 0.0 0.0
+    
+04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 3@ 4@ 5@
+
+00A5: 6@ = create_car #COPCARLA at 3@ 4@ 5@
+0129: 10@ = create_actor_pedtype 23 model #LAPD1 in_car 6@ driverseat
+        
+0397: enable_car 6@ siren 1
+00AD: set_car 6@ max_speed_to 50.0
+0423: set_car 6@ improved_handling_to 1.5
+00AE: set_car 6@ traffic_behaviour_to 2  
+
+0186: 7@ = create_marker_above_car 6@
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+        
+073E: get_car_in_sphere 0@ 1@ 2@ radius 10.0 model -1 handle_as 8@
+
+if 056E: car 8@ defined
+then
+    0186: 9@ = create_marker_above_car 8@
+    
+    07F8: car 6@ follow_car 8@ radius 8.0
+end
+
+wait 1000
+   
+return    
+//----------------------------------------
+//procura um carro e faz ele fugir
+
+:Fugir
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0
+    
+03BC: 6@ = create_sphere_at 0@ 1@ 2@ radius 3.0
+
+//02A8: 7@ = create_marker 33 at 0@ 1@ 2@ 
+0167: 7@ = create_marker_at 0@ 1@ 2@ color 0 flag 3     
+ 
+073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@
+
+if 056E: car 3@ defined
+then
+    02D4: car 3@ turn_off_engine 
+
+    046C: 4@ = car 3@ driver
+    
+    if 056D: actor 4@ defined
+    then
+        0187: 5@ = create_marker_above_actor 4@
+        
+        0423: set_car 3@ improved_handling_to 2.0
+        00AE: set_car 3@ traffic_behaviour_to 2
+        00AD: set_car 3@ max_speed_to 50.0             
+        00A8: set_car 3@ to_psycho_driver
+        03CC: enable_car 3@ stuck_check_distance_to 50.0 time_to 50.0
+    end 
+end
+
+return
+
+//----------------------------------------
+//sai do carro, mao pra cima, testa os seats livres
+
+:Abordar
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0 
+//00BA: show_text_styled GXT 'PEDE2' time 1000 style 7  // Beefy Baron
+073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@ 
+
+if 056E: car 3@ defined
+then
+    02D4: car 3@ turn_off_engine 
+
+    046C: 4@ = car 3@ driver
+    
+    if 056D: actor 4@ defined
+    then
+        0187: 5@ = create_marker_above_actor 4@
+        
+        0633: AS_actor 4@ exit_car
+        wait 1000 
+        0812: AS_actor 4@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
+    end
+        
+    if 0431: car 3@ passenger_seat_free 0
+    then
+        02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 3000 flag 1
+    else
+        02FF: show_text_3numbers GXT 'MPFX1' numbers 0 0 0 time 3000 flag 1
+        
+       0432: 6@ = get_actor_handle_from_car 3@ passenger_seat 0
+       0187: 5@ = create_marker_above_actor 6@  
+    end
+    
+    //crash when trying to get seat free 1 of 0, or 2 of 0
+    if 0431: car 3@ passenger_seat_free 1
+    then
+    else
+        0432: 6@ = get_actor_handle_from_car 3@ passenger_seat 1
+        0187: 5@ = create_marker_above_actor 6@  
+    end  
+    
+    if 0431: car 3@ passenger_seat_free 2
+    then
+    else
+        0432: 6@ = get_actor_handle_from_car 3@ passenger_seat 2
+        0187: 5@ = create_marker_above_actor 6@  
+    end  
+end 
+
+return
+
+//----------------------------------------
+//sai do carro, entra pro grupo do player, cria esfera
+
+:Abordar2
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0 
+073E: get_car_in_sphere 0@ 1@ 2@ radius 5.0 model -1 handle_as 3@
+
+if 056E: car 3@ defined
+then
+    02D4: car 3@ turn_off_engine 
+
+    046C: 4@ = car 3@ driver
+    
+    if 056D: actor 4@ defined
+    then
+        0187: 5@ = create_marker_above_actor 4@
+        
+        0633: AS_actor 4@ exit_car
+        wait 1000 
+        0812: AS_actor 4@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
+        
+        wait 3000
+        
+        01C2: remove_references_to_actor 4@
+        
+        07AF: 6@ = player $PLAYER_CHAR group 
+        
+        //062F: 6@ = create_group_type 0 //is this really encessary
+        0630: put_actor $PLAYER_ACTOR in_group 4@ as_leader 
+        0631: put_actor 4@ in_group 6@
+                    
+        03BC: 7@ = create_sphere_at 1536.1325 -1671.2093 13.3828 radius 3.0 
+        
+        02FF: show_text_3numbers GXT 'MPFX3' numbers 9999999 $PLAYER_GROUP 6@ time 3000 flag 1
+        
+        jump @Esperando 
+    end 
+end
+
+return
+        
+//----------------------------------------
+
+:Assault
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 10.0 0.0 0.0
+    
+02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
+
+0167: 9@ = create_marker_at 3@ 4@ 5@ color 2 flag 3
+0168: set_marker 9@ size 3
+0165: set_marker 9@ color_to 2 
+
+//07E0: set_marker 9@ type_to 1 
+
+//02A8: 9@ = create_marker $440 at $458 $459 $460 //this uses icon
+//04CE: $30 = create_icon_marker 18 at 2447.364 -1974.496 12.5469 //uses icon too
+//0570: $629 = create_asset_radar_marker_with_icon 36 at $3754 $3755 $3756 //uses icon too
+
+//0165: set_marker 50@ color_to 1 
+
+009A: 6@ = create_actor_pedtype 20 model 19 at 3@ 4@ 5@  //criminal
+0187: 8@ = create_marker_above_actor 6@
+0165: set_marker 8@ color_to 2 
+
+04C4: store_coords_to 0@ 1@ 2@ from_actor 6@ with_offset -8.0 -7.0 0.0
+02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
+
+009A: 7@ = create_actor_pedtype 23 model 193 at 3@ 4@ 5@ //ped
+
+05DD: AS_actor 7@ flee_from_actor 6@ from_origin_radius 1000.0 timelimit -1
+
+05E2: AS_actor 6@ kill_actor 7@ 
+09B6: set_actor 6@ wanted_by_police 1
+    
+return
 
 //----------------------------------------
 
@@ -328,7 +433,6 @@ else
 end
 
 //----------------------------------------
-
 
 :Esperando
 wait 0

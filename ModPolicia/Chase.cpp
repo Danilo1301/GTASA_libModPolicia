@@ -22,7 +22,7 @@ void Chase::UpdateChase(int dt)
     if(!m_ChasingPed) return;
 
     auto ped = m_ChasingPed;
-    auto vehicle = ped->vehicleOwned;
+    auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
 
     //car despawned
     if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle))
@@ -35,7 +35,7 @@ void Chase::UpdateChase(int dt)
     if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed))
     {
         ped->RemoveBlip();
-        if(ped->vehicleOwned) ped->vehicleOwned->RemoveBlip();
+        if(vehicle) vehicle->RemoveBlip();
 
         CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(ped->hPed);
 
@@ -130,10 +130,10 @@ void Chase::CallBackup(int vehicleModelId, int pedModelId)
     CleoFunctions::SET_CAR_MAX_SPEED(car, 50.0f);
     //0423: set_car 6@ improved_handling_to 1.5
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(car, 2);
+    
+    Log::file << "set car " << car << " follow car " << m_ChasingPed->hVehicleOwned << std::endl;
 
-    Log::file << "set car " << car << " follow car " << m_ChasingPed->vehicleOwned->hVehicle << std::endl;
-
-    CleoFunctions::CAR_FOLLOR_CAR(car, m_ChasingPed->vehicleOwned->hVehicle, 8.0f);
+    CleoFunctions::CAR_FOLLOR_CAR(car, m_ChasingPed->hVehicleOwned, 8.0f);
 
     Log::file << "end call backup" << std::endl;
 }

@@ -6,6 +6,7 @@
 #include "../Pullover.h"
 #include "../Log.h"
 #include "../CleoFunctions.h"
+#include "../Vehicles.h"
 
 
 Window* WindowPullover::m_Window = NULL;
@@ -35,7 +36,7 @@ void WindowPullover::CreatePullingPed()
         Pullover::MakePedWait();
     };
 
-    if(ped->vehicleOwned)
+    if(ped->hVehicleOwned > 0)
     {
         auto button_revistarcarro = window->AddButton(59);
         button_revistarcarro->onClick = [ped]()
@@ -49,7 +50,7 @@ void WindowPullover::CreatePullingPed()
             CleoFunctions::AddWaitForFunction([ped] () {
                 Log::file << "testing condition" << std::endl;
 
-                auto vehicle = ped->vehicleOwned;
+                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
                 int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
                 auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
@@ -64,7 +65,7 @@ void WindowPullover::CreatePullingPed()
             [ped] () {
                 Log::file << "condition executed" << std::endl;
 
-                auto vehicle = ped->vehicleOwned;
+                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
                 int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
                 auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
@@ -81,7 +82,7 @@ void WindowPullover::CreatePullingPed()
         };
     }
     
-    if(ped->vehicleOwned)
+    if(ped->hVehicleOwned > 0)
     {
         auto button_consultarplaca = window->AddButton(67);
         button_consultarplaca->onClick = [ped]()
@@ -91,7 +92,9 @@ void WindowPullover::CreatePullingPed()
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
 
             CleoFunctions::WAIT(2000, [ped]() {
-                if(ped->vehicleOwned->isStolen)
+                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
+
+                if(vehicle->isStolen)
                 {
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
                 } else {
@@ -181,13 +184,13 @@ void WindowPullover::CreatePullingPed()
     };
 
     auto button_conduzir = window->AddButton(64, 0, 0);
-    button_conduzir->onClick = [playerActor, ped]()
+    button_conduzir->onClick = []()
     {
         Remove();
-        Pullover::StartScorchingPed(ped);
+        CreateScorchWindow();
     };
 
-    if(ped->vehicleOwned)
+    if(ped->hVehicleOwned > 0)
     {   
         auto button_liberar = window->AddButton(57, CRGBA(170, 70, 70));
         button_liberar->onClick = []()
@@ -228,6 +231,37 @@ void WindowPullover::CreatePullingCar()
     {
         Remove();
         Pullover::FreeVehicle();
+    };
+}
+
+void WindowPullover::CreateScorchWindow()
+{
+    auto ped = Pullover::m_PullingPed;
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    auto window = m_Window = Menu::AddWindow(6);
+    window->position = CVector2D(200, 200); //80, 200
+    window->showPageControls = true;
+
+    auto button_conduzir = window->AddButton(64, 0, 0);
+    button_conduzir->onClick = [ped]()
+    {
+        Remove();
+        Pullover::StartScorchingPed(ped);
+    };
+
+    auto button_callVehicle = window->AddButton(83, 0, 0);
+    button_callVehicle->onClick = [ped]()
+    {
+        Remove();
+        Pullover::CallVehicleToScorchPed(ped);
+    };
+
+    auto button_teleport = window->AddButton(84, 0, 0);
+    button_teleport->onClick = [ped]()
+    {
+        Remove();
+        Pullover::TeleportPedToPrision(ped);
     };
 }
 

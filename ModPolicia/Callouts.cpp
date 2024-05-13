@@ -98,9 +98,9 @@ void Callouts::UpdateCriminals(int dt)
             continue;
         }
 
-        if(criminal->beeingScorched)
+        if(criminal->scorchStatus == SCORCH_STATUS::BEEING_SCORCHED || criminal->scorchStatus == SCORCH_STATUS::WAITING_FOR_CAR)
         {
-            Log::file << "Criminal is beeing arrested" << std::endl;
+            Log::file << "Criminal is beeing scorched" << std::endl;
             removeCriminals.push_back(criminal);
             continue;
         }

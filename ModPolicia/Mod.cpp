@@ -38,21 +38,20 @@ void Mod::Update(int dt)
 
     //
 
-    Log::file << "1" << std::endl;
+    Log::file << "Peds::Update" << std::endl;
 
     Peds::Update(dt);
 
-    Log::file << "2" << std::endl;
+    Log::file << "Chase::Update" << std::endl;
 
     Chase::Update(dt);
-    Log::file << "3" << std::endl;
+    Log::file << "Pullover::Update" << std::endl;
     Pullover::Update(dt);
-    Log::file << "4" << std::endl;
+    Log::file << "Callouts::Update" << std::endl;
     Callouts::Update(dt);
-    Log::file << "5" << std::endl;
 
+    Log::file << "CleoFunctions::Update" << std::endl;
     CleoFunctions::Update(dt);
-    Log::file << "6" << std::endl;
 
     WindowDocument::Draw();
 
@@ -66,7 +65,6 @@ void Mod::Update(int dt)
 
     Mod::ProcessMenuButtons(dt);
 
-    Log::file << "7" << std::endl;
     //
 
     //Draw::DrawBoxWithText(2, 1, 2, {0, 0}, {50, 50}, {255, 0, 0, 255}, {0, 0, 0, 255});
@@ -101,8 +99,6 @@ void Mod::Update(int dt)
         }
     }
 
-    Log::file << "8 end" << std::endl;
-
     /*
     if(Widgets::IsWidgetJustPressed(38)) //POWER
     {
@@ -131,7 +127,7 @@ void Mod::Update(int dt)
     }
     */
 
-   //Log::file << "Mod::Update end" << std::endl;
+   Log::file << "Mod::Update end" << std::endl;
 }
 
 void Mod::Load()
@@ -182,4 +178,20 @@ void Mod::ProcessTestMenuButtons(int dt)
             WindowTest::Create();
         }
     }
+}
+
+CVector Mod::GetCarPosition(int hVehicle)
+{
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, 0, 0, 0, &x, &y, &z);
+
+    return CVector(x, y, z);
+}
+
+CVector Mod::GetPedPosition(int hPed)
+{
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, 0, 0, 0, &x, &y, &z);
+
+    return CVector(x, y, z);
 }

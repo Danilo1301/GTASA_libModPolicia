@@ -25,6 +25,8 @@ public:
     static int m_ScorchingPedBlip;
     static int m_ScorchingToDpIndex;
 
+    static std::vector<Ped*> m_PedsWaitingForScorchVehicle;
+
     static std::vector<CVector> m_PoliceDepartmentPositions;
 
     static FRISK_TYPE m_FriskType;
@@ -44,6 +46,8 @@ public:
     static void FreeVehicle();
     static void AskPedToLeaveCar(Ped* ped);
     static void StartScorchingPed(Ped* ped);
+    static void TeleportPedToPrision(Ped* ped);
+    static void CallVehicleToScorchPed(Ped* ped);
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);
     static int GetClosestPoliceDepartment();

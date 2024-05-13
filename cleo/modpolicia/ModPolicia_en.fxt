@@ -80,6 +80,9 @@ MPFX79 Ask to wait
 MPFX80 ~b~[Officer] ~w~Wait here, please
 MPFX81 ~g~[RADIO] ~w~I request a patrol car to respond to a dispute incident
 MPFX82 Go to the ~y~local
+MPFX83 Call police car
+MPFX84 Teleport
+MPFX85 ~b~[Policial] ~w~To inform: I request a police car to transport the suspect
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

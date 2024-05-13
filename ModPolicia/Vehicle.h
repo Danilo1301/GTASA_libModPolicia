@@ -20,6 +20,10 @@ public:
 
     Inventory* inventory = new Inventory();
 
+    int hDriver = 0;
+
+    CVector drivingTo = CVector(0, 0, 0);
+
     Vehicle(int hVehicle);
 	~Vehicle();
 

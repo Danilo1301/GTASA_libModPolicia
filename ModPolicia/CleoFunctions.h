@@ -23,6 +23,12 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void FADE(int time, int direction);
+    static void DESTROY_CAR(int car);
+    static void SET_CAR_DOOR_STATUS(int car, int lockStatus);
+    static void ACTOR_ENTER_CAR_PASSENGER_SEAT(int _char, int vehicle, int time, int seatId);
+    static void CAR_DRIVE_TO(int car, float x, float y, float z);
+    static void FREEZE_CAR_POSITION(int car, bool state);
     static void SET_MARKER_COLOR_TO(int blip, int color);
     static void SET_ACTOR_WEAPON_AND_AMMO(int _char, int weaponType, int ammo);
     static void ENABLE_CAR_SIREN(int car, bool state);

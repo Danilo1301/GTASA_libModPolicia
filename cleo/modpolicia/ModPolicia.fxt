@@ -80,3 +80,7 @@ MPFX79 Pedir para aguardar
 MPFX80 ~b~[Policial] ~w~Aguarde aqui no local
 MPFX81 ~g~[COPOM] ~w~Solicito uma viatura para atender ocorrencia de desentendimento
 MPFX82 Dirija-se ate o ~y~local
+MPFX83 Chamar viatura
+MPFX84 Teleportar
+MPFX85 ~b~[Policial] ~w~COPOM, solicito uma viatura para transportar um suspeito
+MPFX86 O Aguia esta se deslocando a caminho!

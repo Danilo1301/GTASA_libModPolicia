@@ -11,5 +11,6 @@ public:
 	static void CreatePullingPed();
 	static void CreatePullingCar();
 	static void CreateFriskCar();
+	static void CreateScorchWindow();
 	static void Remove();
 };

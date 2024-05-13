@@ -7,6 +7,7 @@
 #include "Chase.h"
 #include "CleoFunctions.h"
 #include "Input.h"
+#include "Mod.h"
 
 #include "windows/WindowTest.h"
 #include "windows/WindowFrisk.h"
@@ -22,6 +23,8 @@ Ped* Pullover::m_ScorchingPed = NULL;
 int Pullover::m_ScorchingPedSphere = 0;
 int Pullover::m_ScorchingPedBlip = 0;
 int Pullover::m_ScorchingToDpIndex = 0;
+
+std::vector<Ped*> Pullover::m_PedsWaitingForScorchVehicle;
 
 std::vector<CVector> Pullover::m_PoliceDepartmentPositions = {
     CVector(1536.1325, -1671.2093, 13.3828), //dp ls
@@ -91,13 +94,99 @@ void Pullover::UpdateWidgetPress(int dt)
 
 void Pullover::UpdateScorchingPed(int dt)
 {
+    //update peds waiting for scorch vehicle
+
+    std::vector<Ped*> removePeds;
+
+    for(auto ped : m_PedsWaitingForScorchVehicle)
+    {
+        auto vehicle = Vehicles::GetVehicleByHandle(ped->waitingForScorchVehicleHandle);
+
+        if(ped->scorchStatus == SCORCH_STATUS::WAITING_FOR_CAR)
+        {
+            auto carPos = Mod::GetCarPosition(vehicle->hVehicle);
+
+            auto distance = DistanceBetweenPoints(carPos, vehicle->drivingTo);
+
+            if(distance <= 5)
+            {
+                ped->shouldHandsup = false;
+
+                CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(ped->hPed);
+
+                ped->scorchStatus = SCORCH_STATUS::ENTERING_CAR;
+
+                //05CA: AS_actor 3@ enter_car 7@ passenger_seat 1 time 10000
+                CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(ped->hPed, vehicle->hVehicle, 10000, 1);
+
+                continue;
+            }
+            continue;
+        }
+
+        if(ped->scorchStatus == SCORCH_STATUS::ENTERING_CAR)
+        {
+            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed))
+            {
+                ped->scorchStatus = SCORCH_STATUS::BEEING_DRIVEN_TO_FAR_AWAY;
+
+                /*
+                04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 200.0 0.0 0.0
+                00A7: car 7@ drive_to 0@ 1@ 2@
+                */
+
+                float driveToX = 0, driveToY = 0, driveToZ = 0;
+                CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(ped->hPed, 0, 200, 0, &driveToX, &driveToY, &driveToZ);
+                CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, driveToX, driveToY, driveToZ);
+
+                continue;
+            }
+            continue;
+        }
+
+        if(ped->scorchStatus == SCORCH_STATUS::BEEING_DRIVEN_TO_FAR_AWAY)
+        {
+            int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+            auto distance = GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
+
+            if(distance > 80)
+            {
+                ped->scorchStatus = SCORCH_STATUS::NONE;
+                ped->arrested = true;
+
+                removePeds.push_back(ped);
+
+                /*
+                009B: destroy_actor 3@ 
+                009B: destroy_actor 8@
+                00A6: destroy_car 7@  
+                */
+
+                CleoFunctions::DESTROY_ACTOR(ped->hPed);
+                CleoFunctions::DESTROY_ACTOR(vehicle->hDriver);
+                CleoFunctions::DESTROY_CAR(vehicle->hVehicle);
+            }
+
+            continue;
+        }
+    }
+
+    for(auto ped : removePeds)
+    {
+        auto it = std::find(m_PedsWaitingForScorchVehicle.begin(), m_PedsWaitingForScorchVehicle.end(), ped);
+        m_PedsWaitingForScorchVehicle.erase(it);
+    }
+
+    //
+
     if(!m_ScorchingPed) return;
     
     if(!CleoFunctions::ACTOR_DEFINED(m_ScorchingPed->hPed) || CleoFunctions::ACTOR_DEAD(m_ScorchingPed->hPed))
     {
         Log::file << "Scorching ped became undefined or is now dead" << std::endl;
 
-        m_ScorchingPed->beeingScorched = false;
+        m_ScorchingPed->scorchStatus = SCORCH_STATUS::NONE;
         m_ScorchingPed->RemoveBlip();
         m_ScorchingPed = NULL;
         
@@ -112,10 +201,9 @@ void Pullover::UpdateScorchingPed(int dt)
 
     CVector dpPosition = m_PoliceDepartmentPositions[m_ScorchingToDpIndex];
 
-    float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(m_ScorchingPed->hPed, 0, 0, 0, &x, &y, &z);
+    auto pedPos = Mod::GetPedPosition(m_ScorchingPed->hPed);
 
-    auto distance = DistanceBetweenPoints(dpPosition, CVector(x, y, z));
+    auto distance = DistanceBetweenPoints(dpPosition, pedPos);
 
     if(distance < 3.0f)
     {
@@ -127,7 +215,8 @@ void Pullover::UpdateScorchingPed(int dt)
 
         CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(m_ScorchingPed->hPed);
 
-        m_ScorchingPed->beeingScorched = false;
+        m_ScorchingPed->scorchStatus = SCORCH_STATUS::NONE;
+        m_ScorchingPed->arrested = true;
 
         CleoFunctions::DESTROY_ACTOR(m_ScorchingPed->hPed);
         m_ScorchingPed = NULL;
@@ -147,7 +236,8 @@ void Pullover::UpdatePullingPed(int dt)
     if(!Pullover::m_PullingPed) return;
     
     auto ped = Pullover::m_PullingPed;
-    auto vehicle = ped->vehicleOwned;
+    auto hVehicle = ped->hVehicleOwned;
+    auto vehicle = Vehicles::GetVehicleByHandle(hVehicle);
 
     if(vehicle)
     {
@@ -197,7 +287,7 @@ void Pullover::PullOverPed(int hPed)
 
     m_PullingPed->shouldHandsup = true;
 
-    if(m_PullingPed->vehicleOwned) m_PullingVehicle = m_PullingPed->vehicleOwned;
+    if(m_PullingPed->hVehicleOwned > 0) m_PullingVehicle = Vehicles::GetVehicleByHandle(m_PullingPed->hVehicleOwned);
 
     CleoFunctions::WAIT(2000, []() {
         WindowPullover::CreatePullingPed();
@@ -253,7 +343,7 @@ void Pullover::TryPullOverCar()
 
     auto ped = Peds::TryCreatePed(driver);
     ped->UpdateInventory();
-    ped->vehicleOwned = vehicle;
+    ped->hVehicleOwned = vehicle->hVehicle;
     ped->AddBlip();
 
     if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
@@ -370,9 +460,9 @@ void Pullover::MakePedWait()
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX80", 0, 0, 0, 3000, 1); //aguarde no local
 
     m_PullingPed->RemoveBlip();
-    if(m_PullingPed->vehicleOwned) {
+    if(m_PullingPed->hVehicleOwned > 0) {
         m_PullingVehicle = NULL;
-        m_PullingPed->vehicleOwned->RemoveBlip();
+        Vehicles::GetVehicleByHandle(m_PullingPed->hVehicleOwned)->RemoveBlip();
     }
     
     m_PullingPed = NULL;
@@ -383,7 +473,7 @@ void Pullover::FreeVehicle()
 {
     m_PullingPed->shouldHandsup = false;
 
-    CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed, m_PullingPed->vehicleOwned->hVehicle, 20000);
+    CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed,  m_PullingPed->hVehicleOwned, 20000);
 
     m_PullingVehicle->RemoveBlip();
     m_PullingPed->RemoveBlip();
@@ -417,14 +507,14 @@ void Pullover::StartScorchingPed(Ped* ped)
 
     Pullover::m_ScorchingPed = ped;
 
-    ped->beeingScorched = true;
+    ped->scorchStatus = SCORCH_STATUS::BEEING_SCORCHED;
 
-    if(ped->vehicleOwned)
+    if(ped->hVehicleOwned > 0)
     {
-        ped->vehicleOwned->RemoveBlip();
+        Vehicles::GetVehicleByHandle(ped->hVehicleOwned)->RemoveBlip();
     }
 
-    ped->vehicleOwned = NULL;
+    ped->hVehicleOwned = 0;
     
     Log::file << "Conduzir para a DP" << std::endl;
 
@@ -465,6 +555,95 @@ void Pullover::StartScorchingPed(Ped* ped)
 
     Pullover::m_ScorchingPedBlip = CleoFunctions::CreateMarker(dpPosition.x, dpPosition.y, dpPosition.z, 0, 3, 3);
     Log::file << "blip = " << Pullover::m_ScorchingPedBlip << std::endl;
+}
+
+void Pullover::TeleportPedToPrision(Ped* ped)
+{
+    Log::file << "TeleportPedToPrision" << std::endl;
+
+    Pullover::m_PullingPed = NULL;
+    Pullover::m_PullingVehicle = NULL;
+
+    ped->arrested = true;
+
+    Log::file << "destroy actor" << std::endl;
+
+    CleoFunctions::DESTROY_ACTOR(ped->hPed);
+
+    Log::file << "fade" << std::endl;
+
+    CleoFunctions::FADE(500, 1);
+}
+
+void Pullover::CallVehicleToScorchPed(Ped* ped)
+{
+    Log::file << "Call vehicle to scorch ped" << std::endl;
+
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX85", 0, 0, 0, 2000, 1); //solicito viatura
+
+    Pullover::m_PullingPed = NULL;
+    Pullover::m_PullingVehicle = NULL;
+
+    m_PedsWaitingForScorchVehicle.push_back(ped);
+
+    ped->scorchStatus = SCORCH_STATUS::WAITING_FOR_CAR;
+
+    if(ped->hVehicleOwned > 0) Vehicles::GetVehicleByHandle(ped->hVehicleOwned)->RemoveBlip();
+    ped->hVehicleOwned = 0;
+    
+    /*
+    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+
+    009A: 3@ = create_actor_pedtype 23 model 193 at 0@ 1@ 2@ //ped
+
+    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 100.0 0.0 0.0
+    04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 4@ 5@ 6@
+
+    00A5: 7@ = create_car 596 at 4@ 5@ 6@
+    0397: enable_car 7@ siren 1
+    //0519: set_car 7@ locked 0 //wrong opcode
+    020A: set_car 0@ door_status_to 1 
+    
+    00AE: set_car 7@ traffic_behaviour_to 2
+    0186: 9@ = create_marker_above_car 7@
+        
+    0129: 8@ = create_actor_pedtype 23 model 280 in_car 7@ driverseat
+
+    04C4: store_coords_to 0@ 1@ 2@ from_actor 3@ with_offset 0.0 0.0 0.0
+
+    00A7: car 7@ drive_to 0@ 1@ 2@
+    */
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float trySpawnCarX = 0, trySpawnCarY = 0, trySpawnCarZ = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 100, 0, &trySpawnCarX, &trySpawnCarY, &trySpawnCarZ);
+
+    float spawnCarX = 0, spawnCarY = 0, spawnCarZ = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(trySpawnCarX, trySpawnCarY, trySpawnCarZ, 2, &spawnCarX, &spawnCarY, &spawnCarZ);
+
+    int car = CleoFunctions::CREATE_CAR_AT(596, spawnCarX, spawnCarY, spawnCarZ);
+    auto vehicle = Vehicles::TryCreateVehicle(car);
+    CleoFunctions::ENABLE_CAR_SIREN(car, true);
+    //CleoFunctions::SET_CAR_LOCKED(car, false);
+    CleoFunctions::SET_CAR_DOOR_STATUS(car, 1);
+    CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(car, 2);
+    vehicle->AddBlip();
+    
+    ped->waitingForScorchVehicleHandle = car;
+
+    int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 23, 280);
+
+    vehicle->hDriver = driver;
+
+    float actorX = 0, actorY = 0, actorZ = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(ped->hPed, 0, 0, 0, &actorX, &actorY, &actorZ);
+
+    float driveToX = 0, driveToY = 0, driveToZ = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(actorX, actorY, actorZ, 2, &driveToX, &driveToY, &driveToZ);
+
+    vehicle->drivingTo = CVector(driveToX, driveToY, driveToZ);
+
+    CleoFunctions::CAR_DRIVE_TO(car, driveToX, driveToY, driveToZ);
 }
 
 double Pullover::GetDistanceBetweenPedAndCar(int hChar, int hVehicle)

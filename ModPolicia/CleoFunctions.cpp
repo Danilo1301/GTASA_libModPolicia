@@ -3,6 +3,12 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(016A, FADE, ii); //016A: fade 1 time 500
+static DEFOPCODE(00A6, DESTROY_CAR, i); //00A6: destroy_car 7@
+static DEFOPCODE(020A, SET_CAR_DOOR_STATUS, ii); //020A: set_car 0@ door_status_to 1 
+static DEFOPCODE(05CA, ACTOR_ENTER_CAR_PASSENGER_SEAT, iiii); //05CA: AS_actor 3@ enter_car 7@ passenger_seat 1 time 10000
+static DEFOPCODE(00A7, CAR_DRIVE_TO, ifff); //00A7: car 7@ drive_to 0@ 1@ 2@
+static DEFOPCODE(0519, FREEZE_CAR_POSITION, ib); //0519: set_car 7@ locked 0 
 static DEFOPCODE(0165, SET_MARKER_COLOR_TO, ii); //0165: set_marker 9@ color_to 2
 static DEFOPCODE(0114, SET_ACTOR_WEAPON_AND_AMMO, iii); //0114: set_actor $PLAYER_ACTOR weapon 38 add_ammo 200000 
 static DEFOPCODE(0397, ENABLE_CAR_SIREN, ib); //0397: enable_car 6@ siren 1
@@ -117,6 +123,36 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::FADE(int time, int direction)
+{
+    sautils->ScriptCommand(&scm_FADE, time, direction);
+}
+
+void CleoFunctions::DESTROY_CAR(int car)
+{
+    sautils->ScriptCommand(&scm_DESTROY_CAR, car);
+}
+
+void CleoFunctions::SET_CAR_DOOR_STATUS(int car, int lockStatus)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_DOOR_STATUS, car, lockStatus);
+}
+
+void CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(int _char, int vehicle, int time, int seatId)
+{
+    sautils->ScriptCommand(&scm_ACTOR_ENTER_CAR_PASSENGER_SEAT, _char, vehicle, time, seatId);
+}
+
+void CleoFunctions::CAR_DRIVE_TO(int car, float x, float y, float z)
+{
+    sautils->ScriptCommand(&scm_CAR_DRIVE_TO, car, x, y, z);
+}
+
+void CleoFunctions::FREEZE_CAR_POSITION(int car, bool state)
+{
+    sautils->ScriptCommand(&scm_FREEZE_CAR_POSITION, car, state);
 }
 
 void CleoFunctions::SET_MARKER_COLOR_TO(int blip, int color)

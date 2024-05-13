@@ -46,6 +46,8 @@ Ped::~Ped()
 
 void Ped::Update(int dt)
 {
+    if(!CleoFunctions::ACTOR_DEFINED(hPed)) return;
+
     if(shouldHandsup)
     {
         if(!CleoFunctions::ACTOR_PERFORMING_ANIMATION(hPed, "handsup"))
