@@ -4,6 +4,7 @@
 #include "WindowFrisk.h"
 
 #include "../Pullover.h"
+#include "../Scorch.h"
 #include "../Log.h"
 #include "../CleoFunctions.h"
 #include "../Vehicles.h"
@@ -246,21 +247,21 @@ void WindowPullover::CreateScorchWindow()
     button_conduzir->onClick = [ped]()
     {
         Remove();
-        Pullover::StartScorchingPed(ped);
+        Scorch::StartScorchingPed(ped);
     };
 
     auto button_callVehicle = window->AddButton(83, 0, 0);
     button_callVehicle->onClick = [ped]()
     {
         Remove();
-        Pullover::CallVehicleToScorchPed(ped);
+        Scorch::CallVehicleToScorchPed(ped);
     };
 
     auto button_teleport = window->AddButton(84, 0, 0);
     button_teleport->onClick = [ped]()
     {
         Remove();
-        Pullover::TeleportPedToPrision(ped);
+        Scorch::TeleportPedToPrision(ped);
     };
 }
 

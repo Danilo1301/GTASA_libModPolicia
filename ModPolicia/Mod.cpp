@@ -13,6 +13,7 @@
 #include "ModConfig.h"
 #include "Callouts.h"
 #include "Vehicles.h"
+#include "Scorch.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -56,6 +57,10 @@ void Mod::Update(int dt)
     if(logFunctions) Log::file << "pullover" << std::endl;
 
     Pullover::Update(dt);
+   
+    if(logFunctions) Log::file << "scorch" << std::endl;
+
+    Scorch::Update(dt);
    
     if(logFunctions) Log::file << "callouts" << std::endl;
    
@@ -210,4 +215,9 @@ CVector Mod::GetPedPosition(int hPed)
     CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, 0, 0, 0, &x, &y, &z);
 
     return CVector(x, y, z);
+}
+
+bool Mod::IsActorAliveAndDefined(int hPed)
+{
+    return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);
 }

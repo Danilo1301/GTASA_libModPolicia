@@ -6,14 +6,6 @@
 
 #include "Inventory.h"
 
-enum SCORCH_STATUS {
-    NOT_SCORCHING = 0,
-    WAITING_FOR_CAR,
-    ENTERING_CAR,
-    BEEING_SCORCHED,
-    BEEING_DRIVEN_TO_FAR_AWAY
-};
-
 class Ped {
 public:
     static float CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME;
@@ -45,8 +37,6 @@ public:
     bool shouldHandsup = false;
 
     bool isWanted = false;
-
-    SCORCH_STATUS scorchStatus = SCORCH_STATUS::NOT_SCORCHING;
 
     bool arrested = false;
 

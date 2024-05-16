@@ -27,4 +27,5 @@ public:
 
     static CVector GetCarPosition(int hVehicle);
     static CVector GetPedPosition(int hPed);
+    static bool IsActorAliveAndDefined(int hPed);
 };

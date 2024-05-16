@@ -7,6 +7,7 @@
 #include "Log.h"
 #include "Pullover.h"
 #include "Chase.h"
+#include "Scorch.h"
 
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
@@ -100,7 +101,7 @@ void Callouts::UpdateCriminals(int dt)
             continue;
         }
 
-        if(criminal->scorchStatus == SCORCH_STATUS::BEEING_SCORCHED || criminal->scorchStatus == SCORCH_STATUS::WAITING_FOR_CAR)
+        if(Scorch::IsPedBeeingScorched(criminal->hPed))
         {
             Log::file << "Criminal is beeing scorched" << std::endl;
             removeCriminals.push_back(criminal);

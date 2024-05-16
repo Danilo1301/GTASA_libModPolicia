@@ -69,8 +69,11 @@ Initial release
 [X] ADD: gang shots fired callout
 [X] FIX: backup cars stand still if chase ends
 
+[?]
+[X] police car menu
+[X] scorch more than one ped to pd
+
 [] killing the suspect while he waits for police car should make the car leave (or when you transport him, oh he teleports)
-[] police menu
 [] issue ticket
 [] call backup for callouts
 [] add callout: stolen vehicle

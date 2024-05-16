@@ -12,6 +12,13 @@ enum CHASE_STATUS {
     MOVING_AWAY_FROM_CHASE
 };
 
+enum ACTION_STATUS {
+    ACTION_NONE = 0,
+
+    SCORCH_GOING_TO_PED,
+    SCORCH_WAITING_FOR_PED_TO_ENTER
+};
+
 class Vehicle {
 public:
     static float CHANCE_VEHICLE_BEEING_STOLEN;
@@ -33,6 +40,8 @@ public:
     CVector drivingTo = CVector(0, 0, 0);
 
     CHASE_STATUS chaseStatus = CHASE_STATUS::NOT_CHASING;
+
+    ACTION_STATUS actionStatus = ACTION_STATUS::ACTION_NONE;
 
     Vehicle(int hVehicle);
 	~Vehicle();

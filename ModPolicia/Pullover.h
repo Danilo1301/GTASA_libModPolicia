@@ -5,7 +5,6 @@
 #include "Ped.h"
 #include "Vehicle.h"
 
-//change to FRISK_TYPE
 enum FRISK_TYPE {
     FRISK_NONE,
     FRISK_PED,
@@ -20,35 +19,27 @@ public:
 
     static Ped* m_PullingPed;
     static Vehicle* m_PullingVehicle;
-    static Ped* m_ScorchingPed;
-    static int m_ScorchingPedSphere;
-    static int m_ScorchingPedBlip;
-    static int m_ScorchingToDpIndex;
-
-    static std::vector<Ped*> m_PedsWaitingForScorchVehicle;
-
-    static std::vector<CVector> m_PoliceDepartmentPositions;
 
     static FRISK_TYPE m_FriskType;
 
     static void Update(int dt);
     static void UpdateWidgetPress(int dt);
-    static void UpdateScorchingPed(int dt);
     static void UpdatePullingPed(int dt);
 
     static void PullOverPed(int hPed);
     static void TryPullOverCar();
+
     static int FindAimingPed();
+
     static void FriskPed();
     static void FriskVehicle();
+
     static void FreePed();
     static void MakePedWait();
     static void FreeVehicle();
+
     static void AskPedToLeaveCar(Ped* ped);
-    static void StartScorchingPed(Ped* ped);
-    static void TeleportPedToPrision(Ped* ped);
-    static void CallVehicleToScorchPed(Ped* ped);
+
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);
-    static int GetClosestPoliceDepartment();
 };
