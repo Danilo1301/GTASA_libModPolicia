@@ -35,6 +35,8 @@ public:
 
 	bool waitingForTouchRelease = false;
 
+	bool canBeRemoved = false;
+
 	Window();
 
 	void AddItem(Item* item);

@@ -58,7 +58,7 @@ void Item::Update()
 		if (Input::hasTouchBeenReleasedThisFrame && !waitingForTouchRelease)
 		{
 			if (type == eItemType::ITEM_BUTTON || type == eItemType::CHECKBOX)
-			{
+			{	
 				if(onClick) onClick();
 			}
 		}
@@ -79,7 +79,6 @@ void Item::Update()
 	if (btnLeft) btnLeft->Update();
 	if (btnRight) btnRight->Update();
 	
-
 	//
 
 	if (type == eItemType::ITEM_OPTIONS || type == eItemType::ITEM_INT_RANGE)
@@ -128,9 +127,7 @@ void Item::Update()
 		}
 	}
 
-
 	//
-
 
 	if (type == eItemType::ITEM_FLOAT_RANGE)
 	{
@@ -165,8 +162,6 @@ void Item::Update()
 	}
 
 	//
-
-	
 }
 
 void Item::Draw()

@@ -16,7 +16,10 @@ enum ACTION_STATUS {
     ACTION_NONE = 0,
 
     SCORCH_GOING_TO_PED,
-    SCORCH_WAITING_FOR_PED_TO_ENTER
+    SCORCH_WAITING_FOR_PED_TO_ENTER,
+
+    WAITING_FOR_PEDS_TO_ENTER_CAR,
+    LEAVING_SCENE
 };
 
 class Vehicle {
@@ -35,6 +38,7 @@ public:
     Inventory* inventory = new Inventory();
 
     int hDriver = 0;
+    std::vector<int> hPassengers;
 
     CVector fromPos = CVector(0, 0, 0);
     CVector drivingTo = CVector(0, 0, 0);
@@ -47,6 +51,7 @@ public:
 	~Vehicle();
 
     void Update(int dt);
+    void UpdateLeaveScene();
     void UpdateCarMenuWidget();
 
     void UpdateInventory();
@@ -58,4 +63,6 @@ public:
     int AddBlip();
     int AddBlip(int color);
     void RemoveBlip();
+
+    void MakePedsEnterVehicleAndLeaveScene();
 };

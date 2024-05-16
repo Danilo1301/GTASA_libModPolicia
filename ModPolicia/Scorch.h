@@ -13,6 +13,8 @@ struct ScorchPedData {
 
     int sphere = 0;
     int blip = 0;
+
+    Vehicle* vehicle = NULL;
 };
 
 class Scorch {

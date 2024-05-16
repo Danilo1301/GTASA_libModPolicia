@@ -36,8 +36,78 @@ void Vehicle::Update(int dt)
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
 
     UpdateCarMenuWidget();
+
+    if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
+
+    UpdateLeaveScene();
 }
 
+void Vehicle::UpdateLeaveScene()
+{
+    if(actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR)
+    {
+        int requiredPeds = 0;
+        int pedsOnCar = 0;
+        
+        if(Mod::IsActorAliveAndDefined(hDriver))
+        {
+            requiredPeds++;
+
+            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(hDriver)) pedsOnCar++;
+        }
+
+        int seatId = 0;
+        for(auto passenger : hPassengers)
+        {
+            if(Mod::IsActorAliveAndDefined(passenger))
+            {
+                requiredPeds++;
+
+                if(CleoFunctions::IS_CHAR_IN_ANY_CAR(passenger)) pedsOnCar++;
+            }
+            seatId++;
+        }
+
+        Log::file << "waiting: " << pedsOnCar << " / " << requiredPeds << std::endl;
+
+        if(requiredPeds == pedsOnCar)
+        {
+            actionStatus = ACTION_STATUS::LEAVING_SCENE;
+
+            Log::file << "leaving scene" << std::endl;
+
+            float findX = 0, findY = 0, findZ = 0;
+            CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, 0, 200, 0, &findX, &findY, &findZ);
+            
+            CleoFunctions::CAR_DRIVE_TO(hVehicle, findX, findY, findZ);
+
+            fromPos = Mod::GetCarPosition(hVehicle);
+        }
+    }
+
+    if(actionStatus == ACTION_STATUS::LEAVING_SCENE)
+    {
+        auto distance = DistanceBetweenPoints(fromPos, Mod::GetCarPosition(hVehicle));
+
+        if(distance > 80)
+        {
+            actionStatus = ACTION_STATUS::ACTION_NONE;
+
+            Log::file << "destroying vehicle and passengers" << std::endl;
+
+            if(Mod::IsActorAliveAndDefined(hDriver)) CleoFunctions::DESTROY_ACTOR(hDriver);
+
+            for(auto passenger : hPassengers)
+            {
+                if(Mod::IsActorAliveAndDefined(passenger)) CleoFunctions::DESTROY_ACTOR(passenger);
+            }
+                
+            CleoFunctions::DESTROY_CAR(hVehicle);
+
+            Log::file << "destroyed" << std::endl;
+        }
+    }
+}
 
 void Vehicle::UpdateCarMenuWidget()
 {
@@ -140,4 +210,26 @@ void Vehicle::RemoveBlip()
 
     CleoFunctions::DISABLE_MARKER(blip);
     blip = 0;
+}
+
+void Vehicle::MakePedsEnterVehicleAndLeaveScene()
+{
+    Log::file << "MakePedsEnterVehicleAndLeaveScene" << std::endl;
+
+    actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR;
+
+    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hDriver))
+    {
+        CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(hDriver, hVehicle, 10000);
+    }
+
+    int seatId = 0;
+    for(auto passenger : hPassengers)
+    {
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(passenger))
+        {
+            CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(passenger, hVehicle, 10000, seatId);
+        }
+        seatId++;
+    }
 }

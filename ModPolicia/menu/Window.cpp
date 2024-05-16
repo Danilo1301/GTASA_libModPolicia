@@ -389,7 +389,9 @@ void Window::GoToPrevWindow()
 
 void Window::RemoveThisWindow()
 {
-	Menu::RemoveWindow(this);
+	canBeRemoved = true;
+	Log::file << "Set window to be removed" << std::endl;
+	//Menu::RemoveWindow(this);
 }
 
 int Window::GetMaxPages()

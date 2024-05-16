@@ -6,6 +6,9 @@
 /*
 [1.0.0]
 default
+
+[1.0.1]
+added canBeRemoved (to fix a crash)
 */
 std::string Menu::m_Version = "1.0.0";
 
@@ -186,10 +189,23 @@ void Menu::Update(int dt)
 
     m_MainWindow->Update();
 
+    std::vector<Window*> windowsToRemove; //to fix a crash that i still cant believe it never happened before
+
     for (auto window : m_Windows)
     {
-        Log::file << "w " << window << std::endl;
         window->Update();
+
+        if(window->canBeRemoved) windowsToRemove.push_back(window);
+    }
+
+    for (auto window : windowsToRemove)
+    {
+        RemoveWindow(window);
+    }
+
+    if(windowsToRemove.size() > 0)
+    {
+        Log::file << "Removed " << windowsToRemove.size() << " windows" << std::endl;
     }
 }
 

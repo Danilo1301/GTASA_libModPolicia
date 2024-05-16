@@ -255,6 +255,7 @@ void WindowPullover::CreateScorchWindow()
     {
         Remove();
         Scorch::CallVehicleToScorchPed(ped);
+        Log::file << "end of fn" << std::endl;
     };
 
     auto button_teleport = window->AddButton(84, 0, 0);
