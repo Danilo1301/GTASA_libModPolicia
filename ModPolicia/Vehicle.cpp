@@ -3,6 +3,9 @@
 #include "Log.h"
 #include "Mod.h"
 #include "CleoFunctions.h"
+#include "Widgets.h"
+
+#include "windows/WindowCarMenu.h"
 
 extern void* (*GetVehicleFromRef)(int);
 
@@ -15,12 +18,47 @@ Vehicle::Vehicle(int hVehicle)
 
     this->pVehicle = (CVehicle*)GetVehicleFromRef(hVehicle);
 
+    this->modelId = CleoFunctions::GET_CAR_MODEL(hVehicle);
+
     this->isStolen = Mod::CalculateProbability(CHANCE_VEHICLE_BEEING_STOLEN);
+
+    Log::file << "Vehicle constructor " << hVehicle << ", model " << modelId << std::endl;
 }
 
 Vehicle::~Vehicle()
 {
     
+}
+
+
+void Vehicle::Update(int dt)
+{
+    if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
+
+    UpdateCarMenuWidget();
+}
+
+
+void Vehicle::UpdateCarMenuWidget()
+{
+    if(!IsPoliceCar()) return;
+    
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
+    
+    auto distance = DistanceBetweenPoints(Mod::GetCarPosition(hVehicle), Mod::GetPedPosition(playerActor));
+
+    if(distance < 2.0f)
+    {
+        if(!WindowCarMenu::m_Window)
+        {
+            if(Widgets::IsWidgetJustPressed(69))
+            {
+                WindowCarMenu::Create();
+            }
+        }
+    }
 }
 
 void Vehicle::UpdateInventory()
@@ -54,6 +92,18 @@ void Vehicle::UpdateInventory()
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
         stolenCellphone->isSlotenCellphone = true;
     }
+}
+
+bool Vehicle::IsPoliceCar()
+{
+    if(modelId == 596) return true;
+    if(modelId == 597) return true;
+    if(modelId == 598) return true;
+    if(modelId == 599) return true;
+    if(modelId == 601) return true;
+    if(modelId == 528) return true;
+    if(modelId == 490) return true;
+    return false;
 }
 
 bool Vehicle::HasIlegalStuff()

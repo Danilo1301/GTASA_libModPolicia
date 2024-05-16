@@ -7,11 +7,14 @@ public:
 	static CRGBA COLOR_BUTTON_DEFAULT;
 	static CRGBA COLOR_TITLE_BOX;
 	static CRGBA COLOR_BACKGROUND;
-	
+
+	static CVector2D m_DefaultWindowPosition;
+	static float m_DefaultWindowWidth;
+
 	std::vector<Item*> items;
 	std::vector<Item*> floatingItems;
 
-	float width = 320.0f;
+	float width;
 	float titleHeight = 20.0f;
 
 	int titleGtxId = 0;

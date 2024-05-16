@@ -3,7 +3,11 @@
 #include "../Log.h"
 #include "../Input.h"
 
-std::string Menu::m_Version = "1.2.2";
+/*
+[1.0.0]
+default
+*/
+std::string Menu::m_Version = "1.0.0";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);
 
@@ -18,6 +22,7 @@ Window* Menu::AddWindow(int gxtId)
 {
     Window* window = new Window();
     window->titleGtxId = gxtId;
+    window->position = Window::m_DefaultWindowPosition;
 
     m_Windows.push_back(window);
 
@@ -67,8 +72,14 @@ Window* Menu::AddPositionWindow(Window* parent, CVector* vec)
 }
 
 Window* Menu::AddPosition2DWindow(Window* parent, CVector2D* vec, float min, float max, float addBy, std::function<void()> onChange)
-{
-    Window* window = AddWindow(9, parent);
+{   
+    Window* window = NULL;
+    if(parent)
+    {
+        window = AddWindow(9, parent);
+    } else {
+        window = AddWindow(9);
+    }
     window->width = 200.0f;
     window->position = { 10, 200 };
     window->showPageControls = true;
@@ -173,11 +184,11 @@ void Menu::Update(int dt)
     m_PopUp->timeLeft -= dt;
     if (m_PopUp->timeLeft < 0) m_PopUp->timeLeft = 0;
 
-
     m_MainWindow->Update();
 
     for (auto window : m_Windows)
     {
+        Log::file << "w " << window << std::endl;
         window->Update();
     }
 }

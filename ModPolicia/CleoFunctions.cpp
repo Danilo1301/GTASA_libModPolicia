@@ -3,6 +3,9 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(09C7, CHANGE_PLAYER_MODEL_TO, ii); //09C7: change_player 0 model_to 280
+static DEFOPCODE(0441, GET_CAR_MODEL, iv); //0441: 7@ = car $47 model 
+static DEFOPCODE(01C8, CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, iiiiv); //01C8: $P2 = create_actor_pedtype 23 model 280 in_car $POLICE_CAR passenger_seat 0 
 static DEFOPCODE(01B2, GIVE_ACTOR_WEAPON, iii); //01B2: give_actor 3@ weapon 22 ammo 10000
 static DEFOPCODE(03E5, SHOW_TEXT_BOX, s); //03E5: show_text_box 'MPFX86'
 static DEFOPCODE(0726, HELI_FOLLOW, iiif); //0726: heli 3@ follow_actor -1 follow_car 5@ radius 15.0
@@ -50,6 +53,7 @@ static DEFOPCODE(0407, STORE_COORDS_FROM_CAR_WITH_OFFSET, ifffvvv); //0407: stor
 static DEFOPCODE(04C4, STORE_COORDS_FROM_ACTOR_WITH_OFFSET, ifffvvv); //04C4: store_coords_to 4@ 5@ 6@ from_actor $PLAYER_ACTOR with_offset 1.0 2.0 0.0 
 static DEFOPCODE(073E, GET_CAR_IN_SPHERE, ffffiv); //073E: get_car_in_sphere -1577.942 52.6333 16.3281 radius 4.0 model -1 handle_as $47 
 static DEFOPCODE(00DF, IS_CHAR_IN_ANY_CAR, i); //00DF: actor $PLAYER_ACTOR driving 
+static DEFOPCODE(01C3, REMOVE_REFERENCES_TO_CAR, i); //01C3: remove_references_to_car $1144 
 static DEFOPCODE(01C2, REMOVE_REFERENCES_TO_ACTOR, i); //01C2: remove_references_to_actor 2@
 static DEFOPCODE(01B4, SET_PLAYER_CAN_MOVE, ib); //01B4: set_player $PLAYER_CHAR can_move 1 
 static DEFOPCODE(0812, PERFORM_ANIMATION_AS_ACTOR, issfbbbbi); //0812: AS_actor 0@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
@@ -90,6 +94,10 @@ void CleoFunctions::Update(int dt)
 
     for(auto waitFunction : completed) {
         waitFunction->callback();
+        
+    }
+
+    for(auto waitFunction : completed) {
         RemoveWaitFunction(waitFunction);
     }
 }
@@ -112,8 +120,6 @@ WaitFunction* CleoFunctions::AddWaitForFunction(std::function<bool()> testFn, st
     waitFunction->testFn = testFn;
     m_WaitFunctions.push_back(waitFunction);
 
-    Update(0);
-
     return waitFunction;
 }
 
@@ -128,6 +134,25 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::CHANGE_PLAYER_MODEL_TO(int player, int modelId)
+{
+    sautils->ScriptCommand(&scm_CHANGE_PLAYER_MODEL_TO, player, modelId);
+}
+
+int CleoFunctions::GET_CAR_MODEL(int car)
+{
+    int modelId = 0;
+    sautils->ScriptCommand(&scm_GET_CAR_MODEL, car, &modelId);
+    return modelId;
+}
+
+int CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, int pedType, int modelId, int seatId)
+{
+    int ped = 0;
+    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, vehicle, pedType, modelId, seatId, &ped);
+    return ped;
 }
 
 void CleoFunctions::GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo)
@@ -394,6 +419,11 @@ bool CleoFunctions::IS_CHAR_IN_ANY_CAR(int _char)
 {
     bool result = sautils->ScriptCommand(&scm_IS_CHAR_IN_ANY_CAR, _char);
     return result;
+}
+
+void CleoFunctions::REMOVE_REFERENCES_TO_CAR(int car)
+{
+    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_CAR, car);
 }
 
 void CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(int _char)

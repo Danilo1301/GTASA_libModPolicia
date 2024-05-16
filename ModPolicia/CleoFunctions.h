@@ -23,6 +23,9 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void CHANGE_PLAYER_MODEL_TO(int player, int modelId);
+    static int GET_CAR_MODEL(int car);
+    static int CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, int pedType, int modelId, int seatId);
     static void GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo);
     static void SHOW_TEXT_BOX(const char* key);
     static void HELI_FOLLOW(int heli, int _char, int vehicle, float radius);
@@ -35,6 +38,7 @@ public:
     static void CAR_DRIVE_TO(int car, float x, float y, float z);
     static void FREEZE_CAR_POSITION(int car, bool state);
     static void SET_MARKER_COLOR_TO(int blip, int color);
+    //doesnt work for some reason
     static void SET_ACTOR_WEAPON_AND_AMMO(int _char, int weaponType, int ammo);
     static void ENABLE_CAR_SIREN(int car, bool state);
     static bool ACTOR_DEAD(int actor);
@@ -70,6 +74,7 @@ public:
     static void STORE_COORDS_FROM_ACTOR_WITH_OFFSET(int _char, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z);
     static int GET_CAR_IN_SPHERE(float x, float y, float z, float radius, int modelVehicle);
     static bool IS_CHAR_IN_ANY_CAR(int _char);
+    static void REMOVE_REFERENCES_TO_CAR(int car);
     static void REMOVE_REFERENCES_TO_ACTOR(int _char);
     static void SET_PLAYER_CAN_MOVE(int player, bool state);
     static void PERFORM_ANIMATION_AS_ACTOR(int _char, const char* animationName, const char* animationFile, float frameDelta, bool loop, bool lockX, bool lockY, bool lockF, int time);

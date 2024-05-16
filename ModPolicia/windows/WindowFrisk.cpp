@@ -132,7 +132,6 @@ void WindowFrisk::CreateFriskCar()
     auto vehicle = Pullover::m_PullingVehicle;
 
     auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
 
     for(auto item : vehicle->inventory->items)

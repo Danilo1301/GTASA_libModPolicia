@@ -19,6 +19,7 @@ public:
 
     int hVehicle;
     CVehicle* pVehicle = NULL;
+    int modelId;
 
     int blip = 0;
     
@@ -36,8 +37,13 @@ public:
     Vehicle(int hVehicle);
 	~Vehicle();
 
+    void Update(int dt);
+    void UpdateCarMenuWidget();
+
     void UpdateInventory();
 
+    bool IsPoliceCar();
+    
     bool HasIlegalStuff();
 
     int AddBlip();

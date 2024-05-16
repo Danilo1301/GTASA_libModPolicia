@@ -17,7 +17,6 @@ void WindowPullover::CreatePullingPed()
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
     
     auto text_id = window->AddText(27, CRGBA(255, 255, 255));
@@ -217,7 +216,6 @@ void WindowPullover::CreatePullingCar()
     auto ped = Pullover::m_PullingPed;
 
     auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
     
     auto button_sairdocarro = window->AddButton(58);
@@ -242,7 +240,6 @@ void WindowPullover::CreateScorchWindow()
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
 
     auto button_conduzir = window->AddButton(64, 0, 0);

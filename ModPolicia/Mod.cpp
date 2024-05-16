@@ -12,6 +12,7 @@
 #include "Chase.h"
 #include "ModConfig.h"
 #include "Callouts.h"
+#include "Vehicles.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -38,26 +39,41 @@ void Mod::Update(int dt)
 
     //
 
-    //Log::file << "1" << std::endl;
+    bool logFunctions = true;
+
+    if(logFunctions) Log::file << "peds ------------------" << std::endl;
 
     Peds::Update(dt);
 
-    //Log::file << "2" << std::endl;
+    if(logFunctions) Log::file << "vehicles" << std::endl;
+
+    Vehicles::Update(dt);
+
+    if(logFunctions) Log::file << "chase" << std::endl;
 
     Chase::Update(dt);
-    //Log::file << "3" << std::endl;
+
+    if(logFunctions) Log::file << "pullover" << std::endl;
+
     Pullover::Update(dt);
-    //Log::file << "4" << std::endl;
+   
+    if(logFunctions) Log::file << "callouts" << std::endl;
+   
     Callouts::Update(dt);
 
-    //Log::file << "5" << std::endl;
+    if(logFunctions) Log::file << "cleofuncitions" << std::endl;
+
     CleoFunctions::Update(dt);
 
     WindowDocument::Draw();
 
+    if(logFunctions) Log::file << "menu" << std::endl;
+
     Menu::Update(dt);
     
     Menu::Draw();
+
+    if(logFunctions) Log::file << "input" << std::endl;
 
     Input::Update(dt);
 
@@ -127,7 +143,7 @@ void Mod::Update(int dt)
     }
     */
 
-   //Log::file << "6 end" << std::endl;
+    if(logFunctions) Log::file << "end ---------" << std::endl;
 }
 
 void Mod::Load()

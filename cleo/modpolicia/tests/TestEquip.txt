@@ -1,0 +1,68 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+0000:
+$INDEX = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    $INDEX += 1
+    
+    if $INDEX == 1
+    then
+        02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 1000 flag 1
+        
+        09C7: change_player 0 model_to 280
+        01B2: give_actor $PLAYER_ACTOR weapon 31 ammo 10000    
+        01B2: give_actor $PLAYER_ACTOR weapon 22 ammo 10000
+        
+        wait 1000
+    end
+    
+    if $INDEX == 2
+    then
+        02FF: show_text_3numbers GXT 'MPFX1' numbers 2 0 0 time 1000 flag 1
+        
+        wait 1000
+    end
+    
+    if $INDEX == 3
+    then
+       $INDEX = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+0247: load_model 280
+0247: load_model 356
+0247: load_model 346
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if and
+    0248: model 280 available
+    0248: model 356 available
+    0248: model 346 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

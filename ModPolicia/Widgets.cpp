@@ -42,7 +42,7 @@ bool Widgets::IsWidgetPressed(int widgetId)
 
     WidgetData* data = &m_Widgets[widgetId];
 
-    Log::file << "[Widgets] Widget pressed: " << (pressed ? "1" : "0" ) << std::endl;
+    //Log::file << "[Widgets] Widget pressed: " << (pressed ? "1" : "0" ) << std::endl;
     //Log::file << "[Widgets] Widget data pressed: " << (data->isPressed ? "1" : "0" ) << std::endl;
 
     if(pressed)

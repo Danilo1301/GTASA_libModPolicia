@@ -8,7 +8,6 @@ Window* WindowBackup::m_Window = NULL;
 void WindowBackup::Create()
 {
     auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
 
     auto button_normalBackup = window->AddButton(75);

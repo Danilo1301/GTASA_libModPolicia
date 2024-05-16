@@ -7,9 +7,14 @@ CRGBA Window::COLOR_BUTTON_DEFAULT = CRGBA(30, 30, 30);
 CRGBA Window::COLOR_TITLE_BOX = CRGBA(58, 58, 58);
 CRGBA Window::COLOR_BACKGROUND = CRGBA(0, 0, 0);
 
+CVector2D Window::m_DefaultWindowPosition = CVector2D(200, 200);
+float Window::m_DefaultWindowWidth = 320.0f;
+
 Window::Window()
 {
 	Log::file << "[Window] Constructor" << std::endl;
+
+	width = m_DefaultWindowWidth;
 
 	btnLeft = new Item(eItemType::ITEM_BUTTON);
 	btnRight = new Item(eItemType::ITEM_BUTTON);
