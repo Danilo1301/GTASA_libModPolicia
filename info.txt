@@ -76,9 +76,10 @@ Initial release
 [X] FIX: scorch vehicle leaves when ped dies or becomes undefined
 [X] ADD: backup for callouts
 [X] FIX: 2 + horn
+[X] ADD: variety of skins
+[.] ADD: callout: stolen vehicle
 
 [] issue ticket
-[] add callout: stolen vehicle
 
 ---------------------------
 Sugestoes:

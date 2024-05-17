@@ -218,18 +218,95 @@ void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 
     actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR;
 
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hDriver))
+    CheckPassengers();
+    
+    if(!Mod::IsActorAliveAndDefined(hDriver)) ReplaceDriverByAnyPassenger();
+
+    if(!CleoFunctions::CAR_DEFINED(hDriver))
     {
-        CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(hDriver, hVehicle, 10000);
+        Log::file << "Car is not defined" << std::endl;
+        actionStatus = ACTION_STATUS::ACTION_NONE;
+        return;
+    }
+
+    if(Mod::IsActorAliveAndDefined(hDriver))
+    {
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hDriver))
+        {
+            CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(hDriver, hVehicle, 10000);
+        }
     }
 
     int seatId = 0;
     for(auto passenger : hPassengers)
     {
-        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(passenger))
+        if(Mod::IsActorAliveAndDefined(passenger))
         {
-            CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(passenger, hVehicle, 10000, seatId);
+            if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(passenger))
+            {
+                CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(passenger, hVehicle, 10000, seatId);
+            }
         }
         seatId++;
     }
+}
+
+void Vehicle::CheckPassengers()
+{
+    Log::file << "CheckPassengers" << std::endl;
+
+    std::vector<int> passengersToRemove;
+
+    Log::file << "Before deleting:" << std::endl;
+    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+
+    for(auto passenger : hPassengers)
+    {
+        if(!Mod::IsActorAliveAndDefined(passenger))
+        {
+            passengersToRemove.push_back(passenger);
+        }
+    }
+
+    for(auto passenger : passengersToRemove)
+    {
+        auto it = std::find(hPassengers.begin(), hPassengers.end(), passenger);
+        hPassengers.erase(it);
+    }
+
+    Log::file << "After deleting:" << std::endl;
+    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+}
+
+void Vehicle::ReplaceDriverByAnyPassenger()
+{
+    Log::file << "ReplaceDriverByAnyPassenger" << std::endl;
+
+    bool changedDriver = false;
+
+    Log::file << "Before deleting:" << std::endl;
+    Log::file << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
+    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+
+    for(auto passenger : hPassengers)
+    {
+        if(Mod::IsActorAliveAndDefined(passenger))
+        {
+            Log::file << "Passenger " << passenger << " is able to be driver" << std::endl;
+
+            hDriver = passenger;
+            changedDriver = true;
+            break;
+        }
+    }
+
+    if(changedDriver)
+    {
+        auto it = std::find(hPassengers.begin(), hPassengers.end(), hDriver);
+        hPassengers.erase(it);
+    }
+
+    Log::file << "After deleting:" << std::endl;
+    Log::file << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
+    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
 }

@@ -107,14 +107,24 @@ end
 
 //male
 0247: load_model 19
+0247: load_model 7
+0247: load_model 29
 
 //female
 0247: load_model 193
+0247: load_model 12
+0247: load_model 13
 
 //gang
 0247: load_model 102
 0247: load_model 103
 0247: load_model 104
+0247: load_model 108
+0247: load_model 109
+0247: load_model 110
+0247: load_model 114
+0247: load_model 115
+0247: load_model 116 
 
 //weapons
 0247: load_model 346 //pistol
@@ -130,7 +140,6 @@ jump @PRELOAD
 //----------------------------------------------------
 
 :PRELOAD
-
 if and
     0248: model 596 available //copcarla
     0248: model 280 available //ls
@@ -150,16 +159,27 @@ if and
     
     //male
     0248: model 19 available
-    
-    //female
-    0248: model 193 available
-    
-     //gang
-    0248: model 102 available
+    0248: model 7 available
+    0248: model 29 available
 jf @PRELOAD
 if and
+    //female
+    0248: model 193 available
+    0248: model 12 available
+    0248: model 13 available
+    
+     //gang
+    0248: model 102 available    
     0248: model 103 available
     0248: model 104 available
+    0248: model 108 available
+    0248: model 109 available
+jf @PRELOAD
+if and
+    0248: model 110 available
+    0248: model 114 available
+    0248: model 115 available
+    0248: model 116 available
     
     //weapons
     0248: model 346 available

@@ -62,4 +62,7 @@ public:
     void RemoveBlip();
 
     void MakePedsEnterVehicleAndLeaveScene();
+
+    void CheckPassengers();
+    void ReplaceDriverByAnyPassenger();
 };

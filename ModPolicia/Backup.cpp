@@ -15,7 +15,7 @@ std::vector<Vehicle*> Backup::m_BackupVehicles;
 BACKUP_TYPE Backup::m_BackupType = BACKUP_TYPE::BACKUP_CHASE;
 std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {596, 280, true, 22}, //LS
-    {523, 193, false, 22}, //Bike
+    {523, 284, false, 22}, //Bike
     {490, 286, true, 31}, //FBI
     {597, 281, true, 22}, //SF
     {598, 282, true, 22} //LV
@@ -53,6 +53,11 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
                 Log::file << "making backup stop chase and move away from scene, removing vehicle from backup list" << std::endl;
 
                 vehicle->MakePedsEnterVehicleAndLeaveScene();
+
+                //remove blips
+                vehicle->RemoveBlip();
+                Peds::GetPedByHandle(vehicle->hDriver)->RemoveBlip();
+                for(auto passenger : vehicle->hPassengers) Peds::GetPedByHandle(passenger)->RemoveBlip();
 
                 removeBackup.push_back(vehicle);
             }
@@ -93,22 +98,15 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
 
                 vehicle->MakePedsEnterVehicleAndLeaveScene();    
 
+                //remove blips
+                vehicle->RemoveBlip();
+                Peds::GetPedByHandle(vehicle->hDriver)->RemoveBlip();
+                for(auto passenger : vehicle->hPassengers) Peds::GetPedByHandle(passenger)->RemoveBlip();
+
                 removeBackup.push_back(vehicle);
             }
             continue;
         }
-
-        /*
-        if(vehicle->actionStatus == ACTION_STATUS::ACTION_NONE)
-        {
-            Log::file << "vehicle is ACTION_NONE, removing from backup list" << std::endl;
-            Log::file << "current total vehiles " << m_BackupVehicles.size() << std::endl;
-
-            vehicle->RemoveBlip();
-
-            removeBackup.push_back(vehicle);
-        }
-        */
     }
 
     //remove vehicles
@@ -154,21 +152,6 @@ void Backup::UpdateCalloutBackup(int dt)
 void Backup::CallBackupCar(BackupVehicle backupVehicle)
 {
     Log::file << "call backup vehicleModelId: " << backupVehicle.vehicleModelId << ", pedModelId: " << backupVehicle.pedModelId << std::endl;
-
-    /*
-    04D3: get_nearest_car_path_coords_from 0@ 1@ 2@ type 2 store_to 3@ 4@ 5@
-
-    00A5: 6@ = create_car #COPCARLA at 3@ 4@ 5@
-    0129: 10@ = create_actor_pedtype 23 model #LAPD1 in_car 6@ driverseat
-            
-    0397: enable_car 6@ siren 1
-    00AD: set_car 6@ max_speed_to 50.0
-    0423: set_car 6@ improved_handling_to 1.5
-    00AE: set_car 6@ traffic_behaviour_to 2  
-
-    07F8: car 6@ follow_car 8@ radius 8.0
-    */
-
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -216,7 +199,6 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
         pedPassenger->AddBlip(2);
         vehicle->hPassengers.push_back(passenger);
 
-
         CleoFunctions::GIVE_ACTOR_WEAPON(passenger, backupVehicle.weaponId, 10000);
     }
 
@@ -252,29 +234,6 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
 
 void Backup::CallBackupHeli()
 {
-    /*
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 50.0
-    00A5: 3@ = create_car 497 at 0@ 1@ 2@
-    0129: 7@ = create_actor_pedtype 23 model 280 in_car 3@ driverseat 
-    0825: set_helicopter 3@ instant_rotor_start
-    0918: set_car 3@ engine_operation 1 
-    
-    0186: 4@ = create_marker_above_car 3@
-
-    02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 3000 flag 1
-
-    04C4: store_coords_to 0@ 1@ 2@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
-
-    073E: get_car_in_sphere 0@ 1@ 2@ radius 20.0 model -1 handle_as 5@
-
-    if 056E: car 5@ defined
-    then
-        0186: 6@ = create_marker_above_car 5@
-        
-        0726: heli 3@ follow_actor -1 follow_car 5@ radius 15.0 
-        03E5: show_text_box 'MPFX86' 
-    end
-    */
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float spawnX = 0, spawnY = 0, spawnZ = 0;
@@ -286,7 +245,7 @@ void Backup::CallBackupHeli()
     CleoFunctions::SET_CAR_ENGINE_OPERATION(heli, true);
 
     auto heliVehicle = Vehicles::TryCreateVehicle(heli);
-    //heliVehicle->AddBlip(2);
+    heliVehicle->AddBlip(2);
     heliVehicle->hDriver = driver;
 
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)

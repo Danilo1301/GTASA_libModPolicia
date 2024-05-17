@@ -6,7 +6,8 @@
 
 enum CALLOUT_TYPE {
     CALLOUT_ASSAULT,
-    GANG_SHOTS_FIRED
+    GANG_SHOTS_FIRED,
+    STOLEN_VEHICLE
 };
 
 struct Callout
@@ -14,6 +15,30 @@ struct Callout
     CALLOUT_TYPE type;
     int gxtId;
     float chance;
+};
+
+enum SkinGenre {
+    SKIN_MALE,
+    SKIN_FEMALE,
+    BOTH
+};
+
+enum SkinGang {
+    GANG_NONE,
+    GANG_BALLAS,
+    GANG_VAGOS,
+    GANG_AZTECAS
+};
+
+/*
+int modelId;
+SkinGenre genre;
+SkinGang gang;
+*/
+struct SkinData {
+    int modelId;
+    SkinGenre genre;
+    SkinGang gang;
 };
 
 class Callouts {
@@ -26,6 +51,8 @@ public:
     static int m_CurrentCalloutIndex;
     static std::vector<Ped*> m_Criminals;
     static bool m_AproachingCallout;
+
+    static std::vector<SkinData> m_Skins;
 
     static void Update(int dt);
     
@@ -42,5 +69,9 @@ public:
     static void StartAssaultCallout();
     static void StartGangShotsFiredCallout();
 
+    static void AproachCallout(std::function<void(CVector)> onReachMarker);
+
     static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);
+
+    static SkinData GetRandomSkin(SkinGenre genre, SkinGang gang);
 };

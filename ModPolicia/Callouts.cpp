@@ -21,6 +21,27 @@ int Callouts::m_ModulatingCalloutIndex = -1;
 std::vector<Ped*> Callouts::m_Criminals;
 bool Callouts::m_AproachingCallout = false;
 
+std::vector<SkinData> Callouts::m_Skins = {
+    {19, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
+    {7, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
+    {29, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
+    {193, SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE},
+    {12, SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE},
+    {13, SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE},
+
+    {102, SkinGenre::SKIN_MALE, SkinGang::GANG_BALLAS},
+    {103, SkinGenre::SKIN_MALE, SkinGang::GANG_BALLAS},
+    {104, SkinGenre::SKIN_MALE, SkinGang::GANG_BALLAS},
+
+    {108, SkinGenre::SKIN_MALE, SkinGang::GANG_VAGOS},
+    {109, SkinGenre::SKIN_MALE, SkinGang::GANG_VAGOS},
+    {110, SkinGenre::SKIN_MALE, SkinGang::GANG_VAGOS},
+
+    {114, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS},
+    {115, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS},
+    {116, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS}
+};
+
 void Callouts::Update(int dt)
 { 
     if(!IsModulatingCallout())
@@ -74,6 +95,7 @@ void Callouts::Update(int dt)
 
                 if(m_CurrentCalloutIndex == 0) StartAssaultCallout();
                 else if(m_CurrentCalloutIndex == 1) StartGangShotsFiredCallout();
+                else if(m_CurrentCalloutIndex == 2) StartGangShotsFiredCallout();
             }
         }
     }
@@ -186,31 +208,9 @@ void Callouts::StartAssaultCallout()
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 200, 0, &x, &y, &z);
-
-    float nodeX = 0, nodeY = 0, nodeZ = 0;
-    CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
-    CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
-
-    int marker = CleoFunctions::CreateMarker(nodeX, nodeY, nodeZ, 0, 3, 3);
-
-    CleoFunctions::AddWaitForFunction([playerActor, nodePosition] () {
-        float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
-        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
-
-        auto distance = DistanceBetweenPoints(CVector(playerX, playerY, playerZ), nodePosition);
-
-        if(distance < 100) return true;
-
-        return false;
-    }, [marker, nodePosition] () {
-        CleoFunctions::DISABLE_MARKER(marker);
-
-        m_AproachingCallout = false;
-        Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
-
-        int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, 19, nodePosition.x, nodePosition.y, nodePosition.z);
+    AproachCallout([] (CVector pedPathNodePosition) {
+        auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+        int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, criminalSkin.modelId, pedPathNodePosition.x, pedPathNodePosition.y, pedPathNodePosition.z);
 
         auto criminalPed = Peds::TryCreatePed(criminal);
         m_Criminals.push_back(criminalPed);
@@ -225,37 +225,45 @@ void Callouts::StartAssaultCallout()
         float pedX = 0, pedY = 0, pedZ = 0;
         CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(findX, findY, findZ, &pedX, &pedY, &pedZ);
 
-        int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, 193, pedX, pedY, pedZ);
+        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
+        int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, pedSkin.modelId, pedX, pedY, pedZ);
 
         CleoFunctions::FLEE_FROM_ACTOR(ped, criminal, 1000.0f, -1);
 
         CleoFunctions::KILL_ACTOR(criminal, ped);
 
         //CleoFunctions::SET_ACTOR_WANTED_BY_POLICE(criminal, true); //this makes the criminal forget about the victim and chase the police nearby
-    }); 
-
-    /*
-    009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@  //criminal
-    0187: 8@ = create_marker_above_actor 6@ 
-    
-    04C4: store_coords_to 0@ 1@ 2@ from_actor 6@ with_offset -8.0 -7.0 0.0
-    02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
-    
-    009A: 7@ = create_actor_pedtype 23 model #VWFYST1 at 3@ 4@ 5@ //ped
-    
-    05DD: AS_actor 7@ flee_from_actor 6@ from_origin_radius 1000.0 timelimit -1
-    
-    05E2: AS_actor 6@ kill_actor 7@ 
-    09B6: set_actor 6@ wanted_by_police 1 
-    */
+    });
 }
 
 void Callouts::StartGangShotsFiredCallout()
 {
+    AproachCallout([] (CVector pedPathNodePosition) {
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        int gang = Mod::GetRandomNumber(1, 3);
+
+        for(int i = 0; i < 5; i++)
+        {
+            auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, (SkinGang)gang);
+            auto criminal = SpawnPedInRandomPedPathLocation(20, criminalSkin.modelId, pedPathNodePosition, 10.0f);
+            criminal->AddBlip();
+
+            m_Criminals.push_back(criminal);
+
+            if(i < 2)
+                CleoFunctions::GIVE_ACTOR_WEAPON(criminal->hPed, 22, 10000);
+
+            CleoFunctions::KILL_ACTOR(criminal->hPed, playerActor);
+        }
+    });
+}
+
+void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)
+{
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 300, 0, &x, &y, &z);
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, CALLOUT_DISTANCE, 0, &x, &y, &z);
 
     float nodeX = 0, nodeY = 0, nodeZ = 0;
     CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
@@ -272,24 +280,13 @@ void Callouts::StartGangShotsFiredCallout()
         if(distance < 100) return true;
 
         return false;
-    }, [marker, playerActor, nodePosition] () {
+    }, [marker, playerActor, nodePosition, onReachMarker] () {
         CleoFunctions::DISABLE_MARKER(marker);
 
         m_AproachingCallout = false;
         Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
-        for(int i = 0; i < 5; i++)
-        {
-            auto criminal = SpawnPedInRandomPedPathLocation(23, 102, nodePosition, 10.0f);
-            criminal->AddBlip();
-
-            m_Criminals.push_back(criminal);
-
-            if(i < 2)
-                CleoFunctions::GIVE_ACTOR_WEAPON(criminal->hPed, 22, 10000);
-
-            CleoFunctions::KILL_ACTOR(criminal->hPed, playerActor);
-        }
+        onReachMarker(nodePosition);
     }); 
 }
 
@@ -319,4 +316,34 @@ Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector
     int hPed = CleoFunctions::CREATE_ACTOR_PEDTYPE(pedType, modelId, nodeX, nodeY, nodeZ);
 
     return Peds::TryCreatePed(hPed);
+}
+
+
+SkinData Callouts::GetRandomSkin(SkinGenre genre, SkinGang gang)
+{
+    std::vector<SkinData> possibleSkins;
+
+    Log::file << "Get random skin genre " << genre << ", gang " << gang << std::endl;
+
+    for(auto skin : m_Skins)
+    {
+        if(skin.gang != gang) continue;
+
+        if(genre == SkinGenre::BOTH)
+        {
+            //ok
+        } else {
+            if(skin.genre != genre) continue;
+        }
+
+        Log::file << "Possible skin: " << skin.modelId << " genre " << skin.genre << ", gang " << skin.gang << std::endl;
+
+        possibleSkins.push_back(skin);
+    }
+
+    auto skin = possibleSkins[Mod::GetRandomNumber(0, possibleSkins.size() - 1)];
+
+    Log::file << "Skin chosed: " << skin.modelId << std::endl;
+
+    return skin;
 }

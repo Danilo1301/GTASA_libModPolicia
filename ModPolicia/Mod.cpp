@@ -41,7 +41,7 @@ void Mod::Update(int dt)
 
     //
 
-    bool logFunctions = false;
+    bool logFunctions = true;
 
     if(logFunctions) Log::file << "peds ------------------" << std::endl;
 
