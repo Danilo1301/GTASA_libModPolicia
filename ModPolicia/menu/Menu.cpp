@@ -10,7 +10,7 @@ default
 [1.0.1]
 added canBeRemoved (to fix a crash)
 */
-std::string Menu::m_Version = "1.0.0";
+std::string Menu::m_Version = "1.0.1";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);
 

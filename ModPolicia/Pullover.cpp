@@ -22,6 +22,8 @@ Vehicle* Pullover::m_PullingVehicle = NULL;
 
 FRISK_TYPE Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
 
+bool waitForReleaseButtons = false;
+
 void Pullover::Update(int dt)
 {
     UpdateWidgetPress(dt);
@@ -34,45 +36,44 @@ void Pullover::UpdateWidgetPress(int dt)
     if(m_PullingPed || m_PullingVehicle || Chase::m_ChasingPed)
         return;
 
-    //if press horn
-    if(Widgets::IsWidgetJustPressed(7))
-    {   
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    int pulloverWidget = 7;
+    int pulloverTouchButton = 2;
 
-        Log::file << "[Mod] Widget 7 has just been pressed" << std::endl;
+    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+    {
+        if(Input::GetTouchIdState(pulloverTouchButton) && Widgets::IsWidgetPressed(pulloverWidget) && !waitForReleaseButtons)
+        {
+            waitForReleaseButtons = true;
+            Log::file << "Waiting for release pullover buttons" << std::endl;
 
-        Log::file << "FindAimingPed" << std::endl;
+            TryPullOverCar();
+        }
+    } else {
+        if(Widgets::IsWidgetJustPressed(pulloverWidget))
+        {
+            int aimingPed = FindAimingPed();
 
-        int aimingPed = FindAimingPed();
-
-        Log::file << "aimingPed = " << aimingPed << std::endl;
-
-        //if aiming ped
-        if(aimingPed != -1)
-        {   
-            if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(aimingPed))
-            {
-                PullOverPed(aimingPed);
-            } else {
-                //TODO: get car of aiming ped, and pull the car (if possible)
-
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
-            }
-            
-        } else {
-            //if not aiming anyone
-
-            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
-            {
-                //if horn + 2
-                if(Input::GetTouchIdState(2))
+            if(aimingPed != -1)
+            {    
+                if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(aimingPed))
                 {
-                    TryPullOverCar();
+                    PullOverPed(aimingPed);
+                } else {
+                    //TODO: get car of aiming ped, and pull the car (if possible)
+
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
                 }
             } else {
                 TryPullOverCar();
             }
         }
+    }
+
+    if(!Input::GetTouchIdState(pulloverTouchButton) && !Widgets::IsWidgetPressed(pulloverWidget) && waitForReleaseButtons)
+    {
+        waitForReleaseButtons = false;
+        Log::file << "Released pullover buttons" << std::endl;
     }
 }
 
@@ -98,7 +99,7 @@ void Pullover::UpdatePullingPed(int dt)
 
 void Pullover::PullOverPed(int hPed)
 {
-    Log::file << "pull over ped" << std::endl;
+    Log::file << "pull over ped " << hPed << std::endl;
 
     /*
     
@@ -141,7 +142,7 @@ void Pullover::PullOverPed(int hPed)
 
 void Pullover::TryPullOverCar()
 {
-    Log::file << "try pull over car " << std::endl;
+    Log::file << "try pull over car" << std::endl;
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -168,6 +169,8 @@ void Pullover::TryPullOverCar()
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
         return;
     }
+
+    Log::file << "pulling over car " << randomCar << std::endl;
     
     if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
