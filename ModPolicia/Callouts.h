@@ -5,6 +5,7 @@
 #include "Ped.h"
 
 enum CALLOUT_TYPE {
+    CALLOUT_NONE = -1,
     CALLOUT_ASSAULT,
     GANG_SHOTS_FIRED,
     STOLEN_VEHICLE
@@ -47,8 +48,8 @@ public:
     static int m_TimeBetweenCallouts;
     static int m_TimeToCallout;
     static std::vector<Callout> m_Callouts;
-    static int m_ModulatingCalloutIndex;
-    static int m_CurrentCalloutIndex;
+    static CALLOUT_TYPE m_ModulatingCalloutIndex;
+    static CALLOUT_TYPE m_CurrentCalloutIndex;
     static std::vector<Ped*> m_Criminals;
     static bool m_AproachingCallout;
 
@@ -58,7 +59,7 @@ public:
     
     static void UpdateCriminals(int dt);
 
-    static int GetRandomCallout();
+    static CALLOUT_TYPE GetRandomCallout();
 
     static bool IsModulatingCallout();
 
@@ -68,6 +69,7 @@ public:
 
     static void StartAssaultCallout();
     static void StartGangShotsFiredCallout();
+    static void StartStolenVehicleCallout();
 
     static void AproachCallout(std::function<void(CVector)> onReachMarker);
 

@@ -8,16 +8,19 @@
 #include "Pullover.h"
 #include "Chase.h"
 #include "Scorch.h"
+#include "Vehicles.h"
 
 float Callouts::CALLOUT_DISTANCE = 50.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
-    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 1.0f}
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 0.0f},
+    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 0.0f},
+    {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 1.0f},
+
 };
-int Callouts::m_CurrentCalloutIndex = -1;
-int Callouts::m_ModulatingCalloutIndex = -1;
+CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
+CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 std::vector<Ped*> Callouts::m_Criminals;
 bool Callouts::m_AproachingCallout = false;
 
@@ -48,7 +51,7 @@ void Callouts::Update(int dt)
     {
         if(!Pullover::m_PullingPed && !Chase::m_ChasingPed)
         {
-            if(m_CurrentCalloutIndex == -1)
+            if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_NONE)
             {
                 m_TimeToCallout += dt;
             }
@@ -73,7 +76,7 @@ void Callouts::Update(int dt)
         if(m_TimeToCallout >= 5000)
         {
             m_TimeToCallout = 0;
-            m_ModulatingCalloutIndex = -1;
+            m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
         }
     }
 
@@ -84,7 +87,7 @@ void Callouts::Update(int dt)
             if(Widgets::IsWidgetJustPressed(37)) //green button
             {
                 m_CurrentCalloutIndex = m_ModulatingCalloutIndex;
-                m_ModulatingCalloutIndex = -1;
+                m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 
                 Log::file << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
 
@@ -93,9 +96,9 @@ void Callouts::Update(int dt)
                 m_AproachingCallout = true;
                 Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
-                if(m_CurrentCalloutIndex == 0) StartAssaultCallout();
-                else if(m_CurrentCalloutIndex == 1) StartGangShotsFiredCallout();
-                else if(m_CurrentCalloutIndex == 2) StartGangShotsFiredCallout();
+                if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_ASSAULT) StartAssaultCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::STOLEN_VEHICLE) StartStolenVehicleCallout();
             }
         }
     }
@@ -157,14 +160,14 @@ void Callouts::UpdateCriminals(int dt)
         if(m_Criminals.size() == 0)
         {
             Log::file << "Criminal number is 0, clearing callout" << std::endl;
-            m_CurrentCalloutIndex = -1;
+            m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX90", 0, 0, 0, 3000, 1);
         }
     }
 }
 
-int Callouts::GetRandomCallout()
+CALLOUT_TYPE Callouts::GetRandomCallout()
 {
     std::vector<int> ids;
     for(int calloutIndex = 0; calloutIndex < m_Callouts.size(); calloutIndex++)
@@ -176,12 +179,12 @@ int Callouts::GetRandomCallout()
         }
         Log::file << "callout " << calloutIndex << " chance " << chance << " total " << ids.size() << std::endl;
     }
-
+    
     int randomCalloutIndex = ids[Mod::GetRandomNumber(0, ids.size() - 1)];
 
     ids.clear();
 
-    return randomCalloutIndex;
+    return (CALLOUT_TYPE)randomCalloutIndex;
 }
 
 bool Callouts::IsModulatingCallout()
@@ -256,6 +259,63 @@ void Callouts::StartGangShotsFiredCallout()
             CleoFunctions::KILL_ACTOR(criminal->hPed, playerActor);
         }
     });
+}
+
+void Callouts::StartStolenVehicleCallout()
+{
+    AproachCallout([] (CVector calloutPosition) {
+
+        int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(calloutPosition.x, calloutPosition.y, calloutPosition.z, 200.0f, -1);
+
+        if(randomCar > 0)
+        {
+            auto vehicle = Vehicles::TryCreateVehicle(randomCar);
+            vehicle->isStolen = true;
+            //vehicle->AddBlip();
+
+            int driver = CleoFunctions::GET_DRIVER_OF_CAR(randomCar);
+
+            if(driver > 0)
+            {
+                auto pedDriver = Peds::TryCreatePed(driver);
+                pedDriver->AddBlip();
+                
+                m_Criminals.push_back(pedDriver);
+            }
+        }
+
+        /*
+        Log::file << "c1" << std::endl;
+
+        float spawnX = 0, spawnY = 0, spawnZ = 0;
+        CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(calloutPosition.x, calloutPosition.y, calloutPosition.z, 2, &spawnX, &spawnY, &spawnZ);
+
+        std::vector<int> vehicleModels = {445, 461, 479};
+        int vehicleModel = vehicleModels[Mod::GetRandomNumber(0, vehicleModels.size() -1)];
+        
+        Log::file << "creating car " << vehicleModel << std::endl;
+
+        int car = CleoFunctions::CREATE_CAR_AT(vehicleModel, spawnX, spawnY, spawnZ);
+
+        CleoFunctions::REMOVE_REFERENCES_TO_CAR(car);
+
+        auto vehicle = Vehicles::TryCreateVehicle(car);
+        vehicle->isStolen = true;
+        vehicle->AddBlip();
+
+        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
+
+        Log::file << "create driver" << std::endl;
+
+        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 20, pedSkin.modelId);
+
+        CleoFunctions::SET_CAR_ENGINE_OPERATION(car, true);
+
+        Log::file << "set to psycho" << std::endl;
+
+        CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(car);
+        */
+    }); 
 }
 
 void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)

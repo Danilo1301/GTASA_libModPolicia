@@ -801,4 +801,8 @@ if VAR_GxtId == 96
 then
      VAR_STR_1 = "MPFX96"
 end
+if VAR_GxtId == 97
+then
+     VAR_STR_1 = "MPFX97"
+end
 return
