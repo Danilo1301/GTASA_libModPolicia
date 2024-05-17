@@ -77,10 +77,9 @@ Initial release
 [X] ADD: backup for callouts
 [X] FIX: 2 + horn
 [X] ADD: variety of skins
-[.] ADD: callout: stolen vehicle
-
-[] issue ticket
-
+[X] ADD: callout: stolen vehicle
+[X] issue ticket
+[X] FIX: car not driving after you free him from pullover
 ---------------------------
 Sugestoes:
 

@@ -56,6 +56,18 @@ void Ped::Update(int dt)
             CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
         }
     }
+
+    if(driveAfterEnterCar)
+    {
+        if(CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed))
+        {
+            driveAfterEnterCar = false;
+
+            Log::file << "Entered car. Now driving..." << std::endl;
+            CleoFunctions::SET_CAR_ENGINE_OPERATION(hVehicleOwned, true);
+            CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(hVehicleOwned);
+        }
+    }
 }
 
 void Ped::UpdateInventory()

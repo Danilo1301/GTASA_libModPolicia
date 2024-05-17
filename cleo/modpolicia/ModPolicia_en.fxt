@@ -88,6 +88,20 @@ MPFX87 Call backup (HELI)
 MPFX88 ~b~[Officer] ~w~I need a helicopter backup
 MPFX89 ~g~[RADIO] ~w~I request a patrol car to respond to a shots fired scene
 MPFX90 Incident ~g~ended~w~!
+MPFX91 Edit size
+MPFX92 Equip
+MPFX93 Call backup (FBI)
+MPFX94 ~b~[Officer] ~w~I need a special car backup
+MPFX95 Call backup (SF)
+MPFX96 Call backup (LV)
+MPFX97 ~g~[RADIO] ~w~A stolen vehicle has been identified by the cameras
+MPFX98 Call backup (RANGER)
+MPFX99 Issue a ticket
+MPFX100 Reckless driving
+MPFX101 Violating traffic lights
+MPFX102 Playing cellphone while driving
+MPFX103 Ride without a hellmet
+MPFX104 Ticket issued!
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

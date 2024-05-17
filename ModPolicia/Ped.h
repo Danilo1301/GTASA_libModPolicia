@@ -42,6 +42,8 @@ public:
 
     int waitingForScorchVehicleHandle = 0;
 
+    bool driveAfterEnterCar = false;
+
     Inventory* inventory = new Inventory();
 
     Ped(int hPed);

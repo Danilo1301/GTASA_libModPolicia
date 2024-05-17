@@ -2,13 +2,13 @@
 
 #include "WindowDocument.h"
 #include "WindowFrisk.h"
+#include "WindowTicket.h"
 
 #include "../Pullover.h"
 #include "../Scorch.h"
 #include "../Log.h"
 #include "../CleoFunctions.h"
 #include "../Vehicles.h"
-
 
 Window* WindowPullover::m_Window = NULL;
 
@@ -184,6 +184,16 @@ void WindowPullover::CreatePullingPed()
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
         }
     };
+
+    if(ped->hVehicleOwned > 0)
+    {
+        auto button_ticket = window->AddButton(99, 0, 0);
+        button_ticket->onClick = [ped]()
+        {
+            Remove();
+            WindowTicket::Create();
+        };
+    }
 
     auto button_conduzir = window->AddButton(64, 0, 0);
     button_conduzir->onClick = []()

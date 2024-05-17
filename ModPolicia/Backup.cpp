@@ -18,7 +18,8 @@ std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {523, 284, false, 22}, //Bike
     {490, 286, true, 31}, //FBI
     {597, 281, true, 22}, //SF
-    {598, 282, true, 22} //LV
+    {598, 282, true, 22}, //LV
+    {599, 283, true, 22} //Ranger
 };
 
 void Backup::Update(int dt)

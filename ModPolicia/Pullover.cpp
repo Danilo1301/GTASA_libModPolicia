@@ -205,35 +205,37 @@ void Pullover::TryPullOverCar()
     m_PullingVehicle = vehicle;
     m_PullingPed = ped;
 
-    CleoFunctions::CAR_TURN_OFF_ENGINE(randomCar);
+    CleoFunctions::WAIT(1000, [playerActor, randomCar]() {
+        CleoFunctions::CAR_TURN_OFF_ENGINE(randomCar);
     
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
 
-    //wait to get closer to the car
-    CleoFunctions::AddWaitForFunction([playerActor, randomCar] () {
-        
-        if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
+        //wait to get closer to the car
+        CleoFunctions::AddWaitForFunction([playerActor, randomCar] () {
+            
+            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
 
-        auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
+            auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
 
-        Log::file << "distance from car: " << distance << std::endl;
+            Log::file << "distance from car: " << distance << std::endl;
 
-        if(distance < PULLOVER_MIN_DISTANCE_VEHICLE) return true;
-        if(distance > PULLOVER_MAX_DISTANCE) return true;
+            if(distance < PULLOVER_MIN_DISTANCE_VEHICLE) return true;
+            if(distance > PULLOVER_MAX_DISTANCE) return true;
 
-        return false;
-    },
-    [playerActor, randomCar] () {
-        auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
+            return false;
+        },
+        [playerActor, randomCar] () {
+            auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
 
-        if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
-        {
-            Log::file << "Create pulling car menu" << std::endl;
-            WindowPullover::CreatePullingCar();
-        } else {
-            Log::file << "Car is too far away!" << std::endl;
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
-        }
+            if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
+            {
+                Log::file << "Create pulling car menu" << std::endl;
+                WindowPullover::CreatePullingCar();
+            } else {
+                Log::file << "Car is too far away!" << std::endl;
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+            }
+        });
     });
 }
 
@@ -320,6 +322,8 @@ void Pullover::MakePedWait()
 void Pullover::FreeVehicle()
 {
     m_PullingPed->shouldHandsup = false;
+
+    m_PullingPed->driveAfterEnterCar = true;
 
     CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed,  m_PullingPed->hVehicleOwned, 20000);
 

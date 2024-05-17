@@ -95,3 +95,10 @@ MPFX94 ~b~[Policial] ~w~COPOM, solicito apoio de uma viatura especial
 MPFX95 Chamar reforco (SF)
 MPFX96 Chamar reforco (LV)
 MPFX97 ~g~[COPOM] ~w~Um veiculo roubado foi identificado pelas cameras do olho vivo
+MPFX98 Chamar reforco (RANGER)
+MPFX99 Aplicar multa
+MPFX100 Direcao perigosa
+MPFX101 Ignorando sinais de transito
+MPFX102 Usando celular no volante
+MPFX103 Dirigir sem capacete
+MPFX104 Multa aplicada!

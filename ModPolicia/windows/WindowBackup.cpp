@@ -63,6 +63,15 @@ void WindowBackup::Create()
         Remove();
     };
 
+    auto button_backupRanger = window->AddButton(98);
+    button_backupRanger->onClick = []()
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+
+        Backup::CallBackupCar(Backup::m_DataBackupVehicles[5]);
+        Remove();
+    };
+
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
