@@ -55,10 +55,7 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
 
                 vehicle->MakePedsEnterVehicleAndLeaveScene();
 
-                //remove blips
-                vehicle->RemoveBlip();
-                Peds::GetPedByHandle(vehicle->hDriver)->RemoveBlip();
-                for(auto passenger : vehicle->hPassengers) Peds::GetPedByHandle(passenger)->RemoveBlip();
+                vehicle->RemoveDriverAndPassengersBlip();
 
                 removeBackup.push_back(vehicle);
             }
@@ -99,10 +96,7 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
 
                 vehicle->MakePedsEnterVehicleAndLeaveScene();    
 
-                //remove blips
-                vehicle->RemoveBlip();
-                Peds::GetPedByHandle(vehicle->hDriver)->RemoveBlip();
-                for(auto passenger : vehicle->hPassengers) Peds::GetPedByHandle(passenger)->RemoveBlip();
+                vehicle->RemoveDriverAndPassengersBlip();
 
                 removeBackup.push_back(vehicle);
             }
@@ -241,7 +235,10 @@ void Backup::CallBackupHeli()
     CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 100, 100, 100, &spawnX, &spawnY, &spawnZ);
 
     auto heli = CleoFunctions::CREATE_CAR_AT(497, spawnX, spawnY, spawnZ);
+
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(heli, 23, 280);
+    auto driverPed = Peds::TryCreatePed(driver);
+
     CleoFunctions::SET_HELICOPTER_INSTANT_ROTOR_START(heli);
     CleoFunctions::SET_CAR_ENGINE_OPERATION(heli, true);
 

@@ -10,12 +10,12 @@
 #include "Scorch.h"
 #include "Vehicles.h"
 
-float Callouts::CALLOUT_DISTANCE = 50.0f;
+float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 0.0f},
-    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 0.0f},
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
+    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 1.0f},
     {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 1.0f},
 
 };
@@ -323,7 +323,7 @@ void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, CALLOUT_DISTANCE, 0, &x, &y, &z);
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, -CALLOUT_DISTANCE, CALLOUT_DISTANCE, 0, &x, &y, &z);
 
     float nodeX = 0, nodeY = 0, nodeZ = 0;
     CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);

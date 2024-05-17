@@ -3,6 +3,8 @@
 
 //----------------------------------------------------
 
+$DEEP_LOG = 0
+
 const
     eDrawType_BOX = 0
     eDrawType_TEXT = 1
@@ -87,6 +89,9 @@ end
 //----------------------------------------------------
 
 0000:
+
+0F23: add_log_message 100
+
 0390: load_txd_dictionary 'TXD'
 038F: load_texture "mptx1" as 100
 038F: load_texture "mptx2" as 101
@@ -135,11 +140,16 @@ end
 01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
 01F0: set_max_wanted_level_to 0 
 
+0F23: add_log_message 101
+
 jump @PRELOAD
 
 //----------------------------------------------------
 
 :PRELOAD
+
+0F23: add_log_message 102
+
 if and
     0248: model 596 available //copcarla
     0248: model 280 available //ls
@@ -186,18 +196,30 @@ if and
     0248: model 335 available
 jf @PRELOAD
 
+0F23: add_log_message 103
+
 jump @LOOP
 
 //----------------------------------------------------
 
 :LOOP
-0001: wait 0 ms 
+0001: wait 0 ms
+
+if $DEEP_LOG == 1
+then
+    0F23: add_log_message 1
+end 
 
 gosub @SEND_TOUCH
 
 gosub @GET_DELTA_TIME
 
 0F20: process_modpolicia_lib deltaMs VAR_DeltaTime
+
+if $DEEP_LOG == 1
+then
+    0F23: add_log_message 2
+end
 
 /*
 if
@@ -247,6 +269,11 @@ end
 0F21: MenuOffsetX = get_draw_item_info eDrawInfoType_MENU_OFFSET_X id 0
 
 0050: gosub @DRAW_ITEMS
+
+if $DEEP_LOG == 1
+then
+    0F23: add_log_message 3
+end
 
 0002: jump @LOOP 
 

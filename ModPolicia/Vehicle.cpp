@@ -4,6 +4,7 @@
 #include "Mod.h"
 #include "CleoFunctions.h"
 #include "Widgets.h"
+#include "Peds.h"
 
 #include "windows/WindowCarMenu.h"
 
@@ -46,6 +47,8 @@ void Vehicle::UpdateLeaveScene()
 {
     if(actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR)
     {
+        Log::file << "actionStatus = WAITING_FOR_PEDS_TO_ENTER_CAR" << std::endl;
+
         int requiredPeds = 0;
         int pedsOnCar = 0;
         
@@ -69,6 +72,13 @@ void Vehicle::UpdateLeaveScene()
         }
 
         Log::file << "waiting: " << pedsOnCar << " / " << requiredPeds << std::endl;
+
+        if(requiredPeds == 0)
+        {
+            Log::file << "requiredPeds = 0, no peds alive, ignoring" << std::endl;
+            actionStatus = ACTION_STATUS::ACTION_NONE;
+            return;
+        }
 
         if(requiredPeds == pedsOnCar)
         {
@@ -222,7 +232,7 @@ void Vehicle::MakePedsEnterVehicleAndLeaveScene()
     
     if(!Mod::IsActorAliveAndDefined(hDriver)) ReplaceDriverByAnyPassenger();
 
-    if(!CleoFunctions::CAR_DEFINED(hDriver))
+    if(!CleoFunctions::CAR_DEFINED(hVehicle))
     {
         Log::file << "Car is not defined" << std::endl;
         actionStatus = ACTION_STATUS::ACTION_NONE;
@@ -309,4 +319,20 @@ void Vehicle::ReplaceDriverByAnyPassenger()
     Log::file << "After deleting:" << std::endl;
     Log::file << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
     for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+}
+
+void Vehicle::RemoveDriverAndPassengersBlip()
+{
+    Log::file << "removing vehicle blip" << std::endl;
+    RemoveBlip();
+
+    Log::file << "removing driver " << hDriver << " blip" << std::endl;
+    if(hDriver > 0) Peds::TryCreatePed(hDriver)->RemoveBlip();
+
+    Log::file << "removing passengers blip" << std::endl;
+    for(auto passenger : hPassengers) {
+        Peds::TryCreatePed(passenger)->RemoveBlip();
+    }
+
+    Log::file << "blips removed" << std::endl;
 }

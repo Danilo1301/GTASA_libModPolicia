@@ -54,7 +54,7 @@ void WindowCarMenu::Create()
     button_close->onClick = []()
     {
         Remove();
-        //ModConfig::SaveSettings(); //crashes
+        ModConfig::SaveSettings();
     };
 }
 

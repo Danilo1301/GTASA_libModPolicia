@@ -7,6 +7,7 @@ Check EN and PT .fxt
 Check .fxt mod version (EN and PT)
 Check game more than once to make sure
 Check if config is saving
+Set deepLog=true in Mod.cpp
 
 Change version file in the .zip
 
@@ -69,7 +70,7 @@ Initial release
 [X] ADD: gang shots fired callout
 [X] FIX: backup cars stand still if chase ends
 
-[?]
+[0.6]
 [X] ADD: police car menu
 [X] ADD: scorch more than one ped to pd
 [X] FIX: crash when removing window from vector (im so stupid for let this happen, but im more impressed it only crashed after 7 releases)

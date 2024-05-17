@@ -146,6 +146,7 @@ extern "C" void OnModLoad()
     __reg_op_func(PROCESS_MODPOLICIA_LIB, PROCESS_MODPOLICIA_LIB);
     __reg_op_func(GET_DRAW_ITEM_INFO, GET_DRAW_ITEM_INFO);
     __reg_op_func(SEND_TOUCH_STATE, SEND_TOUCH_STATE);
+    __reg_op_func(ADD_LOG_MESSAGE, ADD_LOG_MESSAGE);
     
     ModConfig::ProcessVersionChanges_PreConfigLoad();
     ModConfig::Load();

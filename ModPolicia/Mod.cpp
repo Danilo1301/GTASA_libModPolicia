@@ -21,7 +21,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.5.0";
+const char* Mod::m_Version = "0.6.0";
 unsigned int Mod::m_TimePassed = 0;
 
 bool loadedAnimations = false;
@@ -41,49 +41,49 @@ void Mod::Update(int dt)
 
     //
 
-    bool logFunctions = true;
+    bool deepLog = true;
 
-    if(logFunctions) Log::file << "peds ------------------" << std::endl;
+    if(deepLog) Log::file << "peds ------------------" << std::endl;
 
     Peds::Update(dt);
 
-    if(logFunctions) Log::file << "vehicles" << std::endl;
+    if(deepLog) Log::file << "vehicles" << std::endl;
 
     Vehicles::Update(dt);
 
-    if(logFunctions) Log::file << "chase" << std::endl;
+    if(deepLog) Log::file << "chase" << std::endl;
 
     Chase::Update(dt);
 
-    if(logFunctions) Log::file << "backup" << std::endl;
+    if(deepLog) Log::file << "backup" << std::endl;
 
     Backup::Update(dt);
 
-    if(logFunctions) Log::file << "pullover" << std::endl;
+    if(deepLog) Log::file << "pullover" << std::endl;
 
     Pullover::Update(dt);
    
-    if(logFunctions) Log::file << "scorch" << std::endl;
+    if(deepLog) Log::file << "scorch" << std::endl;
 
     Scorch::Update(dt);
    
-    if(logFunctions) Log::file << "callouts" << std::endl;
+    if(deepLog) Log::file << "callouts" << std::endl;
    
     Callouts::Update(dt);
 
-    if(logFunctions) Log::file << "cleofuncitions" << std::endl;
+    if(deepLog) Log::file << "cleofuncitions" << std::endl;
 
     CleoFunctions::Update(dt);
 
     WindowDocument::Draw();
 
-    if(logFunctions) Log::file << "menu" << std::endl;
+    if(deepLog) Log::file << "menu" << std::endl;
 
     Menu::Update(dt);
     
     Menu::Draw();
 
-    if(logFunctions) Log::file << "input" << std::endl;
+    if(deepLog) Log::file << "input" << std::endl;
 
     Input::Update(dt);
 
@@ -153,7 +153,7 @@ void Mod::Update(int dt)
     }
     */
 
-    if(logFunctions) Log::file << "end ---------" << std::endl;
+    if(deepLog) Log::file << "end ---------" << std::endl;
 }
 
 void Mod::Load()

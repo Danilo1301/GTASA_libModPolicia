@@ -4,6 +4,7 @@
 #include "../CleoFunctions.h"
 #include "../Pullover.h"
 #include "../Peds.h"
+#include "../Chase.h"
 
 #include "WindowDocument.h"
 
@@ -117,6 +118,12 @@ void WindowTest::Create()
         
     };
     
+    auto button_test3 = window->AddButton(23, 3, 0);
+    button_test3->onClick = []()
+    {
+        Chase::EndChase();
+    };
+
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {

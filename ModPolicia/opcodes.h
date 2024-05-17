@@ -31,6 +31,7 @@ extern cleo_ifs_t* cleo;
 __decl_op(PROCESS_MODPOLICIA_LIB, 0x0F20); // 0F20=1,process_modpolicia_lib deltaMs %1d%
 __decl_op(GET_DRAW_ITEM_INFO, 0x0F21); // 0F21=3,%3g% = get_draw_item_info %1d% id %2d%
 __decl_op(SEND_TOUCH_STATE, 0x0F22); //0F22=2,send_touch_state %1d% state %2d%
+__decl_op(ADD_LOG_MESSAGE, 0x0F23); //0F23=1,add_log_message %1d%
 
 static void PROCESS_MODPOLICIA_LIB(__handler_params)
 {
@@ -161,4 +162,11 @@ static void SEND_TOUCH_STATE(__handler_params)
     //Log::file << szTemp << std::endl;
 
     Input::SetTouchState(touchId, state == 1);
+}
+
+static void ADD_LOG_MESSAGE(__handler_params)
+{
+    int num = __readParam(handle)->i;
+    
+    Log::file << "Log: CLEO " << num << std::endl;
 }

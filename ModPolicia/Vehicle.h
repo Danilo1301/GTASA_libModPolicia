@@ -65,4 +65,6 @@ public:
 
     void CheckPassengers();
     void ReplaceDriverByAnyPassenger();
+
+    void RemoveDriverAndPassengersBlip();
 };
