@@ -9,11 +9,12 @@
 #include "Chase.h"
 #include "Scorch.h"
 
+float Callouts::CALLOUT_DISTANCE = 50.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
     {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
-    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 0.3f}
+    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 1.0f}
 };
 int Callouts::m_CurrentCalloutIndex = -1;
 int Callouts::m_ModulatingCalloutIndex = -1;
@@ -61,7 +62,6 @@ void Callouts::Update(int dt)
         {
             if(Widgets::IsWidgetJustPressed(37)) //green button
             {
-
                 m_CurrentCalloutIndex = m_ModulatingCalloutIndex;
                 m_ModulatingCalloutIndex = -1;
 
@@ -165,6 +165,11 @@ int Callouts::GetRandomCallout()
 bool Callouts::IsModulatingCallout()
 {
     return m_ModulatingCalloutIndex != -1;
+}
+
+bool Callouts::IsOnCallout()
+{
+    return m_CurrentCalloutIndex != -1;
 }
 
 Callout Callouts::GetCurrentCallout()

@@ -1,7 +1,7 @@
 #include "WindowBackup.h"
 
 #include "../CleoFunctions.h"
-#include "../Chase.h"
+#include "../Backup.h"
 
 Window* WindowBackup::m_Window = NULL;
 
@@ -14,7 +14,8 @@ void WindowBackup::Create()
     button_normalBackup->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        Chase::CallBackup(596, 280);
+
+        Backup::CallBackupCar(Backup::m_DataBackupVehicles[0]);
         Remove();
     };
 
@@ -22,7 +23,7 @@ void WindowBackup::Create()
     button_backupRocam->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
-        Chase::CallBackup(523, 284);
+        Backup::CallBackupCar(Backup::m_DataBackupVehicles[1]);
         Remove();
     };
 
@@ -30,7 +31,35 @@ void WindowBackup::Create()
     button_backupHeli->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX88", 0, 0, 0, 3000, 1); //apoio
-        Chase::CallHeliBackup();
+        Backup::CallBackupHeli();
+        Remove();
+    };
+
+    auto button_backupFBI = window->AddButton(93);
+    button_backupFBI->onClick = []()
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+        Backup::CallBackupCar(Backup::m_DataBackupVehicles[2]);
+        Remove();
+    };
+
+
+    auto button_backupSf = window->AddButton(95);
+    button_backupSf->onClick = []()
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+
+        Backup::CallBackupCar(Backup::m_DataBackupVehicles[3]);
+
+        Remove();
+    };
+
+    auto button_backupLv = window->AddButton(96);
+    button_backupLv->onClick = []()
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+
+        Backup::CallBackupCar(Backup::m_DataBackupVehicles[4]);
         Remove();
     };
 

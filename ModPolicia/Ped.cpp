@@ -96,10 +96,19 @@ bool Ped::HasDocuments()
     return inventory->HasItemOfType(Item_Type::DOCUMENTS);
 }
 
-void Ped::AddBlip()
+
+int Ped::AddBlip()
 {
     if(blip > 0) RemoveBlip();
     blip = CleoFunctions::ADD_BLIP_FOR_CHAR(hPed);
+    return blip;
+}
+
+int Ped::AddBlip(int color)
+{
+    int blip = AddBlip();
+    CleoFunctions::SET_MARKER_COLOR_TO(blip, color);
+    return blip;
 }
 
 void Ped::RemoveBlip()

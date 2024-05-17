@@ -14,6 +14,7 @@
 #include "Callouts.h"
 #include "Vehicles.h"
 #include "Scorch.h"
+#include "Backup.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -53,6 +54,10 @@ void Mod::Update(int dt)
     if(logFunctions) Log::file << "chase" << std::endl;
 
     Chase::Update(dt);
+
+    if(logFunctions) Log::file << "backup" << std::endl;
+
+    Backup::Update(dt);
 
     if(logFunctions) Log::file << "pullover" << std::endl;
 

@@ -18,6 +18,7 @@ struct Callout
 
 class Callouts {
 public:
+    static float CALLOUT_DISTANCE;
     static int m_TimeBetweenCallouts;
     static int m_TimeToCallout;
     static std::vector<Callout> m_Callouts;
@@ -33,6 +34,9 @@ public:
     static int GetRandomCallout();
 
     static bool IsModulatingCallout();
+
+    static bool IsOnCallout();
+
     static Callout GetCurrentCallout();
 
     static void StartAssaultCallout();

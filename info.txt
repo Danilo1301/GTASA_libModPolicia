@@ -70,16 +70,16 @@ Initial release
 [X] FIX: backup cars stand still if chase ends
 
 [?]
-[X] police car menu
-[X] scorch more than one ped to pd
+[X] ADD: police car menu
+[X] ADD: scorch more than one ped to pd
 [X] FIX: crash when removing window from vector (im so stupid for let this happen, but im more impressed it only crashed after 7 releases)
-[X] scorch vehicle leaves when ped dies or becomes undefined
-
+[X] FIX: scorch vehicle leaves when ped dies or becomes undefined
+[X] ADD: backup for callouts
+[X] FIX: 2 + horn
 
 [] issue ticket
-[] call backup for callouts
 [] add callout: stolen vehicle
-[] fix 2 + horn
+
 ---------------------------
 Sugestoes:
 

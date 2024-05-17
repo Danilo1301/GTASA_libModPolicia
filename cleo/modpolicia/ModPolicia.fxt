@@ -90,3 +90,7 @@ MPFX89 ~g~[COPOM] ~w~Solicito uma viatura para atender ocorrencia de tiros dispa
 MPFX90 Ocorrencia ~g~finalizada~w~!
 MPFX91 Editar tamanho
 MPFX92 Equipar
+MPFX93 Chamar reforco (FBI)
+MPFX94 ~b~[Policial] ~w~COPOM, solicito apoio de uma viatura especial
+MPFX95 Chamar reforco (SF)
+MPFX96 Chamar reforco (LV)

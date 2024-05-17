@@ -53,6 +53,7 @@ public:
 
     bool HasDocuments();
 
-    void AddBlip();
+    int AddBlip();
+    int AddBlip(int color);
     void RemoveBlip();
 };

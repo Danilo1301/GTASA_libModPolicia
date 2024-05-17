@@ -6,12 +6,6 @@
 
 #include "Inventory.h"
 
-enum CHASE_STATUS {
-    NOT_CHASING = 0,
-    CHASING,
-    MOVING_AWAY_FROM_CHASE
-};
-
 enum ACTION_STATUS {
     ACTION_NONE = 0,
 
@@ -19,7 +13,12 @@ enum ACTION_STATUS {
     SCORCH_WAITING_FOR_PED_TO_ENTER,
 
     WAITING_FOR_PEDS_TO_ENTER_CAR,
-    LEAVING_SCENE
+    LEAVING_SCENE,
+
+    CHASE_CHASING,
+
+    CALLOUT_GOING_TO_CALLOUT,
+    CALLOUT_ACTING_ON_CALLOUT
 };
 
 class Vehicle {
@@ -42,8 +41,6 @@ public:
 
     CVector fromPos = CVector(0, 0, 0);
     CVector drivingTo = CVector(0, 0, 0);
-
-    CHASE_STATUS chaseStatus = CHASE_STATUS::NOT_CHASING;
 
     ACTION_STATUS actionStatus = ACTION_STATUS::ACTION_NONE;
 

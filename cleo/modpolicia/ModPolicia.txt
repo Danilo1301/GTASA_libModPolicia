@@ -91,20 +91,24 @@ end
 038F: load_texture "mptx1" as 100
 038F: load_texture "mptx2" as 101
 
-0247: load_model 596
-0247: load_model 280
-0247: load_model 597
-0247: load_model 281
-0247: load_model 598
-0247: load_model 282
-0247: load_model 599
-0247: load_model 283
-0247: load_model 523
-0247: load_model 284
-0247: load_model 497
+0247: load_model 596 //copcarla
+0247: load_model 280 //ls
+0247: load_model 597 //copcarsf
+0247: load_model 281 //sf
+0247: load_model 598 //copcarvg
+0247: load_model 282 //lv
+0247: load_model 599 //ranger
+0247: load_model 283 //csher
+0247: load_model 523 //copbike
+0247: load_model 284 //lapdm1
+0247: load_model 490 //fbiranch
+0247: load_model 286 //fbi
+0247: load_model 497 //maverick
 
-//assault
+//male
 0247: load_model 19
+
+//female
 0247: load_model 193
 
 //gang
@@ -128,30 +132,35 @@ jump @PRELOAD
 :PRELOAD
 
 if and
-    0248: model 596 available
-    0248: model 280 available
-    0248: model 597 available
-    0248: model 281 available
-    0248: model 598 available
-    0248: model 282 available
-    0248: model 599 available
-    0248: model 283 available
+    0248: model 596 available //copcarla
+    0248: model 280 available //ls
+    0248: model 597 available //copcarsf
+    0248: model 281 available //sf
+    0248: model 598 available //copcarvg
+    0248: model 282 available //lv
+    0248: model 599 available //ranger
+    0248: model 283 available //csher
 jf @PRELOAD
 if and
-    0248: model 523 available
-    0248: model 284 available
-    0248: model 497 available
+    0248: model 523 available //copbike
+    0248: model 284 available //lapdm1
+    0248: model 490 available //fbiranch
+    0248: model 286 available //fbi
+    0248: model 497 available //maverick
     
-    //assault
+    //male
     0248: model 19 available
+    
+    //female
     0248: model 193 available
     
      //gang
     0248: model 102 available
-    0248: model 103 available
-    0248: model 104 available
 jf @PRELOAD
 if and
+    0248: model 103 available
+    0248: model 104 available
+    
     //weapons
     0248: model 346 available
     0248: model 335 available
@@ -755,5 +764,21 @@ end
 if VAR_GxtId == 92
 then
      VAR_STR_1 = "MPFX92"
+end
+if VAR_GxtId == 93
+then
+     VAR_STR_1 = "MPFX93"
+end
+if VAR_GxtId == 94
+then
+     VAR_STR_1 = "MPFX94"
+end
+if VAR_GxtId == 95
+then
+     VAR_STR_1 = "MPFX95"
+end
+if VAR_GxtId == 96
+then
+     VAR_STR_1 = "MPFX96"
 end
 return
