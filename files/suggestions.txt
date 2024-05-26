@@ -1,6 +1,3 @@
-by RAI gameplay:
-uma opção pra agente editar o tamanho e a posição do menu de abordagem
-
 by GAMER NEWS:
 Sugestões e Correções para o Mod de Polícia no GTA San Andreas:
 
@@ -52,18 +49,77 @@ SWAT: ID 285 (Sfpdm2)
 
 --
 
+[ ] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
+
 by YoMom (discord)
 I have a suggestion , for future update , can you make "Give a ticket" menu like in the picture ? And after giving ticket they can go
 
 by pL (discord)
-Nas ocorrências Aparecer um círculo No mapa indicando o local do chamado ai você tem que procurar a pessoa isso fica mais realista 
+* Nas ocorrências Aparecer um círculo No mapa indicando o local do chamado ai você tem que procurar a pessoa isso fica mais realista 
+* OCORRÊNCIA DE MANDATO DE PRISÃO 
+* FAZER PERGUNTAS AO PRESO IGUAL NO LSPDFR DO GTA 5
+* GUINCHO PARA CARRO E MOTO
+* CHAMAR VIATURA PARA BUSCAR O PRESO
 
-by El Gatonw (discord)
-* tem como você pôr uma opção para chamar reforço naquela ocorrência de tiro? Ou em qualquer ocorrência que a gente aceitar?
-* Futuramente virá modo comboio? 
-* Tem como você por uma opção para desativar o Mod para que o modo procurado volte a funcionar?
-* Teria como também por um botão só para abordar veículo? assim teremos tempo de frear a vtr e não bater no carro da frente.
+[X] Reforço na ocorrência de tiro / outras ocorrências
+(El Gatonw) tem como você pôr uma opção para chamar reforço naquela ocorrência de tiro? Ou em qualquer ocorrência que a gente aceitar?
 
-by brandonviljoen:
-* Oky. Bro.             Bro can u maybe. Do sound in. This police Mod
-* Roadblocks
+by El Gatonw: (Discord)
+[ ] Polícia - modo comboio de viaturas, (carro ou moto) 2 ou + Viaturas com 4 polícias e 2 ou + motos com garupa. ( Tenho Anim do garupa com o fuzil pra cima tipo BPraio )
+[ ] Polícia - ocorrência de guerra de gangues. ( Aquelas q tem "ondas' e tals ou pôr mais peds se for possível ).
+[ ] Polícia - Desativar o mod, para que a função procurando volte a funcionar. Esse mod tbm pode resolver aquele caso em q os PMs mortos em ocorrências não somem
+[ ] Polícia - opção para q possamos levar o abordado ou q ele possa nos seguir durante uma abordagem. ( Fiz uma abordagem no meio da pista e para evitar acidentes e atrapalhar o mod, clico em uma função em que o pedestre possa me seguir até uma calçada para continuar com a abordagem ).
+[ ] Polícia - fazer com que seu companheiro faça a revista no pedestre ou no veículo enquanto você mantém a retaguarda.
+[ ] Polícia - ser chamado para evitar assalto a carro forte com perseguição. ( Os bandidos seguindo o carro-forte e a polícia acompanhando ).
+[ ] Modo PRF - para fazer bloqueios e apreensões. combinaria com o (modo guincho), Sujeito a perseguição tbm.
+[ ] Modo bombeiro - ser chamado para ocorrências de (incêndio "criminoso") e ter opção de chamar mais viaturas quando o incêndio for de grandes proporções.
+[ ] Modo SAMU - ser chamado para ocorrências de acidentes, vítimas de tiro etc... E tbm ter opção de chamar mais viaturas do SAMU para ocorrências grandes com mais de uma vítima.
+[ ] Modo carro-forte - ser chamado para fazer transporte valores em carro-forte com possibilidade de ser assaltado.
+[ ] Modo reboque - ser chamado para rebocar veículos até uma DP, ( sujeito a fugas, brigas e tiros, com opção de chamar polícia ).
+[ ] Futuramente virá modo comboio? 
+[ ] Tem como você por uma opção para desativar o Mod para que o modo procurado volte a funcionar?
+[X] Teria como também por um botão só para abordar veículo? assim teremos tempo de frear a vtr e não bater no carro da frente.
+
+[ ] Acionar guincho
+(El Gatonw) Polícia - Modo guincho, para rebocar veículos estacionado incorretamente, abandonados ou veículos envolvido em ocorrências como abordagem ou assaltos. ( Rebocar qualquer veículo inclusive motos ).  <Towtruck para carros e DFT30 para motos>.
+
+[ ] Levar suspeito no porta malas
+(El Gatonw) Polícia - Levar suspeito no porta malas
+
+[ ] Colocar mão pra trás
+(El Gatonw) Polícia - Suspeito abordado colocando a mão para trás ao pedir q aguarde outra viatura
+
+[ ] Som no radio comunicador
+(El Gatonw) Polícia - Atender chamado via rádio se possível, ou quando aparecer a mensagem em baixo sobre a ocorrência, que o rádio da polícia dê um bip, tipo o som de radinho comunicador. 
+(brandonviljoen) Oky. Bro. Bro can u maybe. Do sound in. This police Mod
+
+[ ] (Gabriel Oliveira) Quando realizar a prisão e solicitar uma viatura, colocar para o policial da VTR sair da viatura ir até o preso e conduzir o preso até a viatura.
+
+[ ] Roadblocks / barreiras
+(brandonviljoen)
+
+[ ] (• BravoMike - Oliveira) O que você acha de fazer um mod de BOMBEIROS e SAMU também?
+
+[ ] (RAI gameplay) adiciona opção pra fazer o teste do bafômetro (álcool) e teste de entorpecentes
+[ ] (RAI gameplay) há colocar resultado pra carteira do cidadão quando agente aborda e ver a carteira não tem nada nem dinheiro kkkk 
+
+[ ] (Gabriel Oliveira)
+Mas na minha opinião séria interessante ter uma ocorrência de incêndio para a polícia.
+EXEMPLO: uma casa pegando fogo 🔥 aí o player vai até o local nisso o player solicita o apoio dos bombeiros.
+Ah mas o que o player como policial vai fazer em uma QRU de incêndio❓
+Evitar que passe pedestres e veículos na quele local.
+
+[ ] @GabrielPmmods190
+Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj ai tem la chama samu apoio aguia etc
+
+---------------- BUGS
+
+[ ] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
+
+[ ] (El Gatonw) Teria como resolver o bug do PM não sumir qnd é morto durante uma ocorrência? ACHO Q A OPÇÃO DE DESATIVAR O MOD PODERIA RESOLVER.
+
+[ ] (RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
+
+[ ] (Leonardo Alves) Seria bom se os policiais das vtr que vem dar apoio, eles viessem um pouco mais devagar kkkk os cara vem rápido acaba capotando a vtr sem controle nenhum.
+
+[ ] (Gabriel Oliveira) Quando finaliza as ocorrências as VTRs de apoio da ré e na hora de ir embora elas vai lento e não some do mapa.

@@ -27,6 +27,6 @@ public:
     static void UpdateChaseBackup(int dt);
     static void UpdateCalloutBackup(int dt);
 
-    static void CallBackupCar(BackupVehicle backupVehicle);
+    static void CallBackupCar(BackupVehicle* backupVehicle);
     static void CallBackupHeli();
 };

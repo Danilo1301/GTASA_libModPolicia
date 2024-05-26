@@ -19,7 +19,7 @@ std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {490, 286, true, 31}, //FBI
     {597, 281, true, 22}, //SF
     {598, 282, true, 22}, //LV
-    {599, 283, true, 22} //Ranger
+    {599, 283, true, 22}, //Ranger
 };
 
 void Backup::Update(int dt)
@@ -51,7 +51,7 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
         {
             if(!Chase::m_ChasingPed)
             {
-                Log::file << "making backup stop chase and move away from scene, removing vehicle from backup list" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "making backup stop chase and move away from scene, removing vehicle from backup list" << std::endl;
 
                 vehicle->MakePedsEnterVehicleAndLeaveScene();
 
@@ -71,7 +71,7 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
             {
                 vehicle->actionStatus = ACTION_STATUS::CALLOUT_ACTING_ON_CALLOUT;
 
-                Log::file << "vehicle is now acting on callout" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "vehicle is now acting on callout" << std::endl;
 
                 //05E2: AS_actor $POLICE kill_actor $CRIMINAL
 
@@ -92,7 +92,7 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
         {
             if(!Callouts::IsOnCallout())
             {
-                Log::file << "making backup stop acting on callouts and move away, removing vehicle from backup list" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "making backup stop acting on callouts and move away, removing vehicle from backup list" << std::endl;
 
                 vehicle->MakePedsEnterVehicleAndLeaveScene();    
 
@@ -144,9 +144,9 @@ void Backup::UpdateCalloutBackup(int dt)
     }
 }
 
-void Backup::CallBackupCar(BackupVehicle backupVehicle)
+void Backup::CallBackupCar(BackupVehicle* backupVehicle)
 {
-    Log::file << "call backup vehicleModelId: " << backupVehicle.vehicleModelId << ", pedModelId: " << backupVehicle.pedModelId << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "call backup vehicleModelId: " << backupVehicle->vehicleModelId << ", pedModelId: " << backupVehicle->pedModelId << std::endl;
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -156,12 +156,12 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
     float spawnX = 0, spawnY = 0, spawnZ = 0;
     CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(x, y, z, 2, &spawnX, &spawnY, &spawnZ);
 
-    Log::file << "spawnX = " << spawnX << std::endl;
-    Log::file << "spawnY = " << spawnY << std::endl;
-    Log::file << "spawnZ = " << spawnZ << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawnX = " << spawnX << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawnY = " << spawnY << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawnZ = " << spawnZ << std::endl;
 
-    auto car = CleoFunctions::CREATE_CAR_AT(backupVehicle.vehicleModelId, spawnX, spawnY, spawnZ);
-    Log::file << "car = " << car << std::endl;
+    auto car = CleoFunctions::CREATE_CAR_AT(backupVehicle->vehicleModelId, spawnX, spawnY, spawnZ);
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "car = " << car << std::endl;
 
     auto vehicle = Vehicles::TryCreateVehicle(car);
     //vehicle->AddBlip(2);
@@ -176,25 +176,31 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
 
     m_BackupVehicles.push_back(vehicle);
 
-    Log::file << "creating driver model: " << backupVehicle.pedModelId << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "creating driver model: " << backupVehicle->pedModelId << std::endl;
 
-    int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 6, backupVehicle.pedModelId);
+    //23 = special
+    //6 = cop
+    //to fix a issue
+    int type = 6;
+    if(backupVehicle->pedModelId == 284) type = 23;
+
+    int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, type, backupVehicle->pedModelId);
     auto pedDriver = Peds::TryCreatePed(driver);
     pedDriver->AddBlip(2);
     vehicle->hDriver = driver;
 
-    Log::file << "driver = " << driver << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "driver = " << driver << std::endl;
 
-    CleoFunctions::GIVE_ACTOR_WEAPON(driver, backupVehicle.weaponId, 10000);
+    CleoFunctions::GIVE_ACTOR_WEAPON(driver, backupVehicle->weaponId, 10000);
 
-    if(backupVehicle.hasPassenger)
+    if(backupVehicle->hasPassenger)
     {
-        int passenger = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(car, 6, backupVehicle.pedModelId, 0);
+        int passenger = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(car, type, backupVehicle->pedModelId, 0);
         auto pedPassenger = Peds::TryCreatePed(passenger);
         pedPassenger->AddBlip(2);
         vehicle->hPassengers.push_back(passenger);
 
-        CleoFunctions::GIVE_ACTOR_WEAPON(passenger, backupVehicle.weaponId, 10000);
+        CleoFunctions::GIVE_ACTOR_WEAPON(passenger, backupVehicle->weaponId, 10000);
     }
 
     CleoFunctions::ENABLE_CAR_SIREN(car, true);
@@ -204,7 +210,7 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
     
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)
     {
-        Log::file << "set car " << car << " follow car " << Chase::m_ChasingPed->hVehicleOwned << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "set car " << car << " follow car " << Chase::m_ChasingPed->hVehicleOwned << std::endl;
 
         CleoFunctions::CAR_FOLLOR_CAR(car, Chase::m_ChasingPed->hVehicleOwned, 8.0f);
     }
@@ -213,7 +219,7 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
     {
         if(Callouts::m_Criminals.size() > 0)
         {
-            Log::file << "make car drive to criminal" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "make car drive to criminal" << std::endl;
 
             auto criminal = Callouts::m_Criminals[0];
             auto position = Mod::GetPedPosition(criminal->hPed);
@@ -224,7 +230,7 @@ void Backup::CallBackupCar(BackupVehicle backupVehicle)
         }
     }
 
-    Log::file << "end call backup" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "end call backup" << std::endl;
 }
 
 void Backup::CallBackupHeli()
@@ -258,7 +264,7 @@ void Backup::CallBackupHeli()
 
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)
     {
-        Log::file << "set heli " << heli << " follow ped " << Chase::m_ChasingPed->hPed << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli " << heli << " follow ped " << Chase::m_ChasingPed->hPed << std::endl;
 
         CleoFunctions::HELI_FOLLOW(heli, Chase::m_ChasingPed->hPed, -1, 20.0f);
     }
@@ -267,7 +273,7 @@ void Backup::CallBackupHeli()
     {
         if(Callouts::m_Criminals.size() > 0)
         {
-            Log::file << "make heli follow criminal" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "make heli follow criminal" << std::endl;
 
             auto criminal = Callouts::m_Criminals[0];
 

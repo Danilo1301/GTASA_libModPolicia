@@ -29,7 +29,7 @@ Window* Menu::AddWindow(int gxtId)
 
     m_Windows.push_back(window);
 
-    Log::file << "Menu: AddWindow" << std::endl;
+   Log::Level(LOG_LEVEL::LOG_BOTH) << "Menu: AddWindow" << std::endl;
 
     return window;
 }
@@ -205,7 +205,7 @@ void Menu::Update(int dt)
 
     if(windowsToRemove.size() > 0)
     {
-        Log::file << "Removed " << windowsToRemove.size() << " windows" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Removed " << windowsToRemove.size() << " windows" << std::endl;
     }
 }
 
@@ -221,8 +221,6 @@ void Menu::Draw()
 
     if (m_PopUp->timeLeft > 0)
     {
-        Log::file << "PopUp is beeing drawed" << std::endl;
-
         float x = 20;
         float y = 200;
 
@@ -253,7 +251,7 @@ void Menu::RemoveWindow(Window* window)
 {
     if (window == m_MainWindow) return;
 
-    Log::file << "Menu: RemoveWindow" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Menu: RemoveWindow" << std::endl;
 
     auto it = std::find(m_Windows.begin(), m_Windows.end(), window);
     if (it == m_Windows.end()) return;

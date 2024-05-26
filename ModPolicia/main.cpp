@@ -49,7 +49,7 @@ const char* optionsTest[] = {
 };
 void TestChanged(int oldVal, int newVal, void* data)
 {
-    Log::file << "TestChanged - changed to " << newVal << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "TestChanged - changed to " << newVal << std::endl;
 }
 
 //---------------------------------------------------------------------------------------------------
@@ -60,10 +60,15 @@ extern "C" void OnModPreLoad()
     ModConfig::MakePaths();
 
     char logPath[512];
-	sprintf(logPath, "%s/modPolicia/modPolicia.log", aml->GetConfigPath());
+	sprintf(logPath, "%s/modPolicia/", aml->GetConfigPath());
     Log::Open(logPath);
-    Log::file << "Preload()" << std::endl;
-    Log::file << "AML headers: 1.0.3.1" << std::endl;
+    
+    Log::Level(LOG_LEVEL::LOG_NORMAL) << "[normla] Test only message" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "[udate] Test message plus " << 123 << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "[boht] Test message plus " << 123 << 456 << std::endl;
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Preload()" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "AML headers: 1.0.3.1" << std::endl;
 
     logger->SetTag("ModPolicia");
 
@@ -72,7 +77,7 @@ extern "C" void OnModPreLoad()
 
 extern "C" void OnModLoad()
 {
-    Log::file << "Load()" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Load()" << std::endl;
 
     cfgMenuOffsetX = cfg->Bind("menu_offset_x", -195, "General");
     //cfgTimeBetweenPatterns = cfg->Bind("time_between_patterns", Patterns::m_TimeBetweenPatterns, "General");
@@ -88,38 +93,38 @@ extern "C" void OnModLoad()
     cfg->Save();
 
     //CLEO
-    Log::file << "Loading CLEO..." << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading CLEO..." << std::endl;
     cleo = (cleo_ifs_t*)GetInterface("CLEO");
     if (cleo)
     {
-        Log::file << "CLEO loaded" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "CLEO loaded" << std::endl;
     }
 
     //SAUtils
-    Log::file << "Loading SAUtils..." << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading SAUtils..." << std::endl;
     if (!(sautils = (ISAUtils*)GetInterface("SAUtils")))
     {
-        Log::file << "SAUtils was not loaded" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils was not loaded" << std::endl;
     }
     else {
-        Log::file << "SAUtils loaded" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils loaded" << std::endl;
 
         sautils->AddClickableItem(eTypeOfSettings::SetType_Mods, "Mod Policia - Test", 0, 0, sizeofA(optionsTest) - 1, optionsTest, TestChanged);
     }
 
-    Log::file << "----------------------------" << std::endl;
-    Log::file << "Mod: v" << Mod::m_Version << std::endl;
-    Log::file << "Menu: v" << Menu::m_Version << std::endl;
-    Log::file << "----------------------------" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: v" << Mod::m_Version << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Menu: v" << Menu::m_Version << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
 
     //
     
     //void* hGTASA = aml->GetLibHandle("libGTASA.so"); crashes the game
     void* hGTASA = dlopen("libGTASA.so", RTLD_LAZY);
 
-    Log::file << "hGTASA: " << hGTASA << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "hGTASA: " << hGTASA << std::endl;
 
-    Log::file << "Getting Syms..." << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Getting Syms..." << std::endl;
 
     SET_TO(m_vecCachedPos, aml->GetSym(hGTASA, "_ZN15CTouchInterface14m_vecCachedPosE"));
     SET_TO(pVehiclePool, aml->GetSym(hGTASA, "_ZN6CPools15ms_pVehiclePoolE"));
@@ -133,15 +138,15 @@ extern "C" void OnModLoad()
     SET_TO(GetPedFromRef, aml->GetSym(hGTASA, "_ZN6CPools6GetPedEi"));
     //
     
-    Log::file << "vecCachedPos: x " << m_vecCachedPos->x << ", y " << m_vecCachedPos->y << std::endl;
-    Log::file << "pVehiclePool: " << pVehiclePool << std::endl;
-    Log::file << "pPedPool: " << pPedPool << std::endl;
-    Log::file << "ScreenGetWidth: " << ScreenGetWidth() << std::endl;
-    Log::file << "ScreenGetHeight: " << ScreenGetHeight() << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "vecCachedPos: x " << m_vecCachedPos->x << ", y " << m_vecCachedPos->y << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "pVehiclePool: " << pVehiclePool << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "pPedPool: " << pPedPool << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ScreenGetWidth: " << ScreenGetWidth() << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ScreenGetHeight: " << ScreenGetHeight() << std::endl;
 
     //
     
-    Log::file << "Registering opcodes..." << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Registering opcodes..." << std::endl;
 
     __reg_op_func(PROCESS_MODPOLICIA_LIB, PROCESS_MODPOLICIA_LIB);
     __reg_op_func(GET_DRAW_ITEM_INFO, GET_DRAW_ITEM_INFO);

@@ -4,6 +4,10 @@
 
 * GTASA 2.00 AML 1.2.1 FLA 7.2
 
+<h1>Not compatible with:</h1>
+
+SprintFixByYuna.csa
+
 <h1>Install</h1>
 
 * Required Libs:

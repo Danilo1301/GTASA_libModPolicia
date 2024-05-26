@@ -26,7 +26,7 @@ void Scorch::Update(int dt)
         {
             if(!Mod::IsActorAliveAndDefined(scorchData->ped->hPed))
             {
-                Log::file << "Scorching ped became undefined or is now dead" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Scorching ped became undefined or is now dead" << std::endl;
 
                 DestroyScorchData(scorchData);
                 toRemove.push_back(scorchData);
@@ -66,7 +66,7 @@ void Scorch::Update(int dt)
         {
             if(vehicle->actionStatus == ACTION_STATUS::SCORCH_GOING_TO_PED || vehicle->actionStatus == ACTION_STATUS::SCORCH_WAITING_FOR_PED_TO_ENTER)
             {
-                Log::file << "Ped is no longer alive, or is not defined, leaving" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is no longer alive, or is not defined, leaving" << std::endl;
 
                 ped->RemoveBlip();
                 vehicle->MakePedsEnterVehicleAndLeaveScene();
@@ -80,7 +80,7 @@ void Scorch::Update(int dt)
 
             if(distance <= 8)
             {
-                Log::file << "waiting for ped to enter" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting for ped to enter" << std::endl;
 
                 vehicle->actionStatus = ACTION_STATUS::SCORCH_WAITING_FOR_PED_TO_ENTER;
                 ped->shouldHandsup = false;
@@ -89,7 +89,7 @@ void Scorch::Update(int dt)
 
                 CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(ped->hPed, vehicle->hVehicle, 10000, 1);
 
-                Log::file << "ped is entering" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "ped is entering" << std::endl;
 
                 continue;
             }
@@ -99,7 +99,7 @@ void Scorch::Update(int dt)
         {
             if(CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed))
             {
-                Log::file << "Ped is in the car, leaving" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is in the car, leaving" << std::endl;
 
                 ped->RemoveBlip();
                 vehicle->hPassengers.push_back(ped->hPed);
@@ -133,7 +133,7 @@ void Scorch::StartScorchingPed(Ped* ped)
 
     ped->hVehicleOwned = 0;
     
-    Log::file << "Conduzir para a DP" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Conduzir para a DP" << std::endl;
 
     /*
     01C2: remove_references_to_actor 4@
@@ -151,7 +151,7 @@ void Scorch::StartScorchingPed(Ped* ped)
         
     auto playerGroup = CleoFunctions::GET_PLAYER_GROUP(0);
 
-    Log::file << "playerGroup = " << playerGroup << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "playerGroup = " << playerGroup << std::endl;
 
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -162,21 +162,21 @@ void Scorch::StartScorchingPed(Ped* ped)
     CleoFunctions::PUT_ACTOR_IN_GROUP_AS_LEADER(ped->hPed, playerActor);
     CleoFunctions::PUT_ACTOR_IN_GROUP(playerGroup, ped->hPed);
 
-    Log::file << "create sphere" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "create sphere" << std::endl;
 
     scorchData->toDpIndex = GetClosestPoliceDepartment();
     CVector dpPosition = m_PoliceDepartmentPositions[scorchData->toDpIndex];
 
     scorchData->sphere = CleoFunctions::CREATE_SPHERE(dpPosition.x, dpPosition.y, dpPosition.z, 3.0);
-    Log::file << "sphere = " << scorchData->sphere << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "sphere = " << scorchData->sphere << std::endl;
 
     scorchData->blip = CleoFunctions::CreateMarker(dpPosition.x, dpPosition.y, dpPosition.z, 0, 3, 3);
-    Log::file << "blip = " << scorchData->blip << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "blip = " << scorchData->blip << std::endl;
 }
 
 void Scorch::CallVehicleToScorchPed(Ped* ped)
 {
-    Log::file << "Call vehicle to scorch ped" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Call vehicle to scorch ped" << std::endl;
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX85", 0, 0, 0, 2000, 1); //solicito viatura
 
@@ -225,25 +225,25 @@ void Scorch::CallVehicleToScorchPed(Ped* ped)
 
     vehicle->drivingTo = CVector(driveToX, driveToY, driveToZ);
 
-    Log::file << "make car drive to coord" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "make car drive to coord" << std::endl;
 
     CleoFunctions::CAR_DRIVE_TO(car, driveToX, driveToY, driveToZ);
 }
 
 void Scorch::TeleportPedToPrision(Ped* ped)
 {
-    Log::file << "TeleportPedToPrision" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "TeleportPedToPrision" << std::endl;
 
     Pullover::m_PullingPed = NULL;
     Pullover::m_PullingVehicle = NULL;
 
     ped->arrested = true;
 
-    Log::file << "destroy actor" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "destroy actor" << std::endl;
 
     CleoFunctions::DESTROY_ACTOR(ped->hPed);
 
-    Log::file << "fade" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "fade" << std::endl;
 
     CleoFunctions::FADE(500, 1);
 }

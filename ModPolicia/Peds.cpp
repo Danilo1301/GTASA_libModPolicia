@@ -74,7 +74,7 @@ Ped* Peds::TryCreatePed(int hPed)
         return GetPedByHandle(hPed);
     }
 
-	Log::file << "Peds: Add ped " << hPed << "(" << std::to_string(m_Peds.size() + 1) << " total)" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Peds: Add ped " << hPed << "(" << std::to_string(m_Peds.size() + 1) << " total)" << std::endl;
 
     auto ped = new Ped(hPed);
 

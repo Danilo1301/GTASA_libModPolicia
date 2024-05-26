@@ -14,8 +14,7 @@ void WindowBackup::Create()
     button_normalBackup->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-
-        Backup::CallBackupCar(Backup::m_DataBackupVehicles[0]);
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[0]);
         Remove();
     };
 
@@ -23,7 +22,7 @@ void WindowBackup::Create()
     button_backupRocam->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(Backup::m_DataBackupVehicles[1]);
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[1]);
         Remove();
     };
 
@@ -39,7 +38,7 @@ void WindowBackup::Create()
     button_backupFBI->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(Backup::m_DataBackupVehicles[2]);
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[2]);
         Remove();
     };
 
@@ -48,9 +47,7 @@ void WindowBackup::Create()
     button_backupSf->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-
-        Backup::CallBackupCar(Backup::m_DataBackupVehicles[3]);
-
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[3]);
         Remove();
     };
 
@@ -58,8 +55,7 @@ void WindowBackup::Create()
     button_backupLv->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-
-        Backup::CallBackupCar(Backup::m_DataBackupVehicles[4]);
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[4]);
         Remove();
     };
 
@@ -67,8 +63,7 @@ void WindowBackup::Create()
     button_backupRanger->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-
-        Backup::CallBackupCar(Backup::m_DataBackupVehicles[5]);
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
         Remove();
     };
 

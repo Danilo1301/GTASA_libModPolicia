@@ -52,7 +52,7 @@ void Ped::Update(int dt)
     {
         if(!CleoFunctions::ACTOR_PERFORMING_ANIMATION(hPed, "handsup"))
         {
-            Log::file << "Performing animation: handsup" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Performing animation: handsup" << std::endl;
             CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
         }
     }
@@ -63,7 +63,7 @@ void Ped::Update(int dt)
         {
             driveAfterEnterCar = false;
 
-            Log::file << "Entered car. Now driving..." << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Entered car. Now driving..." << std::endl;
             CleoFunctions::SET_CAR_ENGINE_OPERATION(hVehicleOwned, true);
             CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(hVehicleOwned);
         }

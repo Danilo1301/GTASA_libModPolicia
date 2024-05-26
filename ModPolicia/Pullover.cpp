@@ -45,7 +45,7 @@ void Pullover::UpdateWidgetPress(int dt)
         if(Input::GetTouchIdState(pulloverTouchButton) && Widgets::IsWidgetPressed(pulloverWidget) && !waitForReleaseButtons)
         {
             waitForReleaseButtons = true;
-            Log::file << "Waiting for release pullover buttons" << std::endl;
+           Log::Level(LOG_LEVEL::LOG_BOTH)<< "Waiting for release pullover buttons" << std::endl;
 
             TryPullOverCar();
         }
@@ -73,7 +73,7 @@ void Pullover::UpdateWidgetPress(int dt)
     if(!Input::GetTouchIdState(pulloverTouchButton) && !Widgets::IsWidgetPressed(pulloverWidget) && waitForReleaseButtons)
     {
         waitForReleaseButtons = false;
-        Log::file << "Released pullover buttons" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Released pullover buttons" << std::endl;
     }
 }
 
@@ -99,7 +99,7 @@ void Pullover::UpdatePullingPed(int dt)
 
 void Pullover::PullOverPed(int hPed)
 {
-    Log::file << "pull over ped " << hPed << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "pull over ped " << hPed << std::endl;
 
     /*
     
@@ -142,7 +142,7 @@ void Pullover::PullOverPed(int hPed)
 
 void Pullover::TryPullOverCar()
 {
-    Log::file << "try pull over car" << std::endl;
+   Log::Level(LOG_LEVEL::LOG_BOTH) << "try pull over car" << std::endl;
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -170,7 +170,7 @@ void Pullover::TryPullOverCar()
         return;
     }
 
-    Log::file << "pulling over car " << randomCar << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "pulling over car " << randomCar << std::endl;
     
     if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
@@ -217,7 +217,7 @@ void Pullover::TryPullOverCar()
 
             auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
 
-            Log::file << "distance from car: " << distance << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from car: " << distance << std::endl;
 
             if(distance < PULLOVER_MIN_DISTANCE_VEHICLE) return true;
             if(distance > PULLOVER_MAX_DISTANCE) return true;
@@ -229,10 +229,10 @@ void Pullover::TryPullOverCar()
 
             if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
             {
-                Log::file << "Create pulling car menu" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Create pulling car menu" << std::endl;
                 WindowPullover::CreatePullingCar();
             } else {
-                Log::file << "Car is too far away!" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away!" << std::endl;
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
             }
         });
@@ -297,7 +297,7 @@ void Pullover::FreePed()
     m_PullingPed->RemoveBlip();
     m_PullingPed->shouldHandsup = false;
 
-    Log::file << "Remove references to actor " << m_PullingPed->hPed << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Remove references to actor " << m_PullingPed->hPed << std::endl;
     CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(m_PullingPed->hPed);
         
     CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(m_PullingPed->hPed, "hndshkfa_swt", "gangs", 200.0f, 0, 0, 0, 0, 10);

@@ -47,17 +47,17 @@ void WindowPullover::CreatePullingPed()
 
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
 
-            Log::file << "adding wait for function" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "adding wait for function" << std::endl;
 
             CleoFunctions::AddWaitForFunction([ped] () {
-                Log::file << "testing condition" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "testing condition" << std::endl;
 
                 auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
                 int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
                 auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
 
-                Log::file << "distance from car: " << distance << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from car: " << distance << std::endl;
 
                 if(distance < Pullover::PULLOVER_MIN_DISTANCE_VEHICLE) return true;
                 if(distance > Pullover::PULLOVER_MAX_DISTANCE) return true;
@@ -65,7 +65,7 @@ void WindowPullover::CreatePullingPed()
                 return false;
             },
             [ped] () {
-                Log::file << "condition executed" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "condition executed" << std::endl;
 
                 auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
                 int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
@@ -77,7 +77,7 @@ void WindowPullover::CreatePullingPed()
                     Pullover::m_FriskType = FRISK_TYPE::FRISK_VEHICLE;
                     Pullover::FriskVehicle();
                 } else {
-                    Log::file << "Car is too far away!" << std::endl;
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away!" << std::endl;
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
                 }
             });
@@ -117,16 +117,16 @@ void WindowPullover::CreatePullingPed()
 
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
         
-        Log::file << "adding wait for function" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "adding wait for function" << std::endl;
 
         CleoFunctions::AddWaitForFunction([playerActor, ped] () {
-            Log::file << "testing condition" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "testing condition" << std::endl;
 
             if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
 
             auto distance = Pullover::GetDistanceBetweenPeds(playerActor, ped->hPed);
 
-            Log::file << "distance from ped: " << distance << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from ped: " << distance << std::endl;
 
             if(distance < Pullover::PULLOVER_MIN_DISTANCE_PED) return true;
             if(distance > Pullover::PULLOVER_MAX_DISTANCE) return true;
@@ -134,7 +134,7 @@ void WindowPullover::CreatePullingPed()
             return false;
         },
         [playerActor, ped] () {
-            Log::file << "condition executed" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "condition executed" << std::endl;
 
             auto distance = Pullover::GetDistanceBetweenPeds(playerActor, ped->hPed);
 
@@ -143,7 +143,7 @@ void WindowPullover::CreatePullingPed()
                 Pullover::m_FriskType = FRISK_TYPE::FRISK_PED;
                 Pullover::FriskPed();
             } else {
-                Log::file << "Ped is too far away!" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is too far away!" << std::endl;
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
             }
         });
@@ -265,7 +265,6 @@ void WindowPullover::CreateScorchWindow()
     {
         Remove();
         Scorch::CallVehicleToScorchPed(ped);
-        Log::file << "end of fn" << std::endl;
     };
 
     auto button_teleport = window->AddButton(84, 0, 0);

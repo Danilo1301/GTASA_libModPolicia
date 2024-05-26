@@ -12,7 +12,7 @@ float Window::m_DefaultWindowWidth = 320.0f;
 
 Window::Window()
 {
-	Log::file << "[Window] Constructor" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "[Window] Constructor" << std::endl;
 
 	width = m_DefaultWindowWidth;
 
@@ -39,7 +39,7 @@ Window::Window()
 	//fix issue when accidentally clicking on an item
 	if(Input::isTouchPressed)
 	{	
-		Log::file << "[Window] Blocking buttons while input is not released" << std::endl;
+		Log::Level(LOG_LEVEL::LOG_BOTH) << "[Window] Blocking buttons while input is not released" << std::endl;
 		waitingForTouchRelease = true;
 	}
 }
@@ -73,7 +73,7 @@ Item* Window::AddButton(int gxtId, int num1, int num2, CRGBA color)
 
 	AddItem(item);
 
-	Log::file << "Window: AddButton" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddButton" << std::endl;
 
 	return item;
 }
@@ -109,7 +109,7 @@ Item* Window::AddFloatingButton(int gxtId, int num1, int num2, CVector2D positio
 
 	AddFloatingItem(item);
 
-	Log::file << "Window: AddFloatingButton" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddFloatingButton" << std::endl;
 
 	return item;
 }
@@ -134,7 +134,7 @@ Item* Window::AddCheckbox(int gxtId, bool* value)
 
 	AddItem(item);
 
-	Log::file << "Window: AddCheckbox" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddCheckbox" << std::endl;
 
 	return item;
 }
@@ -151,7 +151,7 @@ Item* Window::AddOptions(int gxtId)
 
 	AddItem(item);
 
-	Log::file << "Window: AddOptions" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddOptions" << std::endl;
 
 	return item;
 }
@@ -171,7 +171,7 @@ Item* Window::AddFloatRange(int gxtId, float* value, float min, float max, float
 
 	AddItem(item);
 
-	Log::file << "Window: AddFloatRange" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddFloatRange" << std::endl;
 
 	return item;
 }
@@ -192,7 +192,7 @@ Item* Window::AddIntRange(int gxtId, int* value, int min, int max, int addBy)
 
 	AddItem(item);
 
-	Log::file << "Window: AddIntRange" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddIntRange" << std::endl;
 
 	return item;
 }
@@ -210,7 +210,7 @@ Item* Window::AddText(int gxtId, CRGBA color)
 
 	AddItem(item);
 
-	Log::file << "Window: AddText" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Window: AddText" << std::endl;
 
 	return item;
 }
@@ -234,7 +234,7 @@ void Window::Update()
 		if(!Input::isTouchPressed && !Input::hasTouchBeenReleasedThisFrame)
 		{
 			waitingForTouchRelease = false;
-			Log::file << "[Window] You can now press buttons safely" << std::endl;
+			Log::Level(LOG_LEVEL::LOG_BOTH) << "[Window] You can now press buttons safely" << std::endl;
 		}
 
 		for(auto item : GetTotalItems()) item->waitingForTouchRelease = waitingForTouchRelease;
@@ -390,7 +390,7 @@ void Window::GoToPrevWindow()
 void Window::RemoveThisWindow()
 {
 	canBeRemoved = true;
-	Log::file << "Set window to be removed" << std::endl;
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Set window to be removed" << std::endl;
 	//Menu::RemoveWindow(this);
 }
 

@@ -81,6 +81,9 @@ Initial release
 [X] ADD: callout: stolen vehicle
 [X] issue ticket
 [X] FIX: car not driving after you free him from pullover
+
+[] ADD: log levels and different files
+[] FIX: lapdm1 coming with wrong skin
 ---------------------------
 Sugestoes:
 

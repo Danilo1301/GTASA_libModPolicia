@@ -22,7 +22,7 @@ then
     then
         02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 1000 flag 1
         
-        09C7: change_player 0 model_to 280
+        09C7: change_player 0 model_to 284
         01B2: give_actor $PLAYER_ACTOR weapon 31 ammo 10000    
         01B2: give_actor $PLAYER_ACTOR weapon 22 ammo 10000
         
@@ -48,7 +48,7 @@ jump @MAIN
 
 :PRELOAD
 
-0247: load_model 280
+0247: load_model 284
 0247: load_model 356
 0247: load_model 346
 038B: load_requested_models
@@ -60,7 +60,7 @@ jump @PRELOAD_WAIT
 :PRELOAD_WAIT
 
 if and
-    0248: model 280 available
+    0248: model 284 available
     0248: model 356 available
     0248: model 346 available
 jf @PRELOAD_WAIT

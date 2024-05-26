@@ -62,25 +62,25 @@ void WindowTest::Create()
 
         //test 2
         int playerActor = 0;
-        Log::file << "scm_GET_PLAYER_ACTOR" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "scm_GET_PLAYER_ACTOR" << std::endl;
         sautils->ScriptCommand(&scm_GET_PLAYER_ACTOR, 0, &playerActor);
-        Log::file << "playerActor = " << playerActor << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "playerActor = " << playerActor << std::endl;
 
         float x = 0.0f, y = 0.0f, z = 0.0f;
-        Log::file << "scm_GET_CHAR_COORDINATES" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "scm_GET_CHAR_COORDINATES" << std::endl;
         sautils->ScriptCommand(&scm_GET_CHAR_COORDINATES, playerActor, &x, &y, &z);
-        Log::file << "x = " << x << std::endl;
-        Log::file << "y = " << y << std::endl;
-        Log::file << "z = " << z << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "x = " << x << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "y = " << y << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "z = " << z << std::endl;
 
         int intX = (int)x;
         int intY = (int)y;
-        Log::file << "scm_SHOW_TEXT_2NUMBERS_STYLED" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "scm_SHOW_TEXT_2NUMBERS_STYLED" << std::endl;
         sautils->ScriptCommand(&scm_SHOW_TEXT_2NUMBERS_STYLED, "MPFX2", intX, intY, 5000, 5);
 
-        Log::file << "scm_IS_PLAYER_PLAYING" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "scm_IS_PLAYER_PLAYING" << std::endl;
         bool result = sautils->ScriptCommand(&scm_IS_PLAYER_PLAYING, 0);
-        Log::file << "result = " << (result ? "1" : "0") << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "result = " << (result ? "1" : "0") << std::endl;
 
         if(result)
         {
@@ -123,6 +123,31 @@ void WindowTest::Create()
     {
         Chase::EndChase();
     };
+
+    auto button_test4 = window->AddButton(23, 4, 0);
+    button_test4->onClick = []()
+    {
+        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        float x = 0, y = 0, z = 0;
+        CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 3.0f, 0, &x, &y, &z);
+
+        CleoFunctions::CREATE_ACTOR_PEDTYPE(20, 284, x, y, z);
+    };
+
+    auto button_test5 = window->AddButton(23, 5, 0);
+    button_test5->onClick = []()
+    {
+        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        float x = 0, y = 0, z = 0;
+        CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 10, 0, &x, &y, &z);
+
+        auto car = CleoFunctions::CREATE_CAR_AT(523, x, y, z);
+
+        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 4, 284);
+    };
+
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()

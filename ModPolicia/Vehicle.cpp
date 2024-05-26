@@ -23,7 +23,7 @@ Vehicle::Vehicle(int hVehicle)
 
     this->isStolen = Mod::CalculateProbability(CHANCE_VEHICLE_BEEING_STOLEN);
 
-    Log::file << "Vehicle constructor " << hVehicle << ", model " << modelId << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle constructor " << hVehicle << ", model " << modelId << std::endl;
 }
 
 Vehicle::~Vehicle()
@@ -47,7 +47,7 @@ void Vehicle::UpdateLeaveScene()
 {
     if(actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR)
     {
-        Log::file << "actionStatus = WAITING_FOR_PEDS_TO_ENTER_CAR" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "actionStatus = WAITING_FOR_PEDS_TO_ENTER_CAR" << std::endl;
 
         int requiredPeds = 0;
         int pedsOnCar = 0;
@@ -71,11 +71,11 @@ void Vehicle::UpdateLeaveScene()
             seatId++;
         }
 
-        Log::file << "waiting: " << pedsOnCar << " / " << requiredPeds << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting: " << pedsOnCar << " / " << requiredPeds << std::endl;
 
         if(requiredPeds == 0)
         {
-            Log::file << "requiredPeds = 0, no peds alive, ignoring" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "requiredPeds = 0, no peds alive, ignoring" << std::endl;
             actionStatus = ACTION_STATUS::ACTION_NONE;
             return;
         }
@@ -84,7 +84,7 @@ void Vehicle::UpdateLeaveScene()
         {
             actionStatus = ACTION_STATUS::LEAVING_SCENE;
 
-            Log::file << "leaving scene" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "leaving scene" << std::endl;
 
             float findX = 0, findY = 0, findZ = 0;
             CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, 0, 200, 0, &findX, &findY, &findZ);
@@ -103,7 +103,7 @@ void Vehicle::UpdateLeaveScene()
         {
             actionStatus = ACTION_STATUS::ACTION_NONE;
 
-            Log::file << "destroying vehicle and passengers" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "destroying vehicle and passengers" << std::endl;
 
             if(Mod::IsActorAliveAndDefined(hDriver)) CleoFunctions::DESTROY_ACTOR(hDriver);
 
@@ -114,7 +114,7 @@ void Vehicle::UpdateLeaveScene()
                 
             CleoFunctions::DESTROY_CAR(hVehicle);
 
-            Log::file << "destroyed" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "destroyed" << std::endl;
         }
     }
 }
@@ -224,7 +224,7 @@ void Vehicle::RemoveBlip()
 
 void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 {
-    Log::file << "MakePedsEnterVehicleAndLeaveScene" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "MakePedsEnterVehicleAndLeaveScene" << std::endl;
 
     actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR;
 
@@ -234,7 +234,7 @@ void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 
     if(!CleoFunctions::CAR_DEFINED(hVehicle))
     {
-        Log::file << "Car is not defined" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is not defined" << std::endl;
         actionStatus = ACTION_STATUS::ACTION_NONE;
         return;
     }
@@ -263,12 +263,12 @@ void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 
 void Vehicle::CheckPassengers()
 {
-    Log::file << "CheckPassengers" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "CheckPassengers" << std::endl;
 
     std::vector<int> passengersToRemove;
 
-    Log::file << "Before deleting:" << std::endl;
-    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Before deleting:" << std::endl;
+    for(auto passenger : hPassengers) Log::Level(LOG_LEVEL::LOG_BOTH) << "Passenger: " << passenger << std::endl;
 
     for(auto passenger : hPassengers)
     {
@@ -284,25 +284,25 @@ void Vehicle::CheckPassengers()
         hPassengers.erase(it);
     }
 
-    Log::file << "After deleting:" << std::endl;
-    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "After deleting:" << std::endl;
+    for(auto passenger : hPassengers) Log::Level(LOG_LEVEL::LOG_BOTH) << "Passenger: " << passenger << std::endl;
 }
 
 void Vehicle::ReplaceDriverByAnyPassenger()
 {
-    Log::file << "ReplaceDriverByAnyPassenger" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ReplaceDriverByAnyPassenger" << std::endl;
 
     bool changedDriver = false;
 
-    Log::file << "Before deleting:" << std::endl;
-    Log::file << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
-    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Before deleting:" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
+    for(auto passenger : hPassengers) Log::Level(LOG_LEVEL::LOG_BOTH) << "Passenger: " << passenger << std::endl;
 
     for(auto passenger : hPassengers)
     {
         if(Mod::IsActorAliveAndDefined(passenger))
         {
-            Log::file << "Passenger " << passenger << " is able to be driver" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Passenger " << passenger << " is able to be driver" << std::endl;
 
             hDriver = passenger;
             changedDriver = true;
@@ -316,23 +316,23 @@ void Vehicle::ReplaceDriverByAnyPassenger()
         hPassengers.erase(it);
     }
 
-    Log::file << "After deleting:" << std::endl;
-    Log::file << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
-    for(auto passenger : hPassengers) Log::file << "Passenger: " << passenger << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "After deleting:" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Driver: " << hDriver << ", passengers: " << hPassengers.size() << std::endl;
+    for(auto passenger : hPassengers) Log::Level(LOG_LEVEL::LOG_BOTH) << "Passenger: " << passenger << std::endl;
 }
 
 void Vehicle::RemoveDriverAndPassengersBlip()
 {
-    Log::file << "removing vehicle blip" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "removing vehicle blip" << std::endl;
     RemoveBlip();
 
-    Log::file << "removing driver " << hDriver << " blip" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "removing driver " << hDriver << " blip" << std::endl;
     if(hDriver > 0) Peds::TryCreatePed(hDriver)->RemoveBlip();
 
-    Log::file << "removing passengers blip" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "removing passengers blip" << std::endl;
     for(auto passenger : hPassengers) {
         Peds::TryCreatePed(passenger)->RemoveBlip();
     }
 
-    Log::file << "blips removed" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "blips removed" << std::endl;
 }

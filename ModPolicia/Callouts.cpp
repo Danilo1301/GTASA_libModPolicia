@@ -64,7 +64,7 @@ void Callouts::Update(int dt)
 
                 auto callout = m_Callouts[m_ModulatingCalloutIndex];
 
-                Log::file << "Modulating callout " << m_ModulatingCalloutIndex << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Modulating callout " << m_ModulatingCalloutIndex << std::endl;
 
                 char buffer[256];
                 sprintf(buffer, "MPFX%i", callout.gxtId);
@@ -89,12 +89,12 @@ void Callouts::Update(int dt)
                 m_CurrentCalloutIndex = m_ModulatingCalloutIndex;
                 m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 
-                Log::file << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
 
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX82", 0, 0, 0, 3000, 1);
                     
                 m_AproachingCallout = true;
-                Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
                 if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_ASSAULT) StartAssaultCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
@@ -113,14 +113,14 @@ void Callouts::UpdateCriminals(int dt)
     {   
         if(!CleoFunctions::ACTOR_DEFINED(criminal->hPed))
         {
-            Log::file << "Criminal is not defined anymore" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal is not defined anymore" << std::endl;
             removeCriminals.push_back(criminal);
             continue;
         }
 
         if(CleoFunctions::ACTOR_DEAD(criminal->hPed))
         {
-            Log::file << "Criminal is dead" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal is dead" << std::endl;
             criminal->RemoveBlip();
             removeCriminals.push_back(criminal);
             continue;
@@ -128,7 +128,7 @@ void Callouts::UpdateCriminals(int dt)
 
         if(Scorch::IsPedBeeingScorched(criminal->hPed))
         {
-            Log::file << "Criminal is beeing scorched" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal is beeing scorched" << std::endl;
             removeCriminals.push_back(criminal);
             continue;
         }
@@ -159,7 +159,7 @@ void Callouts::UpdateCriminals(int dt)
     {
         if(m_Criminals.size() == 0)
         {
-            Log::file << "Criminal number is 0, clearing callout" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal number is 0, clearing callout" << std::endl;
             m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX90", 0, 0, 0, 3000, 1);
@@ -177,7 +177,7 @@ CALLOUT_TYPE Callouts::GetRandomCallout()
         for(int i = 0; i < chance; i++) {
             ids.push_back(calloutIndex);
         }
-        Log::file << "callout " << calloutIndex << " chance " << chance << " total " << ids.size() << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "callout " << calloutIndex << " chance " << chance << " total " << ids.size() << std::endl;
     }
     
     int randomCalloutIndex = ids[Mod::GetRandomNumber(0, ids.size() - 1)];
@@ -285,7 +285,7 @@ void Callouts::StartStolenVehicleCallout()
         }
 
         /*
-        Log::file << "c1" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "c1" << std::endl;
 
         float spawnX = 0, spawnY = 0, spawnZ = 0;
         CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(calloutPosition.x, calloutPosition.y, calloutPosition.z, 2, &spawnX, &spawnY, &spawnZ);
@@ -293,7 +293,7 @@ void Callouts::StartStolenVehicleCallout()
         std::vector<int> vehicleModels = {445, 461, 479};
         int vehicleModel = vehicleModels[Mod::GetRandomNumber(0, vehicleModels.size() -1)];
         
-        Log::file << "creating car " << vehicleModel << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "creating car " << vehicleModel << std::endl;
 
         int car = CleoFunctions::CREATE_CAR_AT(vehicleModel, spawnX, spawnY, spawnZ);
 
@@ -305,13 +305,13 @@ void Callouts::StartStolenVehicleCallout()
 
         auto pedSkin = GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
 
-        Log::file << "create driver" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "create driver" << std::endl;
 
         int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 20, pedSkin.modelId);
 
         CleoFunctions::SET_CAR_ENGINE_OPERATION(car, true);
 
-        Log::file << "set to psycho" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "set to psycho" << std::endl;
 
         CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(car);
         */
@@ -344,7 +344,7 @@ void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)
         CleoFunctions::DISABLE_MARKER(marker);
 
         m_AproachingCallout = false;
-        Log::file << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
         onReachMarker(nodePosition);
     }); 
@@ -352,11 +352,11 @@ void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)
 
 Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius)
 {
-    Log::file << "SpawnPedInRandomPedPathLocation " << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "SpawnPedInRandomPedPathLocation " << std::endl;
 
-    Log::file << "position.x = " << position.x << std::endl;
-    Log::file << "position.y = " << position.y << std::endl;
-    Log::file << "position.z = " << position.z << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "position.x = " << position.x << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "position.y = " << position.y << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "position.z = " << position.z << std::endl;
 
     CVector offset = CVector(
       radius/2 + (float)(Mod::GetRandomNumber(0, (int)radius)),
@@ -364,9 +364,9 @@ Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector
       0
     );
 
-    Log::file << "offset.x = " << offset.x << std::endl;
-    Log::file << "offset.y = " << offset.y << std::endl;
-    Log::file << "offset.z = " << offset.z << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "offset.x = " << offset.x << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "offset.y = " << offset.y << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "offset.z = " << offset.z << std::endl;
 
     CVector tryPosition = position + offset;
 
@@ -383,7 +383,7 @@ SkinData Callouts::GetRandomSkin(SkinGenre genre, SkinGang gang)
 {
     std::vector<SkinData> possibleSkins;
 
-    Log::file << "Get random skin genre " << genre << ", gang " << gang << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Get random skin genre " << genre << ", gang " << gang << std::endl;
 
     for(auto skin : m_Skins)
     {
@@ -396,14 +396,14 @@ SkinData Callouts::GetRandomSkin(SkinGenre genre, SkinGang gang)
             if(skin.genre != genre) continue;
         }
 
-        Log::file << "Possible skin: " << skin.modelId << " genre " << skin.genre << ", gang " << skin.gang << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Possible skin: " << skin.modelId << " genre " << skin.genre << ", gang " << skin.gang << std::endl;
 
         possibleSkins.push_back(skin);
     }
 
     auto skin = possibleSkins[Mod::GetRandomNumber(0, possibleSkins.size() - 1)];
 
-    Log::file << "Skin chosed: " << skin.modelId << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Skin chosed: " << skin.modelId << std::endl;
 
     return skin;
 }

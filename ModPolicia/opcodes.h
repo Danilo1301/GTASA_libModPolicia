@@ -168,5 +168,5 @@ static void ADD_LOG_MESSAGE(__handler_params)
 {
     int num = __readParam(handle)->i;
     
-    Log::file << "Log: CLEO " << num << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Log: CLEO " << num << std::endl;
 }

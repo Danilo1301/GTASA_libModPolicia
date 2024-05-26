@@ -75,7 +75,7 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 
 void Chase::EndChase()
 {
-    Log::file << "end chase" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "end chase" << std::endl;
 
     m_ChasingPed = NULL;
 }

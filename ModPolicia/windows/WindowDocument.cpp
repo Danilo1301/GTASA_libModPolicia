@@ -14,6 +14,7 @@ CVector2D WindowDocument::m_TestPosition = CVector2D(548, 404);
 void WindowDocument::Create()
 {
     auto window = m_Window = Menu::AddWindow(6);
+    window->position = CVector2D(0, 0);
     
     auto confirm_button = window->AddFloatingButton(7, 0,0, CVector2D(660, 120), CVector2D(100, 30));
     confirm_button->onClick = []()

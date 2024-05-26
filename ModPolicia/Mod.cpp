@@ -41,49 +41,47 @@ void Mod::Update(int dt)
 
     //
 
-    bool deepLog = true;
-
-    if(deepLog) Log::file << "peds ------------------" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "peds ------------------" << std::endl;
 
     Peds::Update(dt);
 
-    if(deepLog) Log::file << "vehicles" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "vehicles" << std::endl;
 
     Vehicles::Update(dt);
 
-    if(deepLog) Log::file << "chase" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "chase" << std::endl;
 
     Chase::Update(dt);
 
-    if(deepLog) Log::file << "backup" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "backup" << std::endl;
 
     Backup::Update(dt);
 
-    if(deepLog) Log::file << "pullover" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "pullover" << std::endl;
 
     Pullover::Update(dt);
    
-    if(deepLog) Log::file << "scorch" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "scorch" << std::endl;
 
     Scorch::Update(dt);
    
-    if(deepLog) Log::file << "callouts" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "callouts" << std::endl;
    
     Callouts::Update(dt);
 
-    if(deepLog) Log::file << "cleofuncitions" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofuncitions" << std::endl;
 
     CleoFunctions::Update(dt);
 
     WindowDocument::Draw();
 
-    if(deepLog) Log::file << "menu" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "menu" << std::endl;
 
     Menu::Update(dt);
     
     Menu::Draw();
 
-    if(deepLog) Log::file << "input" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "input" << std::endl;
 
     Input::Update(dt);
 
@@ -109,15 +107,15 @@ void Mod::Update(int dt)
     {
         if(!loadedAnimations)
         {
-            Log::file << "Checking for animations..." << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Checking for animations..." << std::endl;
 
             if(CleoFunctions::HAS_ANIMATION_LOADED("POLICE") && CleoFunctions::HAS_ANIMATION_LOADED("GANGS"))
             {
                 loadedAnimations = true;
 
-                Log::file << "Animations are already loaded!" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Animations are already loaded!" << std::endl;
             } else {
-                Log::file << "Loading animations..." << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading animations..." << std::endl;
 
                 CleoFunctions::LOAD_ANIMATION("GANGS");
                 CleoFunctions::LOAD_ANIMATION("POLICE");
@@ -153,7 +151,7 @@ void Mod::Update(int dt)
     }
     */
 
-    if(deepLog) Log::file << "end ---------" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "end ---------" << std::endl;
 }
 
 void Mod::Load()

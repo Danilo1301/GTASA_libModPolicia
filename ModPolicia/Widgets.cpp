@@ -14,7 +14,7 @@ void Widgets::Update(int dt)
         if(data->isPressed)
         {
             data->pressTime += dt;
-            Log::file << "Widget " << widgetId << " pressTime: " << data->pressTime << std::endl;
+            Log::Level(LOG_LEVEL::LOG_UPDATE) << "Widget " << widgetId << " pressTime: " << data->pressTime << std::endl;
         }
 
         data->hasJustPressed = false;
@@ -52,7 +52,7 @@ bool Widgets::IsWidgetPressed(int widgetId)
             data->isPressed = true;
             data->hasJustPressed = true;
             data->pressTime = 0;
-            Log::file << "[Widgets] Widget " << widgetId << " hasJustPressed" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "[Widgets] Widget " << widgetId << " hasJustPressed" << std::endl;
         }
     } else {
 
@@ -62,7 +62,7 @@ bool Widgets::IsWidgetPressed(int widgetId)
             data->isPressed = false;
             data->hasJustReleased = true;
             data->pressTime = 0;
-            Log::file << "[Widgets] Widget " << widgetId << " hasJustReleased" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "[Widgets] Widget " << widgetId << " hasJustReleased" << std::endl;
         } 
     }
     return pressed;
