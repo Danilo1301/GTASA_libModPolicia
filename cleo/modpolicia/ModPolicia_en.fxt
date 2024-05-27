@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod BETA v0.6.0 (by Danilo1301)
+MPFX6 Police Mod BETA v0.7.0 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -102,6 +102,15 @@ MPFX101 Violating traffic lights
 MPFX102 Playing cellphone while driving
 MPFX103 Ride without a hellmet
 MPFX104 Ticket issued!
+MPFX105 Weapon ~1~
+MPFX106 Num of peds
+MPFX107 Configure backup
+MPFX108 Weapon
+MPFX109 Call tow-truck
+MPFX110 ~b~[Officer] ~w~I need a tow-truck...
+MPFX111 Enable mod
+MPFX112 Disable mod
+MPFX113 Money: ~1~$
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

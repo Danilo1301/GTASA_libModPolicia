@@ -22,8 +22,11 @@ public:
     static std::vector<ScorchPedData*> m_ScorchingPeds;
 
     static std::vector<CVector> m_PoliceDepartmentPositions;
+    static std::vector<Vehicle*> m_TowTrucks;
 
     static void Update(int dt);
+    static void UpdateTowTrucks(int dt);
+    static void UpdateScorchingPeds(int dt);
 
     static void StartScorchingPed(Ped* ped);
     static void CallVehicleToScorchPed(Ped* ped);
@@ -34,4 +37,6 @@ public:
     static int GetClosestPoliceDepartment();
 
     static bool IsPedBeeingScorched(int hPed);
+
+    static void CallTowTruckToVehicle(Vehicle* vehicle);
 };

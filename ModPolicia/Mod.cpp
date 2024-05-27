@@ -21,8 +21,9 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "0.6.0";
+const char* Mod::m_Version = "0.7.0";
 unsigned int Mod::m_TimePassed = 0;
+bool Mod::m_Enabled = true;
 
 bool loadedAnimations = false;
 
@@ -223,4 +224,20 @@ CVector Mod::GetPedPosition(int hPed)
 bool Mod::IsActorAliveAndDefined(int hPed)
 {
     return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);
+}
+
+void Mod::ToggleMod(bool enabled)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Toggle mod: " << (enabled ? "Enabled" : "Disabled") << std::endl;
+
+    m_Enabled = enabled;
+
+    if(enabled)
+    {
+        CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(0, true);
+        CleoFunctions::SET_MAX_WANTED_LEVEL_TO(0);
+    } else {
+        CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(0, false);
+        CleoFunctions::SET_MAX_WANTED_LEVEL_TO(6);
+    }
 }

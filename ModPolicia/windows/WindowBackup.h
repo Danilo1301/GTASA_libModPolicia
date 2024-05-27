@@ -4,10 +4,17 @@
 
 #include "../menu/Menu.h"
 
+#include "../Backup.h"
+
 class WindowBackup {
 public:
     static Window* m_Window;
+    static Window* m_BackupConfigWindow;
+	static bool m_CloseToBackupWindow;
     
 	static void Create();
 	static void Remove();
+
+	static void CreateBackupConfig();
+	static void CreateBackupConfigForBackup(BackupVehicle* backupVehicle);
 };

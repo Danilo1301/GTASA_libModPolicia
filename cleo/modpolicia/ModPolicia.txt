@@ -109,11 +109,13 @@ end
 0247: load_model 490 //fbiranch
 0247: load_model 286 //fbi
 0247: load_model 497 //maverick
+0247: load_model 525 //towtruck
 
 //male
 0247: load_model 19
 0247: load_model 7
 0247: load_model 29
+0247: load_model 50 //wmymech
 
 //female
 0247: load_model 193
@@ -134,6 +136,9 @@ end
 //weapons
 0247: load_model 346 //pistol
 0247: load_model 335 //knife
+0247: load_model 348 //deagle
+0247: load_model 349 //shotgun
+0247: load_model 356 //m4
           
 038B: load_requested_models 
 
@@ -166,13 +171,16 @@ if and
     0248: model 490 available //fbiranch
     0248: model 286 available //fbi
     0248: model 497 available //maverick
+    0248: model 525 available //towtruck
     
     //male
     0248: model 19 available
     0248: model 7 available
-    0248: model 29 available
 jf @PRELOAD
 if and
+    0248: model 29 available
+    0248: model 50 available //wmymech
+    
     //female
     0248: model 193 available
     0248: model 12 available
@@ -182,10 +190,10 @@ if and
     0248: model 102 available    
     0248: model 103 available
     0248: model 104 available
-    0248: model 108 available
-    0248: model 109 available
 jf @PRELOAD
 if and
+    0248: model 108 available
+    0248: model 109 available
     0248: model 110 available
     0248: model 114 available
     0248: model 115 available
@@ -194,6 +202,11 @@ if and
     //weapons
     0248: model 346 available
     0248: model 335 available
+jf @PRELOAD
+if and
+    0248: model 348 available //deagle
+    0248: model 349 available //shotgun
+    0248: model 356 available //m4
 jf @PRELOAD
 
 0F23: add_log_message 103
@@ -859,5 +872,41 @@ end
 if VAR_GxtId == 104
 then
      VAR_STR_1 = "MPFX104"
+end
+if VAR_GxtId == 105
+then
+     VAR_STR_1 = "MPFX105"
+end
+if VAR_GxtId == 106
+then
+     VAR_STR_1 = "MPFX106"
+end
+if VAR_GxtId == 107
+then
+     VAR_STR_1 = "MPFX107"
+end
+if VAR_GxtId == 108
+then
+     VAR_STR_1 = "MPFX108"
+end
+if VAR_GxtId == 109
+then
+     VAR_STR_1 = "MPFX109"
+end
+if VAR_GxtId == 110
+then
+     VAR_STR_1 = "MPFX110"
+end
+if VAR_GxtId == 111
+then
+     VAR_STR_1 = "MPFX111"
+end
+if VAR_GxtId == 112
+then
+     VAR_STR_1 = "MPFX112"
+end
+if VAR_GxtId == 113
+then
+     VAR_STR_1 = "MPFX113"
 end
 return

@@ -33,8 +33,8 @@ SprintFixByYuna.csa
 * Você precisa estar a pé ou de carro para abordar
 * Para abordar a pé: mire em alguém e aperte o botão de buzina
 * Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE))
-* Pressione os 'números imaginários' 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes
 * Para abrir o menu do carro policial: chegue perto de uma viatura (carro) e aperte o widget de checkmark ([exemplo](https://imgur.com/gallery/checkmark-apBNac1))
+* Pressione os 'números imaginários' 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes (precisa ativar nas settings.ini)
 
 <h1>Tutoriais</h1>
 

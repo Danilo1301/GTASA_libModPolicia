@@ -20,7 +20,7 @@ void WindowPullover::CreatePullingPed()
     auto window = m_Window = Menu::AddWindow(6);
     window->showPageControls = true;
     
-    auto text_id = window->AddText(27, CRGBA(255, 255, 255));
+    auto text_id = window->AddText(27);
     text_id->text->num1 = ped->hPed;
 
     /*
@@ -192,6 +192,16 @@ void WindowPullover::CreatePullingPed()
         {
             Remove();
             WindowTicket::Create();
+        };
+    }
+
+    if(ped->hVehicleOwned > 0)
+    {
+        auto button_guincho = window->AddButton(109, 0, 0);
+        button_guincho->onClick = [ped]()
+        {
+            Remove();
+            Scorch::CallTowTruckToVehicle(Vehicles::GetVehicleByHandle(ped->hVehicleOwned));
         };
     }
 

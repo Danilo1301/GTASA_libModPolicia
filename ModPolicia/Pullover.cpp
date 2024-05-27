@@ -36,6 +36,8 @@ void Pullover::UpdateWidgetPress(int dt)
     if(m_PullingPed || m_PullingVehicle || Chase::m_ChasingPed)
         return;
 
+    if(!Mod::m_Enabled) return;
+
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
     int pulloverWidget = 7;
     int pulloverTouchButton = 2;

@@ -29,8 +29,8 @@ SprintFixByYuna.csa
 * You need to be on foot or in a vehicle to pull over
 * To stop in foot: aim to someone and press horn button
 * To stop from a vehicle: press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE))
-* Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu
 * To open the police car menu: get closer to a police car and press the checkmark widget ([example](https://imgur.com/gallery/checkmark-apBNac1))
+* Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu (you need to enable in the settings.ini)
 
 <h1>Tutorials</h1>
 

@@ -49,7 +49,7 @@ void Callouts::Update(int dt)
 { 
     if(!IsModulatingCallout())
     {
-        if(!Pullover::m_PullingPed && !Chase::m_ChasingPed)
+        if(!Pullover::m_PullingPed && !Chase::m_ChasingPed && Mod::m_Enabled)
         {
             if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_NONE)
             {
@@ -406,4 +406,24 @@ SkinData Callouts::GetRandomSkin(SkinGenre genre, SkinGang gang)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Skin chosed: " << skin.modelId << std::endl;
 
     return skin;
+}
+
+Ped* Callouts::GetClosestCriminal(CVector fromPosition)
+{
+    Ped* closestCriminal = NULL;
+    double closestDistance = INFINITY;
+
+    for(auto criminal : m_Criminals)
+    {
+        auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+        auto distance = DistanceBetweenPoints(fromPosition, criminalPosition);
+
+        if(distance < closestDistance)
+        {
+            closestDistance = distance;
+            closestCriminal = criminal;
+        }
+    }
+
+    return closestCriminal;
 }

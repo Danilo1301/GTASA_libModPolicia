@@ -1,6 +1,8 @@
 {$CLEO .csa}
 03A4: script_name 'Test'
 
+// Spawns roadblocks
+
 0000:
 0@ = 0
 jump @PRELOAD
@@ -22,21 +24,18 @@ then
     then
         02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 1000 flag 1
         
-        09C7: change_player 0 model_to 284
-        01B2: give_actor $PLAYER_ACTOR weapon 31 ammo 10000    
-        01B2: give_actor $PLAYER_ACTOR weapon 22 ammo 10000
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+                        
+        02C1: store_to 4@ 5@ 6@ car_path_coords_closest_to 1@ 2@ 3@ 
+        
+        04C0: create_roadblock_in_area_cornerA 4@ 5@ 6@ cornerB 4@ 5@ 6@ type 0
+        
+        03BC: 7@ = create_sphere_at 4@ 5@ 6@ radius 3.0  
         
         wait 1000
     end
     
     if 0@ == 2
-    then
-        02FF: show_text_3numbers GXT 'MPFX1' numbers 2 0 0 time 1000 flag 1
-        
-        wait 1000
-    end
-    
-    if 0@ == 3
     then
        0@ = 0
     end
@@ -48,10 +47,11 @@ jump @MAIN
 
 :PRELOAD
 
-0247: load_model 284
-0247: load_model 356
-0247: load_model 346
+/*
+0247: load_model 280
+0247: load_model 596
 038B: load_requested_models
+*/
 
 jump @PRELOAD_WAIT
 
@@ -59,10 +59,11 @@ jump @PRELOAD_WAIT
 
 :PRELOAD_WAIT
 
+/*
 if and
-    0248: model 284 available
-    0248: model 356 available
-    0248: model 346 available
+    0248: model 280 available
+    0248: model 596 available
 jf @PRELOAD_WAIT
+*/
 
 jump @MAIN

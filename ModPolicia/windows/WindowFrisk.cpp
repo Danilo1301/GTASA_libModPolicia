@@ -52,6 +52,11 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
 
+    if(item->type == Item_Type::DOCUMENTS)
+    {
+        window->AddText(113, ped->money, 0, CRGBA(255, 255, 255));
+    }
+
     if(item->type == Item_Type::CELLPHONE)
     {
         auto button_imei = window->AddButton(50);

@@ -14,13 +14,14 @@
 std::vector<Vehicle*> Backup::m_BackupVehicles;
 BACKUP_TYPE Backup::m_BackupType = BACKUP_TYPE::BACKUP_CHASE;
 std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
-    {596, 280, true, 22}, //LS
-    {523, 284, false, 22}, //Bike
-    {490, 286, true, 31}, //FBI
-    {597, 281, true, 22}, //SF
-    {598, 282, true, 22}, //LV
-    {599, 283, true, 22}, //Ranger
+    {596, 280, 2, 4, 22}, //LS
+    {523, 284, 1, 2, 22}, //Bike
+    {490, 286, 4, 4, 31}, //FBI
+    {597, 281, 2, 4, 22}, //SF
+    {598, 282, 2, 4, 22}, //LV
+    {599, 283, 4, 4, 22} //Ranger
 };
+std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 
 void Backup::Update(int dt)
 {
@@ -65,6 +66,29 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
          //if going to callout
         if(vehicle->actionStatus == ACTION_STATUS::CALLOUT_GOING_TO_CALLOUT)
         {
+            if(Callouts::m_Criminals.size() == 0)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "going to callout but there are no criminals" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "set to acting on callout" << std::endl;
+
+                vehicle->actionStatus = ACTION_STATUS::CALLOUT_ACTING_ON_CALLOUT;
+
+                continue;
+            }
+
+            auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+            auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
+            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+
+            if(DistanceBetweenPoints(criminalPosition, vehicle->drivingTo) > 3)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "criminal is far away from old position" << std::endl;
+
+                vehicle->drivingTo = criminalPosition;
+
+                CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, criminalPosition.x, criminalPosition.y, criminalPosition.z);
+            }
+
             auto distance = DistanceBetweenPoints(Mod::GetCarPosition(vehicle->hVehicle), vehicle->drivingTo);
 
             if(distance < 20)
@@ -193,9 +217,9 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
 
     CleoFunctions::GIVE_ACTOR_WEAPON(driver, backupVehicle->weaponId, 10000);
 
-    if(backupVehicle->hasPassenger)
+    for(int i = 0; i < backupVehicle->numPeds - 1; i++)
     {
-        int passenger = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(car, type, backupVehicle->pedModelId, 0);
+        int passenger = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(car, type, backupVehicle->pedModelId, i);
         auto pedPassenger = Peds::TryCreatePed(passenger);
         pedPassenger->AddBlip(2);
         vehicle->hPassengers.push_back(passenger);
@@ -219,9 +243,9 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
     {
         if(Callouts::m_Criminals.size() > 0)
         {
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "make car drive to criminal" << std::endl;
-
-            auto criminal = Callouts::m_Criminals[0];
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "make car drive to closest criminal" << std::endl;
+            
+            auto criminal = Callouts::GetClosestCriminal(CVector(spawnX, spawnY, spawnZ));
             auto position = Mod::GetPedPosition(criminal->hPed);
 
             CleoFunctions::CAR_DRIVE_TO(car, position.x, position.y, position.z);

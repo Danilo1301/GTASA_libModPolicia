@@ -6,6 +6,7 @@ class Mod {
 public:
     static const char* m_Version;
     static unsigned int m_TimePassed;
+    static bool m_Enabled;
 
     static void Update(int dt);
     static void Load();
@@ -28,4 +29,6 @@ public:
     static CVector GetCarPosition(int hVehicle);
     static CVector GetPedPosition(int hPed);
     static bool IsActorAliveAndDefined(int hPed);
+
+    static void ToggleMod(bool enabled);
 };

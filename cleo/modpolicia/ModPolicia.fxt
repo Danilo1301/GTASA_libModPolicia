@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia BETA v0.6.0 (by Danilo1301)
+MPFX6 Mod Policia BETA v0.7.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -102,3 +102,12 @@ MPFX101 Ignorando sinais de transito
 MPFX102 Usando celular no volante
 MPFX103 Dirigir sem capacete
 MPFX104 Multa aplicada!
+MPFX105 Arma ~1~
+MPFX106 Numero de peds
+MPFX107 Configurar reforco
+MPFX108 Arma
+MPFX109 Chamar guincho
+MPFX110 ~b~[Policial] ~w~COPOM, solicito apoio de um guincho
+MPFX111 Ativar mod
+MPFX112 Desativar mod
+MPFX113 Dinheiro: ~1~$

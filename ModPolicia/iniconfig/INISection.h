@@ -2,6 +2,11 @@
 
 #include "../pch.h"
 
+/*
+Modified 26/05/24
+Version 1.0.0
+*/
+
 class INISection {
 public:
     std::vector<std::pair<std::string, std::string>> values;
@@ -20,16 +25,16 @@ public:
 
     void AddLine(std::string value);
 
-    int GetInt(std::string key, int defaultValue);
-    void GetIntDefault(std::string key, int* pValue);
+    int GetIntWithDefaultValue(std::string key, int defaultValue);
+    void GetInt(std::string key, int* pValue);
 	void AddInt(std::string key, int value);
 
-    float GetFloat(std::string key, float defaultValue);
-    void GetFloatDefault(std::string key, float* pValue);
+    float GetFloatWithDefaultValue(std::string key, float defaultValue);
+    void GetFloat(std::string key, float* pValue);
 	void AddFloat(std::string key, float value);
 
-    bool GetBool(std::string key, bool defaultValue);
-    void GetBoolDefault(std::string key, bool* pValue);
+    bool GetBoolWithDefaultValue(std::string key, bool defaultValue);
+    void GetBool(std::string key, bool* pValue);
 	void AddBool(std::string key, bool value);
 
     CVector GetCVector(std::string key, CVector defaultValue);

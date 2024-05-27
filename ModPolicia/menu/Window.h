@@ -48,7 +48,8 @@ public:
 	Item* AddFloatingButton(int gxtId, int num1, int num2, CVector2D position, CVector2D size, CRGBA color);
 	Item* AddFloatingButton(int gxtId, int num1, int num2, CVector2D position, CVector2D size);
 	Item* AddCheckbox(int gxtId, bool* value);
-	Item* AddText(int gxtId, CRGBA color);
+	Item* AddText(int gxtId, int num1, int num2, CRGBA color);
+	Item* AddText(int gxtId);
 	Item* AddOptions(int gxtId);
 	Item* AddFloatRange(int gxtId, float* value, float min, float max, float addBy);
 	Item* AddIntRange(int gxtId, int* value, int min, int max, int addBy);

@@ -37,6 +37,8 @@ Ped::Ped(int hPed)
     if(Mod::CalculateProbability(CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE)) this->cnhValidYear = Mod::GetRandomNumber(currentYear - 5, currentYear);
 
     this->isWanted = Mod::CalculateProbability(CHANCE_PED_BEEING_WANTED);
+
+    this->money = Mod::GetRandomNumber(0, 200);
 }
 
 Ped::~Ped()

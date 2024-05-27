@@ -16,7 +16,15 @@ std::vector<CVector> Scorch::m_PoliceDepartmentPositions = {
     CVector(2289.8784, 2425.8894, 10.8203) //dp lv
 };
 
+std::vector<Vehicle*> Scorch::m_TowTrucks;
+
 void Scorch::Update(int dt)
+{
+    UpdateTowTrucks(dt);
+    UpdateScorchingPeds(dt);
+}
+
+void Scorch::UpdateScorchingPeds(int dt)
 {
     std::vector<ScorchPedData*> toRemove;
 
@@ -73,6 +81,7 @@ void Scorch::Update(int dt)
                 continue;
             }
         }
+
         if(vehicle->actionStatus == ACTION_STATUS::SCORCH_GOING_TO_PED)
         {
             auto carPos = Mod::GetCarPosition(vehicle->hVehicle);
@@ -95,6 +104,7 @@ void Scorch::Update(int dt)
             }
             continue;
         }
+
         if(vehicle->actionStatus == ACTION_STATUS::SCORCH_WAITING_FOR_PED_TO_ENTER)
         {
             if(CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed))
@@ -113,6 +123,41 @@ void Scorch::Update(int dt)
     {
         auto it = std::find(m_ScorchingPeds.begin(), m_ScorchingPeds.end(), item);
         m_ScorchingPeds.erase(it);
+    }
+}
+
+void Scorch::UpdateTowTrucks(int dt)
+{
+    std::vector<Vehicle*> toRemove;
+
+    for(auto towTruck : m_TowTrucks)
+    {
+        if(towTruck->actionStatus == ACTION_STATUS::TOWING_GOING_TO_CAR)
+        {
+            auto towTruckPosition = Mod::GetCarPosition(towTruck->hVehicle);
+            auto destination = towTruck->drivingTo;
+            auto distance = DistanceBetweenPoints(towTruckPosition, destination);
+
+            if(distance < 10)
+            {
+                CleoFunctions::PUT_TRAILER_ON_CAB(towTruck->towingVehicle, towTruck->hVehicle);
+
+                towTruck->MakePedsEnterVehicleAndLeaveScene();
+
+                CleoFunctions::FADE(100, 0);
+                CleoFunctions::WAIT(100, []() {
+                    CleoFunctions::FADE(1000, 1);
+                });
+
+                toRemove.push_back(towTruck);
+            }
+        }
+    }
+
+    for(auto item : toRemove)
+    {
+        auto it = std::find(m_TowTrucks.begin(), m_TowTrucks.end(), item);
+        m_TowTrucks.erase(it);
     }
 }
 
@@ -245,7 +290,10 @@ void Scorch::TeleportPedToPrision(Ped* ped)
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "fade" << std::endl;
 
-    CleoFunctions::FADE(500, 1);
+    CleoFunctions::FADE(1000, 0);
+    CleoFunctions::WAIT(1000, []() {
+        CleoFunctions::FADE(1000, 1);
+    });
 }
 
 void Scorch::DestroyScorchData(ScorchPedData* data)
@@ -291,4 +339,52 @@ bool Scorch::IsPedBeeingScorched(int hPed)
         if(scorchData->ped->hPed == hPed) return true;
     }
     return false;
+}
+
+void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Call tow truck to vehicle" << std::endl;
+
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 2000, 1); //solicito guincho
+
+    Pullover::m_PullingPed->hVehicleOwned = 0;
+    Pullover::m_PullingPed = NULL;
+    Pullover::m_PullingVehicle->hDriver = 0;
+    Pullover::m_PullingVehicle = NULL;
+
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float trySpawnCarX = 0, trySpawnCarY = 0, trySpawnCarZ = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 100, 0, &trySpawnCarX, &trySpawnCarY, &trySpawnCarZ);
+
+    float spawnCarX = 0, spawnCarY = 0, spawnCarZ = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(trySpawnCarX, trySpawnCarY, trySpawnCarZ, 2, &spawnCarX, &spawnCarY, &spawnCarZ);
+    
+    int towtruck = CleoFunctions::CREATE_CAR_AT(525, spawnCarX, spawnCarY, spawnCarZ);
+    
+    auto towtruckVehicle = Vehicles::TryCreateVehicle(towtruck);
+    towtruckVehicle->towingVehicle = vehicle->hVehicle;
+    m_TowTrucks.push_back(towtruckVehicle);
+
+    CleoFunctions::SET_CAR_ENGINE_OPERATION(towtruck, true);
+    CleoFunctions::SET_CAR_MAX_SPEED(towtruck, 25.0f);
+    CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(towtruck, 2);
+  
+    int blip = towtruckVehicle->AddBlip(2);
+
+    int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(towtruck, 23, 50);
+
+    towtruckVehicle->hDriver = driver;
+
+    auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+
+    float driveToX = 0, driveToY = 0, driveToZ = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(vehiclePosition.x, vehiclePosition.y, vehiclePosition.z, 2, &driveToX, &driveToY, &driveToZ);
+
+    towtruckVehicle->drivingTo = CVector(driveToX, driveToY, driveToZ);
+    towtruckVehicle->actionStatus = ACTION_STATUS::TOWING_GOING_TO_CAR;
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "make tow truck drive to other vehicle" << std::endl;
+
+    CleoFunctions::CAR_DRIVE_TO(towtruck, driveToX, driveToY, driveToZ);
 }

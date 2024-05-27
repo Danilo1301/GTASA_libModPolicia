@@ -1,0 +1,106 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Spawns a ped, a car, makes the ped enter the car and drive away
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+            
+    if 0@ == 1
+    then
+        
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0 
+        073E: get_car_in_sphere 1@ 2@ 3@ radius 5.0 model -1 handle_as $CAR
+        
+        if 056E: car $CAR defined
+        then
+            0186: $CAR_MARKER = create_marker_above_car $CAR 
+
+            04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 30.0 0.0
+            
+            00A5: $TOW = create_car 525 at 1@ 2@ 3@
+            
+            0407: store_coords_to 1@ 2@ 3@ from_car $CAR with_offset 0.0 0.0 0.0
+            
+            00A7: car $TOW drive_to 1@ 2@ 3@ 
+        end 
+        
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+        016A: fade 0 time 1000
+        wait 1000
+        016A: fade 1 time 1000 
+        wait 1000
+    end
+    
+    if 0@ == 3
+    then
+        0893: put_trailer $CAR on_cab $TOW 
+
+        wait 1000
+        
+        /*
+        doesnt work?
+        if 0686: car $CAR attached
+        then
+        else
+            00A6: destroy_car $CAR
+        end 
+        */
+
+        if 07AB: car $TOW has_attached_trailer $CAR
+        then
+        else
+            00A6: destroy_car $CAR 
+        end 
+        
+        wait 1000
+    end
+    
+    if 0@ == 4
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+0247: load_model 525
+0247: load_model 50
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if and
+    0248: model 525 available
+    0248: model 50 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

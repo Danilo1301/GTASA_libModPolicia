@@ -23,6 +23,11 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void SET_MAX_WANTED_LEVEL_TO(int wantedLevel);
+    static void SET_PLAYER_IGNORED_BY_COPS(int player, bool state);
+    static void PUT_TRAILER_ON_CAB(int trailer, int cab);
+    static void AS_ACTOR_DRIVE_CAR_TO(int driver, int vehicle, float x, float y, float z, float speed, int driveStyle, int modelId, int drivingStyle);
+    static void CLEAR_ACTOR_TASK(int _char);
     static void CHANGE_PLAYER_MODEL_TO(int player, int modelId);
     static int GET_CAR_MODEL(int car);
     static int CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, int pedType, int modelId, int seatId);

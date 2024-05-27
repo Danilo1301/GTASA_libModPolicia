@@ -89,7 +89,9 @@ void Vehicle::UpdateLeaveScene()
             float findX = 0, findY = 0, findZ = 0;
             CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, 0, 200, 0, &findX, &findY, &findZ);
             
-            CleoFunctions::CAR_DRIVE_TO(hVehicle, findX, findY, findZ);
+            //CleoFunctions::CLEAR_ACTOR_TASK(hDriver); //doesnt do anything
+            //CleoFunctions::CAR_DRIVE_TO(hVehicle, findX, findY, findZ); //makes car drive backwards?
+            CleoFunctions::AS_ACTOR_DRIVE_CAR_TO(hDriver, hVehicle, findX, findY, findZ, 15.0f, 0, 0, 2);
 
             fromPos = Mod::GetCarPosition(hVehicle);
         }
@@ -113,6 +115,13 @@ void Vehicle::UpdateLeaveScene()
             }
                 
             CleoFunctions::DESTROY_CAR(hVehicle);
+
+            if(towingVehicle > 0)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "destroying towing vehicle" << std::endl;
+
+                CleoFunctions::DESTROY_CAR(towingVehicle);
+            }
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "destroyed" << std::endl;
         }

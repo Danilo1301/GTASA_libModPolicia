@@ -18,7 +18,9 @@ enum ACTION_STATUS {
     CHASE_CHASING,
 
     CALLOUT_GOING_TO_CALLOUT,
-    CALLOUT_ACTING_ON_CALLOUT
+    CALLOUT_ACTING_ON_CALLOUT,
+
+    TOWING_GOING_TO_CAR
 };
 
 class Vehicle {
@@ -43,6 +45,8 @@ public:
     CVector drivingTo = CVector(0, 0, 0);
 
     ACTION_STATUS actionStatus = ACTION_STATUS::ACTION_NONE;
+
+    int towingVehicle = 0;
 
     Vehicle(int hVehicle);
 	~Vehicle();

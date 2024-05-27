@@ -197,13 +197,15 @@ Item* Window::AddIntRange(int gxtId, int* value, int min, int max, int addBy)
 	return item;
 }
 
-Item* Window::AddText(int gxtId, CRGBA color)
+Item* Window::AddText(int gxtId, int num1, int num2, CRGBA color)
 {
 	Item* item = new Item(eItemType::ITEM_TEXT);
 
 	item->drawLabel = false;
 
 	item->text->gxtId = gxtId;
+	item->text->num1 = num1;
+	item->text->num2 = num2;
 	item->text->color = color;
 	item->useFullWidth = true;
 	item->box->size.y = 25;
@@ -214,6 +216,12 @@ Item* Window::AddText(int gxtId, CRGBA color)
 
 	return item;
 }
+
+Item* Window::AddText(int gxtId)
+{
+	return AddText(gxtId, 0, 0, CRGBA(255, 255, 255));
+}
+
 
 
 void Window::Update()

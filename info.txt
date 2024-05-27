@@ -7,7 +7,6 @@ Check EN and PT .fxt
 Check .fxt mod version (EN and PT)
 Check game more than once to make sure
 Check if config is saving
-Set deepLog=true in Mod.cpp
 
 Change version file in the .zip
 
@@ -62,7 +61,7 @@ Initial release
 [X] FIX: callouts in the middle of a pullover or of another callout
 [X] FIX: bug beeing unable to pullover a ped after you ask him to leave the car and wait there
 
-[0.5]
+[0.5.0]
 [X] ADD: option to call vehicle to scorch suspect
 [X] ADD: option to teleport suspect to prision
 [X] ADD: helicopter backup 
@@ -70,7 +69,7 @@ Initial release
 [X] ADD: gang shots fired callout
 [X] FIX: backup cars stand still if chase ends
 
-[0.6]
+[0.6.0]
 [X] ADD: police car menu
 [X] ADD: scorch more than one ped to pd
 [X] FIX: crash when removing window from vector (im so stupid for let this happen, but im more impressed it only crashed after 7 releases)
@@ -82,8 +81,21 @@ Initial release
 [X] issue ticket
 [X] FIX: car not driving after you free him from pullover
 
-[] ADD: log levels and different files
-[] FIX: lapdm1 coming with wrong skin
+[0.7.0]
+[X] ADD: log levels and different files
+[X] FIX: lapdm1 coming with wrong skin
+[X] ADD: multiple passengers in backup with custom weapons
+[X] CHANGE: inisection
+[X] FIX: backup going to old criminal position
+[X] ADD: tow truck
+[X] ADD: option to disable mod
+[X] ADD: money to ped wallet
+
+--------------------------
+Notes:
+
+[X] Changed callout chances
+
 ---------------------------
 Sugestoes:
 
@@ -105,10 +117,8 @@ Sugestoes:
 [ ] NPC deve ir no banco de trás.
 [ ] quando for levar o npc pra dp, fazer ele entrar no carro primeiro, permitindo q o jogador entre depois
 [ ] descer do carro ao chegar na DP
-[ ] GUINCHO PARA CARRO E MOTO
 [ ] OCORRÊNCIA DE MANDATO DE PRISÃO 
 [ ] FAZER PERGUNTAS AO PRESO IGUAL NO LSPDFR DO GTA 5 (Essa droga é sua?, mora aonde?, Esse carro é seu?, Já foi preso ou tem passagem)
-[ ] editar tamanho e posição do menu
 
 ---------------------------
 Other suggestions / todo:

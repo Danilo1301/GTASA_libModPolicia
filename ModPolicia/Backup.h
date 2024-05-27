@@ -12,7 +12,8 @@ enum BACKUP_TYPE {
 struct BackupVehicle {
     int vehicleModelId;
     int pedModelId;
-    bool hasPassenger;
+    int numPeds;
+    int maxPeds;
     int weaponId;
 };
 
@@ -21,6 +22,7 @@ public:
     static std::vector<Vehicle*> m_BackupVehicles;
 	static BACKUP_TYPE m_BackupType;
 	static std::vector<BackupVehicle> m_DataBackupVehicles;
+	static std::vector<int> m_DataBackupWeapons;
 
     static void Update(int dt);
     static void UpdateBackupVehiclesActionStatus(int dt);

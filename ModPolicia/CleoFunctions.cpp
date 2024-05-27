@@ -3,6 +3,11 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(01F0, SET_MAX_WANTED_LEVEL_TO, i); //01F0: set_max_wanted_level_to 0 
+static DEFOPCODE(01F7, SET_PLAYER_IGNORED_BY_COPS, ib); //01F7: set_player $PLAYER_CHAR ignored_by_cops 1
+static DEFOPCODE(0893, PUT_TRAILER_ON_CAB, ii); //0893: put_trailer $CAR on_cab $TOW
+static DEFOPCODE(05D1, AS_ACTOR_DRIVE_CAR_TO, iiffffiii); //05D1: AS_actor $PED drive_car $CAR to 1@ 2@ 3@ speed 15.0 0 model #NULL 0
+static DEFOPCODE(0687, CLEAR_ACTOR_TASK, i); //0687: clear_actor $PLAYER_ACTOR task 
 static DEFOPCODE(09C7, CHANGE_PLAYER_MODEL_TO, ii); //09C7: change_player 0 model_to 280
 static DEFOPCODE(0441, GET_CAR_MODEL, iv); //0441: 7@ = car $47 model 
 static DEFOPCODE(01C8, CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, iiiiv); //01C8: $P2 = create_actor_pedtype 23 model 280 in_car $POLICE_CAR passenger_seat 0 
@@ -134,6 +139,31 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::SET_MAX_WANTED_LEVEL_TO(int wantedLevel)
+{
+    sautils->ScriptCommand(&scm_SET_MAX_WANTED_LEVEL_TO, wantedLevel);
+}
+
+void CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(int player, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_PLAYER_IGNORED_BY_COPS, player, state);
+}
+
+void CleoFunctions::PUT_TRAILER_ON_CAB(int trailer, int cab)
+{
+    sautils->ScriptCommand(&scm_PUT_TRAILER_ON_CAB, trailer, cab);
+}
+
+void CleoFunctions::AS_ACTOR_DRIVE_CAR_TO(int driver, int vehicle, float x, float y, float z, float speed, int driveStyle, int modelId, int drivingStyle)
+{
+    sautils->ScriptCommand(&scm_AS_ACTOR_DRIVE_CAR_TO, driver, vehicle, x, y, z, speed, driveStyle, modelId, drivingStyle);
+}
+
+void CleoFunctions::CLEAR_ACTOR_TASK(int _char)
+{
+    sautils->ScriptCommand(&scm_CLEAR_ACTOR_TASK, _char);
 }
 
 void CleoFunctions::CHANGE_PLAYER_MODEL_TO(int player, int modelId)

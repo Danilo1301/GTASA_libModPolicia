@@ -44,6 +44,8 @@ public:
 
     bool driveAfterEnterCar = false;
 
+    int money = 0;
+
     Inventory* inventory = new Inventory();
 
     Ped(int hPed);

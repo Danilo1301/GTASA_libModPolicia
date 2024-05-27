@@ -12,11 +12,14 @@
 
 #include "iniconfig/INIFile.h"
 
+#include "menu/Window.h"
+
 #include "Mod.h"
 #include "Log.h"
 #include "Ped.h"
 #include "Vehicle.h"
 #include "Callouts.h"
+#include "Backup.h"
 
 bool isDirExist(const std::string& path)
 {
@@ -142,6 +145,8 @@ void ModConfig::SaveSettings()
     generalSection->AddBool("enable_test_menu", ModConfig::EnableTestMenu);
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
 
+    //
+
     auto chancesSection = file.AddSection("Chances");
     chancesSection->AddFloat("CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME", Ped::CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME);
     chancesSection->AddFloat("CHANCE_PED_BEEING_DRUG_DEALER", Ped::CHANCE_PED_BEEING_DRUG_DEALER);
@@ -151,6 +156,22 @@ void ModConfig::SaveSettings()
 
     chancesSection->AddFloat("CHANCE_VEHICLE_BEEING_STOLEN", Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
     chancesSection->AddFloat("CHANCE_VEHICLE_HAVING_GUNS", Vehicle::CHANCE_VEHICLE_HAVING_GUNS);  
+
+    //
+
+    auto windowSection = file.AddSection("Window");
+    windowSection->AddFloat("position_x", Window::m_DefaultWindowPosition.x);
+    windowSection->AddFloat("position_y", Window::m_DefaultWindowPosition.y);
+
+    //
+
+    for(auto backupVehicle : Backup::m_DataBackupVehicles)
+    {
+        auto backupSection = file.AddSection("Backup_" + std::to_string(backupVehicle.vehicleModelId));
+
+        backupSection->AddInt("num_peds", backupVehicle.numPeds);
+        backupSection->AddInt("weapon_id", backupVehicle.weaponId);
+    }
 
     file.Save(settingsFileDir);
     file.Destroy();
@@ -176,31 +197,61 @@ void ModConfig::LoadSettings()
         return;
     }
 
-   
     auto generalSections = file.GetSections("General");
     if (generalSections.size() > 0)
     {
         auto generalSection = generalSections[0];
 
-        generalSection->GetBoolDefault("enable_test_menu", &ModConfig::EnableTestMenu);
-        generalSection->GetIntDefault("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
+        generalSection->GetBool("enable_test_menu", &ModConfig::EnableTestMenu);
+        generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
     }
+
+    //
 
     auto chancesSections = file.GetSections("Chances");
     if (chancesSections.size() > 0)
     {
         auto chancesSection = chancesSections[0];
 
-        chancesSection->GetFloatDefault("CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME", &Ped::CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME);
-        chancesSection->GetFloatDefault("CHANCE_PED_BEEING_DRUG_DEALER", &Ped::CHANCE_PED_BEEING_DRUG_DEALER);
-        chancesSection->GetFloatDefault("CHANCE_PED_CONSUME_DRUGS", &Ped::CHANCE_PED_CONSUME_DRUGS);
-        chancesSection->GetFloatDefault("CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE", &Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE);
-        chancesSection->GetFloatDefault("CHANCE_PED_BEEING_WANTED", &Ped::CHANCE_PED_BEEING_WANTED);
+        chancesSection->GetFloat("CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME", &Ped::CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME);
+        chancesSection->GetFloat("CHANCE_PED_BEEING_DRUG_DEALER", &Ped::CHANCE_PED_BEEING_DRUG_DEALER);
+        chancesSection->GetFloat("CHANCE_PED_CONSUME_DRUGS", &Ped::CHANCE_PED_CONSUME_DRUGS);
+        chancesSection->GetFloat("CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE", &Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE);
+        chancesSection->GetFloat("CHANCE_PED_BEEING_WANTED", &Ped::CHANCE_PED_BEEING_WANTED);
 
-        chancesSection->GetFloatDefault("CHANCE_VEHICLE_BEEING_STOLEN", &Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
-        chancesSection->GetFloatDefault("CHANCE_VEHICLE_HAVING_GUNS", &Vehicle::CHANCE_VEHICLE_HAVING_GUNS);
-
+        chancesSection->GetFloat("CHANCE_VEHICLE_BEEING_STOLEN", &Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
+        chancesSection->GetFloat("CHANCE_VEHICLE_HAVING_GUNS", &Vehicle::CHANCE_VEHICLE_HAVING_GUNS);
     }
+
+    //
+
+    auto windowSections = file.GetSections("Window");
+    if (windowSections.size() > 0)
+    {
+        auto windowSection = windowSections[0];
+
+        windowSection->GetFloat("position_x", &Window::m_DefaultWindowPosition.x);
+        windowSection->GetFloat("position_y", &Window::m_DefaultWindowPosition.y);
+    }
+
+    //
+
+    for(auto& backupVehicle : Backup::m_DataBackupVehicles)
+    {
+        std::string backupSectionName = "Backup_" + std::to_string(backupVehicle.vehicleModelId);
+
+        auto sections = file.GetSections(backupSectionName);
+        if (sections.size() > 0)
+        {
+            auto section = sections[0];
+
+            section->GetInt("num_peds", &backupVehicle.numPeds);
+            section->GetInt("weapon_id", &backupVehicle.weaponId);
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Loaded " << backupSectionName << std::endl;
+        }
+    }
+
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Success reading settings.ini" << std::endl;
 }
 

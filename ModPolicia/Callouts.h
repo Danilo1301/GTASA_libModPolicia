@@ -76,4 +76,6 @@ public:
     static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);
 
     static SkinData GetRandomSkin(SkinGenre genre, SkinGang gang);
+
+    static Ped* GetClosestCriminal(CVector fromPosition);
 };

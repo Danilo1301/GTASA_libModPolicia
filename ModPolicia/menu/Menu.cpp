@@ -9,8 +9,12 @@ default
 
 [1.0.1]
 added canBeRemoved (to fix a crash)
+
+[1.0.2] 27/05/24
+added extra num1 and num2 to AddText
 */
-std::string Menu::m_Version = "1.0.1";
+
+std::string Menu::m_Version = "1.0.2";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);
 
@@ -154,7 +158,7 @@ Window* Menu::AddConfirmWindow(Window* parent, int textGxtId, std::function<void
     window->width = 200.0f;
     window->position = { screenSize.x/2 - window->width/2, 200 };
 
-    window->AddText(textGxtId, CRGBA(255, 255, 255));
+    window->AddText(textGxtId);
 
     auto button_yes = window->AddButton(24);
     button_yes->onClick = [window, ohYes]()
