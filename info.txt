@@ -90,6 +90,7 @@ Initial release
 [X] ADD: tow truck
 [X] ADD: option to disable mod
 [X] ADD: money to ped wallet
+[X] FIX: blip doesnt get removed when backup dies
 
 --------------------------
 Notes:

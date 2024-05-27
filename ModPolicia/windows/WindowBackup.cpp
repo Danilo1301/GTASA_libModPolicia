@@ -1,5 +1,7 @@
 #include "WindowBackup.h"
 
+#include "WindowCarMenu.h"
+
 #include "../CleoFunctions.h"
 #include "../Backup.h"
 
@@ -154,8 +156,12 @@ void WindowBackup::CreateBackupConfig()
     {
         Remove();
         
-        if(m_CloseToBackupWindow) Create();
-        m_CloseToBackupWindow = false;
+        if(m_CloseToBackupWindow) {
+            Create();
+            m_CloseToBackupWindow = false;
+        } else {
+            WindowCarMenu::Create();
+        }
     };
 }
 

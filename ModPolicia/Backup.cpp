@@ -12,6 +12,7 @@
 #include "windows/WindowBackup.h"
 
 std::vector<Vehicle*> Backup::m_BackupVehicles;
+std::vector<Ped*> Backup::m_BackupPeds;
 BACKUP_TYPE Backup::m_BackupType = BACKUP_TYPE::BACKUP_CHASE;
 std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {596, 280, 2, 4, 22}, //LS
@@ -25,6 +26,7 @@ std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 
 void Backup::Update(int dt)
 {
+    UpdateBackupPeds(dt);
     UpdateBackupVehiclesActionStatus(dt);
 
     UpdateChaseBackup(dt);
@@ -136,6 +138,30 @@ void Backup::UpdateBackupVehiclesActionStatus(int dt)
     }
 }
 
+void Backup::UpdateBackupPeds(int dt)
+{
+    std::vector<Ped*> toRemove;
+    for(auto ped : m_BackupPeds)
+    {
+        if(!Mod::IsActorAliveAndDefined(ped->hPed))
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "backup ped is not defined/alived anymore, removing blip" << std::endl;
+
+            ped->RemoveBlip();
+
+            toRemove.push_back(ped);
+            continue;
+        }
+    }
+
+    //remove peds
+    for(auto item : toRemove)
+    {
+        auto it = std::find(m_BackupPeds.begin(), m_BackupPeds.end(), item);
+        m_BackupPeds.erase(it);
+    }
+}
+
 void Backup::UpdateChaseBackup(int dt)
 {
     //show backup button
@@ -212,6 +238,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
     auto pedDriver = Peds::TryCreatePed(driver);
     pedDriver->AddBlip(2);
     vehicle->hDriver = driver;
+    m_BackupPeds.push_back(pedDriver);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "driver = " << driver << std::endl;
 
@@ -223,6 +250,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
         auto pedPassenger = Peds::TryCreatePed(passenger);
         pedPassenger->AddBlip(2);
         vehicle->hPassengers.push_back(passenger);
+        m_BackupPeds.push_back(pedPassenger);
 
         CleoFunctions::GIVE_ACTOR_WEAPON(passenger, backupVehicle->weaponId, 10000);
     }

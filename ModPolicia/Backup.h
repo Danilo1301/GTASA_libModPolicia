@@ -3,6 +3,7 @@
 #include "pch.h"
 
 #include "Vehicle.h"
+#include "Ped.h"
 
 enum BACKUP_TYPE {
 	BACKUP_CHASE,
@@ -20,12 +21,14 @@ struct BackupVehicle {
 class Backup {
 public:
     static std::vector<Vehicle*> m_BackupVehicles;
+    static std::vector<Ped*> m_BackupPeds;
 	static BACKUP_TYPE m_BackupType;
 	static std::vector<BackupVehicle> m_DataBackupVehicles;
 	static std::vector<int> m_DataBackupWeapons;
 
     static void Update(int dt);
     static void UpdateBackupVehiclesActionStatus(int dt);
+    static void UpdateBackupPeds(int dt);
     static void UpdateChaseBackup(int dt);
     static void UpdateCalloutBackup(int dt);
 
