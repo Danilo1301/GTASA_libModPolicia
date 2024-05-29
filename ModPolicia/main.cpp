@@ -7,6 +7,7 @@
 #include "Log.h"
 #include "Mod.h"
 #include "ModConfig.h"
+#include "SoundSystem.h"
 
 #include "opcodes.h"
 
@@ -24,6 +25,9 @@ cleo_ifs_t* cleo = NULL;
 #include "isautils.h"
 ISAUtils* sautils = NULL;
 
+// BASS
+IBASS* BASS = NULL;
+
 // ---------------------------------------
 
 CVector2D *m_vecCachedPos;
@@ -36,6 +40,22 @@ int (*GetVehicleRef)(int);
 void* (*GetVehicleFromRef)(int);
 int (*GetPedRef)(int);
 void* (*GetPedFromRef)(int);
+
+CCamera* camera;
+bool* userPaused;
+bool* codePaused;
+
+// ---------------------------------------
+
+DECL_HOOK(void*, UpdateGameLogic, uintptr_t a1)
+{
+    if (BASS) {
+        SoundSystem::Update();
+    }
+
+    return UpdateGameLogic(a1);
+}
+
 // ---------------------------------------
 
 ConfigEntry* cfgMenuOffsetX = NULL;
@@ -53,7 +73,6 @@ void TestChanged(int oldVal, int newVal, void* data)
 }
 
 //---------------------------------------------------------------------------------------------------
-
 
 extern "C" void OnModPreLoad()
 {
@@ -112,6 +131,34 @@ extern "C" void OnModLoad()
         sautils->AddClickableItem(eTypeOfSettings::SetType_Mods, "Mod Policia - Test", 0, 0, sizeofA(optionsTest) - 1, optionsTest, TestChanged);
     }
 
+    //BASS
+    //https://github.com/AndroidModLoader/GTASA_CLEO_AudioStreams
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading BASS..." << std::endl;
+    if (!(BASS = (IBASS*)GetInterface("BASS")))
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS was not loaded" << std::endl;
+    }
+    else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS loaded: " << BASS << std::endl;
+
+        SoundSystem::Init();
+
+        std::string audiosPath = ModConfig::GetConfigFolder() + "/audios/";
+
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Playing test audio" << std::endl;
+
+        SoundSystem::PlayStream("ht.wav", false);
+        SoundSystem::PlayStream("static.wav", false);
+
+        /*
+        auto audioStream = SoundSystem::LoadStream(audiosPath + "/ht.wav", false);
+        audioStream->Loop(true);
+        audioStream->Play();
+        */
+    }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS: " << BASS << std::endl;
+
     Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: v" << Mod::m_Version << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Menu: v" << Menu::m_Version << std::endl;
@@ -121,6 +168,7 @@ extern "C" void OnModLoad()
     
     //void* hGTASA = aml->GetLibHandle("libGTASA.so"); crashes the game
     void* hGTASA = dlopen("libGTASA.so", RTLD_LAZY);
+    uintptr_t gameAddr = (uintptr_t)(cleo->GetMainLibraryLoadAddress());
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "hGTASA: " << hGTASA << std::endl;
 
@@ -136,6 +184,13 @@ extern "C" void OnModLoad()
     SET_TO(GetVehicleFromRef, aml->GetSym(hGTASA, "_ZN6CPools10GetVehicleEi"));
     SET_TO(GetPedRef, aml->GetSym(hGTASA, "_ZN6CPools9GetPedRefEP4CPed"));
     SET_TO(GetPedFromRef, aml->GetSym(hGTASA, "_ZN6CPools6GetPedEi"));
+
+    SET_TO(camera, cleo->GetMainLibrarySymbol("TheCamera"));
+    SET_TO(userPaused, cleo->GetMainLibrarySymbol("_ZN6CTimer11m_UserPauseE"));
+    SET_TO(codePaused, cleo->GetMainLibrarySymbol("_ZN6CTimer11m_CodePauseE"));
+    
+    HOOKPLT(UpdateGameLogic, gameAddr + 0x66FE58);
+
     //
     
     Log::Level(LOG_LEVEL::LOG_BOTH) << "vecCachedPos: x " << m_vecCachedPos->x << ", y " << m_vecCachedPos->y << std::endl;

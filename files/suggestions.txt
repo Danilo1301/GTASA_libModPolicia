@@ -121,6 +121,11 @@ Evitar que passe pedestres e veículos na quele local.
 [ ] @GabrielPmmods190
 Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj ai tem la chama samu apoio aguia etc
 
+[ ] (Mayke) Seria dahora se desse pra adicionar opção de acionar ambulância pra quando os indivíduos fossem alvejados
+[ ] (Mayke) e acionar bombeiro tbm pra quando o carro pegar fogo
+
+[ ] (@SGTMIke27) Adiciona opção de chamar o IML pra ficar mais completo.
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 

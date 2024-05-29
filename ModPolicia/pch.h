@@ -13,6 +13,8 @@
 
 #include "json/json.h"
 
+#include "ibass.h"
+
 static double distanceBetweenTwoPoints(double x, double y, double a, double b)
 {
     return sqrt(pow(x - a, 2) + pow(y - b, 2));

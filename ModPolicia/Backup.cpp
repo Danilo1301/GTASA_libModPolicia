@@ -20,7 +20,7 @@ std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {490, 286, 4, 4, 31}, //FBI
     {597, 281, 2, 4, 22}, //SF
     {598, 282, 2, 4, 22}, //LV
-    {599, 283, 4, 4, 22} //Ranger
+    {599, 283, 2, 4, 22} //Ranger
 };
 std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 

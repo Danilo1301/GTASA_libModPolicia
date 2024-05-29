@@ -92,10 +92,13 @@ Initial release
 [X] ADD: money to ped wallet
 [X] FIX: blip doesnt get removed when backup dies
 
+[] ADD: sounds
+
 --------------------------
 Notes:
 
 [X] Changed callout chances
+[ ] Mention the radio sounds credits
 
 ---------------------------
 Sugestoes:

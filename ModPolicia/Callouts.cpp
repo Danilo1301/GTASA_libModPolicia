@@ -9,6 +9,7 @@
 #include "Chase.h"
 #include "Scorch.h"
 #include "Vehicles.h"
+#include "SoundSystem.h"
 
 float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
@@ -69,6 +70,8 @@ void Callouts::Update(int dt)
                 char buffer[256];
                 sprintf(buffer, "MPFX%i", callout.gxtId);
                 CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
+
+                SoundSystem::PlayStream("ht.wav", false);
             }
         }
     } else {
