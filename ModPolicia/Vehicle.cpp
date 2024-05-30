@@ -179,7 +179,7 @@ void Vehicle::UpdateInventory()
     if(Mod::CalculateProbability(0.1))
     {
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
-        stolenCellphone->isSlotenCellphone = true;
+        stolenCellphone->isStolen = true;
     }
 }
 
@@ -203,7 +203,7 @@ bool Vehicle::HasIlegalStuff()
     {
         for(auto cellphone : inventory->GetItemsOfType(Item_Type::CELLPHONE))
         {
-            if(cellphone->isSlotenCellphone) return true;
+            if(cellphone->isStolen) return true;
         }
     }
     return false;

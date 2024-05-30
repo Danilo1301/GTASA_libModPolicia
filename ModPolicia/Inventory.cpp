@@ -38,8 +38,8 @@ InventoryItem* Inventory::AddItemToInventory(Item_Type type)
         item->amount = Mod::GetRandomNumber(itemInfo.amountMin, itemInfo.amountMax);
         item->amountMin = itemInfo.amountMin;
         item->amountMax = itemInfo.amountMax;
-        item->isSlotenCellphone = itemInfo.isSlotenCellphone;
-
+        item->isStolen = itemInfo.isStolen;
+        item->canBeAprehended = itemInfo.canBeAprehended;
     }
 
     items.push_back(item);

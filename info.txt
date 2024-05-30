@@ -92,12 +92,14 @@ Initial release
 [X] ADD: money to ped wallet
 [X] FIX: blip doesnt get removed when backup dies
 
-[] ADD: sounds
+[X] ADD: sounds
+[X] ADD: callout: house invasion
+[X] ADD: items: stolen watch, stolen wallet
 
 --------------------------
 Notes:
 
-[X] Changed callout chances
+[ ] Changed callout chances
 [ ] Mention the radio sounds credits
 
 ---------------------------

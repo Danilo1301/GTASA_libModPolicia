@@ -3,6 +3,7 @@
 #include "WindowPullover.h"
 
 #include "../Pullover.h"
+#include "../Log.h"
 #include "../CleoFunctions.h"
 
 Window* WindowFrisk::m_Window = NULL;
@@ -52,6 +53,8 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     window->position = CVector2D(200, 200); //80, 200
     window->showPageControls = true;
 
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->itemNameGxtId << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
+    
     if(item->type == Item_Type::DOCUMENTS)
     {
         window->AddText(113, ped->money, 0, CRGBA(255, 255, 255));
@@ -62,13 +65,16 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         auto button_imei = window->AddButton(50);
         button_imei->onClick = [item]()
         {
-            if(item->isSlotenCellphone) {
+            if(item->isStolen) {
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX53", 0, 0, 0, 3000, 1); //furto
             } else {
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX54", 0, 0, 0, 3000, 1); //nada consta
             }
         };
+    }
 
+    if(item->canBeAprehended)
+    {
         auto button_apreender = window->AddButton(51);
         button_apreender->onClick = [ped, vehicle, item, onClose]()
         {
@@ -82,16 +88,6 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
 
     if(item->type == Item_Type::WEED)
     {
-        auto button_apreender = window->AddButton(51);
-        button_apreender->onClick = [ped, vehicle, item, onClose]()
-        {
-            if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
-            else vehicle->inventory->RemoveItemFromInventory(item);
-
-            RemoveItemActions();
-            onClose();
-        };
-
         auto button_fumar = window->AddButton(52);
         button_fumar->onClick = [ped, vehicle, item, onClose]()
         {
@@ -99,19 +95,6 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
             else vehicle->inventory->RemoveItemFromInventory(item);
 
             ped->inventory->RemoveItemFromInventory(item);
-            RemoveItemActions();
-            onClose();
-        };
-    }
-
-    if(item->type == Item_Type::PISTOL || item->type == Item_Type::REVOLVER_38)
-    {
-        auto button_apreender = window->AddButton(51);
-        button_apreender->onClick = [ped, vehicle, item, onClose]()
-        {
-            if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
-            else vehicle->inventory->RemoveItemFromInventory(item);
-
             RemoveItemActions();
             onClose();
         };

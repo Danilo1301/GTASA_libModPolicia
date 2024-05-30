@@ -99,7 +99,7 @@ void Ped::UpdateInventory()
     if(Mod::CalculateProbability(0.1))
     {
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
-        stolenCellphone->isSlotenCellphone = true;
+        stolenCellphone->isStolen = true;
     }
 }
 

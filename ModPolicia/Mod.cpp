@@ -221,6 +221,13 @@ CVector Mod::GetPedPosition(int hPed)
     return CVector(x, y, z);
 }
 
+double Mod::DistanceFromPed(int hPed, CVector position)
+{
+    auto pedPosition = GetPedPosition(hPed);
+    auto distance = DistanceBetweenPoints(pedPosition, position);
+    return distance;
+}
+
 bool Mod::IsActorAliveAndDefined(int hPed)
 {
     return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);

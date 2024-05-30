@@ -10,14 +10,16 @@
 #include "Scorch.h"
 #include "Vehicles.h"
 #include "SoundSystem.h"
+#include "Locations.h"
 
 float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
-    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 1.0f},
-    {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 1.0f},
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 0.0f},
+    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 0.0f},
+    {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 0.0f},
+    {CALLOUT_TYPE::HOUSE_INVASION, 114, 1.0f},
 
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
@@ -102,6 +104,7 @@ void Callouts::Update(int dt)
                 if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_ASSAULT) StartAssaultCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::STOLEN_VEHICLE) StartStolenVehicleCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::HOUSE_INVASION) StartHouseInvasionCallout();
             }
         }
     }
@@ -214,7 +217,7 @@ void Callouts::StartAssaultCallout()
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    AproachCallout([] (CVector pedPathNodePosition) {
+    AproachCalloutPedPath([] (CVector pedPathNodePosition) {
         auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
         int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, criminalSkin.modelId, pedPathNodePosition.x, pedPathNodePosition.y, pedPathNodePosition.z);
 
@@ -244,7 +247,7 @@ void Callouts::StartAssaultCallout()
 
 void Callouts::StartGangShotsFiredCallout()
 {
-    AproachCallout([] (CVector pedPathNodePosition) {
+    AproachCalloutPedPath([] (CVector pedPathNodePosition) {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         int gang = Mod::GetRandomNumber(1, 3);
 
@@ -266,7 +269,7 @@ void Callouts::StartGangShotsFiredCallout()
 
 void Callouts::StartStolenVehicleCallout()
 {
-    AproachCallout([] (CVector calloutPosition) {
+    AproachCalloutPedPath([] (CVector calloutPosition) {
 
         int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(calloutPosition.x, calloutPosition.y, calloutPosition.z, 200.0f, -1);
 
@@ -321,7 +324,73 @@ void Callouts::StartStolenVehicleCallout()
     }); 
 }
 
-void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)
+void Callouts::StartHouseInvasionCallout()
+{
+    auto house = Locations::GetRandomHouse();
+
+    AproachCallout(house, 20.0f, [] (CVector calloutPosition) {
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        std::vector<Ped*> criminals;
+
+        auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+
+        int criminalAtDoor = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, criminalSkin.modelId, calloutPosition.x, calloutPosition.y, calloutPosition.z);
+        auto criminalPedAtDoor = Peds::TryCreatePed(criminalAtDoor);
+        criminalPedAtDoor->AddBlip();
+        criminals.push_back(criminalPedAtDoor);
+
+        for(int i = 0; i < Mod::GetRandomNumber(0, 1); i++)
+        {
+            criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+
+            auto criminalPed = SpawnPedInRandomPedPathLocation(20, criminalSkin.modelId, calloutPosition, 5.0f);
+            criminalPed->AddBlip();
+            criminals.push_back(criminalPed);
+        }
+
+        for(auto criminal : criminals)
+        {
+            m_Criminals.push_back(criminal);
+
+            CleoFunctions::FLEE_FROM_ACTOR(criminal->hPed, playerActor, 30.0f, -1);
+
+            criminal->UpdateInventory();
+
+            for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::CELLPHONE);
+            for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WALLET);
+            for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WATCH);
+        }
+    });
+}
+
+void Callouts::AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker)
+{
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    int marker = CleoFunctions::CreateMarker(location.x, location.y, location.z, 0, 3, 3);
+
+    CleoFunctions::AddWaitForFunction([playerActor, location, aproachDistance] () {
+        float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
+        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
+
+        auto distance = DistanceBetweenPoints(CVector(playerX, playerY, playerZ), location);
+
+        if(distance < aproachDistance) return true;
+
+        return false;
+    }, [marker, location, playerActor, onReachMarker] () {
+        CleoFunctions::DISABLE_MARKER(marker);
+
+        m_AproachingCallout = false;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
+
+        onReachMarker(location);
+    }); 
+}
+
+void Callouts::AproachCalloutPedPath(std::function<void(CVector)> onReachMarker)
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -332,25 +401,7 @@ void Callouts::AproachCallout(std::function<void(CVector)> onReachMarker)
     CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
     CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
 
-    int marker = CleoFunctions::CreateMarker(nodeX, nodeY, nodeZ, 0, 3, 3);
-
-    CleoFunctions::AddWaitForFunction([playerActor, nodePosition] () {
-        float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
-        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
-
-        auto distance = DistanceBetweenPoints(CVector(playerX, playerY, playerZ), nodePosition);
-
-        if(distance < 100) return true;
-
-        return false;
-    }, [marker, playerActor, nodePosition, onReachMarker] () {
-        CleoFunctions::DISABLE_MARKER(marker);
-
-        m_AproachingCallout = false;
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
-
-        onReachMarker(nodePosition);
-    }); 
+    AproachCallout(nodePosition, 100.0f, onReachMarker);
 }
 
 Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius)

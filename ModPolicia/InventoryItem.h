@@ -9,9 +9,20 @@ enum Item_Type {
     WEED,
     BEER,
     REVOLVER_38,
-    PISTOL
+    PISTOL,
+    STOLEN_WATCH,
+    STOLEN_WALLET
 };
 
+/*
+int itemNameGxtId
+Item_Type type
+int amount
+int amountMin
+int amountMax
+bool isStolen
+bool canBeAprehended
+*/
 struct InventoryItem {
     int itemNameGxtId;
 
@@ -21,7 +32,8 @@ struct InventoryItem {
     int amountMin = 1;
     int amountMax = 1;
 
-    bool isSlotenCellphone = false;
+    bool isStolen = false;
+    bool canBeAprehended = false;
 };
 
 class InventoryItems {

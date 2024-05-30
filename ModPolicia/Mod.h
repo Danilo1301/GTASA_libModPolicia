@@ -28,6 +28,7 @@ public:
 
     static CVector GetCarPosition(int hVehicle);
     static CVector GetPedPosition(int hPed);
+    static double DistanceFromPed(int hPed, CVector position);
     static bool IsActorAliveAndDefined(int hPed);
 
     static void ToggleMod(bool enabled);
