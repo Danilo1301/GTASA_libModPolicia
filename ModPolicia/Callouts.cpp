@@ -73,7 +73,7 @@ void Callouts::Update(int dt)
                 sprintf(buffer, "MPFX%i", callout.gxtId);
                 CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
 
-                SoundSystem::PlayStream("ht.wav", false);
+                SoundSystem::PlayHTAudio();
             }
         }
     } else {

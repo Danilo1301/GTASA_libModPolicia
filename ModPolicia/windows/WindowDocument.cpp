@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "CleoFunctions.h"
 #include "Pullover.h"
+#include "SoundSystem.h"
 
 Window* WindowDocument::m_Window = NULL;
 DOC_TYPE WindowDocument::m_DocumentType = DOC_TYPE::RG;
@@ -35,6 +36,7 @@ void WindowDocument::Create()
         {
             Remove();
 
+            SoundSystem::PlayHTAudio();
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX71", 0, 0, 0, 3000, 1); //consultar rg
 
             CleoFunctions::WAIT(2000, []() {

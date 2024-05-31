@@ -2,9 +2,10 @@
 
 #include "WindowPullover.h"
 
-#include "../Pullover.h"
-#include "../Log.h"
-#include "../CleoFunctions.h"
+#include "Pullover.h"
+#include "Log.h"
+#include "CleoFunctions.h"
+#include "SoundSystem.h"
 
 Window* WindowFrisk::m_Window = NULL;
 Window* WindowFrisk::m_WindowItemActions = NULL;
@@ -64,7 +65,9 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     {
         auto button_imei = window->AddButton(50);
         button_imei->onClick = [item]()
-        {
+        {   
+            SoundSystem::PlayHTAudio();
+
             if(item->isStolen) {
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX53", 0, 0, 0, 3000, 1); //furto
             } else {

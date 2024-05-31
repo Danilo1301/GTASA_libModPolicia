@@ -8,6 +8,7 @@
 #include "Widgets.h"
 #include "Vehicles.h"
 #include "Peds.h"
+#include "SoundSystem.h"
 
 #include "windows/WindowBackup.h"
 
@@ -23,6 +24,10 @@ std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {599, 283, 2, 4, 22} //Ranger
 };
 std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
+
+AudioStream* Backup::m_RequestBackupAudio = NULL;
+bool Backup::m_WaitingToRespondDispatch = false;
+bool Backup::m_RequestedHeli = false;
 
 void Backup::Update(int dt)
 {
@@ -41,6 +46,38 @@ void Backup::Update(int dt)
 
         //if not on callout, remove window
         if(m_BackupType == BACKUP_TYPE::BACKUP_CALLOUT && !Callouts::IsOnCallout()) WindowBackup::Remove();
+    }
+
+    //update audio
+    if(m_RequestBackupAudio != NULL)
+    {
+        auto state = m_RequestBackupAudio->GetState();
+
+        if(state != 1)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "backup audio was playing but it now stopped" << std::endl;
+
+            m_RequestBackupAudio->Destroy();
+            m_RequestBackupAudio = NULL;
+        }
+    }
+
+    if(m_WaitingToRespondDispatch)
+    {
+        if(!m_RequestBackupAudio)
+        {
+            m_WaitingToRespondDispatch = false;
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "responding dispatch" << std::endl;
+
+            if(m_RequestedHeli)
+            {
+                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/HELI_APPROACHING_DISPATCH_", false);
+            } else {
+                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/UNIT_RESPONDING_DISPATCH_", false);
+            }
+            m_RequestedHeli = false;
+        }
     }
 }
 
@@ -198,6 +235,8 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "call backup vehicleModelId: " << backupVehicle->vehicleModelId << ", pedModelId: " << backupVehicle->pedModelId << std::endl;
 
+    PlayRequestBackupAudio();
+
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float x = 0, y = 0, z = 0;
@@ -287,6 +326,8 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
 
 void Backup::CallBackupHeli()
 {
+    PlayRequestBackupAudio(true);
+
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float spawnX = 0, spawnY = 0, spawnZ = 0;
@@ -333,9 +374,27 @@ void Backup::CallBackupHeli()
         }
     }
 
-    
-
     CleoFunctions::WAIT(3000, []() {
         CleoFunctions::SHOW_TEXT_BOX("MPFX86");
     });
+}
+
+void Backup::PlayRequestBackupAudio(bool requestedHeli)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Backup: PlayRequestBackupAudio" << std::endl;
+
+    if(requestedHeli) m_RequestedHeli = true;
+
+    if(m_RequestBackupAudio != NULL)
+    {
+        m_RequestBackupAudio->Stop();
+        m_RequestBackupAudio->Destroy();
+        m_RequestBackupAudio = NULL;
+    }
+
+    SoundSystem::PlayHTAudio();
+
+    m_RequestBackupAudio = SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_BACKUP_", false);
+
+    m_WaitingToRespondDispatch = true;
 }

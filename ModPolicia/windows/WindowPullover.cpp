@@ -9,6 +9,7 @@
 #include "../Log.h"
 #include "../CleoFunctions.h"
 #include "../Vehicles.h"
+#include "../SoundSystem.h"
 
 Window* WindowPullover::m_Window = NULL;
 
@@ -91,6 +92,7 @@ void WindowPullover::CreatePullingPed()
         {
             Remove();
 
+            SoundSystem::PlayHTAudio();
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
 
             CleoFunctions::WAIT(2000, [ped]() {

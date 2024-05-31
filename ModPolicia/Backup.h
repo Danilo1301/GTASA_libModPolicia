@@ -4,6 +4,7 @@
 
 #include "Vehicle.h"
 #include "Ped.h"
+#include "AudioStream.h"
 
 enum BACKUP_TYPE {
 	BACKUP_CHASE,
@@ -26,6 +27,10 @@ public:
 	static std::vector<BackupVehicle> m_DataBackupVehicles;
 	static std::vector<int> m_DataBackupWeapons;
 
+    static AudioStream* m_RequestBackupAudio;
+    static bool m_WaitingToRespondDispatch;
+    static bool m_RequestedHeli;
+
     static void Update(int dt);
     static void UpdateBackupVehiclesActionStatus(int dt);
     static void UpdateBackupPeds(int dt);
@@ -34,4 +39,6 @@ public:
 
     static void CallBackupCar(BackupVehicle* backupVehicle);
     static void CallBackupHeli();
+
+    static void PlayRequestBackupAudio(bool requestedHeli = false);
 };

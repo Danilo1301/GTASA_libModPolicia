@@ -5,6 +5,7 @@
 #include "Log.h"
 #include "Mod.h"
 #include "CleoFunctions.h"
+#include "SoundSystem.h"
 
 std::vector<ScorchPedData*> Scorch::m_ScorchingPeds;
 
@@ -223,6 +224,7 @@ void Scorch::CallVehicleToScorchPed(Ped* ped)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call vehicle to scorch ped" << std::endl;
 
+    SoundSystem::PlayHTAudio();
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX85", 0, 0, 0, 2000, 1); //solicito viatura
 
     Pullover::m_PullingPed = NULL;
@@ -345,6 +347,7 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call tow truck to vehicle" << std::endl;
 
+    SoundSystem::PlayHTAudio();
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 2000, 1); //solicito guincho
 
     Pullover::m_PullingPed->hVehicleOwned = 0;

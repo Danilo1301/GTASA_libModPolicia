@@ -96,11 +96,16 @@ Initial release
 [X] ADD: callout: house invasion
 [X] ADD: items: stolen watch, stolen wallet
 
+[] ADD: voice lines during chase and backup
+[] ADD: IML
+[] ADD: Ambulance
+
 --------------------------
 Notes:
 
 [ ] Changed callout chances
 [ ] Mention the radio sounds credits
+[ ] Remove test audios
 
 ---------------------------
 Sugestoes:
