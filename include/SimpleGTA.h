@@ -218,3 +218,8 @@ struct GTAVehicleSA : GTAEntity
 {
     char structure[2604];
 };
+struct GTAPedSA : GTAEntity
+{
+    char structure[1996];
+    bool Player() { return UIntAt(1436) < 2; }
+};

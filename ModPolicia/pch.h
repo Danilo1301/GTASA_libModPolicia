@@ -42,3 +42,8 @@ static std::string to_lower(std::string data) {
         });
     return data;
 }
+
+static std::string CVectorToString(CVector vec)
+{
+    return "(" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ", " + std::to_string(vec.z) + ")";
+}

@@ -47,7 +47,7 @@ void Vehicle::UpdateLeaveScene()
 {
     if(actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "actionStatus = WAITING_FOR_PEDS_TO_ENTER_CAR" << std::endl;
+        //Log::Level(LOG_LEVEL::LOG_BOTH) << "actionStatus = WAITING_FOR_PEDS_TO_ENTER_CAR" << std::endl;
 
         int requiredPeds = 0;
         int pedsOnCar = 0;
@@ -71,7 +71,7 @@ void Vehicle::UpdateLeaveScene()
             seatId++;
         }
 
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting: " << pedsOnCar << " / " << requiredPeds << std::endl;
+        //Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting: " << pedsOnCar << " / " << requiredPeds << std::endl;
 
         if(requiredPeds == 0)
         {
@@ -237,6 +237,8 @@ void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 
     actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR;
 
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "actionStatus = WAITING_FOR_PEDS_TO_ENTER_CAR" << std::endl;
+    
     CheckPassengers();
     
     if(!Mod::IsActorAliveAndDefined(hDriver)) ReplaceDriverByAnyPassenger();

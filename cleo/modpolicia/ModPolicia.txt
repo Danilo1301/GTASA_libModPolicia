@@ -110,12 +110,16 @@ end
 0247: load_model 286 //fbi
 0247: load_model 497 //maverick
 0247: load_model 525 //towtruck
+0247: load_model 416 //ambulance
+0247: load_model 442 //romero
 
 //male
 0247: load_model 19
 0247: load_model 7
 0247: load_model 29
 0247: load_model 50 //wmymech
+0247: load_model 274 //laemt1
+0247: load_model 70 //wmosci
 
 //female
 0247: load_model 193
@@ -172,38 +176,43 @@ if and
     0248: model 286 available //fbi
     0248: model 497 available //maverick
     0248: model 525 available //towtruck
+    0248: model 416 available //ambulance
+    0248: model 442 available //romero
+jf @PRELOAD
+if and
     
     //male
     0248: model 19 available
     0248: model 7 available
-jf @PRELOAD
-if and
     0248: model 29 available
     0248: model 50 available //wmymech
+    0248: model 274 available //laemt1
+    0248: model 70 available //wmosci
     
     //female
     0248: model 193 available
-    0248: model 12 available
+    0248: model 12 available   
+jf @PRELOAD
+if and
     0248: model 13 available
     
      //gang
-    0248: model 102 available    
+    0248: model 102 available 
     0248: model 103 available
     0248: model 104 available
-jf @PRELOAD
-if and
     0248: model 108 available
     0248: model 109 available
     0248: model 110 available
     0248: model 114 available
+jf @PRELOAD
+if and
     0248: model 115 available
     0248: model 116 available
     
     //weapons
     0248: model 346 available
     0248: model 335 available
-jf @PRELOAD
-if and
+    
     0248: model 348 available //deagle
     0248: model 349 available //shotgun
     0248: model 356 available //m4
@@ -920,5 +929,13 @@ end
 if VAR_GxtId == 116
 then
      VAR_STR_1 = "MPFX116"
+end
+if VAR_GxtId == 117
+then
+     VAR_STR_1 = "MPFX117"
+end
+if VAR_GxtId == 118
+then
+     VAR_STR_1 = "MPFX118"
 end
 return

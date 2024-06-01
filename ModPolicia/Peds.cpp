@@ -3,6 +3,8 @@
 #include "SimpleGTA.h"
 
 #include "Log.h"
+#include "CleoFunctions.h"
+#include "Mod.h"
 
 extern uintptr_t* pPedPool;
 extern int (*GetPedRef)(int);
@@ -58,8 +60,33 @@ void Peds::TryFindNewPeds()
         
     }
 
-    Log::file << "end for" << std::endl;*/
+    Log::file << "end for" << std::endl;
+    */
 
+    //trying again (WAIT, IT WORKS NOW?)
+
+    auto objects = *(GTAPedSA**)(*pPedPool + 0);
+    tByteFlag* flags = *(tByteFlag**)(*pPedPool + 4);
+    int size = *(int*)(*pPedPool + 8);
+
+    for(int i = 0; i < size; ++i)
+    {
+        if(flags[i].bEmpty) continue;
+        auto& ent = objects[i];
+        
+
+        auto ref = GetPedRef(ent.AsInt());
+
+        if(Peds::HasPedHandle(ref))
+        {
+            continue;
+        }
+
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "found ent index " << i << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ped ref: " << ref << std::endl;
+        
+        Peds::TryCreatePed(ref);
+    }
 }
 
 bool Peds::HasPedHandle(int hPed)
@@ -87,4 +114,35 @@ Ped* Peds::GetPedByHandle(int hPed)
 {
 	if (!HasPedHandle(hPed)) return NULL;
 	return m_Peds.at(hPed);
+}
+
+std::vector<Ped*> Peds::GetDeadPeds(CVector position, float radius)
+{
+    std::vector<Ped*> peds;
+
+    if(radius == -1) radius = INFINITY;
+
+    for(auto pair : m_Peds)
+    {
+        auto ped = pair.second;
+
+        if(!CleoFunctions::ACTOR_DEFINED(ped->hPed)) continue;
+        
+        if(!CleoFunctions::ACTOR_DEAD(ped->hPed)) continue;
+
+        auto pedPosition = Mod::GetPedPosition(ped->hPed);
+        auto distance = DistanceBetweenPoints(pedPosition, position);
+
+        if(distance < radius)
+        {
+            peds.push_back(ped);
+        }
+    }
+
+    return peds;
+}
+
+std::vector<Ped*> Peds::GetDeadPeds()
+{
+    return GetDeadPeds(CVector(0, 0, 0), -1);
 }

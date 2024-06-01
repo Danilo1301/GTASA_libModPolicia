@@ -1,10 +1,12 @@
 #include "WindowTest.h"
 
-#include "../Log.h"
-#include "../CleoFunctions.h"
-#include "../Pullover.h"
-#include "../Peds.h"
-#include "../Chase.h"
+#include "Log.h"
+#include "CleoFunctions.h"
+#include "Pullover.h"
+#include "Peds.h"
+#include "Chase.h"
+#include "Mod.h"
+#include "Ambulance.h"
 
 #include "WindowDocument.h"
 
@@ -34,8 +36,43 @@ void WindowTest::Create()
 
     window->AddCheckbox(29, &Menu::m_DrawCursor);
 
-    auto button_test = window->AddButton(23, 1, 0);
-    button_test->onClick = []()
+    auto button_test8 = window->AddButton(23, 8, 0);
+    button_test8->onClick = []()
+    {
+        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        auto playerPosition = Mod::GetPedPosition(playerActor);
+
+        Ambulance::CallIML(playerPosition);
+    };
+
+    auto button_test7 = window->AddButton(23, 7, 0);
+    button_test7->onClick = []()
+    {
+        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        auto playerPosition = Mod::GetPedPosition(playerActor);
+
+        Ambulance::CallAmbulance(playerPosition);
+    };
+
+    auto button_test6 = window->AddButton(23, 6, 0);
+    button_test6->onClick = []()
+    {
+        auto peds = Peds::GetDeadPeds();
+
+        for(auto ped : peds)
+        {
+            auto pedPosition = Mod::GetPedPosition(ped->hPed);
+
+            auto sphere = CleoFunctions::CREATE_SPHERE(pedPosition.x, pedPosition.y, pedPosition.z, 3.0);
+        }
+
+        Log::Level(LOG_LEVEL::LOG_BOTH) << peds.size() << " dead peds found" << std::endl;
+    };
+
+    auto button_test1 = window->AddButton(23, 1, 0);
+    button_test1->onClick = []()
     {
         /*
         Log::file << "scm_GET_PLAYER_ACTOR" << std::endl;
@@ -147,7 +184,6 @@ void WindowTest::Create()
 
         int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 4, 284);
     };
-
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()

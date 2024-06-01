@@ -9,7 +9,7 @@ public:
     static bool m_Enabled;
 
     static void Update(int dt);
-    static void Load();
+    static void Init();
     
     static int GetRandomNumber(int min, int max);
 

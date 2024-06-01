@@ -1,15 +1,20 @@
 {$CLEO .csa}
 03A4: script_name 'Test'
 
-// Spawns IML ped
+// Spawn ped, kills, and respawns
 
 0000:
 0@ = 0
+04ED: load_animation "MEDIC"
 jump @PRELOAD
  
 //----------------------------------------
 :MAIN
 wait 0
+
+if
+    04EE: animation "MEDIC" loaded
+jf @MAIN
 
 if 
     0256: player $PLAYER_CHAR defined
@@ -28,30 +33,35 @@ then
         
         009A: $PED = create_actor_pedtype 23 model 70 at 1@ 2@ 3@
         
-        01B2: give_actor $PED weapon 43 ammo 1000
-        
         wait 1000
     end
     
     if 0@ == 2
     then
-        0107: $OBJECT = create_object 2969 at 1@ 2@ 3@ 
-    
-        069B: attach_object $OBJECT to_actor $PED with_offset 0.0 0.0 0.0 rotation 0.0 0.0 0.0 
-    
+        0223: set_actor $PED health_to 0  
+        
         wait 1000
     end
     
     if 0@ == 3
     then
-        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
-        
-        0668: AS_actor $PED rotate_and_shoot_at 1@ 2@ 3@ 10000 ms 
+        088A: actor $PLAYER_ACTOR perform_animation "CPR" IFP "MEDIC" 8.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1 disable_force 0 disable_lockZ 0  
         
         wait 1000
     end
     
     if 0@ == 4
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PED with_offset 0.0 0.0 0.0
+        
+        009B: destroy_actor $PED 
+
+        009A: $PED = create_actor_pedtype 23 model 70 at 1@ 2@ 3@ 
+        
+        wait 1000
+    end
+
+    if 0@ == 5
     then
        0@ = 0
     end
@@ -64,9 +74,6 @@ jump @MAIN
 :PRELOAD
 
 0247: load_model 70
-0247: load_model 442
-0247: load_model 2969
-0247: load_model 367
 038B: load_requested_models
 
 jump @PRELOAD_WAIT
@@ -75,11 +82,8 @@ jump @PRELOAD_WAIT
 
 :PRELOAD_WAIT
 
-if and
+if
     0248: model 70 available
-    0248: model 442 available
-    0248: model 2969 available
-    0248: model 367 available
 jf @PRELOAD_WAIT
 
 jump @MAIN

@@ -23,6 +23,8 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static int GET_ACTOR_MODEL(int _char);
+    static void AS_ACTOR_RUN_TO_ACTOR(int walking, int target, int time, float radius);
     static void SET_MAX_WANTED_LEVEL_TO(int wantedLevel);
     static void SET_PLAYER_IGNORED_BY_COPS(int player, bool state);
     static void PUT_TRAILER_ON_CAB(int trailer, int cab);

@@ -55,7 +55,39 @@ void Inventory::RemoveItemFromInventory(InventoryItem* item)
     delete item;
 }
 
-void Inventory::RemoveAllItemsFromInventory(Item_Type type)
+void Inventory::RemoveAllItemsFromInventory()
 {
-    throw "Not implemented";
+    while (items.size() > 0)
+    {
+        RemoveItemFromInventory(items[0]);
+    }
+}
+
+void Inventory::CopyFrom(Inventory* fromInventory)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Copy inventory" << std::endl;
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Before copying:" << std::endl;
+
+    for(auto item : items)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Item: " << item->type << " x" << item->amount << std::endl;
+    }
+
+    RemoveAllItemsFromInventory();
+
+    for(auto item : fromInventory->items)
+    {
+        auto newItem = AddItemToInventory(item->type);
+        newItem->amount = item->amount;
+        newItem->isStolen = item->isStolen;
+        newItem->canBeAprehended = item->canBeAprehended;
+    }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "After copying:" << std::endl;
+
+    for(auto item : items)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Item: " << item->type << " x" << item->amount << std::endl;
+    }
 }

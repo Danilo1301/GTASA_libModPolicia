@@ -15,9 +15,11 @@
 #include "Vehicles.h"
 #include "Scorch.h"
 #include "Backup.h"
+#include "Ambulance.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
+#include "windows/WindowRadio.h"
 
 extern CVector2D *m_vecCachedPos;
 
@@ -70,6 +72,10 @@ void Mod::Update(int dt)
    
     Callouts::Update(dt);
 
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "ambulance" << std::endl;
+   
+    Ambulance::Update(dt);
+
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofuncitions" << std::endl;
 
     CleoFunctions::Update(dt);
@@ -110,7 +116,11 @@ void Mod::Update(int dt)
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Checking for animations..." << std::endl;
 
-            if(CleoFunctions::HAS_ANIMATION_LOADED("POLICE") && CleoFunctions::HAS_ANIMATION_LOADED("GANGS"))
+            if(
+                CleoFunctions::HAS_ANIMATION_LOADED("POLICE") &&
+                CleoFunctions::HAS_ANIMATION_LOADED("GANGS") &&
+                CleoFunctions::HAS_ANIMATION_LOADED("MEDIC")
+            )
             {
                 loadedAnimations = true;
 
@@ -120,8 +130,14 @@ void Mod::Update(int dt)
 
                 CleoFunctions::LOAD_ANIMATION("GANGS");
                 CleoFunctions::LOAD_ANIMATION("POLICE");
+                CleoFunctions::LOAD_ANIMATION("MEDIC");
             }
         }
+    }
+
+    if(Widgets::IsWidgetJustPressed(8)) //8 = phone
+    {
+        WindowRadio::Create();
     }
 
     /*
@@ -155,10 +171,12 @@ void Mod::Update(int dt)
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "end ---------" << std::endl;
 }
 
-void Mod::Load()
+void Mod::Init()
 {
     InventoryItems::Init();
+    Ambulance::Init();
 }
+
 
 int Mod::GetRandomNumber(int min, int max)
 {

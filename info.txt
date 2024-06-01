@@ -99,6 +99,9 @@ Initial release
 [] ADD: voice lines during chase and backup
 [] ADD: IML
 [] ADD: Ambulance
+[] ADD: IML taking pictures
+[] ADD: copy info from ped + copy inventory
+[] ADD: window radio
 
 --------------------------
 Notes:

@@ -15,4 +15,10 @@ public:
     static bool HasPedHandle(int hPed);
     static Ped* TryCreatePed(int hPed);
     static Ped* GetPedByHandle(int hPed);
+
+    /*
+    radius: -1 (don't check for radius)
+    */
+    static std::vector<Ped*> GetDeadPeds(CVector position, float radius);
+    static std::vector<Ped*> GetDeadPeds();
 };

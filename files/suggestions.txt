@@ -126,6 +126,35 @@ Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj a
 
 [ ] (@SGTMIke27) Adiciona opção de chamar o IML pra ficar mais completo.
 
+[ ] (Billy) 1° colocar pra algemar o indivíduo 
+[ ] (Billy) 2° colocar mais ocorrências tipo assalto a loja, banco, etc
+[ ] (Billy) 3° colocar o indivíduo na porta de trás quando escolher levar ao dp
+
+[] (Gabriel Oliveira) Para quem grava com o batalhão ambiental por exemplo.
+Seria interessante ter ocorrências de crimes ambientais.
+(Tipo fogo em floresta?)
+
+[] (Billy) Também ter como puxar a CNH se é vencida
+
+
+[] (Billy) Se possível no mod colocar pra escolher a unidade exemplo: Escolher modo Polícia, ou bombeiro, ou médico etc. Daí a unidade q vc escolher aparece as ocorrências tipo escolhi bombeiro, daí vai aparecer ocorrência de incêndios etc
+
+(Gabriel Oliveira)
+Uma outra sugestão de ocorrência que eu tava pensando.
+Não sei se alguém chegou a falar.
+Caso seja possível.
+Ter uma ocorrência de um possível artefato explosivo 🧨 
+Em algum local.
+Nisso que o Copom jogasse na rede a ocorrência.
+O player ia até o local para verificar se procede a informação.
+Se constatar que realmente tem bomba no local aí ter a opção de chamar o esquadrão de bombas.
+Aí a viatura usada seria o Enforcer aí iria vim três policiais da SWAT e o 4° policial poderia ser o DSHER  por exemplo.
+Aí esse 4° homem seria o policial que estaria com o traje específico.
+E nisso no local o esquadrão de bombas ele é desarmar a bomba no local remover a bomba lá do local e levar para uma área isolada. 
+E aí nessa área isolada esse artefato explosivo seria detonado.
+Traje específico que eu falei.
+Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iria fazer todo o procedimento desarmar e dps detonar o explosivo.
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
@@ -141,3 +170,4 @@ Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj a
 [X] (Gabriel Oliveira) Quando finaliza as ocorrências as VTRs de apoio da ré e na hora de ir embora elas vai lento e não some do mapa.
 0.7.0
 
+[ ] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar

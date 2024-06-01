@@ -3,6 +3,8 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0665, GET_ACTOR_MODEL, iv); //0665: get_actor 0@ model_to 7@
+static DEFOPCODE(05D9, AS_ACTOR_RUN_TO_ACTOR, iiif); //05D9: AS_actor $PED2 run_to_actor $PLAYER_ACTOR timelimit 5000 stop_within_radius 1.0
 static DEFOPCODE(01F0, SET_MAX_WANTED_LEVEL_TO, i); //01F0: set_max_wanted_level_to 0 
 static DEFOPCODE(01F7, SET_PLAYER_IGNORED_BY_COPS, ib); //01F7: set_player $PLAYER_CHAR ignored_by_cops 1
 static DEFOPCODE(0893, PUT_TRAILER_ON_CAB, ii); //0893: put_trailer $CAR on_cab $TOW
@@ -139,6 +141,18 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+int CleoFunctions::GET_ACTOR_MODEL(int _char)
+{
+    int modelId = 0;
+    sautils->ScriptCommand(&scm_GET_ACTOR_MODEL, _char, &modelId);
+    return modelId;
+}
+
+void CleoFunctions::AS_ACTOR_RUN_TO_ACTOR(int walking, int target, int time, float radius)
+{
+    sautils->ScriptCommand(&scm_AS_ACTOR_RUN_TO_ACTOR, walking, target, time, radius);
 }
 
 void CleoFunctions::SET_MAX_WANTED_LEVEL_TO(int wantedLevel)

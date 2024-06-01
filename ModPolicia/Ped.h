@@ -6,6 +6,15 @@
 
 #include "Inventory.h"
 
+enum PED_ACTION_STATUS {
+    PED_ACTION_NONE = 0,
+
+    MEDIC_GOING_TO_BODY,
+    MEDIC_FOUND_NO_BODIES,
+    MEDIC_ON_BODY,
+    MEDIC_TAKING_PICTURES
+};
+
 class Ped {
 public:
     static float CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME;
@@ -16,8 +25,12 @@ public:
 
     int hPed;
     CPed* pPed = NULL;
+    
+    PED_ACTION_STATUS actionStatus = PED_ACTION_STATUS::PED_ACTION_NONE;
 
     int hVehicleOwned = 0;
+
+    int goingToPed = 0;
 
     int blip = 0;
 
@@ -60,4 +73,6 @@ public:
     int AddBlip();
     int AddBlip(int color);
     void RemoveBlip();
+
+    void CopyFrom(Ped* fromPed);
 };

@@ -213,5 +213,5 @@ extern "C" void OnModLoad()
     ModConfig::ProcessVersionChanges_PostConfigLoad();
     ModConfig::Save();
 
-    Mod::Load();    
+    Mod::Init();
 }

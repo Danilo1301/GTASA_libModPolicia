@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod BETA v0.7.0 (by Danilo1301)
+MPFX6 Police Mod BETA v1.0.0a (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -111,6 +111,11 @@ MPFX110 ~b~[Officer] ~w~I need a tow-truck...
 MPFX111 Enable mod
 MPFX112 Disable mod
 MPFX113 Money: ~1~$
+MPFX114 ~g~[RADIO] ~w~We received a report of home invasion
+MPFX115 Stolen watch
+MPFX116 Stolen wallet
+MPFX117 Call ambulance
+MPFX118 Call IML
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

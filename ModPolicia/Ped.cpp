@@ -110,7 +110,6 @@ bool Ped::HasDocuments()
     return inventory->HasItemOfType(Item_Type::DOCUMENTS);
 }
 
-
 int Ped::AddBlip()
 {
     if(blip > 0) RemoveBlip();
@@ -131,4 +130,30 @@ void Ped::RemoveBlip()
 
     CleoFunctions::DISABLE_MARKER(blip);
     blip = 0;
+}
+
+void Ped::CopyFrom(Ped* fromPed)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Copy info from ped " << fromPed->hPed << " to ped " << hPed << std::endl;
+
+    this->birthDay = fromPed->birthDay;
+    this->birthMonth = fromPed->birthMonth;
+    this->birthYear = fromPed->birthYear;
+
+    this->rg[0] = fromPed->rg[0];
+    this->rg[1] = fromPed->rg[1];
+
+    this->cpf[0] = fromPed->cpf[0];
+    this->cpf[1] = fromPed->cpf[1];
+
+    this->cnhRegisterNum = fromPed->cnhRegisterNum;
+    this->cnhValidDay = fromPed->cnhValidDay;
+    this->cnhValidMonth = fromPed->cnhValidMonth;
+    this->cnhValidYear = fromPed->cnhValidYear;
+
+    this->isWanted = fromPed->isWanted;
+
+    this->money = fromPed->money;
+
+    this->inventory->CopyFrom(fromPed->inventory);
 }

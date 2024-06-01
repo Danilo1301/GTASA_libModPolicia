@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia BETA v0.7.0 (by Danilo1301)
+MPFX6 Mod Policia BETA v1.0.0a (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -114,3 +114,5 @@ MPFX113 Dinheiro: ~1~$
 MPFX114 ~g~[COPOM] ~w~Recebemos uma denuncia de invasao domiciliar
 MPFX115 Relogio roubado
 MPFX116 Carteira roubada
+MPFX117 Chamar ambulancia
+MPFX118 Chamar IML
