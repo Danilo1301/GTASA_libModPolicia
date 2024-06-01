@@ -143,12 +143,14 @@ extern "C" void OnModLoad()
 
         SoundSystem::Init();
 
+        /*
         std::string audiosPath = ModConfig::GetConfigFolder() + "/audios/";
 
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Playing test audio" << std::endl;
 
         SoundSystem::PlayStreamFromAudiosFolder("ht.wav", false);
         SoundSystem::PlayStreamFromAudiosFolder("static.wav", false);
+        */
 
         /*
         auto audioStream = SoundSystem::LoadStream(audiosPath + "/ht.wav", false);

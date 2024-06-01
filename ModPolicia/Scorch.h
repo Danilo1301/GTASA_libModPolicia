@@ -4,10 +4,11 @@
 
 #include "Ped.h"
 #include "Vehicle.h"
+#include "Locations.h"
 
 struct ScorchPedData {
     Ped* ped = NULL;
-    int toDpIndex = 0;
+    Location toDp = {{0, 0, 0}, 0, CITY::LOS_SANTOS};
 
     bool followingPlayer = false;
 
@@ -21,7 +22,6 @@ class Scorch {
 public:
     static std::vector<ScorchPedData*> m_ScorchingPeds;
 
-    static std::vector<CVector> m_PoliceDepartmentPositions;
     static std::vector<Vehicle*> m_TowTrucks;
 
     static void Update(int dt);
@@ -33,8 +33,6 @@ public:
     static void TeleportPedToPrision(Ped* ped);
 
     static void DestroyScorchData(ScorchPedData* data);
-
-    static int GetClosestPoliceDepartment();
 
     static bool IsPedBeeingScorched(int hPed);
 

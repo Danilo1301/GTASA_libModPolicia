@@ -1,0 +1,1 @@
+Essa lib serve para tocar sons e pode não funcionar em alguns dispositivos!

@@ -92,23 +92,23 @@ Initial release
 [X] ADD: money to ped wallet
 [X] FIX: blip doesnt get removed when backup dies
 
+[1.0.0]
 [X] ADD: sounds
 [X] ADD: callout: house invasion
 [X] ADD: items: stolen watch, stolen wallet
-
-[] ADD: voice lines during chase and backup
-[] ADD: IML
-[] ADD: Ambulance
-[] ADD: IML taking pictures
-[] ADD: copy info from ped + copy inventory
-[] ADD: window radio
+[X] ADD: voice lines during chase and backup
+[X] ADD: IML
+[X] ADD: Ambulance
+[ ] ADD: IML taking pictures
+[X] ADD: copy info from ped + copy inventory
+[X] ADD: window radio
 
 --------------------------
 Notes:
 
 [ ] Changed callout chances
 [ ] Mention the radio sounds credits
-[ ] Remove test audios
+[X] Remove test audios
 
 ---------------------------
 Sugestoes:

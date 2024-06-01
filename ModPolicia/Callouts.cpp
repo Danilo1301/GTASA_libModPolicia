@@ -16,11 +16,10 @@ float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 0.0f},
-    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 0.0f},
-    {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 0.0f},
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
+    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 1.0f},
+    {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 1.0f},
     {CALLOUT_TYPE::HOUSE_INVASION, 114, 1.0f},
-
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;

@@ -6,16 +6,9 @@
 #include "Mod.h"
 #include "CleoFunctions.h"
 #include "SoundSystem.h"
+#include "Locations.h"
 
 std::vector<ScorchPedData*> Scorch::m_ScorchingPeds;
-
-std::vector<CVector> Scorch::m_PoliceDepartmentPositions = {
-    CVector(1536.1325, -1671.2093, 13.3828), //dp ls
-    CVector(635.1006, -571.8163, 16.3359), //dp dillmore
-    CVector(-1606.5406, 721.6789, 12.1554), //dp sf
-    CVector(-211.8363, 978.0092, 19.3001), //dp fort carson
-    CVector(2289.8784, 2425.8894, 10.8203) //dp lv
-};
 
 std::vector<Vehicle*> Scorch::m_TowTrucks;
 
@@ -42,9 +35,9 @@ void Scorch::UpdateScorchingPeds(int dt)
                 continue;
             }
 
-            auto dpPosition = m_PoliceDepartmentPositions[scorchData->toDpIndex];
+            auto dpLocation = scorchData->toDp;
             auto pedPos = Mod::GetPedPosition(scorchData->ped->hPed);
-            auto distance = DistanceBetweenPoints(dpPosition, pedPos);
+            auto distance = DistanceBetweenPoints(dpLocation.position, pedPos);
 
             if(distance < 3.0f)
             {
@@ -210,8 +203,8 @@ void Scorch::StartScorchingPed(Ped* ped)
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "create sphere" << std::endl;
 
-    scorchData->toDpIndex = GetClosestPoliceDepartment();
-    CVector dpPosition = m_PoliceDepartmentPositions[scorchData->toDpIndex];
+    scorchData->toDp = Locations::GetClosestPoliceDepartment();
+    CVector dpPosition = scorchData->toDp.position;
 
     scorchData->sphere = CleoFunctions::CREATE_SPHERE(dpPosition.x, dpPosition.y, dpPosition.z, 3.0);
     Log::Level(LOG_LEVEL::LOG_BOTH) << "sphere = " << scorchData->sphere << std::endl;
@@ -307,31 +300,6 @@ void Scorch::DestroyScorchData(ScorchPedData* data)
 
     CleoFunctions::DISABLE_MARKER(data->blip);
     data->blip = 0;
-}
-
-int Scorch::GetClosestPoliceDepartment()
-{
-    int closest = -1;
-    double closestDistance = INFINITY;
-
-    for(size_t i = 0; i < m_PoliceDepartmentPositions.size(); i++)
-    {
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
-        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
-
-        auto dpPosition = m_PoliceDepartmentPositions[i];
-
-        auto distance = DistanceBetweenPoints(dpPosition, CVector(playerX, playerY, playerZ));
-
-        if(distance < closestDistance)
-        {
-            closestDistance = distance;
-            closest = (int)i;
-        }
-    }
-
-    return closest;
 }
 
 bool Scorch::IsPedBeeingScorched(int hPed)
