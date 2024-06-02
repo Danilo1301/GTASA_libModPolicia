@@ -23,6 +23,7 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void ROTATE_AND_SHOOT(int _char, float x, float y, float z, int time);
     static int GET_ACTOR_MODEL(int _char);
     static void AS_ACTOR_RUN_TO_ACTOR(int walking, int target, int time, float radius);
     static void SET_MAX_WANTED_LEVEL_TO(int wantedLevel);

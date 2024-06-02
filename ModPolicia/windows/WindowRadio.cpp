@@ -4,6 +4,7 @@
 #include "Mod.h"
 #include "Ambulance.h"
 #include "Callouts.h"
+#include "SoundSystem.h"
 
 Window* WindowRadio::m_Window = NULL;
 
@@ -27,6 +28,9 @@ void WindowRadio::Create()
     auto button_ambulance = window->AddButton(117, 0, 0);
     button_ambulance->onClick = []()
     {
+        SoundSystem::PlayHTAudio();
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
+
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
         auto playerPosition = Mod::GetPedPosition(playerActor);
@@ -39,6 +43,9 @@ void WindowRadio::Create()
     auto button_IML = window->AddButton(118, 0, 0);
     button_IML->onClick = []()
     {
+        SoundSystem::PlayHTAudio();
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX121", 0, 0, 0, 3000, 1); //apoio IML
+
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
         auto playerPosition = Mod::GetPedPosition(playerActor);

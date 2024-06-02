@@ -34,6 +34,7 @@ SprintFixByYuna.csa
 * Para abordar a pé: mire em alguém e aperte o botão de buzina
 * Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE))
 * Para abrir o menu do carro policial: chegue perto de uma viatura (carro) e aperte o widget de checkmark ([exemplo](https://imgur.com/gallery/checkmark-apBNac1))
+* Para abrir o menu do rádio: aperte o widget do celular ([exemplo](https://imgur.com/gallery/radio-ofyko9e))
 * Pressione os 'números imaginários' 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes (precisa ativar nas settings.ini)
 
 <h1>Tutoriais</h1>
@@ -75,5 +76,7 @@ For all versions:
 <h1>Credits</h1>
 
 * Based on MOD POLÍCIA (PMV1) by CM GAMES (https://www.youtube.com/watch?v=3L29Irfc14k)
+
+* Radio voice lines from: NFS MW POLICE CHATTER REPLACEMENT FOR LSPDFR 1.0.0 (https://www.lcpdfr.com/downloads/gta5mods/audio/36345-nfs-mw-police-chatter-replacement-for-lspdfr)
 
 * Mod made using AML (https://github.com/RusJJ/AndroidModLoader)

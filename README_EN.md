@@ -30,6 +30,7 @@ SprintFixByYuna.csa
 * To stop in foot: aim to someone and press horn button
 * To stop from a vehicle: press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE))
 * To open the police car menu: get closer to a police car and press the checkmark widget ([example](https://imgur.com/gallery/checkmark-apBNac1))
+* To open the radio menu: press the cellphone widget ([example](https://imgur.com/gallery/radio-ofyko9e))
 * Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu (you need to enable in the settings.ini)
 
 <h1>Tutorials</h1>
@@ -71,5 +72,7 @@ For all versions:
 <h1>Credits</h1>
 
 * Based on MOD POLÍCIA (PMV1) by CM GAMES (https://www.youtube.com/watch?v=3L29Irfc14k)
+
+* Radio voice lines from: NFS MW POLICE CHATTER REPLACEMENT FOR LSPDFR 1.0.0 (https://www.lcpdfr.com/downloads/gta5mods/audio/36345-nfs-mw-police-chatter-replacement-for-lspdfr)
 
 * Mod made using AML (https://github.com/RusJJ/AndroidModLoader)

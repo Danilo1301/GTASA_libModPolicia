@@ -143,6 +143,7 @@ end
 0247: load_model 348 //deagle
 0247: load_model 349 //shotgun
 0247: load_model 356 //m4
+0247: load_model 367 //camera
           
 038B: load_requested_models 
 
@@ -212,10 +213,10 @@ if and
     //weapons
     0248: model 346 available
     0248: model 335 available
-    
     0248: model 348 available //deagle
     0248: model 349 available //shotgun
     0248: model 356 available //m4
+    0248: model 367 available //camera
 jf @PRELOAD
 
 0F23: add_log_message 103

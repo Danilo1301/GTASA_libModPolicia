@@ -105,6 +105,10 @@ void EmergencyVehicleSystem::Update(int dt)
                             medic->actionStatus = PED_ACTION_STATUS::MEDIC_TAKING_PICTURES;
 
                             Log::Level(LOG_LEVEL::LOG_BOTH) << "medic taking picures" << std::endl;
+                            
+                            auto pedPosition = Mod::GetPedPosition(medic->goingToPed);
+
+                            CleoFunctions::ROTATE_AND_SHOOT(medic->hPed, pedPosition.x, pedPosition.y, pedPosition.z, 6000);
 
                             CleoFunctions::WAIT(6000, [medic] () {
                                 medic->actionStatus = PED_ACTION_STATUS::MEDIC_ON_BODY;
@@ -196,13 +200,15 @@ void EmergencyVehicleSystem::TakeBody(Ped* medic, bool ressurect)
 
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "create new ped" << std::endl;
 
-                auto newPedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, modelId, pedPosition.x, pedPosition.y, pedPosition.z);
+                auto newPedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, modelId, pedPosition.x, pedPosition.y, pedPosition.z);
                 auto newPed = Peds::TryCreatePed(newPedHandle);
 
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "copy info between peds" << std::endl;
 
                 newPed->UpdateInventory();
                 newPed->CopyFrom(pedBody);
+
+                CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(newPedHandle);
             }
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "destroying body" << std::endl;
@@ -276,6 +282,12 @@ void EmergencyVehicleSystem::CallVehicle(CVector location)
     //pedPassenger->AddBlip(2);
     vehicle->hPassengers.push_back(passenger);
     m_Peds.push_back(pedPassenger);
+    
+    if(!m_RessurectPed)
+    {
+        CleoFunctions::GIVE_ACTOR_WEAPON(driver, 43, 1000);
+        CleoFunctions::GIVE_ACTOR_WEAPON(passenger, 43, 1000);
+    }
 
     CleoFunctions::ENABLE_CAR_SIREN(ambulance, true);
     CleoFunctions::SET_CAR_MAX_SPEED(ambulance, 50.0f);

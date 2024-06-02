@@ -99,7 +99,7 @@ Initial release
 [X] ADD: voice lines during chase and backup
 [X] ADD: IML
 [X] ADD: Ambulance
-[ ] ADD: IML taking pictures
+[X] ADD: IML taking pictures
 [X] ADD: copy info from ped + copy inventory
 [X] ADD: window radio
 [X] ADD: abort callout
@@ -107,8 +107,8 @@ Initial release
 --------------------------
 Notes:
 
-[ ] Changed callout chances
-[ ] Mention the radio sounds credits
+[X] Changed callout chances
+[X] Mention the radio sounds credits
 [X] Remove test audios
 
 ---------------------------

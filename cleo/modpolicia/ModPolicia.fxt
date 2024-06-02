@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia BETA v0.8.0 (by Danilo1301)
+MPFX6 Mod Policia v1.0.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -117,3 +117,5 @@ MPFX116 Carteira roubada
 MPFX117 Chamar ambulancia
 MPFX118 Chamar IML
 MPFX119 Cancelar ocorrencia
+MPFX120 ~b~[Policial] ~w~COPOM, solicito apoio da ambulancia
+MPFX121 ~b~[Policial] ~w~COPOM, solicito apoio do IML
