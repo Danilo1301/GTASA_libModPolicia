@@ -3,6 +3,7 @@
 #include "CleoFunctions.h"
 #include "Mod.h"
 #include "Ambulance.h"
+#include "Callouts.h"
 
 Window* WindowRadio::m_Window = NULL;
 
@@ -12,6 +13,16 @@ void WindowRadio::Create()
 
     auto window = m_Window = Menu::AddWindow(6);
     window->showPageControls = true;
+
+    if(Callouts::m_AproachingCallout)
+    {
+        auto button_abortCallout = window->AddButton(119, 0, 0);
+        button_abortCallout->onClick = []()
+        {
+            Callouts::AbortCallout();
+            Remove();
+        };
+    }
 
     auto button_ambulance = window->AddButton(117, 0, 0);
     button_ambulance->onClick = []()
@@ -33,7 +44,7 @@ void WindowRadio::Create()
         auto playerPosition = Mod::GetPedPosition(playerActor);
 
         Ambulance::CallIML(playerPosition);
-        
+
         Remove();
     };
 

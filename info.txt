@@ -102,6 +102,7 @@ Initial release
 [ ] ADD: IML taking pictures
 [X] ADD: copy info from ped + copy inventory
 [X] ADD: window radio
+[X] ADD: abort callout
 
 --------------------------
 Notes:

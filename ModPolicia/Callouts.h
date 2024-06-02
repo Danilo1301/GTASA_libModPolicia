@@ -53,6 +53,7 @@ public:
     static CALLOUT_TYPE m_CurrentCalloutIndex;
     static std::vector<Ped*> m_Criminals;
     static bool m_AproachingCallout;
+    static bool m_AbortedCallout;
 
     static std::vector<SkinData> m_Skins;
 
@@ -61,6 +62,8 @@ public:
     static void UpdateCriminals(int dt);
 
     static CALLOUT_TYPE GetRandomCallout();
+
+    static void AbortCallout();
 
     static bool IsModulatingCallout();
 
@@ -73,7 +76,7 @@ public:
     static void StartStolenVehicleCallout();
     static void StartHouseInvasionCallout();
 
-    static void AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker);
+    static void AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker, std::function<void()> onAbort);
     static void AproachCalloutPedPath(std::function<void(CVector)> onReachMarker);
 
     static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);

@@ -25,6 +25,7 @@ CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 std::vector<Ped*> Callouts::m_Criminals;
 bool Callouts::m_AproachingCallout = false;
+bool Callouts::m_AbortedCallout = false;
 
 std::vector<SkinData> Callouts::m_Skins = {
     {19, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
@@ -190,6 +191,15 @@ CALLOUT_TYPE Callouts::GetRandomCallout()
     ids.clear();
 
     return (CALLOUT_TYPE)randomCalloutIndex;
+}
+
+void Callouts::AbortCallout()
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Callouts: AbortCallout" << std::endl;
+    
+    if(!m_AproachingCallout) return;
+
+    m_AbortedCallout = true;
 }
 
 bool Callouts::IsModulatingCallout()
@@ -361,10 +371,10 @@ void Callouts::StartHouseInvasionCallout()
             for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WALLET);
             for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WATCH);
         }
-    });
+    }, []() {});
 }
 
-void Callouts::AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker)
+void Callouts::AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker, std::function<void()> onAbort)
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -378,14 +388,24 @@ void Callouts::AproachCallout(CVector location, float aproachDistance, std::func
 
         if(distance < aproachDistance) return true;
 
+        if(m_AbortedCallout) return true;
+
         return false;
-    }, [marker, location, playerActor, onReachMarker] () {
+    }, [marker, location, playerActor, onReachMarker, onAbort] () {
+
         CleoFunctions::DISABLE_MARKER(marker);
 
         m_AproachingCallout = false;
         Log::Level(LOG_LEVEL::LOG_BOTH) << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
-        onReachMarker(location);
+        if(m_AbortedCallout)
+        {
+            m_AbortedCallout = false;
+
+            onAbort();
+        } else {
+            onReachMarker(location);
+        }
     }); 
 }
 
@@ -400,7 +420,7 @@ void Callouts::AproachCalloutPedPath(std::function<void(CVector)> onReachMarker)
     CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
     CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
 
-    AproachCallout(nodePosition, 100.0f, onReachMarker);
+    AproachCallout(nodePosition, 100.0f, onReachMarker, []() {});
 }
 
 Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius)

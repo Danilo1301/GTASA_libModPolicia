@@ -937,5 +937,9 @@ end
 if VAR_GxtId == 118
 then
      VAR_STR_1 = "MPFX118"
+end   
+if VAR_GxtId == 119
+then
+     VAR_STR_1 = "MPFX119"
 end
 return

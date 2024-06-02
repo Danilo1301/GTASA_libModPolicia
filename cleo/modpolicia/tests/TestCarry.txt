@@ -1,0 +1,72 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Spawns ped, and carry him
+
+0000:
+0@ = 0
+$PED = -1
+
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+            
+    if 0@ == 1
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 10.0 0.0
+        
+        009A: $PED = create_actor_pedtype 23 model 274 at 1@ 2@ 3@
+  
+        0619: enable_actor $PED collision_detection 0 
+  
+        wait 1000
+    end
+
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+
+if 056D: actor $PED defined 
+then    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers $PED 0 0 time 1000 flag 1
+    
+    04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 1.0 -0.5
+    
+    00A1: put_actor $PED at 1@ 2@ 3@ 
+end
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+0247: load_model 274
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if
+    0248: model 274 available
+jf @PRELOAD_WAIT
+
+jump @MAIN
