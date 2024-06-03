@@ -8,6 +8,7 @@
 #include "CleoFunctions.h"
 #include "Input.h"
 #include "Mod.h"
+#include "SoundSystem.h"
 
 #include "windows/WindowTest.h"
 #include "windows/WindowFrisk.h"
@@ -127,6 +128,7 @@ void Pullover::PullOverPed(int hPed)
         CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
+    SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_PEDESTRIAN.wav", false);
 
     m_PullingPed = Peds::TryCreatePed(hPed);
     m_PullingPed->UpdateInventory();
@@ -183,6 +185,7 @@ void Pullover::TryPullOverCar()
         CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
+    SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_VEHICLE.wav", false);
 
     /*
     float carX = 0.0f, carY = 0.0f, carZ = 0.0f;

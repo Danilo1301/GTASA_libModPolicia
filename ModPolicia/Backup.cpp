@@ -16,18 +16,19 @@ std::vector<Vehicle*> Backup::m_BackupVehicles;
 std::vector<Ped*> Backup::m_BackupPeds;
 BACKUP_TYPE Backup::m_BackupType = BACKUP_TYPE::BACKUP_CHASE;
 std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
-    {596, 280, 2, 4, 22}, //LS
-    {523, 284, 1, 2, 22}, //Bike
-    {490, 286, 4, 4, 31}, //FBI
-    {597, 281, 2, 4, 22}, //SF
-    {598, 282, 2, 4, 22}, //LV
-    {599, 283, 2, 4, 22} //Ranger
+    {596, 280, 2, 4, 22, "voices/REQUEST_BACKUP_LS_", "voices/UNIT_RESPONDING_DISPATCH_"}, //LS
+    {523, 284, 1, 2, 22, "voices/REQUEST_BACKUP_BIKE_", "voices/UNIT_RESPONDING_DISPATCH_"}, //Bike
+    {490, 286, 4, 4, 31, "voices/REQUEST_BACKUP_FBI_", "voices/UNIT_RESPONDING_DISPATCH_"}, //FBI
+    {597, 281, 2, 4, 22, "voices/REQUEST_BACKUP_SF_", "voices/UNIT_RESPONDING_DISPATCH_"}, //SF
+    {598, 282, 2, 4, 22, "voices/REQUEST_BACKUP_LV_", "voices/UNIT_RESPONDING_DISPATCH_"}, //LV
+    {599, 283, 2, 4, 22, "voices/REQUEST_BACKUP_RANGER_", "voices/UNIT_RESPONDING_DISPATCH_"}, //Ranger
+    {497, 280, 1, 1, 22, "voices/REQUEST_BACKUP_HELI_", "voices/HELI_APPROACHING_DISPATCH_"} //Polmav
 };
 std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 
 AudioStream* Backup::m_RequestBackupAudio = NULL;
 bool Backup::m_WaitingToRespondDispatch = false;
-bool Backup::m_RequestedHeli = false;
+std::string Backup::m_IncomingBackupSoundName = "";
 
 void Backup::Update(int dt)
 {
@@ -68,15 +69,16 @@ void Backup::Update(int dt)
         {
             m_WaitingToRespondDispatch = false;
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "responding dispatch" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "responding dispatch in 1 second" << std::endl;
 
-            if(m_RequestedHeli)
-            {
-                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/HELI_APPROACHING_DISPATCH_", false);
-            } else {
-                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/UNIT_RESPONDING_DISPATCH_", false);
-            }
-            m_RequestedHeli = false;
+            CleoFunctions::WAIT(1000, []() {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "playing audio: " << m_IncomingBackupSoundName << std::endl;
+
+                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation(m_IncomingBackupSoundName, false);
+            });
+
+            //SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/HELI_APPROACHING_DISPATCH_", false);
+            //SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/UNIT_RESPONDING_DISPATCH_", false);
         }
     }
 }
@@ -235,7 +237,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "call backup vehicleModelId: " << backupVehicle->vehicleModelId << ", pedModelId: " << backupVehicle->pedModelId << std::endl;
 
-    PlayRequestBackupAudio();
+    PlayRequestBackupAudio(backupVehicle);
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -326,7 +328,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
 
 void Backup::CallBackupHeli()
 {
-    PlayRequestBackupAudio(true);
+    PlayRequestBackupAudio(&m_DataBackupVehicles[6]); //6 = polmav
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -379,11 +381,11 @@ void Backup::CallBackupHeli()
     });
 }
 
-void Backup::PlayRequestBackupAudio(bool requestedHeli)
+void Backup::PlayRequestBackupAudio(BackupVehicle* backupVehicle)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Backup: PlayRequestBackupAudio" << std::endl;
 
-    if(requestedHeli) m_RequestedHeli = true;
+    m_IncomingBackupSoundName = backupVehicle->soundIncoming;
 
     if(m_RequestBackupAudio != NULL)
     {
@@ -393,8 +395,9 @@ void Backup::PlayRequestBackupAudio(bool requestedHeli)
     }
 
     SoundSystem::PlayHTAudio();
-
-    m_RequestBackupAudio = SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_BACKUP_", false);
+    
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "playing audio: " << backupVehicle->soundRequest << std::endl;
+    m_RequestBackupAudio = SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation(backupVehicle->soundRequest, false);
 
     m_WaitingToRespondDispatch = true;
 }

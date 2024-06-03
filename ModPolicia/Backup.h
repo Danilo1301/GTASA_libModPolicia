@@ -11,12 +11,23 @@ enum BACKUP_TYPE {
 	BACKUP_CALLOUT
 };
 
+/*
+int vehicleModelId;
+int pedModelId;
+int numPeds;
+int maxPeds;
+int weaponId;
+std::string soundRequest;
+std::string soundIncoming;
+*/
 struct BackupVehicle {
     int vehicleModelId;
     int pedModelId;
     int numPeds;
     int maxPeds;
     int weaponId;
+    std::string soundRequest;
+    std::string soundIncoming;
 };
 
 class Backup {
@@ -29,7 +40,7 @@ public:
 
     static AudioStream* m_RequestBackupAudio;
     static bool m_WaitingToRespondDispatch;
-    static bool m_RequestedHeli;
+    static std::string m_IncomingBackupSoundName;
 
     static void Update(int dt);
     static void UpdateBackupVehiclesActionStatus(int dt);
@@ -40,5 +51,5 @@ public:
     static void CallBackupCar(BackupVehicle* backupVehicle);
     static void CallBackupHeli();
 
-    static void PlayRequestBackupAudio(bool requestedHeli = false);
+    static void PlayRequestBackupAudio(BackupVehicle* backupVehicle);
 };

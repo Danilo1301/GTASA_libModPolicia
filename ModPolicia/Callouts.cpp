@@ -16,10 +16,10 @@ float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f},
-    {CALLOUT_TYPE::GANG_SHOTS_FIRED, 89, 1.0f},
-    {CALLOUT_TYPE::STOLEN_VEHICLE, 97, 1.0f},
-    {CALLOUT_TYPE::HOUSE_INVASION, 114, 1.0f},
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
+    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED, 89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
+    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE, 97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
+    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION, 114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"},
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
@@ -74,6 +74,7 @@ void Callouts::Update(int dt)
                 CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
 
                 SoundSystem::PlayHTAudio();
+                SoundSystem::PlayStreamFromAudiosFolder(callout.audio, false);
             }
         }
     } else {
@@ -102,9 +103,9 @@ void Callouts::Update(int dt)
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "m_AproachingCallout = " << m_AproachingCallout << std::endl;
 
                 if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_ASSAULT) StartAssaultCallout();
-                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
-                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::STOLEN_VEHICLE) StartStolenVehicleCallout();
-                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::HOUSE_INVASION) StartHouseInvasionCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE) StartStolenVehicleCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_HOUSE_INVASION) StartHouseInvasionCallout();
             }
         }
     }

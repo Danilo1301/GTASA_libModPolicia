@@ -29,6 +29,7 @@ void WindowRadio::Create()
     button_ambulance->onClick = []()
     {
         SoundSystem::PlayHTAudio();
+        SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_AMBULANCE.wav", false);
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
 
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
@@ -44,6 +45,7 @@ void WindowRadio::Create()
     button_IML->onClick = []()
     {
         SoundSystem::PlayHTAudio();
+        SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_IML.wav", false);
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX121", 0, 0, 0, 3000, 1); //apoio IML
 
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);

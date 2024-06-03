@@ -7,16 +7,23 @@
 enum CALLOUT_TYPE {
     CALLOUT_NONE = -1,
     CALLOUT_ASSAULT,
-    GANG_SHOTS_FIRED,
-    STOLEN_VEHICLE,
-    HOUSE_INVASION
+    CALLOUT_GANG_SHOTS_FIRED,
+    CALLOUT_STOLEN_VEHICLE,
+    CALLOUT_HOUSE_INVASION
 };
 
+/*
+CALLOUT_TYPE type;
+int gxtId;
+float chance;
+std::string audio;
+*/
 struct Callout
 {
     CALLOUT_TYPE type;
     int gxtId;
     float chance;
+    std::string audio;
 };
 
 enum SkinGenre {

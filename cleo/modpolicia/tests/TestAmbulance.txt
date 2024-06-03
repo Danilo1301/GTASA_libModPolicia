@@ -54,6 +54,8 @@ then
     then
         04C4: store_coords_to 1@ 2@ 3@ from_actor $PED with_offset 0.0 0.0 0.0
         
+        //0665: get_actor 0@ model_to 7@
+        
         009B: destroy_actor $PED 
 
         009A: $PED = create_actor_pedtype 23 model 70 at 1@ 2@ 3@ 

@@ -252,7 +252,7 @@ void EmergencyVehicleSystem::CallVehicle(CVector location)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call vehicle at " << CVectorToString(location) << std::endl;
 
     float spawnX = 0, spawnY = 0, spawnZ = 0;
-    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(location.x, location.y + 100.0f, location.z, 2, &spawnX, &spawnY, &spawnZ);
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(location.x, location.y + 200.0f, location.z, 2, &spawnX, &spawnY, &spawnZ);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "spawn vehicle at " << CVectorToString(CVector(spawnX, spawnY, spawnZ)) << std::endl;
 

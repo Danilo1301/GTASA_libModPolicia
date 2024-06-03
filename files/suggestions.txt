@@ -49,6 +49,30 @@ SWAT: ID 285 (Sfpdm2)
 
 --
 
+Sugestão de Melhorias para o Police Mod:
+
+Ajuste na Distância de Fuga do NPC:
+Proposta: Aumentar a curta distância de fuga do NPC durante a abordagem para um raio de 5km.
+
+Interação dos Policiais em Perseguição:
+Proposta: Se o NPC ficar encurralado ou capotar o carro, os policiais devem sair do veículo, apontar suas armas e o NPC deve levantar as mãos até ser abordado.
+Regras de Engajamento: 
+Os policiais só devem disparar se o NPC estiver armado com uma pistola ou se reagir de maneira violenta.
+Se o NPC estiver armado com um bastão ou faca, ele deve levantar as mãos.
+Adicionar uma chance aleatória de NPCs partirem para cima dos policiais, provocando um confronto armado.
+
+Reforço em Caso de Perseguição:
+Proposta: Quando um veículo não parar durante a perseguição, um dos NPCs passageiros deve receber automaticamente uma arma e começar a atirar nas viaturas policiais, iniciando um tiroteio.
+Situação: Se o carro pegar fogo ou os NPCs saírem do veículo, os policiais devem abrir fogo contra eles.
+Opção de Controle: Adicionar uma opção no menu de reforço para mandar os policiais se retirarem da cena, permitindo ao jogador escolher se os policiais devem permanecer ou não.
+
+Reação a Carro Roubado:
+Proposta: Em casos de roubo de carro, aplicar as mesmas regras mencionadas anteriormente.
+Perseguição Automática: O roubo de carro deve iniciar automaticamente uma perseguição policial sem a necessidade de chamar reforços manualmente.
+Menu de Reforços: Manter o menu de chamar reforços disponível para que o jogador possa solicitar mais apoio policial conforme necessário.
+
+--
+
 [X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
 0.6.0
 
@@ -158,9 +182,13 @@ E aí nessa área isolada esse artefato explosivo seria detonado.
 Traje específico que eu falei.
 Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iria fazer todo o procedimento desarmar e dps detonar o explosivo.
 
-SUGESTÃO
-
 [ ] (Zacarias7) Teste de bafômetro
+
+[ ] (@Lgsff) Fbi swat tem ? (apoio)
+
+[ ] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
+
+[ ] (@Lgsff) Colocar assalto
 
 ---------------- BUGS
 
@@ -179,5 +207,6 @@ SUGESTÃO
 
 [ ] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar
 
-[ ] (Gabriel Oliveira) não consegue abordar veículos (apenas pedestres)
+[X] (Gabriel Oliveira) não consegue abordar veículos (apenas pedestres)
 (@Vitoruppp) não consegue abordar veículos (apenas pedestres)
+1.0.1

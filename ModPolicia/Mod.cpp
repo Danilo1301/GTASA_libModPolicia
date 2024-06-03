@@ -23,7 +23,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "1.0.1";
+const char* Mod::m_Version = "1.0.2";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = true;
 

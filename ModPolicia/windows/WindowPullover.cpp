@@ -93,6 +93,7 @@ void WindowPullover::CreatePullingPed()
             Remove();
 
             SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_VEHICLE_PLATE.wav", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
 
             CleoFunctions::WAIT(2000, [ped]() {
@@ -202,6 +203,11 @@ void WindowPullover::CreatePullingPed()
         auto button_guincho = window->AddButton(109, 0, 0);
         button_guincho->onClick = [ped]()
         {
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
+
+
             Remove();
             Scorch::CallTowTruckToVehicle(Vehicles::GetVehicleByHandle(ped->hVehicleOwned));
         };
@@ -245,7 +251,6 @@ void WindowPullover::CreatePullingCar()
     button_sairdocarro->onClick = [ped]()
     {
         Remove();
-
         Pullover::AskPedToLeaveCar(ped);
     };
     

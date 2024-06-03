@@ -218,6 +218,7 @@ void Scorch::CallVehicleToScorchPed(Ped* ped)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call vehicle to scorch ped" << std::endl;
 
     SoundSystem::PlayHTAudio();
+    SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_CAR_TO_TRANSPORT_SUSPECT.wav", false);
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX85", 0, 0, 0, 2000, 1); //solicito viatura
 
     Pullover::m_PullingPed = NULL;
