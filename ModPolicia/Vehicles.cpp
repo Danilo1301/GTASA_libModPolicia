@@ -3,6 +3,8 @@
 #include "SimpleGTA.h"
 
 #include "Log.h"
+#include "CleoFunctions.h"
+#include "Mod.h"
 
 extern uintptr_t* pVehiclePool;
 extern int (*GetVehicleRef)(int);
@@ -81,4 +83,28 @@ Vehicle* Vehicles::GetVehicleByHandle(int hVehicle)
 {
 	if (!HasVehicleHandle(hVehicle)) return NULL;
 	return m_Vehicles.at(hVehicle);
+}
+
+int Vehicles::GetRandomCarInSphere(CVector position, float radius)
+{
+    std::vector<Vehicle*> vehicles;
+
+    for(auto pair : m_Vehicles)
+    {
+        auto vehicle = pair.second;
+
+        if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle)) continue;
+
+        auto vehiclePos = Mod::GetCarPosition(vehicle->hVehicle);
+        auto distance = DistanceBetweenPoints(position, vehiclePos);
+
+        if(distance <= radius)
+        {
+            vehicles.push_back(vehicle);
+        }
+    }
+
+    if(vehicles.size() == 0) return 0;
+
+    return vehicles[0]->hVehicle;
 }

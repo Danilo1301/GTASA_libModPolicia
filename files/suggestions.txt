@@ -95,9 +95,10 @@ by El Gatonw: (Discord)
 [ ] Colocar mão pra trás
 (El Gatonw) Polícia - Suspeito abordado colocando a mão para trás ao pedir q aguarde outra viatura
 
-[ ] Som no radio comunicador
+[X] Som no radio comunicador
 (El Gatonw) Polícia - Atender chamado via rádio se possível, ou quando aparecer a mensagem em baixo sobre a ocorrência, que o rádio da polícia dê um bip, tipo o som de radinho comunicador. 
 (brandonviljoen) Oky. Bro. Bro can u maybe. Do sound in. This police Mod
+1.0.0
 
 [X] (El Gatonw) ao chamar apoio da "ROCAM" tem como você por dois policiais na moto? Com o garupa armado?
 0.7.0
@@ -121,10 +122,13 @@ Evitar que passe pedestres e veículos na quele local.
 [ ] @GabrielPmmods190
 Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj ai tem la chama samu apoio aguia etc
 
-[ ] (Mayke) Seria dahora se desse pra adicionar opção de acionar ambulância pra quando os indivíduos fossem alvejados
+[X] (Mayke) Seria dahora se desse pra adicionar opção de acionar ambulância pra quando os indivíduos fossem alvejados
+1.0.0
+
 [ ] (Mayke) e acionar bombeiro tbm pra quando o carro pegar fogo
 
-[ ] (@SGTMIke27) Adiciona opção de chamar o IML pra ficar mais completo.
+[X] (@SGTMIke27) Adiciona opção de chamar o IML pra ficar mais completo.
+1.0.0
 
 [ ] (Billy) 1° colocar pra algemar o indivíduo 
 [ ] (Billy) 2° colocar mais ocorrências tipo assalto a loja, banco, etc
@@ -135,7 +139,6 @@ Seria interessante ter ocorrências de crimes ambientais.
 (Tipo fogo em floresta?)
 
 [] (Billy) Também ter como puxar a CNH se é vencida
-
 
 [] (Billy) Se possível no mod colocar pra escolher a unidade exemplo: Escolher modo Polícia, ou bombeiro, ou médico etc. Daí a unidade q vc escolher aparece as ocorrências tipo escolhi bombeiro, daí vai aparecer ocorrência de incêndios etc
 
@@ -155,6 +158,10 @@ E aí nessa área isolada esse artefato explosivo seria detonado.
 Traje específico que eu falei.
 Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iria fazer todo o procedimento desarmar e dps detonar o explosivo.
 
+SUGESTÃO
+
+[ ] (Zacarias7) Teste de bafômetro
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
@@ -171,3 +178,6 @@ Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iri
 0.7.0
 
 [ ] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar
+
+[ ] (Gabriel Oliveira) não consegue abordar veículos (apenas pedestres)
+(@Vitoruppp) não consegue abordar veículos (apenas pedestres)

@@ -14,6 +14,7 @@ SprintFixByYuna.csa
   * AML (https://github.com/RusJJ/AndroidModLoader)
   * SAUtils (https://github.com/AndroidModLoader/SAUtils)
   * CLEO Mod (https://github.com/AndroidModLoader/GTA_CLEOMod)
+  * BASS Mod (https://github.com/AndroidModLoader/BASSMod)
 
 ( those libs are all inside the .zip file, in '/required libs', you just have to copy the .so files inside your /mods folder )<br>
 ( example: inside /Android/data/ro.samp_mobile.game/mods )<br>
@@ -23,6 +24,7 @@ SprintFixByYuna.csa
 3. Open the folder "inside game folder", copy the folders "configs" and "mods" and paste it on the game folder (ex: /Android/data/ro.samp_mobile.game)
 4. If you haven't done yet, move the libs from "/required libs" inside your '/mods' folder
 5. Install the mod textures inside the 'txd.txt' using 'TXD Tool'. Tutorials below.
+6. Optional: copy the libBASSMod.so from the folder 'optional lib' and paste into your '/mods' folder
 
 <h1>How to use</h1>
 

@@ -104,6 +104,9 @@ Initial release
 [X] ADD: window radio
 [X] ADD: abort callout
 
+[1.0.1]
+[X] FIX: some users reported not beeing able to pull over cars
+
 --------------------------
 Notes:
 
@@ -165,6 +168,12 @@ tested CLEO
 2.0.1.2		?
 2.0.1.1		?
 2.0.1		?
+
+-----------
+Tested on androids:
+
+Android 12 (me)
+Android 14 (Plucas)
 
 -----------
 

@@ -15,4 +15,6 @@ public:
     static bool HasVehicleHandle(int hVehicle);
     static Vehicle* TryCreateVehicle(int hVehicle);
     static Vehicle* GetVehicleByHandle(int hVehicle);
+
+    static int GetRandomCarInSphere(CVector position, float radius);
 };

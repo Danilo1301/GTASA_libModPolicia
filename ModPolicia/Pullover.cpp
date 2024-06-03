@@ -47,7 +47,7 @@ void Pullover::UpdateWidgetPress(int dt)
         if(Input::GetTouchIdState(pulloverTouchButton) && Widgets::IsWidgetPressed(pulloverWidget) && !waitForReleaseButtons)
         {
             waitForReleaseButtons = true;
-           Log::Level(LOG_LEVEL::LOG_BOTH)<< "Waiting for release pullover buttons" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH)<< "Waiting for release pullover buttons" << std::endl;
 
             TryPullOverCar();
         }
@@ -144,7 +144,7 @@ void Pullover::PullOverPed(int hPed)
 
 void Pullover::TryPullOverCar()
 {
-   Log::Level(LOG_LEVEL::LOG_BOTH) << "try pull over car" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "try pull over car" << std::endl;
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -154,7 +154,12 @@ void Pullover::TryPullOverCar()
     float x = 0.0f, y = 0.0f, z = 0.0f;
     CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0.0f, range, 0.0f, &x, &y, &z);
 
-    int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(x, y, z, 5.0f, -1);
+    //for some people this opcode is returning no cars :(
+    //int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(x, y, z, 5.0f, -1);
+
+    int randomCar = Vehicles::GetRandomCarInSphere(CVector(x, y, z), 5.0f);
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "found random car in sphere: " << randomCar << std::endl;
 
     //if no car is found
     if(randomCar <= 0)
