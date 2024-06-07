@@ -112,12 +112,25 @@ Initial release
 [X] ADD: TTS sounds
 [X] FIX: IML and Ambulance coming too fast
 
+[1.1.0]
+[X] ADD: roadblocks
+[X] ADD: spikestrips
+[X] ADD: audio to ACCEPT_CALLOUT
+[X] ADD: bafometro
+[X] CHANGE: ambulance and IML spawn distance
+[X] ADD: text on right side of the button
+[X] ADD: amount of items in the frisk window
+[X] ADD: new drugs
+[X] ADD: SWAT backup
+
 --------------------------
 Notes:
 
 [X] Changed callout chances
 [X] Mention the radio sounds credits
 [X] Remove test audios
+[X] Changed Item_Type::BEER chance
+[X] Changed chances: CHANCE_PED_CONSUME_DRUGS & CHANCE_PED_BEEING_DRUG_DEALER
 
 ---------------------------
 Sugestoes:

@@ -16,5 +16,6 @@ public:
     static Vehicle* TryCreateVehicle(int hVehicle);
     static Vehicle* GetVehicleByHandle(int hVehicle);
 
+    static std::vector<Vehicle*> GetAllCarsInSphere(CVector position, float radius);
     static int GetRandomCarInSphere(CVector position, float radius);
 };

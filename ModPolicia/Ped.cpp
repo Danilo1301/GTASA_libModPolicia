@@ -3,12 +3,13 @@
 #include "Log.h"
 #include "Mod.h"
 #include "CleoFunctions.h"
+#include "Vehicles.h"
 
 extern void* (*GetPedFromRef)(int);
 
 float Ped::CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME = 0.1f;
-float Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.3f;
-float Ped::CHANCE_PED_CONSUME_DRUGS = 0.3f;
+float Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.2f;
+float Ped::CHANCE_PED_CONSUME_DRUGS = 0.4f;
 float Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE = 0.2f;
 float Ped::CHANCE_PED_BEEING_WANTED = 0.1f;
 
@@ -78,17 +79,30 @@ void Ped::UpdateInventory()
 
     inventory->created = true;
 
+    //
+
     bool hasDocuments = !Mod::CalculateProbability(CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME);
     if(hasDocuments)
     {
         inventory->AddItemToInventory(Item_Type::DOCUMENTS);
     }
 
-    bool hasDrugs = Mod::CalculateProbability(CHANCE_PED_CONSUME_DRUGS);
-    if(hasDrugs)
+    //
+
+    bool isDrugDealer = Mod::CalculateProbability(CHANCE_PED_BEEING_DRUG_DEALER);
+    bool consumeDrugs = Mod::CalculateProbability(CHANCE_PED_CONSUME_DRUGS);
+
+    if(isDrugDealer)
     {
-        inventory->AddItemToInventory(Item_Type::WEED);
+        AddDrugs(true);
+    } else {
+        if(consumeDrugs)
+        {
+            AddDrugs(false);
+        }
     }
+
+    //
 
     bool hasCellphone = Mod::CalculateProbability(0.92);
     if(hasCellphone)
@@ -100,6 +114,27 @@ void Ped::UpdateInventory()
     {
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
         stolenCellphone->isStolen = true;
+    }
+}
+
+void Ped::UpdateBreathalyzer()
+{
+    if(updatedBreathalyzer) return;
+
+    updatedBreathalyzer = true;
+
+    auto vehicle = Vehicles::GetVehicleByHandle(hVehicleOwned);
+    bool hasBeer = vehicle->inventory->HasItemOfType(Item_Type::BEER);
+    
+    if(hasBeer)
+    {
+        int maximunValue = 4;
+
+        bool drankTooMuch = Mod::GetRandomNumber(0, 1) == 0;
+
+        if(drankTooMuch) maximunValue = 50;
+
+        breathalyzerValue = Mod::GetRandomNumber(0, maximunValue) * 0.01f;
     }
 }
 
@@ -156,4 +191,59 @@ void Ped::CopyFrom(Ped* fromPed)
     this->money = fromPed->money;
 
     this->inventory->CopyFrom(fromPed->inventory);
+}
+
+void Ped::AddDrugs(bool drugDealer)
+{
+    int drugRng = Mod::GetRandomNumber(0, 4);
+
+    if(drugRng == 0)
+    {
+        auto drug = inventory->AddItemToInventory(Item_Type::WEED);
+        if(drugDealer)
+        {
+            drug->amount = Mod::GetRandomNumber(10, 50);
+        }
+    }
+
+    if(drugRng == 1)
+    {
+        auto drug = inventory->AddItemToInventory(Item_Type::CRACK);
+        if(drugDealer)
+        {
+            drug->amount = Mod::GetRandomNumber(10, 50);
+        }
+    }
+
+    if(drugRng == 2)
+    {
+        auto drug = inventory->AddItemToInventory(Item_Type::COCAINE);
+        if(drugDealer)
+        {
+            drug->amount = Mod::GetRandomNumber(10, 50);
+        }
+    }
+
+    if(drugRng == 3)
+    {
+        auto drug = inventory->AddItemToInventory(Item_Type::K9);
+        if(drugDealer)
+        {
+            drug->amount = Mod::GetRandomNumber(10, 50);
+        }
+    }
+
+    if(drugRng == 4)
+    {
+        auto drug = inventory->AddItemToInventory(Item_Type::METHAMPHETAMINE);
+        if(drugDealer)
+        {
+            drug->amount = Mod::GetRandomNumber(10, 50);
+        }
+    }
+
+    if(Mod::CalculateProbability(0.3))
+    {
+        inventory->AddItemToInventory(Item_Type::LANCA_PERFUME);
+    }
 }

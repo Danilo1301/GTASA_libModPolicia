@@ -23,7 +23,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "1.0.2";
+const char* Mod::m_Version = "1.1.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = true;
 
@@ -198,7 +198,16 @@ bool Mod::CalculateProbability(float chance)
 void Mod::ProcessMenuButtons(int dt)
 {
     if(ModConfig::EnableTestMenu)
-        Mod::ProcessTestMenuButtons(dt);
+    {
+        //test menu, 2 and 8 (LEFT, --, RIGHT)
+        if (Input::GetTouchIdState(2) && Input::GetTouchIdState(8))
+        {
+            if (Input::GetTouchIdPressTime(8) > 500)
+            {
+                WindowTest::Create();
+            }
+        }
+    }
 
     //test menu, 5 and 6
     if (Input::GetTouchIdState(6) && Input::GetTouchIdState(5))
@@ -206,19 +215,6 @@ void Mod::ProcessMenuButtons(int dt)
         if (Input::GetTouchIdPressTime(6) > 500)
         {
             
-        }
-    }
-}
-
-
-void Mod::ProcessTestMenuButtons(int dt)
-{
-    //test menu, 2 and 8 (LEFT, --, RIGHT)
-    if (Input::GetTouchIdState(2) && Input::GetTouchIdState(8))
-    {
-        if (Input::GetTouchIdPressTime(8) > 500)
-        {
-            WindowTest::Create();
         }
     }
 }
@@ -231,12 +227,17 @@ CVector Mod::GetCarPosition(int hVehicle)
     return CVector(x, y, z);
 }
 
-CVector Mod::GetPedPosition(int hPed)
+CVector Mod::GetPedPositionWithOffset(int hPed, CVector offset)
 {
     float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, 0, 0, 0, &x, &y, &z);
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, offset.x, offset.y, offset.z, &x, &y, &z);
 
     return CVector(x, y, z);
+}
+
+CVector Mod::GetPedPosition(int hPed)
+{
+    return GetPedPositionWithOffset(hPed, CVector(0, 0, 0));
 }
 
 double Mod::DistanceFromPed(int hPed, CVector position)

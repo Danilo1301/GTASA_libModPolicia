@@ -152,6 +152,27 @@ void WindowPullover::CreatePullingPed()
         });
     };
 
+    if(ped->hVehicleOwned > 0)
+    {
+        auto button_bafometro = window->AddButton(126, 0, 0);
+        button_bafometro->onClick = [ped]()
+        {
+            Remove();
+
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX130", 0, 0, 0, 2500, 1); //vou realizar teste
+
+            ped->UpdateBreathalyzer();
+
+            CleoFunctions::WAIT(2500, [ped] () {
+                int value = (int)(ped->breathalyzerValue * 100.0f);
+
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX131", value, 0, 0, 4000, 1); //resultado
+
+                CreatePullingPed();
+            });
+        };
+    }
+
     auto button_rg = window->AddButton(34, 0, 0);
     button_rg->onClick = [ped]()
     {

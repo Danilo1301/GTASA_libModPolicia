@@ -23,6 +23,14 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void DESTROY_OBJECT(int object);
+    static void DEFLATE_TIRE_ON_CAR(int car, int tireId);
+    static void SET_OBJECT_Z_ANGLE(int object, float heading);
+    static int CREATE_OBJECT(int modelId, float x, float y, float z);
+    static float GROUND_Z_AT(float x, float y, float z);
+    static void PUT_CAR_AT(int car, float x, float y, float z);
+    static void SET_CAR_Z_ANGLE(int car, float heading);
+    static float ACTOR_Z_ANGLE(int _char);
     static void ROTATE_AND_SHOOT(int _char, float x, float y, float z, int time);
     static int GET_ACTOR_MODEL(int _char);
     static void AS_ACTOR_RUN_TO_ACTOR(int walking, int target, int time, float radius);

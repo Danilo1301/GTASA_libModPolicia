@@ -22,7 +22,8 @@ std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
     {597, 281, 2, 4, 22, "voices/REQUEST_BACKUP_SF_", "voices/UNIT_RESPONDING_DISPATCH_"}, //SF
     {598, 282, 2, 4, 22, "voices/REQUEST_BACKUP_LV_", "voices/UNIT_RESPONDING_DISPATCH_"}, //LV
     {599, 283, 2, 4, 22, "voices/REQUEST_BACKUP_RANGER_", "voices/UNIT_RESPONDING_DISPATCH_"}, //Ranger
-    {497, 280, 1, 1, 22, "voices/REQUEST_BACKUP_HELI_", "voices/HELI_APPROACHING_DISPATCH_"} //Polmav
+    {497, 280, 1, 1, 22, "voices/REQUEST_BACKUP_HELI_", "voices/HELI_APPROACHING_DISPATCH_"}, //Polmav
+    {601, 285, 2, 4, 31, "voices/REQUEST_BACKUP_SWAT_", "voices/UNIT_RESPONDING_DISPATCH_"} //SWAT
 };
 std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 

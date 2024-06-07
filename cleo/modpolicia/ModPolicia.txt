@@ -112,6 +112,10 @@ end
 0247: load_model 525 //towtruck
 0247: load_model 416 //ambulance
 0247: load_model 442 //romero
+0247: load_model 528 //fbitruck
+0247: load_model 288 //dsher
+0247: load_model 285 //swat
+0247: load_model 601 //swatvan
 
 //male
 0247: load_model 19
@@ -144,6 +148,10 @@ end
 0247: load_model 349 //shotgun
 0247: load_model 356 //m4
 0247: load_model 367 //camera
+
+//objects
+0247: load_model 1459 //barrier
+0247: load_model 2899 //spikes
           
 038B: load_requested_models 
 
@@ -181,42 +189,52 @@ if and
     0248: model 442 available //romero
 jf @PRELOAD
 if and
-    
+    0248: model 528 available //fbitruck
+    0248: model 288 available //dsher
+    0248: model 285 available //swat
+    0248: model 601 available //swatvan
+        
     //male
     0248: model 19 available
     0248: model 7 available
     0248: model 29 available
-    0248: model 50 available //wmymech
+    0248: model 50 available //wmymech       
+jf @PRELOAD
+if and
     0248: model 274 available //laemt1
     0248: model 70 available //wmosci
     
     //female
     0248: model 193 available
-    0248: model 12 available   
-jf @PRELOAD
-if and
+    0248: model 12 available
     0248: model 13 available
     
      //gang
     0248: model 102 available 
     0248: model 103 available
     0248: model 104 available
+jf @PRELOAD
+if and
     0248: model 108 available
     0248: model 109 available
     0248: model 110 available
     0248: model 114 available
-jf @PRELOAD
-if and
     0248: model 115 available
     0248: model 116 available
     
     //weapons
     0248: model 346 available
     0248: model 335 available
+jf @PRELOAD
+if and
     0248: model 348 available //deagle
     0248: model 349 available //shotgun
     0248: model 356 available //m4
     0248: model 367 available //camera
+        
+    //objects
+    0248: model 1459 available //barrier
+    0248: model 2899 available //spikes        
 jf @PRELOAD
 
 0F23: add_log_message 103
@@ -942,5 +960,81 @@ end
 if VAR_GxtId == 119
 then
      VAR_STR_1 = "MPFX119"
+end
+if VAR_GxtId == 120
+then
+     VAR_STR_1 = "MPFX120"
+end
+if VAR_GxtId == 121
+then
+     VAR_STR_1 = "MPFX121"
+end
+if VAR_GxtId == 122
+then
+     VAR_STR_1 = "MPFX122"
+end
+if VAR_GxtId == 123
+then
+     VAR_STR_1 = "MPFX123"
+end
+if VAR_GxtId == 124
+then
+     VAR_STR_1 = "MPFX124"
+end
+if VAR_GxtId == 125
+then
+     VAR_STR_1 = "MPFX125"
+end
+if VAR_GxtId == 126
+then
+     VAR_STR_1 = "MPFX126"
+end
+if VAR_GxtId == 127
+then
+     VAR_STR_1 = "MPFX127"
+end
+if VAR_GxtId == 128
+then
+     VAR_STR_1 = "MPFX128"
+end
+if VAR_GxtId == 129
+then
+     VAR_STR_1 = "MPFX129"
+end
+if VAR_GxtId == 130
+then
+     VAR_STR_1 = "MPFX130"
+end
+if VAR_GxtId == 131
+then
+     VAR_STR_1 = "MPFX131"
+end
+if VAR_GxtId == 132
+then
+     VAR_STR_1 = "MPFX132"
+end
+if VAR_GxtId == 133
+then
+     VAR_STR_1 = "MPFX133"
+end
+if VAR_GxtId == 134
+then
+     VAR_STR_1 = "MPFX134"
+end
+if VAR_GxtId == 135
+then
+     VAR_STR_1 = "MPFX135"
+end
+if VAR_GxtId == 136
+then
+     VAR_STR_1 = "MPFX136"
+end
+if VAR_GxtId == 137
+then
+     VAR_STR_1 = "MPFX137"
+end
+if VAR_GxtId == 138
+then
+     VAR_STR_1 = "MPFX138"
 end
 return

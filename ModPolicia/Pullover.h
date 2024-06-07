@@ -28,8 +28,12 @@ public:
 
     static void PullOverPed(int hPed);
     static void TryPullOverCar();
+    static void PullOverCar(int hVehicle);
 
     static int FindAimingPed();
+
+    static void CreateTestPullOverPed();
+    static void CreateTestPullOverVehicle();
 
     static void FriskPed();
     static void FriskVehicle();

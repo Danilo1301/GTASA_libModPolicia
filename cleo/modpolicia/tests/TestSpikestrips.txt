@@ -1,0 +1,102 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Spawns spikes on road
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    if 0@ == 1
+    then
+        02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 1000 flag 1
+        
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 20.0 0.0  
+        02C1: store_to 4@ 5@ 6@ car_path_coords_closest_to 1@ 2@ 3@
+        
+        03BC: $SPHERE = create_sphere_at 4@ 5@ 6@ radius 3.0
+        
+        0395: clear_area 1 at 4@ 5@ 6@ radius 6.0 
+        
+        00A5: $CAR1 = create_car 528 at 4@ 5@ 6@
+        0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
+        0175: set_car $CAR1 Z_angle_to $ANGLE
+        0407: store_coords_to 7@ 8@ 9@ from_car $CAR1 with_offset 4.0 0.0 0.0        
+        00AB: put_car $CAR1 at 7@ 8@ 9@
+        
+        //13@ = Actor.Angle(0@)
+        0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
+        $ANGLE += 65.0
+        
+        0175: set_car $CAR1 Z_angle_to $ANGLE
+        //397: enable_car $CAR1 siren 1        
+        //067F: set_car 2@ lights 2
+        
+        0407: store_coords_to 7@ 8@ 9@ from_car $CAR1 with_offset 0 4.0 0.0 
+        02CE: $GROUND = ground_z_at 7@ 8@ 9@
+        0107: $OBJ1 = create_object 2899 at 7@ 8@ $GROUND        
+        0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
+        $ANGLE += 90.0
+        0177: set_object $OBJ1 Z_angle_to $ANGLE
+        
+        0407: store_coords_to 4@ 5@ 6@ from_car $CAR1 with_offset 2.7 2.2 0.0        
+        009A: $PED1 = create_actor_pedtype 4 model 288 at 4@ 5@ 6@        
+        
+        03C0: $PLAYER_CAR = actor $PLAYER_ACTOR car
+        if 056E: car $PLAYER_CAR defined
+        then
+            04FE: deflate_tire 0 on_car $PLAYER_CAR
+            04FE: deflate_tire 1 on_car $PLAYER_CAR
+            04FE: deflate_tire 2 on_car $PLAYER_CAR
+            04FE: deflate_tire 3 on_car $PLAYER_CAR 
+        end
+                
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+                      
+0247: load_model 288
+0247: load_model 528
+0247: load_model 2899
+0247: load_model 1459
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if and
+    0248: model 288 available
+    0248: model 528 available
+    0248: model 2899 available
+    0248: model 1459 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

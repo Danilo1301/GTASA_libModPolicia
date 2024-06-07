@@ -8,4 +8,6 @@ public:
 
 	static void Create();
 	static void Remove();
+
+	static void CreateTestOptions();
 };

@@ -28,6 +28,8 @@ void WindowFrisk::Create()
                 Create();
             });
         };
+        
+        button->AddExtraText(InventoryItems::GetMeasureGxtId(item->measure), item->amount, 0, CVector2D(-5.0f, 0));
     }
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
@@ -135,6 +137,8 @@ void WindowFrisk::CreateFriskCar()
                 CreateFriskCar();
             });
         };
+        
+        button->AddExtraText(InventoryItems::GetMeasureGxtId(item->measure), item->amount, 0, CVector2D(-5.0f, 0));
     }
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));

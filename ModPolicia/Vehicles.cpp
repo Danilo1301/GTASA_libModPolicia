@@ -85,7 +85,7 @@ Vehicle* Vehicles::GetVehicleByHandle(int hVehicle)
 	return m_Vehicles.at(hVehicle);
 }
 
-int Vehicles::GetRandomCarInSphere(CVector position, float radius)
+std::vector<Vehicle*> Vehicles::GetAllCarsInSphere(CVector position, float radius)
 {
     std::vector<Vehicle*> vehicles;
 
@@ -103,6 +103,13 @@ int Vehicles::GetRandomCarInSphere(CVector position, float radius)
             vehicles.push_back(vehicle);
         }
     }
+
+    return vehicles;
+}
+
+int Vehicles::GetRandomCarInSphere(CVector position, float radius)
+{
+    std::vector<Vehicle*> vehicles = GetAllCarsInSphere(position, radius);
 
     if(vehicles.size() == 0) return 0;
 

@@ -10,10 +10,12 @@
 #include "windows/WindowBackup.h"
 
 Ped* Chase::m_ChasingPed = NULL;
+std::vector<Barrier*> Chase::m_Barriers;
 
 void Chase::Update(int dt)
 {
     UpdateChase(dt);
+    UpdateBarriers(dt);
 }
 
 void Chase::UpdateChase(int dt)
@@ -58,6 +60,50 @@ void Chase::UpdateChase(int dt)
     EndChase();
 }
 
+void Chase::UpdateBarriers(int dt)
+{
+    std::vector<Barrier*> barriersToRemove;
+
+    for(auto barrier : m_Barriers)
+    {
+        //spikestrips
+        if(barrier->objectId == 2899)
+        {
+            auto vehicles = Vehicles::GetAllCarsInSphere(barrier->objectPosition, 4.0f);
+            for(auto vehicle : vehicles)
+            {
+                //04FE: deflate_tire 0 on_car 0@
+                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 0);
+                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 1);
+                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 2);
+                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 3);
+            }
+        }
+
+        //delete if too far away
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto distance = DistanceBetweenPoints(barrier->objectPosition, playerPosition);
+        if(distance > 200.0f)
+        {
+            barriersToRemove.push_back(barrier);
+        }
+    }
+
+    for(auto barrier : barriersToRemove)
+    {
+        if(CleoFunctions::ACTOR_DEFINED(barrier->ped1)) CleoFunctions::DESTROY_ACTOR(barrier->ped1);
+        if(CleoFunctions::ACTOR_DEFINED(barrier->ped2)) CleoFunctions::DESTROY_ACTOR(barrier->ped2);
+        if(CleoFunctions::CAR_DEFINED(barrier->car)) CleoFunctions::DESTROY_CAR(barrier->car);
+        CleoFunctions::DESTROY_OBJECT(barrier->object);
+        CleoFunctions::DISABLE_MARKER(barrier->marker);
+
+        auto it = std::find(m_Barriers.begin(), m_Barriers.end(), barrier); 
+        m_Barriers.erase(it);
+        delete barrier;
+    }
+}
+
 void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 {
     /*
@@ -78,4 +124,69 @@ void Chase::EndChase()
     Log::Level(LOG_LEVEL::LOG_BOTH) << "end chase" << std::endl;
 
     m_ChasingPed = NULL;
+}
+
+Barrier* Chase::AddBarrier(CVector position, int objectId, int carModelId, int pedModelId)
+{
+    Barrier* barrier = new Barrier();
+    barrier->objectId = objectId;
+    m_Barriers.push_back(barrier);
+
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(position.x, position.y, position.z, 2, &x, &y, &z);
+
+    //0395: clear_area 1 at 4@ 5@ 6@ radius 6.0
+
+    auto car = barrier->car = CleoFunctions::CREATE_CAR_AT(carModelId, x, y, z);
+
+    auto angle = CleoFunctions::ACTOR_Z_ANGLE(playerActor);
+
+    CleoFunctions::SET_CAR_Z_ANGLE(car, angle);
+
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(car, 4.0, 0, 0, &x, &y, &z);
+
+    CleoFunctions::PUT_CAR_AT(car, x, y, z);
+
+    angle = CleoFunctions::ACTOR_Z_ANGLE(playerActor);
+    angle += 65.0f;
+
+    CleoFunctions::SET_CAR_Z_ANGLE(car, angle);
+
+    //397: enable_car $CAR1 siren 1        
+    //067F: set_car 2@ lights 2
+
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(car, 0, 4.0, 0, &x, &y, &z);
+
+    auto ground = CleoFunctions::GROUND_Z_AT(x, y, z);
+
+    auto object = barrier->object = CleoFunctions::CREATE_OBJECT(objectId, x, y, ground);
+    barrier->objectPosition = CVector(x, y, ground);
+
+    angle = CleoFunctions::ACTOR_Z_ANGLE(playerActor);
+
+    if(objectId == 2899) angle += 90.0;
+
+    CleoFunctions::SET_OBJECT_Z_ANGLE(object, angle);
+    
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(car, 2.7, 2.2, 0, &x, &y, &z);
+    auto ped1 = barrier->ped1 = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, pedModelId, x, y, z);
+
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(car, 2.7, -2.2, 0, &x, &y, &z);
+    auto ped2 = barrier->ped2 = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, pedModelId, x, y, z);
+
+    auto marker = barrier->marker = CleoFunctions::CREATE_MARKER_AT(x, y, z, 2, 3);
+
+    return barrier;
+}
+
+void Chase::AddRoadBlocks(CVector position)
+{
+    AddBarrier(position, 1459, 596, 280);
+}
+
+void Chase::AddSpikestrips(CVector position)
+{
+    AddBarrier(position, 2899, 528, 288);
 }

@@ -3,8 +3,7 @@
 #include "../pch.h"
 
 /*
-Modified 26/05/24
-Version 1.0.0
+[1.0.0] 26/05/24
 */
 
 class INISection {

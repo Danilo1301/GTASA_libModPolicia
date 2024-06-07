@@ -48,6 +48,7 @@ std::vector<std::string> get_directories_name(const std::string& s)
 //
 
 bool ModConfig::EnableTestMenu = false;
+bool ModConfig::CreateTestOptionsInRadioMenu = false;
 
 void ModConfig::MakePaths()
 {
@@ -142,7 +143,8 @@ void ModConfig::SaveSettings()
     INIFile file;
     
     auto generalSection = file.AddSection("General");
-    generalSection->AddBool("enable_test_menu", ModConfig::EnableTestMenu);
+    generalSection->AddBool("enable_test_options_in_radio_menu", ModConfig::CreateTestOptionsInRadioMenu);
+    //generalSection->AddBool("enable_test_menu", ModConfig::EnableTestMenu);
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
 
     //
@@ -190,6 +192,13 @@ void ModConfig::LoadSettings()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: LoadSettings (settings.ini)" << std::endl;
 
+    if(ModConfig::FileExists(settingsFileDir))
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Settings file exists" << std::endl;
+    } else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Settings file doesn't exist" << std::endl;
+    }
+
     INIFile file;
     if (!file.Read(settingsFileDir))
     {
@@ -197,12 +206,23 @@ void ModConfig::LoadSettings()
         return;
     }
 
+    for(auto section : file.sections)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Section: " << section->key << std::endl;
+
+        for(auto v : section->values)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "- Value: " << v.first << "|" << v.second << std::endl;
+        }
+    }
+
     auto generalSections = file.GetSections("General");
     if (generalSections.size() > 0)
     {
         auto generalSection = generalSections[0];
 
-        generalSection->GetBool("enable_test_menu", &ModConfig::EnableTestMenu);
+        generalSection->GetBool("enable_test_options_in_radio_menu", &ModConfig::CreateTestOptionsInRadioMenu);
+        //generalSection->GetBool("enable_test_menu", &ModConfig::EnableTestMenu);
         generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
     }
 
@@ -267,6 +287,8 @@ std::string ModConfig::ReadVersionFile()
         getline(file, prevVersion);
     }
     file.close();
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: ReadVersionFile, version: " << prevVersion << std::endl;
 
     return prevVersion;
 }

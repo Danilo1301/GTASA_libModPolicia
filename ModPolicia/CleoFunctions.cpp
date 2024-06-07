@@ -3,6 +3,14 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0108, DESTROY_OBJECT, i); //0108: destroy_object $1173 
+static DEFOPCODE(04FE, DEFLATE_TIRE_ON_CAR, ii); //04FE: deflate_tire 0 on_car $PLAYER_CAR
+static DEFOPCODE(0177, SET_OBJECT_Z_ANGLE, if); //0177: set_object $OBJ1 Z_angle_to $ANGLE
+static DEFOPCODE(0107, CREATE_OBJECT, ifffv); //0107: $OBJ1 = create_object 1459 at 4@ 5@ 6@
+static DEFOPCODE(02CE, GROUND_Z_AT, fffv); //02CE: $GROUND = ground_z_at 4@ 5@ 6@
+static DEFOPCODE(00AB, PUT_CAR_AT, ifff); //00AB: put_car $CAR1 at 4@ 5@ 6@
+static DEFOPCODE(0175, SET_CAR_Z_ANGLE, if); //0175: set_car $CAR1 Z_angle_to $ANGLE
+static DEFOPCODE(0172, ACTOR_Z_ANGLE, iv); //0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
 static DEFOPCODE(0668, ROTATE_AND_SHOOT, ifffi); //0668: AS_actor $PED rotate_and_shoot_at 1@ 2@ 3@ 10000 ms
 static DEFOPCODE(0665, GET_ACTOR_MODEL, iv); //0665: get_actor 0@ model_to 7@
 static DEFOPCODE(05D9, AS_ACTOR_RUN_TO_ACTOR, iiif); //05D9: AS_actor $PED2 run_to_actor $PLAYER_ACTOR timelimit 5000 stop_within_radius 1.0
@@ -142,6 +150,52 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::DESTROY_OBJECT(int object)
+{
+    sautils->ScriptCommand(&scm_DESTROY_OBJECT, object);
+}
+
+void CleoFunctions::DEFLATE_TIRE_ON_CAR(int car, int tireId)
+{
+    sautils->ScriptCommand(&scm_DEFLATE_TIRE_ON_CAR, car, tireId);
+}
+
+void CleoFunctions::SET_OBJECT_Z_ANGLE(int object, float heading)
+{
+    sautils->ScriptCommand(&scm_SET_OBJECT_Z_ANGLE, object, heading);
+}
+
+int CleoFunctions::CREATE_OBJECT(int modelId, float x, float y, float z)
+{
+    int object = 0;
+    sautils->ScriptCommand(&scm_CREATE_OBJECT, modelId, x, y, z, &object);
+    return object;
+}
+
+float CleoFunctions::GROUND_Z_AT(float x, float y, float z)
+{
+    float groundZ = 0;
+    sautils->ScriptCommand(&scm_GROUND_Z_AT, x, y, z, &groundZ);
+    return groundZ;
+}
+
+void CleoFunctions::PUT_CAR_AT(int car, float x, float y, float z)
+{
+    sautils->ScriptCommand(&scm_PUT_CAR_AT, car, x, y, z);
+}
+
+void CleoFunctions::SET_CAR_Z_ANGLE(int car, float heading)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_Z_ANGLE, car, heading);
+}
+
+float CleoFunctions::ACTOR_Z_ANGLE(int _char)
+{
+    float heading = 0;
+    sautils->ScriptCommand(&scm_ACTOR_Z_ANGLE, _char, &heading);
+    return heading;
 }
 
 void CleoFunctions::ROTATE_AND_SHOOT(int _char, float x, float y, float z, int time)

@@ -26,6 +26,8 @@ CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 std::vector<Ped*> Callouts::m_Criminals;
 bool Callouts::m_AproachingCallout = false;
 bool Callouts::m_AbortedCallout = false;
+bool Callouts::m_WaitingToPlayAcceptCalloutAudio = false;
+AudioStream* Callouts::m_ModulatingCalloutAudio = NULL;
 
 std::vector<SkinData> Callouts::m_Skins = {
     {19, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
@@ -74,7 +76,7 @@ void Callouts::Update(int dt)
                 CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
 
                 SoundSystem::PlayHTAudio();
-                SoundSystem::PlayStreamFromAudiosFolder(callout.audio, false);
+                m_ModulatingCalloutAudio = SoundSystem::PlayStreamFromAudiosFolder(callout.audio, false);
             }
         }
     } else {
@@ -95,6 +97,8 @@ void Callouts::Update(int dt)
                 m_CurrentCalloutIndex = m_ModulatingCalloutIndex;
                 m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 
+                m_WaitingToPlayAcceptCalloutAudio = true;
+
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
 
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX82", 0, 0, 0, 3000, 1);
@@ -106,6 +110,25 @@ void Callouts::Update(int dt)
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE) StartStolenVehicleCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_HOUSE_INVASION) StartHouseInvasionCallout();
+            }
+        }
+    }
+
+    if(m_ModulatingCalloutAudio != NULL)
+    {
+        auto state = m_ModulatingCalloutAudio->GetState();
+
+        if(state != 1)
+        {
+            m_ModulatingCalloutAudio = NULL;
+
+            if(m_WaitingToPlayAcceptCalloutAudio)
+            {
+                m_WaitingToPlayAcceptCalloutAudio = false;
+
+                CleoFunctions::WAIT(500, []() {
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/ACCEPT_CALLOUT.wav", false);
+                });
             }
         }
     }

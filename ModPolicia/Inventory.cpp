@@ -40,6 +40,7 @@ InventoryItem* Inventory::AddItemToInventory(Item_Type type)
         item->amountMax = itemInfo.amountMax;
         item->isStolen = itemInfo.isStolen;
         item->canBeAprehended = itemInfo.canBeAprehended;
+        item->measure = itemInfo.measure;
     }
 
     items.push_back(item);
@@ -82,6 +83,7 @@ void Inventory::CopyFrom(Inventory* fromInventory)
         newItem->amount = item->amount;
         newItem->isStolen = item->isStolen;
         newItem->canBeAprehended = item->canBeAprehended;
+        newItem->measure = item->measure;
     }
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "After copying:" << std::endl;

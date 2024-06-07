@@ -179,8 +179,16 @@ void Pullover::TryPullOverCar()
         return;
     }
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "pulling over car " << randomCar << std::endl;
+    PullOverCar(randomCar);
+}
+
+void Pullover::PullOverCar(int hVehicle)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "pulling over car " << hVehicle << std::endl;
     
+    int driver = CleoFunctions::GET_DRIVER_OF_CAR(hVehicle);
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
     if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
 
@@ -195,7 +203,7 @@ void Pullover::TryPullOverCar()
     Log::file << "carZ: " << carZ << std::endl;
     */
 
-    auto vehicle = Vehicles::TryCreateVehicle(randomCar);
+    auto vehicle = Vehicles::TryCreateVehicle(hVehicle);
     vehicle->UpdateInventory();
     vehicle->AddBlip();
 
@@ -215,17 +223,17 @@ void Pullover::TryPullOverCar()
     m_PullingVehicle = vehicle;
     m_PullingPed = ped;
 
-    CleoFunctions::WAIT(1000, [playerActor, randomCar]() {
-        CleoFunctions::CAR_TURN_OFF_ENGINE(randomCar);
+    CleoFunctions::WAIT(1000, [playerActor, hVehicle]() {
+        CleoFunctions::CAR_TURN_OFF_ENGINE(hVehicle);
     
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
 
         //wait to get closer to the car
-        CleoFunctions::AddWaitForFunction([playerActor, randomCar] () {
+        CleoFunctions::AddWaitForFunction([playerActor, hVehicle] () {
             
             if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
 
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
+            auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from car: " << distance << std::endl;
 
@@ -234,8 +242,8 @@ void Pullover::TryPullOverCar()
 
             return false;
         },
-        [playerActor, randomCar] () {
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, randomCar);
+        [playerActor, hVehicle] () {
+            auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
 
             if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
             {
@@ -272,6 +280,31 @@ int Pullover::FindAimingPed()
         }
     }
     return -1;
+}
+
+void Pullover::CreateTestPullOverPed()
+{
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
+
+    auto pedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
+    auto ped = Peds::TryCreatePed(pedHandle);
+    
+    PullOverPed(pedHandle);
+}
+
+void Pullover::CreateTestPullOverVehicle()
+{
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
+
+    auto carHandle = CleoFunctions::CREATE_CAR_AT(596, position.x, position.y, position.z);
+
+    auto ped1Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 4, 19);
+
+    auto ped2Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carHandle, 4, 19, 0);
+    
+    PullOverCar(carHandle);
 }
 
 void Pullover::FriskPed()

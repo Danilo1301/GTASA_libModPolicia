@@ -2,8 +2,10 @@
 
 #include "WindowCarMenu.h"
 
-#include "../CleoFunctions.h"
-#include "../Backup.h"
+#include "CleoFunctions.h"
+#include "Backup.h"
+#include "Chase.h"
+#include "Mod.h"
 
 Window* WindowBackup::m_Window = NULL;
 Window* WindowBackup::m_BackupConfigWindow = NULL;
@@ -17,58 +19,89 @@ void WindowBackup::Create()
     auto button_normalBackup = window->AddButton(75);
     button_normalBackup->onClick = []()
     {
+        Remove();
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
         Backup::CallBackupCar(&Backup::m_DataBackupVehicles[0]);
-        Remove();
     };
 
     auto button_backupRocam = window->AddButton(76);
     button_backupRocam->onClick = []()
     {
+        Remove();
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
         Backup::CallBackupCar(&Backup::m_DataBackupVehicles[1]);
-        Remove();
     };
 
     auto button_backupHeli = window->AddButton(87);
     button_backupHeli->onClick = []()
     {
+        Remove();
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX88", 0, 0, 0, 3000, 1); //apoio
         Backup::CallBackupHeli();
+    };
+
+    auto button_roadblocks = window->AddButton(122);
+    button_roadblocks->onClick = []()
+    {
         Remove();
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX124", 0, 0, 0, 3000, 1); //apoio bloqueio
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
+
+        Chase::AddRoadBlocks(position);
+    };
+
+    auto button_spikestrips = window->AddButton(123);
+    button_spikestrips->onClick = []()
+    {
+        Remove();
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX125", 0, 0, 0, 3000, 1); //apoio espinhos
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
+
+        Chase::AddSpikestrips(position);
     };
 
     auto button_backupFBI = window->AddButton(93);
     button_backupFBI->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[2]);
         Remove();
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[2]);
     };
-
 
     auto button_backupSf = window->AddButton(95);
     button_backupSf->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[3]);
         Remove();
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[3]);
     };
 
     auto button_backupLv = window->AddButton(96);
     button_backupLv->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[4]);
         Remove();
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[4]);
     };
 
     auto button_backupRanger = window->AddButton(98);
     button_backupRanger->onClick = []()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
         Remove();
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
+    };
+
+    auto button_backupSWAT = window->AddButton(138);
+    button_backupSWAT->onClick = []()
+    {
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+        Remove();
+        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[7]);
     };
 
     auto button_config = window->AddButton(107);
@@ -149,6 +182,13 @@ void WindowBackup::CreateBackupConfig()
     {
         Remove();
         CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[5]);
+    };
+
+    auto button_backupSWAT = window->AddButton(138);
+    button_backupSWAT->onClick = []()
+    {
+        Remove();
+        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[7]);
     };
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));

@@ -24,14 +24,53 @@ then
     then
         02FF: show_text_3numbers GXT 'MPFX1' numbers 1 0 0 time 1000 flag 1
         
-        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
-                        
+        0F23: add_log_message 9999
+        0F23: add_log_message 1
+        
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 20.0 0.0  
         02C1: store_to 4@ 5@ 6@ car_path_coords_closest_to 1@ 2@ 3@ 
         
-        04C0: create_roadblock_in_area_cornerA 4@ 5@ 6@ cornerB 4@ 5@ 6@ type 0
+        //04C0: create_roadblock_in_area_cornerA 4@ 5@ 6@ cornerB 4@ 5@ 6@ type 0 //doesnt always work
         
-        03BC: 7@ = create_sphere_at 4@ 5@ 6@ radius 3.0  
+        03BC: 7@ = create_sphere_at 4@ 5@ 6@ radius 3.0
         
+        0395: clear_area 1 at 4@ 5@ 6@ radius 6.0 
+        
+        00A5: $CAR1 = create_car 596 at 4@ 5@ 6@
+        0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
+        0175: set_car $CAR1 Z_angle_to $ANGLE        
+        0407: store_coords_to 4@ 5@ 6@ from_car $CAR1 with_offset 4.0 0.0 0.0
+        00AB: put_car $CAR1 at 4@ 5@ 6@
+        
+        //13@ = Actor.Angle(0@)
+        0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
+        $ANGLE += 65.0
+        
+        0175: set_car $CAR1 Z_angle_to $ANGLE
+        
+        //397: enable_car $CAR1 siren 1        
+        //067F: set_car 2@ lights 2
+        
+        0407: store_coords_to 4@ 5@ 6@ from_car $CAR1 with_offset 0.0 4.0 0.0 
+        02CE: $GROUND = ground_z_at 4@ 5@ 6@
+        0107: $OBJ1 = create_object 1459 at 4@ 5@ $GROUND        
+        0172: $ANGLE = actor $PLAYER_ACTOR Z_angle 
+        //$ANGLE += 155.0
+        0177: set_object $OBJ1 Z_angle_to $ANGLE        
+
+        0407: store_coords_to 4@ 5@ 6@ from_car $CAR1 with_offset 2.7 2.2 0.0        
+        009A: $PED1 = create_actor_pedtype 4 model 280 at 4@ 5@ 6@
+                        
+        0407: store_coords_to 4@ 5@ 6@ from_car $CAR1 with_offset 2.7 -2.2 0.0        
+        009A: $PED2 = create_actor_pedtype 4 model 280 at 4@ 5@ 6@
+        
+        0186: $MARKER1 = create_marker_above_car $CAR1
+        0168: set_marker $MARKER1 size 2
+        0165: set_marker $MARKER1 color_to 2
+        018B: set_marker $MARKER1 radar_mode 2
+        
+        0F23: add_log_message 2
+
         wait 1000
     end
     
@@ -47,11 +86,11 @@ jump @MAIN
 
 :PRELOAD
 
-/*
+                      
 0247: load_model 280
 0247: load_model 596
+0247: load_model 1459
 038B: load_requested_models
-*/
 
 jump @PRELOAD_WAIT
 
@@ -59,11 +98,10 @@ jump @PRELOAD_WAIT
 
 :PRELOAD_WAIT
 
-/*
 if and
     0248: model 280 available
     0248: model 596 available
+    0248: model 1459 available
 jf @PRELOAD_WAIT
-*/
 
 jump @MAIN

@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia v1.0.2 (by Danilo1301)
+MPFX6 Mod Policia v1.1.0 (by Danilo1301)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -119,3 +119,20 @@ MPFX118 Chamar IML
 MPFX119 Cancelar ocorrencia
 MPFX120 ~b~[Policial] ~w~COPOM, solicito apoio da ambulancia
 MPFX121 ~b~[Policial] ~w~COPOM, solicito apoio do IML
+MPFX122 Acionar bloqueio
+MPFX123 Acionar espinhos
+MPFX124 ~b~[Policial] ~w~COPOM, solicito unidade de bloqueio na pista
+MPFX125 ~b~[Policial] ~w~COPOM, solicito unidade com espinhos na pista
+MPFX126 Teste de bafometro
+MPFX127 Create ped
+MPFX128 Create vehicle
+MPFX129 Cancel chase
+MPFX130 ~b~[Policial] ~w~Vou realizar o teste de bafometro
+MPFX131 Resultado do bafometro: ~y~0,~1~ ~w~mg/l
+MPFX132 ~1~g
+MPFX133 Crack
+MPFX134 Cocaina
+MPFX135 K9
+MPFX136 Metanfetamina
+MPFX137 Lanca perfume
+MPFX138 Chamar reforco (SWAT)

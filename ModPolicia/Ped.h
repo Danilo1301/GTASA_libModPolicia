@@ -57,6 +57,9 @@ public:
 
     bool driveAfterEnterCar = false;
 
+    float breathalyzerValue = 0.0f;
+    bool updatedBreathalyzer = false;
+
     int money = 0;
 
     Inventory* inventory = new Inventory();
@@ -68,6 +71,8 @@ public:
 
     void UpdateInventory();
 
+    void UpdateBreathalyzer();
+
     bool HasDocuments();
 
     int AddBlip();
@@ -75,4 +80,6 @@ public:
     void RemoveBlip();
 
     void CopyFrom(Ped* fromPed);
+
+    void AddDrugs(bool drugDealer);
 };

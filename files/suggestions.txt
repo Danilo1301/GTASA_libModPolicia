@@ -73,6 +73,34 @@ Menu de Reforços: Manter o menu de chamar reforços disponível para que o joga
 
 --
 
+Ambulância e IML
+
+Bug: Veículos capotam e batem com frequência, se perdendo no caminho.
+Solução: Ajustar a velocidade da ambulância e IML para evitar colisões e melhorar a navegação.
+
+Polícias
+
+Bug: Polícias spawnem muito perto dos NPCs criminosos.
+Solução: Aumentar a distância de spawn para 1,5km dos bandidos.
+Requisito adicional: Aumentar o nível de vida dos criminosos para dificultar a vida dos policiais.
+
+Veículos
+
+Bug: Veículos não desaparecem do marcador após explodirem.
+Solução: Adicionar funcionalidade para que os veículos explodidos desapareçam do marcador.
+
+Helicóptero
+
+Requisito: Adicionar atiradores ao helicóptero.
+Solução: Encontrar o mod que adiciona atiradores ao helicóptero.
+
+Radio
+
+Requisito: Adicionar opção no rádio para todos os reforços (polícias, ambulância, etc.) sem precisar esperar chegar ao local.
+Solução: Desenvolver essa funcionalidade para permitir que os jogadores usem esses reforços em missões normais do jogo, incluindo missões de polícia.
+
+--
+
 [X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
 0.6.0
 
@@ -129,12 +157,16 @@ by El Gatonw: (Discord)
 
 [ ] (Gabriel Oliveira) Quando realizar a prisão e solicitar uma viatura, colocar para o policial da VTR sair da viatura ir até o preso e conduzir o preso até a viatura.
 
-[ ] Roadblocks / barreiras
+[X] Roadblocks / barreiras
 (brandonviljoen)
+1.1.0
 
 [ ] (• BravoMike - Oliveira) O que você acha de fazer um mod de BOMBEIROS e SAMU também?
 
-[ ] (RAI gameplay) adiciona opção pra fazer o teste do bafômetro (álcool) e teste de entorpecentes
+[X] (RAI gameplay) adiciona opção pra fazer o teste do bafômetro (álcool)
+1.1.0
+
+[ ] (RAI gameplay) teste de entorpecentes
 [X] (RAI gameplay) há colocar resultado pra carteira do cidadão quando agente aborda e ver a carteira não tem nada nem dinheiro kkkk 
 
 [ ] (Gabriel Oliveira)
@@ -158,13 +190,13 @@ Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj a
 [ ] (Billy) 2° colocar mais ocorrências tipo assalto a loja, banco, etc
 [ ] (Billy) 3° colocar o indivíduo na porta de trás quando escolher levar ao dp
 
-[] (Gabriel Oliveira) Para quem grava com o batalhão ambiental por exemplo.
+[ ] (Gabriel Oliveira) Para quem grava com o batalhão ambiental por exemplo.
 Seria interessante ter ocorrências de crimes ambientais.
 (Tipo fogo em floresta?)
 
-[] (Billy) Também ter como puxar a CNH se é vencida
+[X] (Billy) Também ter como puxar a CNH se é vencida
 
-[] (Billy) Se possível no mod colocar pra escolher a unidade exemplo: Escolher modo Polícia, ou bombeiro, ou médico etc. Daí a unidade q vc escolher aparece as ocorrências tipo escolhi bombeiro, daí vai aparecer ocorrência de incêndios etc
+[ ] (Billy) Se possível no mod colocar pra escolher a unidade exemplo: Escolher modo Polícia, ou bombeiro, ou médico etc. Daí a unidade q vc escolher aparece as ocorrências tipo escolhi bombeiro, daí vai aparecer ocorrência de incêndios etc
 
 (Gabriel Oliveira)
 Uma outra sugestão de ocorrência que eu tava pensando.
@@ -182,13 +214,67 @@ E aí nessa área isolada esse artefato explosivo seria detonado.
 Traje específico que eu falei.
 Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iria fazer todo o procedimento desarmar e dps detonar o explosivo.
 
-[ ] (Zacarias7) Teste de bafômetro
+[X] (Zacarias7) Teste de bafômetro
+1.1.0
 
-[ ] (@Lgsff) Fbi swat tem ? (apoio)
+[X] (@Lgsff) Fbi swat tem ? (apoio)
+1.1.0
 
 [ ] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
 
 [ ] (@Lgsff) Colocar assalto
+
+[ ] (@WilliamPSP) indentidade falsa ou passaporte falso essas coisas
+
+[ ] (HARD) Tem como colocar no mod polícia pra conseguir controlar o carro do npc quando abordar pq toda vez q aborda o carro do npc fica parado no meio da pista 
+
+[ ] (Gabriel Oliveira)
+Tem a ver com hierarquia militar.
+SD, CB, 3°, 2°, 1°  SGT........
+SERIA UMA OPÇÃO ONDE O PLAYER ESCOLHERIA SE ELE vai ser o motorista da VTR ou se ele vai fica como o comandante de equipe ou 3°, 4° homem.
+Seria basicamente o que já tem o mod.
+A única diferença seria esse citada acima.
+Aí quando o Copom jogasse na rede uma QRU aceitava o ocorrência e automaticamente o motorista ( NPC ) se deslocaria pra o local.
+Quando for abordar veículo da o sinal de parada normal igual já tem e automaticamente o motorista pararia a VTR.
+Aí o player faz o procedimento e tals.
+Em caso de fuga o motorista da iria atrás.
+Aí para ficar mais realista.
+O comandante de equipe ( player ) 
+Controlaria o GIROFLEX e a SIRENE.
+se for possível fazer isso ficaria muito top mesmo o mod.
+Aí quando fosse selecionado se o player vai ser o motorista ou não.
+Aí quando a equipe embarcar na viatura aí iniciava o patrulhamento normal.
+E o motorista dirigir na mão certa da rua. 
+
+[ ] (apenaskayo) junto com o mod de chamar o iml e a ambulância, tem como colocar pra chamar bombeiros
+
+[ ] (_Shelby) Não sei se alguém ja falou essa sugestão, mais seria bom poder chamar o paceiros para andar com você na vtr
+
+[ ] (PEDRO_ GUILHERME 157) TIPO NESSA VERSÃO DO MOD POLÍCIA TEM CHAMA BOMBEIRO NÃO?
+TIPO FICARIA TOPP TAMBÉM TLG BEM TOPP
+A PRA TER OCORRÊNCIA ASIMILADAS AOS BOMBEIROS SERIA OCORRÊNCIA DE INCÊNDIO CRIMINOSO TLG O QUE ACHA
+
+[X] (El Gatonw) mano espero não pedir demais, mas tem como você por um áudio ao aceitar uma ocorrência? Tipo o COPOM fala, ocorrência de tiros disparados... Daí ao clicar no botão verde, a gente meio que responde que sim, vamos atender a ocorrência. Entendeu? Aí seria legal, meio que a gente daria a resposta ao Copom.
+1.1.0
+
+[ ] (@marceloff913) Seria bom ele colocar pra pedi reforço em abordagens normais, sem ser ocorrências.
+
+[X] (apenaskayo) EU JOGUEI ALGUMAS VEZES, E NÃO SEI SE É PORQUE SÓ TEM ESSE TIPO DE ENTORPERCENTE PORÉM PRA MIM SÓ APARECE ESSE QUE NO CASO É A MACONHA, GOATARIA QUE ADICIONASSE OUTROS TIPO DE DROGAS COMO CRACK,COICANA,K9 E ENTRE OUTRAS, POIS MACONHA É UMA DROGA MAIS "LEVE", E SE PUDESSEM COLOCAR O QUANTO DE GRAMAS OU KILOS DE DROGAS O SUJEITO ESTÁ PORTANTO, POIS PODERÍAMOS DIZER SE ELE É VENDEDOR OU USUÁRIO DE DROGAS
+1.1.0
+
+[ ] (apenaskayo) Além de que junto com isso adicionasse outras falas pro sujeito, como no caso do RG que o sujeito pode falar "deixei em casa senhor" poderia colocar falas como "sou usuário senhor" ou "é de meu consumo senhor"
+
+[ ] (apenaskayo) TEVE UMA PESSOA QUE PEDIU UMA ANIMAÇÃO COMO SE A PESSOA LEVASSE O PRESO PRA VIATURA, NO MOD DYOS QUE É UM GRANDE CONJUNTO DE MODS TEM UMA PARTE QUE É TIPO ANCORAR OBJETOS A OUTROS, TIPO CONSEGUINDO DEIXAR UM NPC NO CAMBURAO DA VIATURAS E AINDA CONSEGUIR ANDAR COM A VIATURA COM O PRESO NO CAMBURAO, EU NÃO SEI SE É POSSÍVEL PORÉM PODERIA SE UTILIZA DESSE SCRIPIT PARA ANCORAR O SUJEITO DA ABORDAGEM AO SEU BONECO, QUE NEM NO GTA FIVEM DO GTA V QUE A PESSOA MEIO QUE SEGURA, ALGUNS PROBLEMAS, ACHO QUE SERÁ MUITO DIFICIL DE PROGRAMAR E OUTRA QUE O MOD DYOS É UM GRANDE CONJUNTO DE MODS IGUAL SEU MOD POLÍCIA QUE TEM VÁRIAS FUNÇÕES, OU SEJA PRA ENCONTRAR O SCRIPIT DESSA FUNÇÃO SERÁ BEM COMPLICADA EU ACHO.
+Mas na minha opinião esse trabalho todo não vale a pena, só acho melhor que envez do sujeito correr até a viatura, ele ande,pois a pessoa poderia simular que está conduzindo ele até a viatura
+
+[X] (apenaskayo) •NOVAS OPÇÕES DE DROGAS COMO (CRACK,COCAINA,K9,METAFETAMINA,LANCA PERFUME E OUTRAS) INCLUINDO TAMBEM AS GRAMAS OU KILOS QUE O SUJEITO PODE ESTAR PORTANTO
+1.1.0
+
+[ ] (apenaskayo) •ADICIONA O MOD DE CHAMAR OS BOMBEIROS
+[ ] (apenaskayo) •QUANDO REVISTAR O VEICULO AS PORTAS DO VEICULO ABRIR.
+[ ] (apenaskayo) •ENVEZ DO SUJEITO CORRER ATE A VIATURA, ELE CAMINHE.
+
+[ ] (Raí gameplay) tenho uma sugestão seria dahora se quando agente fosse revistar um veículo as portas e o porta- malas abrisem 
 
 ---------------- BUGS
 
@@ -210,3 +296,15 @@ Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iri
 [X] (Gabriel Oliveira) não consegue abordar veículos (apenas pedestres)
 (@Vitoruppp) não consegue abordar veículos (apenas pedestres)
 1.0.1
+
+[ ] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
+
+[ ] (Raí gameplay) tenho uma sugestão pra próxima atualização adiciona opção de (teste do bafômetro) pra agente saber se o cara consumiu bebida alcoólica ou não adiciona também (teste de entorpecentes) pra saber se o cara e usuário de droga ou não
+
+[ ] (Zacarias7) Man na próxima atualização tenta melhorar a perseguição, porque acho que buga aí os NPC em vez de da fuga ele ficar acompanhando o tráfego ou se ele bate ele sai do carro e fica parado, aí se eu aperto na buzina ele joga o carro pro lado para da espaço para mim passa. Por favor tenta arrumar isso
+
+[ ] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
+
+[ ] (Raí gameplay) encontrei um bug também tem vez que a ambulância e o IML não vem no local parece que elas ficam paradas no local pelo que eu percebi e que se você chama a ambulância ou o IML e estiver longe do spawn delas elas não vem
+
+[ ] (El Gatonw) Tem outro bug, quando você chama uma viatura para levar um suspeito, ela passa direto e o suspeito vai embora andando na outra direção.

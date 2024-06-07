@@ -24,9 +24,9 @@ public:
     static bool CalculateProbability(float chance);
 
     static void ProcessMenuButtons(int dt);
-    static void ProcessTestMenuButtons(int dt);
-
+    
     static CVector GetCarPosition(int hVehicle);
+    static CVector GetPedPositionWithOffset(int hPed, CVector offset);
     static CVector GetPedPosition(int hPed);
     static double DistanceFromPed(int hPed, CVector position);
     static bool IsActorAliveAndDefined(int hPed);

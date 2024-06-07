@@ -12,9 +12,15 @@ added canBeRemoved (to fix a crash)
 
 [1.0.2] 27/05/24
 added extra num1 and num2 to AddText
+
+[1.1.0] 04/06/24
+added opcodes for creating windows, creating buttons and etc
+
+[1.2.0] 07/06/24
+added extraTexts on the right of the item
 */
 
-std::string Menu::m_Version = "1.0.2";
+std::string Menu::m_Version = "1.2.0";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);
 

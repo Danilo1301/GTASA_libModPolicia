@@ -37,6 +37,18 @@ void Item::AddColorIndicator(CRGBA* color)
 	colorIndicators.push_back(colorIndicator);
 }
 
+void Item::AddExtraText(int gxtId, int num1, int num2, CVector2D offsetFromRight)
+{
+	DrawItem* drawItem = new DrawItem(eDrawType::TEXT);
+
+	drawItem->gxtId = gxtId;
+	drawItem->num1 = num1;
+	drawItem->num2 = num2;
+	drawItem->pos = offsetFromRight;
+
+	extraTexts.push_back(drawItem);
+}
+
 void Item::AddOptionBy(int addBy)
 {
 
@@ -50,6 +62,8 @@ void Item::AddOption(int gxtId, int num1, int num2)
 
 void Item::Update()
 {
+	hasPressedThisFrame = false;
+
 	isPointerOver = Input::IsPointInsideRect(Input::GetTouchPos(), position, box->size);
 
 	if (isPointerOver)
@@ -59,6 +73,8 @@ void Item::Update()
 		{
 			if (type == eItemType::ITEM_BUTTON || type == eItemType::CHECKBOX)
 			{	
+				hasPressedThisFrame = true;
+
 				if(onClick) onClick();
 			}
 		}
@@ -260,6 +276,21 @@ void Item::Draw()
 
 		pos.x -= w + padding;
 	}
+
+	//
+
+	for(auto text : extraTexts)
+	{
+		CVector2D textPos = position;
+		textPos.x += box->size.x;
+		textPos.y += box->size.y / 2.0f;
+
+		textPos.x += text->pos.x;
+		textPos.y += text->pos.y;
+
+		Draw::DrawText(text->gxtId, text->num1, text->num2, textPos, CRGBA(255, 255, 255), eTextAlign::ALIGN_RIGHT);
+	}
+
 	//
 
 	if (type == eItemType::CHECKBOX)

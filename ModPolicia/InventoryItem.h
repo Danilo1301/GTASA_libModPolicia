@@ -11,7 +11,17 @@ enum Item_Type {
     REVOLVER_38,
     PISTOL,
     STOLEN_WATCH,
-    STOLEN_WALLET
+    STOLEN_WALLET,
+    CRACK,
+    COCAINE,
+    K9,
+    METHAMPHETAMINE,
+    LANCA_PERFUME
+};
+
+enum ITEM_MEASURE {
+    MEASURE_X,
+    MEASURE_G
 };
 
 /*
@@ -20,6 +30,7 @@ Item_Type type
 int amount
 int amountMin
 int amountMax
+ITEM_MEASURE measure
 bool isStolen
 bool canBeAprehended
 */
@@ -31,6 +42,7 @@ struct InventoryItem {
     int amount = 0;
     int amountMin = 1;
     int amountMax = 1;
+    ITEM_MEASURE measure = ITEM_MEASURE::MEASURE_X;
 
     bool isStolen = false;
     bool canBeAprehended = false;
@@ -39,6 +51,9 @@ struct InventoryItem {
 class InventoryItems {
 public:
     static std::vector<InventoryItem> m_Items;
+    static std::map<ITEM_MEASURE, int> m_MeasureGxtId;
 
     static void Init();
+
+    static int GetMeasureGxtId(ITEM_MEASURE measureType);
 };

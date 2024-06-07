@@ -7,6 +7,7 @@
 class ModConfig {
 public:
     static bool EnableTestMenu;
+    static bool CreateTestOptionsInRadioMenu;
 
 	static void MakePaths();
 	static bool DirExists(std::string path);
