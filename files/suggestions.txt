@@ -276,6 +276,9 @@ Mas na minha opinião esse trabalho todo não vale a pena, só acho melhor que e
 
 [ ] (Raí gameplay) tenho uma sugestão seria dahora se quando agente fosse revistar um veículo as portas e o porta- malas abrisem 
 
+[ ] (TIM BRADFORD) Customizar as unidades no bloqueio
+O que seria bom também se tivesse naquela perseguição frenética e ter uma opção de fazer bloqueio com a SWAT seria top
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
