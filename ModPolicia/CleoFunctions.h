@@ -23,6 +23,13 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static bool CAR_PASSENGER_SEAT_FREE(int car, int seatId);
+    static int GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(int car, int seatId);
+    static int CAR_MAX_PASSENGERS(int car);
+    static bool ACTOR_STOPPED(int _char);
+    static bool MODEL_AVAILABLE(int modelId);
+    static void LOAD_MODEL(int modelId);
+    static void LOAD_REQUESTED_MODELS();
     static void DESTROY_OBJECT(int object);
     static void DEFLATE_TIRE_ON_CAR(int car, int tireId);
     static void SET_OBJECT_Z_ANGLE(int object, float heading);

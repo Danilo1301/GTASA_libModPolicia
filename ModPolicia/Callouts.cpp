@@ -16,10 +16,10 @@ float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
-    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED, 89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
+    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 0.0f, "callouts/CALLOUT_ASSAULT.wav"},
+    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED, 89, 0.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
     {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE, 97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
-    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION, 114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"},
+    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION, 114, 0.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"}
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
@@ -48,6 +48,13 @@ std::vector<SkinData> Callouts::m_Skins = {
     {114, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS},
     {115, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS},
     {116, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS}
+};
+
+std::vector<int> Callouts::m_StolenVehicleIds = {
+    400, 445, 461, 479, 507, 522
+};
+std::vector<int> Callouts::m_StolenTruckIds {
+    413, 414, 440, 456, 482, 498, 499
 };
 
 void Callouts::Update(int dt)
@@ -250,7 +257,7 @@ void Callouts::StartAssaultCallout()
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    AproachCalloutPedPath([] (CVector pedPathNodePosition) {
+    AproachCalloutPedPath(100.0f, [] (CVector pedPathNodePosition) {
         auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
         int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, criminalSkin.modelId, pedPathNodePosition.x, pedPathNodePosition.y, pedPathNodePosition.z);
 
@@ -280,7 +287,7 @@ void Callouts::StartAssaultCallout()
 
 void Callouts::StartGangShotsFiredCallout()
 {
-    AproachCalloutPedPath([] (CVector pedPathNodePosition) {
+    AproachCalloutPedPath(100.0f,[] (CVector pedPathNodePosition) {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         int gang = Mod::GetRandomNumber(1, 3);
 
@@ -302,58 +309,41 @@ void Callouts::StartGangShotsFiredCallout()
 
 void Callouts::StartStolenVehicleCallout()
 {
-    AproachCalloutPedPath([] (CVector calloutPosition) {
-
-        int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(calloutPosition.x, calloutPosition.y, calloutPosition.z, 200.0f, -1);
-
-        if(randomCar > 0)
-        {
-            auto vehicle = Vehicles::TryCreateVehicle(randomCar);
-            vehicle->isStolen = true;
-            //vehicle->AddBlip();
-
-            int driver = CleoFunctions::GET_DRIVER_OF_CAR(randomCar);
-
-            if(driver > 0)
-            {
-                auto pedDriver = Peds::TryCreatePed(driver);
-                pedDriver->AddBlip();
-                
-                m_Criminals.push_back(pedDriver);
-            }
-        }
-
-        /*
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "c1" << std::endl;
+    AproachCalloutPedPath(150.0f, [] (CVector calloutPosition) {
 
         float spawnX = 0, spawnY = 0, spawnZ = 0;
         CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(calloutPosition.x, calloutPosition.y, calloutPosition.z, 2, &spawnX, &spawnY, &spawnZ);
 
-        std::vector<int> vehicleModels = {445, 461, 479};
-        int vehicleModel = vehicleModels[Mod::GetRandomNumber(0, vehicleModels.size() -1)];
+        std::vector<int> vehicleIds;
+        for(auto id : m_StolenVehicleIds) vehicleIds.push_back(id);
+        for(auto id : m_StolenTruckIds) vehicleIds.push_back(id);
+
+        int vehicleModel = vehicleIds[Mod::GetRandomNumber(0, vehicleIds.size() -1)];
         
         Log::Level(LOG_LEVEL::LOG_BOTH) << "creating car " << vehicleModel << std::endl;
 
-        int car = CleoFunctions::CREATE_CAR_AT(vehicleModel, spawnX, spawnY, spawnZ);
+        int carHandle = CleoFunctions::CREATE_CAR_AT(vehicleModel, spawnX, spawnY, spawnZ);
 
-        CleoFunctions::REMOVE_REFERENCES_TO_CAR(car);
-
-        auto vehicle = Vehicles::TryCreateVehicle(car);
+        auto vehicle = Vehicles::TryCreateVehicle(carHandle);
         vehicle->isStolen = true;
         vehicle->AddBlip();
 
-        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
-
         Log::Level(LOG_LEVEL::LOG_BOTH) << "create driver" << std::endl;
 
-        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 20, pedSkin.modelId);
+        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
-        CleoFunctions::SET_CAR_ENGINE_OPERATION(car, true);
+        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 20, pedSkin.modelId);
+        auto pedDriver = Peds::TryCreatePed(driver);
+        pedDriver->AddBlip();
+        
+        m_Criminals.push_back(pedDriver);
+
+        CleoFunctions::REMOVE_REFERENCES_TO_CAR(carHandle);
+        CleoFunctions::SET_CAR_ENGINE_OPERATION(carHandle, true);
 
         Log::Level(LOG_LEVEL::LOG_BOTH) << "set to psycho" << std::endl;
 
-        CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(car);
-        */
+        CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(carHandle);
     }); 
 }
 
@@ -433,7 +423,7 @@ void Callouts::AproachCallout(CVector location, float aproachDistance, std::func
     }); 
 }
 
-void Callouts::AproachCalloutPedPath(std::function<void(CVector)> onReachMarker)
+void Callouts::AproachCalloutPedPath(float aproachDistance, std::function<void(CVector)> onReachMarker)
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -444,7 +434,7 @@ void Callouts::AproachCalloutPedPath(std::function<void(CVector)> onReachMarker)
     CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
     CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
 
-    AproachCallout(nodePosition, 100.0f, onReachMarker, []() {});
+    AproachCallout(nodePosition, aproachDistance, onReachMarker, []() {});
 }
 
 Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius)

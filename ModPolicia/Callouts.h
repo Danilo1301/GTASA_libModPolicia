@@ -66,6 +66,9 @@ public:
     static AudioStream* m_ModulatingCalloutAudio;
 
     static std::vector<SkinData> m_Skins;
+    
+    static std::vector<int> m_StolenVehicleIds;
+    static std::vector<int> m_StolenTruckIds;
 
     static void Update(int dt);
     
@@ -87,7 +90,7 @@ public:
     static void StartHouseInvasionCallout();
 
     static void AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker, std::function<void()> onAbort);
-    static void AproachCalloutPedPath(std::function<void(CVector)> onReachMarker);
+    static void AproachCalloutPedPath(float aproachDistance, std::function<void(CVector)> onReachMarker);
 
     static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);
 

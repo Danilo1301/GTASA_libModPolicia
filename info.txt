@@ -2,7 +2,9 @@
 To release
 
 Check logs
+Add version to ModConfig::DefineVersions
 Check Mod::m_Version
+Check MYMODCFG version
 Check EN and PT .fxt
 Check .fxt mod version (EN and PT)
 Check game more than once to make sure
@@ -123,10 +125,17 @@ Initial release
 [X] ADD: new drugs
 [X] ADD: SWAT backup
 
+[ ] FIX: roadblock peds should shoot at suspect
+[ ] FIX: stolen vehicle callout (cars dissapearing)
+[ ] ADD: roadblocks and spikestrips sounds
+[ ] FIX: make cops shoot at criminals, and vice versa
+[X] FIX: ambulance and IML getting tired or stopping when aiming at them
+[ ] FIX: detect passengers during a vehicle pullover
+
 --------------------------
 Notes:
 
-[X] Changed callout chances
+[ ] Changed callout chances
 [X] Mention the radio sounds credits
 [X] Remove test audios
 [X] Changed Item_Type::BEER chance

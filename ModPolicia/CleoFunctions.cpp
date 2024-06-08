@@ -3,6 +3,13 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0431, CAR_PASSENGER_SEAT_FREE, ii); //0431: car $47 passenger_seat_free 0
+static DEFOPCODE(0432, GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, iiv); //0432: 19@ = get_actor_handle_from_car $47 passenger_seat 0 
+static DEFOPCODE(01EA, CAR_MAX_PASSENGERS, iv); //01EA: 68@ = car 67@ max_passengers 
+static DEFOPCODE(02A0, ACTOR_STOPPED, i); //02A0: actor $PLAYER_ACTOR stopped 
+static DEFOPCODE(0248, MODEL_AVAILABLE, i); //0248: model 596 available
+static DEFOPCODE(0247, LOAD_MODEL, i); //0247: load_model 110
+static DEFOPCODE(038B, LOAD_REQUESTED_MODELS, ); //038B: load_requested_models
 static DEFOPCODE(0108, DESTROY_OBJECT, i); //0108: destroy_object $1173 
 static DEFOPCODE(04FE, DEFLATE_TIRE_ON_CAR, ii); //04FE: deflate_tire 0 on_car $PLAYER_CAR
 static DEFOPCODE(0177, SET_OBJECT_Z_ANGLE, if); //0177: set_object $OBJ1 Z_angle_to $ANGLE
@@ -150,6 +157,51 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+bool CleoFunctions::CAR_PASSENGER_SEAT_FREE(int car, int seatId)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_CAR_PASSENGER_SEAT_FREE, car, seatId);
+    return result;
+}
+
+int CleoFunctions::GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(int car, int seatId)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, car, seatId, &_char);
+    return _char;
+}
+
+int CleoFunctions::CAR_MAX_PASSENGERS(int car)
+{
+    int maxPassengers = 0;
+    sautils->ScriptCommand(&scm_CAR_MAX_PASSENGERS, car, &maxPassengers);
+    return maxPassengers;
+}
+
+bool CleoFunctions::ACTOR_STOPPED(int _char)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_STOPPED, _char);
+    return result;
+}
+
+bool CleoFunctions::MODEL_AVAILABLE(int modelId)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_MODEL_AVAILABLE, modelId);
+    return result;
+}
+
+void CleoFunctions::LOAD_MODEL(int modelId)
+{
+    sautils->ScriptCommand(&scm_LOAD_MODEL, modelId);
+}
+
+void CleoFunctions::LOAD_REQUESTED_MODELS()
+{
+    sautils->ScriptCommand(&scm_LOAD_REQUESTED_MODELS);
 }
 
 void CleoFunctions::DESTROY_OBJECT(int object)

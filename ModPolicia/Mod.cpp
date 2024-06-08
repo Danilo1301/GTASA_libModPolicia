@@ -28,6 +28,7 @@ unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = true;
 
 bool loadedAnimations = false;
+bool loadedModels = false;
 
 void Mod::Update(int dt)
 {
@@ -112,6 +113,15 @@ void Mod::Update(int dt)
 
     if(CleoFunctions::PLAYER_DEFINED(0))
     {
+        if(!loadedModels)
+        {
+            loadedModels = true;
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading models..." << std::endl;
+
+            LoadModels();
+        }
+
         if(!loadedAnimations)
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Checking for animations..." << std::endl;
@@ -177,6 +187,90 @@ void Mod::Init()
     Ambulance::Init();
 }
 
+void Mod::LoadModels()
+{
+    AddModelToLoad(596); //copcarla
+    AddModelToLoad(280); //ls
+
+    AddModelToLoad(597); //copcarsf
+    AddModelToLoad(281); //sf
+
+    AddModelToLoad(598); //copcarvg
+    AddModelToLoad(282); //lv
+
+    AddModelToLoad(599); //ranger
+    AddModelToLoad(283); //csher
+
+    AddModelToLoad(523); //copbike
+    AddModelToLoad(284); //lapdm1
+
+    AddModelToLoad(490); //fbiranch
+    AddModelToLoad(286); //fbi
+
+    AddModelToLoad(497); //police maverick
+
+    AddModelToLoad(525); //towtruck
+    AddModelToLoad(50); //wmymech
+
+    AddModelToLoad(416); //ambulance
+    AddModelToLoad(274); //laemt1
+
+    AddModelToLoad(442); //romero
+    AddModelToLoad(70); //laemt1
+
+    AddModelToLoad(528); //fbitruck
+    AddModelToLoad(288); //dsher
+
+    AddModelToLoad(601); //swat
+    AddModelToLoad(285); //swatvan
+
+    //skins
+    for(auto skin : Callouts::m_Skins)
+    {
+        AddModelToLoad(skin.modelId);
+    }
+
+    //stolen vehicles
+    for(auto id : Callouts::m_StolenVehicleIds)
+    {
+        AddModelToLoad(id);
+    }
+    for(auto id : Callouts::m_StolenTruckIds)
+    {
+        AddModelToLoad(id);
+    }
+
+    //weapons
+    AddModelToLoad(346); //pistol
+    AddModelToLoad(335); //knife
+    AddModelToLoad(348); //deagle
+    AddModelToLoad(349); //shotgun
+    AddModelToLoad(356); //m4
+    AddModelToLoad(367); //camera
+
+    //objects
+    AddModelToLoad(1459); //barrier
+    AddModelToLoad(2899); //spikes
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load all models" << std::endl;
+
+    CleoFunctions::LOAD_REQUESTED_MODELS();
+}
+
+void Mod::AddModelToLoad(int modelId)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: loading model " << modelId << std::endl;
+
+    CleoFunctions::LOAD_MODEL(modelId);
+
+    /*
+    CleoFunctions::AddWaitForFunction([modelId] () {
+        return CleoFunctions::MODEL_AVAILABLE(modelId);
+    }, [modelId] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Model " << modelId << " loaded!" << std::endl;
+    });
+    */
+}
 
 int Mod::GetRandomNumber(int min, int max)
 {

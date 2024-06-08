@@ -347,3 +347,28 @@ void Vehicle::RemoveDriverAndPassengersBlip()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "blips removed" << std::endl;
 }
+
+std::vector<int> Vehicle::GetPassengers()
+{
+    std::vector<int> passengers;
+
+    auto maxPassengers = CleoFunctions::CAR_MAX_PASSENGERS(hVehicle);
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "maxPassengers: " << maxPassengers << std::endl;
+    for(int seatId = 0; seatId < maxPassengers; seatId++)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "checking seat: " << seatId << std::endl;
+
+        if(!CleoFunctions::CAR_PASSENGER_SEAT_FREE(hVehicle, seatId))
+        {
+            auto passengerHandle = CleoFunctions::GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(hVehicle, seatId);
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "passengerHandle: " << passengerHandle << std::endl;
+
+            passengers.push_back(passengerHandle);
+        } else {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "seat " << seatId << " is free" << std::endl;
+        }
+    }
+
+    return passengers;
+}

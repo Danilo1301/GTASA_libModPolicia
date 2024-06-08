@@ -1,0 +1,109 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Test police shoot or hijack the suspect
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+        
+    if 0@ == 1
+    then
+        //pedtype criminal = 20; cop = 6
+    
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 10.0 0.0 0.0  
+         
+        00A5: $CAR = create_car 496 at 1@ 2@ 3@
+            
+        0129: $PED = create_actor_pedtype 20 model 29 in_car $CAR driverseat
+        
+        01C8: $PED2 = create_actor_pedtype 20 model 29 in_car $CAR passenger_seat 0
+        
+        01B2: give_actor $PED2 weapon 22 ammo 10000
+                        
+        0918: set_car $CAR engine_operation 1 
+        00A8: set_car $CAR to_psycho_driver
+        
+        //cop 
+      
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 1.0 0.0 0.0
+
+        009A: $COP = create_actor_pedtype 6 model 280 at 1@ 2@ 3@
+        
+        01B2: give_actor $COP weapon 22 ammo 10000 
+        
+        06E4: AS_actor $COP attempt_to_bust_actor $PED2        
+        06E4: AS_actor $COP attempt_to_bust_actor $PED
+        
+        //cop car
+        
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset -20.0 0.0 0.0
+        
+        00A5: $COPCAR = create_car 596 at 1@ 2@ 3@
+            
+        0129: $COP2 = create_actor_pedtype 6 model 280 in_car $COPCAR driverseat 
+
+        07F8: car $COPCAR follow_car $CAR radius 8.0 
+        
+        //06E4: AS_actor $COP2 attempt_to_bust_actor $PED //makes the cop leave car
+                        
+        //ped kill cop
+        
+        //05E2: AS_actor $PED2 kill_actor $COP //makes the ped leave the car, and not drive by
+        
+        0713: actor $PED2 driveby_actor $COP car -1 point 0.0 0.0 0.0 radius 100.0 4 1 firing_rate 90 
+
+                
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+                      
+0247: load_model 280
+0247: load_model 596
+0247: load_model 29
+0247: load_model 496
+0247: load_model 346
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if and
+    0248: model 280 available
+    0248: model 596 available
+    0248: model 29 available
+    0248: model 496 available
+    0248: model 346 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

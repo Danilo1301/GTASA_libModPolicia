@@ -13,11 +13,11 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, GiroflexVSL::m_Version, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.1.0, Danilo1301)
 
 // ---------------------------------------
 
-// CLEO 2.0.1.3
+// CLEO 2.0.1.5
 #include "cleo.h"
 cleo_ifs_t* cleo = NULL;
 
@@ -210,10 +210,13 @@ extern "C" void OnModLoad()
     __reg_op_func(SEND_TOUCH_STATE, SEND_TOUCH_STATE);
     __reg_op_func(ADD_LOG_MESSAGE, ADD_LOG_MESSAGE);
     
+    ModConfig::DefineVersions();
     ModConfig::ProcessVersionChanges_PreConfigLoad();
     ModConfig::Load();
     ModConfig::ProcessVersionChanges_PostConfigLoad();
     ModConfig::Save();
 
     Mod::Init();
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Mod loaded" << std::endl;
 }

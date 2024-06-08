@@ -212,6 +212,14 @@ void Pullover::PullOverCar(int hVehicle)
     ped->hVehicleOwned = vehicle->hVehicle;
     ped->AddBlip();
 
+    auto passengersHandle = vehicle->GetPassengers();
+    for(auto passengerHandle : passengersHandle)
+    {
+        auto passenger = Peds::TryCreatePed(passengerHandle);
+        passenger->UpdateInventory();
+        passenger->AddBlip();
+    }
+    
     if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
@@ -386,6 +394,21 @@ void Pullover::AskPedToLeaveCar(Ped* ped)
     */
     CleoFunctions::EXIT_CAR_AS_ACTOR(ped->hPed);
     
+    if(ped->hVehicleOwned)
+    {
+        auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
+
+        auto passengersHandle = vehicle->GetPassengers();
+        for(auto passengerHandle : passengersHandle)
+        {
+            auto passenger = Peds::TryCreatePed(passengerHandle);
+
+            CleoFunctions::WAIT(1000, [passenger]() {
+                passenger->shouldHandsup = true;
+            });
+        }
+    }
+
     CleoFunctions::WAIT(1000, [ped]() {
         ped->shouldHandsup = true;
     });

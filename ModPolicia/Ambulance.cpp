@@ -92,6 +92,16 @@ void EmergencyVehicleSystem::Update(int dt)
                         continue;
                     }
 
+                    if(CleoFunctions::ACTOR_STOPPED(medic->hPed))
+                    {
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "medic forgor what he was doing, set action to NONE" << std::endl;
+
+                        medic->actionStatus = PED_ACTION_STATUS::PED_ACTION_NONE;
+                        medic->goingToPed = 0;
+                        
+                        continue;
+                    }
+
                     auto distance = DistanceBetweenPoints(Mod::GetPedPosition(medic->hPed), Mod::GetPedPosition(medic->goingToPed));
 
                     if(distance < 1.5f)

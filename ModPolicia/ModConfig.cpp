@@ -3,8 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
-#include <dirent.h>
-#include "dlfcn.h"
+//#include <dirent.h>
+//#include "dlfcn.h"
 
 #include "mod/amlmod.h"
 #include "mod/logger.h"
@@ -43,6 +43,88 @@ std::vector<std::string> get_directories_name(const std::string& s)
         if (p.is_directory())
             r.push_back(p.path().filename().string());
     return r;
+}
+
+//
+
+std::vector<VersionInfo*> VersionControl::m_Versions;
+std::string VersionControl::m_PrevVersion = "";
+std::string VersionControl::m_CurrentVersion = "";
+
+void VersionControl::SetVersion(std::string prevVersion, std::string currentVersion)
+{
+    m_PrevVersion = prevVersion;
+    m_CurrentVersion = currentVersion;
+}
+
+void VersionControl::AddVersion(std::string version)
+{
+    VersionInfo* info = new VersionInfo();
+    info->version = version;
+
+    m_Versions.push_back(info);
+}
+
+VersionInfo* VersionControl::GetVersionInfo(std::string version)
+{
+    for(auto info : m_Versions)
+    {
+        if(info->version == version) return info;
+    }
+    return NULL;
+}
+
+void VersionControl::AddPatch(std::string version, std::function<void()> patch)
+{
+    VersionInfo* info = GetVersionInfo(version);
+    info->patches.push_back(patch);
+}
+
+void VersionControl::ApplyPatches()
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: ApplyPatches" << std::endl;
+
+    auto prevVersion = m_PrevVersion;
+    VersionInfo* prevInfo = NULL;
+
+    if(prevVersion == m_CurrentVersion)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: Same version, no need to apply patches" << std::endl;
+        return;
+    }
+
+    if(prevVersion == "unknown")
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: Version is unknown, so its the first time run, no need to apply patches" << std::endl;
+        return;
+    }
+
+    int index = 0;
+    for(auto info : m_Versions)
+    {
+        if(info->version == prevVersion)
+        {
+            prevInfo = info;
+            break;
+        }
+
+        index++;
+    }
+
+    while (index < m_Versions.size() - 1)
+    {
+        prevInfo = m_Versions[index];
+
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: Processing index " << index << ", version " << prevInfo->version << std::endl;
+
+        for(auto patch : prevInfo->patches)
+        {
+            patch();
+        }
+        prevInfo->patches.clear();
+
+        index++;
+    }
 }
 
 //
@@ -144,7 +226,6 @@ void ModConfig::SaveSettings()
     
     auto generalSection = file.AddSection("General");
     generalSection->AddBool("enable_test_options_in_radio_menu", ModConfig::CreateTestOptionsInRadioMenu);
-    //generalSection->AddBool("enable_test_menu", ModConfig::EnableTestMenu);
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
 
     //
@@ -208,12 +289,7 @@ void ModConfig::LoadSettings()
 
     for(auto section : file.sections)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Section: " << section->key << std::endl;
-
-        for(auto v : section->values)
-        {
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "- Value: " << v.first << "|" << v.second << std::endl;
-        }
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Section: " << section->key << " has " << section->values.size() << " values" << std::endl;
     }
 
     auto generalSections = file.GetSections("General");
@@ -222,7 +298,6 @@ void ModConfig::LoadSettings()
         auto generalSection = generalSections[0];
 
         generalSection->GetBool("enable_test_options_in_radio_menu", &ModConfig::CreateTestOptionsInRadioMenu);
-        //generalSection->GetBool("enable_test_menu", &ModConfig::EnableTestMenu);
         generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
     }
 
@@ -293,6 +368,25 @@ std::string ModConfig::ReadVersionFile()
     return prevVersion;
 }
 
+void ModConfig::DefineVersions()
+{
+    VersionControl::AddVersion("0.1.0");
+    VersionControl::AddVersion("0.2.0");
+    VersionControl::AddVersion("0.3.0");
+    VersionControl::AddVersion("0.3.1");
+    VersionControl::AddVersion("0.4.0");
+    VersionControl::AddVersion("0.4.1");
+    VersionControl::AddVersion("0.5.0");
+    VersionControl::AddVersion("0.6.0");
+    VersionControl::AddVersion("0.7.0");
+    VersionControl::AddVersion("1.0.0");
+    VersionControl::AddVersion("1.0.1");
+    VersionControl::AddVersion("1.0.2");
+    VersionControl::AddVersion("1.1.0");
+
+    VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
+}
+
 void ModConfig::ProcessVersionChanges_PreConfigLoad()
 {
     std::string prevVersion = ReadVersionFile();
@@ -300,18 +394,20 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [PRE] Updating from " << prevVersion << " to " << currentVersion << std::endl;
 
-    if (prevVersion == currentVersion) return;
+    //if (prevVersion == currentVersion) return;
 
     //-------------
 
     /*
-    if (prevVersion == "2.0.0-example")
-    {
-        prevVersion = "2.0.1";
-    }
+    VersionControl::AddPatch("1.0.1", [] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1" << std::endl;
+    });
     */
 
+    VersionControl::ApplyPatches();
+
     //-------------
+
 }
 
 void ModConfig::ProcessVersionChanges_PostConfigLoad()
@@ -321,16 +417,18 @@ void ModConfig::ProcessVersionChanges_PostConfigLoad()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [POST] Updating from " << prevVersion << " to " << currentVersion << std::endl;
     
-    if (prevVersion == currentVersion) return;
+    //if (prevVersion == currentVersion) return;
 
     //-------------
 
-    /*
-    if (prevVersion == "2.0.0-example")
-    {
-        prevVersion = "2.0.1";
-    }
-    */
+    VersionControl::AddPatch("1.0.2", [] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.0.2 POST" << std::endl;
+
+        Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.2f;
+        Ped::CHANCE_PED_CONSUME_DRUGS = 0.4f;
+    });
+
+    VersionControl::ApplyPatches();
 
     //-------------
 

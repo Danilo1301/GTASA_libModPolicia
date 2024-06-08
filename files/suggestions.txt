@@ -101,6 +101,124 @@ Solução: Desenvolver essa funcionalidade para permitir que os jogadores usem e
 
 --
 
+Coisas para mexer 
+
+
+Alterar os spawn das vtrs 
+
+
+Por que elas aparecem nem na frente do suspeito ou perto deles isso que meio que acaba com a missão 
+
+
+Botar mais vida nos bandidos para 300
+
+
+Tipo o mod dyon você pode aumentar bastante a vida dos npcs 
+
+
+
+No roubo de carro visto pelo olho vermelho 
+
+Ou tira 
+
+Ou troca por perseguição aleatório 
+
+Exemplo l:
+
+Atenção todas as unidades veículo roubado e está fugindo 
+
+
+Daí inicia perseguição entendeu ?
+
+Nesta situação já coloca o botão de chamar vtrs 
+
+E também quando aceitar a missão tem que ter umas 3 vtrs perseguindo o carro para dar mais sessão ao game 
+
+
+E para finalizar, o NPC ao sair do carro os policiais também devem sair, para ou prender ele e por na viatura ou se tiver armada indicar disparos entrem eles
+A outra coisa 
+
+Muda a opção de chamar as vtrs
+
+Deixa só no rádio mesmo 
+E tira do botão verde
+
+Por que ali no rádio a gente chama todas vtrs possíveis 
+Na hora que quer entendeu ?
+
+Tipo se eu for fazer as missões normais do jogo 
+Dos veículos de ermegencia 
+
+Eu possa chamar as vtrs seguindo o suspeito que eu estou fazendo 
+
+
+É tipo uma opção de chamar gangues para ir atrás dos balas etc...
+
+--
+
+Isso, acho melhor tirar esse do olho vermelho 
+E criar uma perseguição aleatório com três viaturas spawnadas perto do suspeito 
+
+Isso a vida pra deixar mais difícil, como se eles tivessem coletes 
+
+
+O botão verte para chamadas de ocorrências 
+Tem que deixar só para aceitar ocorrências 
+
+Na novo botão de chamar ambulância e IML 
+
+Colocar lá todos os veículos de ermegencia 
+
+Seria bom sabe o que nessa questão de veículos de ermegencia 
+
+
+Tu pode criar uma pasta que nem as do áudio e nós poder escolher os veículos que iram vir na chamada de ermegencia igualzinho as do áudios
+
+Exemplo 
+
+Cops 
+Vehicles.ini
+
+[IDS]
+
+1-596
+2-597
+3-598
+4-599
+
+No caso aqui nos escolhe os veículos que podemos spawnar na aba menu pelo código inserido 
+
+Aí lá na aba do menu 
+Irá aparecer desse jeito 
+
+1-596
+2-597
+3-598
+4-599
+
+Exemplo de armas que cada ped pode usar 
+Aleatóriamente na pasta cops
+
+Armas.ini
+
+[IDS]
+1-colt45
+2-python
+3-shotgun
+4-m4
+5-ak47
+6-mp5
+
+Colocar qualquer skin que possa ser usada no lugar dos policiais ou pedestres ou que também policiais 
+Skins.ini
+
+[IDS]
+1-289
+2-287
+3-288
+
+--
+
 [X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
 0.6.0
 
@@ -164,6 +282,7 @@ by El Gatonw: (Discord)
 [ ] (• BravoMike - Oliveira) O que você acha de fazer um mod de BOMBEIROS e SAMU também?
 
 [X] (RAI gameplay) adiciona opção pra fazer o teste do bafômetro (álcool)
+(Raí gameplay) tenho uma sugestão pra próxima atualização adiciona opção de (teste do bafômetro) pra agente saber se o cara consumiu bebida alcoólica ou não adiciona também (teste de entorpecentes) pra saber se o cara e usuário de droga ou não
 1.1.0
 
 [ ] (RAI gameplay) teste de entorpecentes
@@ -279,6 +398,59 @@ Mas na minha opinião esse trabalho todo não vale a pena, só acho melhor que e
 [ ] (TIM BRADFORD) Customizar as unidades no bloqueio
 O que seria bom também se tivesse naquela perseguição frenética e ter uma opção de fazer bloqueio com a SWAT seria top
 
+[ ] (Raí gameplay) adiciona ocorrência de assalto a banco
+
+[ ] (@Ryanduarte.09) receber dinheiro quando levar o npc pra dp
+(@Ryanduarte.09) Ganhar dinheiro após deixar o pedestre na delegacia.
+(@Ryanduarte.09) Cada vez q prender alguém na delegacia, ganhar recompensas em dinheiro: 100$ ou 50$...
+
+[ ] (@Ryanduarte.09) checar se estão armados e levar para a delegacia.
+ 
+[ ] (@Ryanduarte.09) Vestir uniforme de policial: Ir até o guarda-roupa na delegacia para pegar a roupa de PM.
+
+[ ] (@Ryanduarte.09) Escolha de armas: Selecionar armas dentro da delegacia.
+
+[ ] (@Ryanduarte.09) Escolha de veículos de polícia: Selecionar e utilizar carros de polícia na garagem da delegacia.
+
+---------- Sugestões de: Toddynho off Games ---------
+(Novas Ocorrências)
+Ocorrência de roubo a carro forte 
+
+Ocorrência de assalto ao banco 
+
+Ocorrência de assalto ao caixa 
+
+Ocorrência de assalto ao mercadinho 
+
+Ocorrência de roubo 
+
+Ocorrência briga de trânsito 
+
+Ocorrência agressão doméstica 
+
+Ocorrência de um indivíduo roubaram o carro e quando o carro dele quebrar ele descer do carro ele ter a possibilidade de escolher de se render ou atacar os policiais com arma 
+
+(Animação)
+Quando o jogador chamar ambulância IML e bombeiro ele colocar a mão no ombro esquerdo também para ser usado quando for consultar a placa checar o RG entre outras opções que solicite o Copom 
+
+Quando o jogador estiver sendo abordado levanta as mãos para cima 
+
+E quando ele for levado para DP colocar a mão para trás
+
+(Revista) 
+Também nas revistas dos carros se possível achar armas e na revista do pedestre também se possível achar armas 
+
+(Adicionais) 
+Colocar IPVA de veículos para saber se está ou não está atrasado 
+
+Adicionar pedir apoio de bombeiro
+
+---------
+
+
+
+
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
@@ -286,8 +458,6 @@ O que seria bom também se tivesse naquela perseguição frenética e ter uma op
 
 [X] (El Gatonw) Teria como resolver o bug do PM não sumir qnd é morto durante uma ocorrência? ACHO Q A OPÇÃO DE DESATIVAR O MOD PODERIA RESOLVER.
 0.7.0
-
-[ ] (RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
 
 [ ] (Leonardo Alves) Seria bom se os policiais das vtr que vem dar apoio, eles viessem um pouco mais devagar kkkk os cara vem rápido acaba capotando a vtr sem controle nenhum.
 
@@ -300,14 +470,27 @@ O que seria bom também se tivesse naquela perseguição frenética e ter uma op
 (@Vitoruppp) não consegue abordar veículos (apenas pedestres)
 1.0.1
 
-[ ] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
-
-[ ] (Raí gameplay) tenho uma sugestão pra próxima atualização adiciona opção de (teste do bafômetro) pra agente saber se o cara consumiu bebida alcoólica ou não adiciona também (teste de entorpecentes) pra saber se o cara e usuário de droga ou não
+[X] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
+should be fixed now
 
 [ ] (Zacarias7) Man na próxima atualização tenta melhorar a perseguição, porque acho que buga aí os NPC em vez de da fuga ele ficar acompanhando o tráfego ou se ele bate ele sai do carro e fica parado, aí se eu aperto na buzina ele joga o carro pro lado para da espaço para mim passa. Por favor tenta arrumar isso
 
-[ ] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
+[X] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
+(RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
+should be fixed
 
-[ ] (Raí gameplay) encontrei um bug também tem vez que a ambulância e o IML não vem no local parece que elas ficam paradas no local pelo que eu percebi e que se você chama a ambulância ou o IML e estiver longe do spawn delas elas não vem
+[X] (Raí gameplay) encontrei um bug também tem vez que a ambulância e o IML não vem no local parece que elas ficam paradas no local pelo que eu percebi e que se você chama a ambulância ou o IML e estiver longe do spawn delas elas não vem
+1.1.0
 
 [ ] (El Gatonw) Tem outro bug, quando você chama uma viatura para levar um suspeito, ela passa direto e o suspeito vai embora andando na outra direção.
+
+
+---
+in this version:
+
+[X] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
+should be fixed now
+
+[X] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
+(RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
+should be fixed

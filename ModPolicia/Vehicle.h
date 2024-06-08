@@ -73,4 +73,6 @@ public:
     void ReplaceDriverByAnyPassenger();
 
     void RemoveDriverAndPassengersBlip();
+
+    std::vector<int> GetPassengers();
 };

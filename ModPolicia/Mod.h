@@ -10,6 +10,9 @@ public:
 
     static void Update(int dt);
     static void Init();
+
+    static void LoadModels();
+    static void AddModelToLoad(int modelId);
     
     static int GetRandomNumber(int min, int max);
 

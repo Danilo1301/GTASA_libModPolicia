@@ -96,6 +96,7 @@ end
 038F: load_texture "mptx1" as 100
 038F: load_texture "mptx2" as 101
 
+/*
 0247: load_model 596 //copcarla
 0247: load_model 280 //ls
 0247: load_model 597 //copcarsf
@@ -152,8 +153,9 @@ end
 //objects
 0247: load_model 1459 //barrier
 0247: load_model 2899 //spikes
+*/
           
-038B: load_requested_models 
+//038B: load_requested_models 
 
 01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
 01F0: set_max_wanted_level_to 0 
@@ -168,6 +170,7 @@ jump @PRELOAD
 
 0F23: add_log_message 102
 
+/*
 if and
     0248: model 596 available //copcarla
     0248: model 280 available //ls
@@ -236,6 +239,7 @@ if and
     0248: model 1459 available //barrier
     0248: model 2899 available //spikes        
 jf @PRELOAD
+*/
 
 0F23: add_log_message 103
 

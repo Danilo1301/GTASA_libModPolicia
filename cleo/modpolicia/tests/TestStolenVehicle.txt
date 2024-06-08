@@ -1,0 +1,69 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Create a stolen vehicle and make it drive normally
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+        
+    if 0@ == 1
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 5.0 0.0  
+         
+        00A5: $CAR = create_car 496 at 1@ 2@ 3@
+            
+        0129: $PED = create_actor_pedtype 4 model 72 in_car $CAR driverseat 
+
+        0918: set_car $CAR engine_operation 1 
+        00A8: set_car $CAR to_psycho_driver
+        
+        0186: $MARKER = create_marker_above_car $CAR 
+         
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+                      
+0247: load_model 72
+0247: load_model 496
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if and
+    0248: model 72 available
+    0248: model 496 available
+jf @PRELOAD_WAIT
+
+jump @MAIN
