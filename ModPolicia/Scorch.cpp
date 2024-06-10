@@ -89,6 +89,7 @@ void Scorch::UpdateScorchingPeds(int dt)
                 ped->shouldHandsup = false;
 
                 CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(ped->hPed);
+                CleoFunctions::CLEAR_ACTOR_TASK(ped->hPed);
 
                 CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(ped->hPed, vehicle->hVehicle, 10000, 1);
 
@@ -106,7 +107,7 @@ void Scorch::UpdateScorchingPeds(int dt)
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is in the car, leaving" << std::endl;
 
                 ped->RemoveBlip();
-                vehicle->hPassengers.push_back(ped->hPed);
+                vehicle->SetDriverAndPassengersOwners();
                 vehicle->MakePedsEnterVehicleAndLeaveScene();
             }
             continue;
@@ -255,7 +256,7 @@ void Scorch::CallVehicleToScorchPed(Ped* ped)
 
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 23, 280);
 
-    vehicle->hDriver = driver;
+    vehicle->SetDriverAndPassengersOwners();
     vehicle->actionStatus = ACTION_STATUS::SCORCH_GOING_TO_PED;
 
     float actorX = 0, actorY = 0, actorZ = 0;
@@ -321,7 +322,8 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
 
     Pullover::m_PullingPed->hVehicleOwned = 0;
     Pullover::m_PullingPed = NULL;
-    Pullover::m_PullingVehicle->hDriver = 0;
+    Pullover::m_PullingVehicle->hDriverOwner = 0;
+    Pullover::m_PullingVehicle->hPassengersOwner.clear();
     Pullover::m_PullingVehicle = NULL;
 
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
@@ -346,7 +348,7 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
 
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(towtruck, 23, 50);
 
-    towtruckVehicle->hDriver = driver;
+    towtruckVehicle->SetDriverAndPassengersOwners();
 
     auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
 

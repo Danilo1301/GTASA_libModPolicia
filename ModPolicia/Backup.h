@@ -52,4 +52,8 @@ public:
     static void CallBackupHeli();
 
     static void PlayRequestBackupAudio(BackupVehicle* backupVehicle);
+
+    static int FindClosestCop(CVector position, float radius, bool includePlayer);
+
+    static Vehicle* GetCarThatCopBelongs(Ped* cop);
 };

@@ -1,0 +1,70 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Make a random car start running away
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+        
+    if 0@ == 1
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+        
+        073E: get_car_in_sphere 1@ 2@ 3@ radius 20.0 model -1 handle_as $CAR
+        
+        if 056E: car $CAR defined
+        then
+            0186: $MARKER = create_marker_above_car $CAR 
+        
+            046C: $PED = car $CAR driver
+            
+            if 056D: actor $PED defined
+            then
+                0187: $MARKER = create_marker_above_actor $PED
+                
+                0423: set_car $CAR improved_handling_to 2.0
+                00AE: set_car $CAR traffic_behaviour_to 4 //was 2
+                00AD: set_car $CAR max_speed_to 50.0             
+                00A8: set_car $CAR to_psycho_driver
+                03CC: enable_car $CAR stuck_check_distance_to 50.0 time_to 50.0
+            end 
+        end
+                
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+jump @MAIN

@@ -10,6 +10,7 @@
 #include "ModConfig.h"
 #include "Peds.h"
 #include "Log.h"
+#include "Vehicles.h"
 
 Window* WindowRadio::m_Window = NULL;
 
@@ -92,12 +93,6 @@ void WindowRadio::Remove()
 void WindowRadio::CreateTestOptions()
 {
     auto window = m_Window;
-
-    auto button_testExtraText = window->AddButton(28, 1, 0);
-    button_testExtraText->AddExtraText(132, 45, 0, CVector2D(-5.0f, 0));
-
-    auto button_testExtraText2 = window->AddButton(28, 1, 0);
-    button_testExtraText2->AddExtraText(49, 5, 0, CVector2D(-5.0f, 0));
     
     auto button_pedPullover = window->AddButton(127, 0, 0);
     button_pedPullover->onClick = []()
@@ -117,12 +112,49 @@ void WindowRadio::CreateTestOptions()
     button_chaseEnd->onClick = []()
     {
         Remove();
-        Chase::EndChase();
+        if(Chase::m_ChasingPed)
+        {
+            auto vehicle = Vehicles::GetVehicleByHandle(Chase::m_ChasingPed->hVehicleOwned);
+            //Chase::EndChase();
+            CleoFunctions::CLEAR_ACTOR_TASK(Chase::m_ChasingPed->hPed);
+            CleoFunctions::EXIT_CAR_AS_ACTOR(Chase::m_ChasingPed->hPed);
+            //vehicle->MakePedsExitCar();
+            //Pullover::m_PullingVehicle = vehicle;
+            //Pullover::m_PullingPed = Peds::GetPedByHandle(vehicle->GetDriver());
+            //Pullover::AskPedsToLeaveCar(vehicle);
+        }
     };
 
+    auto button_test7 = window->AddButton(23, 7, 0);
+    button_test7->onClick = []()
+    {
+        Remove();
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
+
+        auto pedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
+        auto ped = Peds::TryCreatePed(pedHandle);
+        ped->AddBlip();
+
+        Callouts::m_Criminals.push_back(ped);
+    };
+
+    auto button_test8 = window->AddButton(23, 8, 0);
+    button_test8->onClick = []()
+    {
+        Remove();
+
+        auto chasingPed = Chase::m_ChasingPed;
+
+        if(chasingPed) Chase::DeflateCarTires(chasingPed->hVehicleOwned);
+    };
+    
     auto button_test6 = window->AddButton(23, 6, 0);
     button_test6->onClick = []()
     {
+        Remove();
+
         auto peds = Peds::GetDeadPeds();
 
         for(auto ped : peds)
@@ -138,6 +170,8 @@ void WindowRadio::CreateTestOptions()
     auto button_test1 = window->AddButton(23, 1, 0);
     button_test1->onClick = []()
     {
+        Remove();
+
         /*
         Log::file << "scm_GET_PLAYER_ACTOR" << std::endl;
         scmHandle1 = 0;
@@ -194,6 +228,8 @@ void WindowRadio::CreateTestOptions()
     auto button_test2 = window->AddButton(23, 2, 0);
     button_test2->onClick = []()
     {
+        Remove();
+
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
         float x = 0.0f, y = 0.0f, z = 0.0f;
@@ -215,13 +251,13 @@ void WindowRadio::CreateTestOptions()
                 CleoFunctions::ADD_BLIP_FOR_CHAR(randomChar);
             });
         }
-
-        
     };
     
     auto button_test4 = window->AddButton(23, 4, 0);
     button_test4->onClick = []()
     {
+        Remove();
+
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
         float x = 0, y = 0, z = 0;
@@ -233,6 +269,8 @@ void WindowRadio::CreateTestOptions()
     auto button_test5 = window->AddButton(23, 5, 0);
     button_test5->onClick = []()
     {
+        Remove();
+
         int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
         float x = 0, y = 0, z = 0;

@@ -126,16 +126,27 @@ Initial release
 [X] ADD: SWAT backup
 
 [ ] FIX: roadblock peds should shoot at suspect
-[ ] FIX: stolen vehicle callout (cars dissapearing)
+[X] FIX: stolen vehicle callout (cars dissapearing)
 [ ] ADD: roadblocks and spikestrips sounds
-[ ] FIX: make cops shoot at criminals, and vice versa
+[X] ADD: make cops shoot at criminals, and vice versa
 [X] FIX: ambulance and IML getting tired or stopping when aiming at them
-[ ] FIX: detect passengers during a vehicle pullover
+[X] ADD: detect passengers during a vehicle pullover
+[ ] ADD: lib versions to log
+[ ] Check bug where scorch car just ignores the suspect
+[ ] FIX: helicopter not leaving when chase ends
+Fixing chase:
+* make criminals shot police
+* making police shot criminals
+* updated driver and passengers system COMPLETELY
+* make helicopter leave when chase ends
+(this took 2 days to make)
+[ ] FIX: car drivers slowly after free from pullover
 
 --------------------------
 Notes:
 
-[ ] Changed callout chances
+[X] Changed willShootAtCops chance and chance of vehicle having guns
+[X] Changed callout chances
 [X] Mention the radio sounds credits
 [X] Remove test audios
 [X] Changed Item_Type::BEER chance
@@ -144,17 +155,8 @@ Notes:
 ---------------------------
 Sugestoes:
 
-[X] adicionar novas delegacias
-[ ] aniação mão pra tras
+[ ] animação mão pra tras
 [ ] add spikes during chase
-[ ] add roadblocks
-[X] call helicopter
-[ ] colocar animação para colocar as mãos para trás
-[X] opção para chamar viatura até o local e levar o suspeito
-[ ] adicionar radio COPOM, com audios, para consultar RG etc
-[ ] issue ticket to ped/vehicle / multa
-[ ] chamar IML
-[ ] chamar ambulancia
 [ ] nas ocorrências, automaticamente designar viaturas perto do local, sem precisar chamar reforços
 [ ] chamar bombeiros se houver uma explosão dos veículos e junto vim os dois caminhões do jogo e mais o veículo 
 [ ] mudar mensagem da ocorrencia pra deixar claro q esta pedindo reforço
@@ -162,8 +164,6 @@ Sugestoes:
 [ ] NPC deve ir no banco de trás.
 [ ] quando for levar o npc pra dp, fazer ele entrar no carro primeiro, permitindo q o jogador entre depois
 [ ] descer do carro ao chegar na DP
-[ ] OCORRÊNCIA DE MANDATO DE PRISÃO 
-[ ] FAZER PERGUNTAS AO PRESO IGUAL NO LSPDFR DO GTA 5 (Essa droga é sua?, mora aonde?, Esse carro é seu?, Já foi preso ou tem passagem)
 
 ---------------------------
 Other suggestions / todo:

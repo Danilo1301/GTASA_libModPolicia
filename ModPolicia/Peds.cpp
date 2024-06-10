@@ -82,8 +82,8 @@ void Peds::TryFindNewPeds()
             continue;
         }
 
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "found ent index " << i << std::endl;
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "ped ref: " << ref << std::endl;
+        //Log::Level(LOG_LEVEL::LOG_BOTH) << "found ent index " << i << std::endl;
+        //Log::Level(LOG_LEVEL::LOG_BOTH) << "ped ref: " << ref << std::endl;
         
         Peds::TryCreatePed(ref);
     }
@@ -101,9 +101,9 @@ Ped* Peds::TryCreatePed(int hPed)
         return GetPedByHandle(hPed);
     }
 
-	Log::Level(LOG_LEVEL::LOG_BOTH) << "Peds: Add ped " << hPed << "(" << std::to_string(m_Peds.size() + 1) << " total)" << std::endl;
-
     auto ped = new Ped(hPed);
+
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Peds: Add ped " << hPed << ", ref: " << ped->pPed << " (" << std::to_string(m_Peds.size() + 1) << " total)" << std::endl;
 
 	m_Peds[hPed] = ped;
 

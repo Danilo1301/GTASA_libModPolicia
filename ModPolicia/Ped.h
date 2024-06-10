@@ -30,6 +30,9 @@ public:
 
     int hVehicleOwned = 0;
 
+    int previousCar = 0;
+    bool justLeftTheCar = false;
+
     int goingToPed = 0;
 
     int blip = 0;
@@ -62,6 +65,13 @@ public:
 
     int money = 0;
 
+    bool willShootAtCops = false;
+    int shootingAtPed = 0;
+    int shootingAtVehicle = 0;
+
+    //bool chasingSuspects = false;
+    int chasingCriminal = 0;
+
     Inventory* inventory = new Inventory();
 
     Ped(int hPed);
@@ -74,6 +84,8 @@ public:
     void UpdateBreathalyzer();
 
     bool HasDocuments();
+
+    bool HasGuns();
 
     int AddBlip();
     int AddBlip(int color);

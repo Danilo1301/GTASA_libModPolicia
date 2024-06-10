@@ -269,10 +269,10 @@ void WindowPullover::CreatePullingCar()
     window->showPageControls = true;
     
     auto button_sairdocarro = window->AddButton(58);
-    button_sairdocarro->onClick = [ped]()
+    button_sairdocarro->onClick = [vehicle]()
     {
         Remove();
-        Pullover::AskPedToLeaveCar(ped);
+        Pullover::AskPedsToLeaveCar(vehicle);
     };
     
     auto button_close = window->AddButton(57, CRGBA(170, 70, 70));

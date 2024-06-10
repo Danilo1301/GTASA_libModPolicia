@@ -23,6 +23,12 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void HELI_FLY_TO(int heli, float x, float y, float z, float minAltitude, float maxAltitude);
+    static void AS_ACTOR_EXIT_CAR(int _char);
+    static float CAR_SPEED(int car);
+    static int ACTOR_USED_CAR(int _char);
+    static bool ACTOR_DRIVING(int _char);
+    static void ACTOR_DRIVEBY(int _char, int targetChar, int targetVehicle, float x, float y, float z, float radius, int style, bool rightHandCarSeat, int fireRate);
     static bool CAR_PASSENGER_SEAT_FREE(int car, int seatId);
     static int GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(int car, int seatId);
     static int CAR_MAX_PASSENGERS(int car);

@@ -39,18 +39,17 @@ void EmergencyVehicleSystem::Update(int dt)
     //update medics
     for(auto vehicle : m_Vehicles)
     {
+        vehicle->CheckDriverAndPassengersAreAlive();
+
         std::vector<Ped*> medics;
-        if(Mod::IsActorAliveAndDefined(vehicle->hDriver))
+        if(vehicle->hDriverOwner > 0)
         {
-            medics.push_back(Peds::GetPedByHandle(vehicle->hDriver));
+            medics.push_back(Peds::GetPedByHandle(vehicle->hDriverOwner));
         }
 
-        for(auto passenger : vehicle->hPassengers)
+        for(auto passenger : vehicle->hPassengersOwner)
         {
-            if(Mod::IsActorAliveAndDefined(passenger))
-            {
-                medics.push_back(Peds::GetPedByHandle(passenger));
-            }
+            medics.push_back(Peds::GetPedByHandle(passenger));
         }
 
         if(vehicle->actionStatus == ACTION_STATUS::ACTION_NONE)
@@ -98,7 +97,7 @@ void EmergencyVehicleSystem::Update(int dt)
 
                         medic->actionStatus = PED_ACTION_STATUS::PED_ACTION_NONE;
                         medic->goingToPed = 0;
-                        
+
                         continue;
                     }
 
@@ -281,17 +280,15 @@ void EmergencyVehicleSystem::CallVehicle(CVector location)
 
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(ambulance, type, m_PedModelId);
     auto pedDriver = Peds::TryCreatePed(driver);
-    //pedDriver->AddBlip(2);
-    vehicle->hDriver = driver;
     m_Peds.push_back(pedDriver);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "driver = " << driver << std::endl;
 
     int passenger = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(ambulance, type, m_PedModelId, 0);
     auto pedPassenger = Peds::TryCreatePed(passenger);
-    //pedPassenger->AddBlip(2);
-    vehicle->hPassengers.push_back(passenger);
     m_Peds.push_back(pedPassenger);
+
+    vehicle->SetDriverAndPassengersOwners();
     
     if(!m_RessurectPed)
     {

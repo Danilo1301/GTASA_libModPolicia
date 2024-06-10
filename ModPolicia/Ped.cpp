@@ -51,6 +51,31 @@ void Ped::Update(int dt)
 {
     if(!CleoFunctions::ACTOR_DEFINED(hPed)) return;
 
+    if(CleoFunctions::ACTOR_DEAD(hPed))
+    {
+        shouldHandsup = false;
+    }
+
+    justLeftTheCar = false;
+    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed))
+    {
+        auto inCar = CleoFunctions::ACTOR_USED_CAR(hPed);
+        if(inCar != previousCar)
+        {
+            //Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped " << hPed << " just entered car " << inCar << std::endl;
+
+            previousCar = inCar;
+        }
+    } else {
+        if(previousCar > 0)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped " << hPed << " just left car " << previousCar << std::endl;
+
+            previousCar = 0;
+            justLeftTheCar = true;
+        }
+    }
+
     if(shouldHandsup)
     {
         if(!CleoFunctions::ACTOR_PERFORMING_ANIMATION(hPed, "handsup"))
@@ -68,6 +93,7 @@ void Ped::Update(int dt)
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Entered car. Now driving..." << std::endl;
             CleoFunctions::SET_CAR_ENGINE_OPERATION(hVehicleOwned, true);
+            CleoFunctions::SET_CAR_MAX_SPEED(hVehicleOwned, 30.0f);
             CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(hVehicleOwned);
         }
     }
@@ -143,6 +169,13 @@ bool Ped::HasDocuments()
     UpdateInventory();
 
     return inventory->HasItemOfType(Item_Type::DOCUMENTS);
+}
+
+bool Ped::HasGuns()
+{
+    if(inventory->HasItemOfType(Item_Type::REVOLVER_38)) return true;
+    if(inventory->HasItemOfType(Item_Type::PISTOL)) return true;
+    return false;
 }
 
 int Ped::AddBlip()

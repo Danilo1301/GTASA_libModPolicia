@@ -6,6 +6,8 @@
 #include "Log.h"
 #include "Vehicles.h"
 #include "Mod.h"
+#include "Peds.h"
+#include "Callouts.h"
 
 #include "windows/WindowBackup.h"
 
@@ -20,31 +22,109 @@ void Chase::Update(int dt)
 
 void Chase::UpdateChase(int dt)
 {
-    if(!m_ChasingPed) return;
-
-    auto ped = m_ChasingPed;
-    auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
+    auto chasingPed = m_ChasingPed;
+    Vehicle* vehicle = NULL;
 
     //car despawned
-    if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle))
+    if(chasingPed)
     {
-        EndChase();
-        return;
+        if(
+            Callouts::m_Criminals.size() == 0
+        )
+        {
+            //!CleoFunctions::CAR_DEFINED(chasingPed->hVehicleOwned) ||
+            //!Mod::IsActorAliveAndDefined(chasingPed->hPed) ||
+
+            EndChase();
+            chasingPed = NULL;
+        }
     }
 
-    //ped left car
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed))
+    //make passengers leave after driver also leaves, so it fixes the bug
+    if(chasingPed)
     {
-        ped->RemoveBlip();
-        if(vehicle) vehicle->RemoveBlip();
+        if(chasingPed->justLeftTheCar)
+        {
+            auto vehicle = Vehicles::GetVehicleByHandle(chasingPed->hVehicleOwned);
+            vehicle->MakePedsExitCar();
 
-        CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(ped->hPed);
+            vehicle->RemoveBlip();
+        }
+    }
+    
+    for(auto criminal : Callouts::m_Criminals)
+    {
+        bool isCriminalInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(criminal->hPed);
 
-        //ped->shouldHandsup = true;
-        EndChase();
-        return;
+        //Log::Level(LOG_LEVEL::LOG_UPDATE) << "Criminal " << criminal->hPed << " isInCar: " << (isCriminalInCar ? "T" : "F") << std::endl;
+
+        //make criminal in car passenger shoot cops
+        if(isCriminalInCar && criminal->willShootAtCops)
+        {
+            auto criminalCarHandle = CleoFunctions::ACTOR_USED_CAR(criminal->hPed);
+            bool isDriver = criminal->hPed == CleoFunctions::GET_DRIVER_OF_CAR(criminalCarHandle);
+            
+            if(!isDriver)
+            {
+                auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+                auto closestCop = Backup::FindClosestCop(criminalPosition, 30.0f, true);
+
+                if(closestCop > 0)
+                {
+                    if(criminal->shootingAtPed != closestCop)
+                    {
+                        criminal->shootingAtPed = closestCop;
+
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal passenger " << criminal->hPed << " is now shooting at cop: " << closestCop << std::endl;
+
+                        CleoFunctions::ACTOR_DRIVEBY(criminal->hPed, closestCop, -1, 0, 0, 0, 100.0f, 4, true, 90);
+                    }
+                } else {
+                    criminal->shootingAtPed = 0;
+                }
+            }
+        }
+
+        //reset
+        if(criminal->justLeftTheCar)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Reset criminal shootingAtPed" << std::endl;
+            criminal->shootingAtPed = 0;
+        }
+
+        //if criminal just left the car and wont shoot cops
+        if(criminal->justLeftTheCar && !criminal->willShootAtCops)
+        {   
+            int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal passenger " << criminal->hPed << " is running away from player" << std::endl;
+
+            CleoFunctions::FLEE_FROM_ACTOR(criminal->hPed, playerActor, 50.0f, -1);
+        }
+
+        //if criminal is on foot and will shot at cops
+        if(!isCriminalInCar && criminal->willShootAtCops)
+        {
+            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+            auto closestCop = Backup::FindClosestCop(criminalPosition, 30.0f, true);
+
+            if(closestCop > 0)
+            {
+                if(criminal->shootingAtPed != closestCop)
+                {
+                    criminal->shootingAtPed = closestCop;
+
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal on foot " << criminal->hPed << " is now killing cop: " << closestCop << std::endl;
+
+                    CleoFunctions::KILL_ACTOR(criminal->hPed, closestCop);
+                }
+            } else {
+                criminal->shootingAtPed = 0;
+            }
+        }
     }
 
+    /*
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
@@ -58,6 +138,7 @@ void Chase::UpdateChase(int dt)
     Pullover::AskPedToLeaveCar(ped);
 
     EndChase();
+    */
 }
 
 void Chase::UpdateBarriers(int dt)
@@ -72,11 +153,7 @@ void Chase::UpdateBarriers(int dt)
             auto vehicles = Vehicles::GetAllCarsInSphere(barrier->objectPosition, 4.0f);
             for(auto vehicle : vehicles)
             {
-                //04FE: deflate_tire 0 on_car 0@
-                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 0);
-                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 1);
-                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 2);
-                CleoFunctions::DEFLATE_TIRE_ON_CAR(vehicle->hVehicle, 3);
+                DeflateCarTires(vehicle->hVehicle);
             }
         }
 
@@ -106,17 +183,45 @@ void Chase::UpdateBarriers(int dt)
 
 void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 {
+    ped->willShootAtCops = Mod::CalculateProbability(0.3f);
+    //ped->willShootAtCops = Mod::CalculateProbability(0.0f);
+    if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;
+
+    //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX1", ped->willShootAtCops ? 1 : 0, 0, 0, 3000, 1);
+
+    if(ped->willShootAtCops)
+    {
+        CleoFunctions::GIVE_ACTOR_WEAPON(ped->hPed, 22, 10000);
+
+        auto passengersHandle = vehicle->GetPassengers();
+        for(auto passengerHandle : passengersHandle)
+        {
+            auto passenger = Peds::TryCreatePed(passengerHandle);
+            passenger->willShootAtCops = ped->willShootAtCops;
+
+            CleoFunctions::GIVE_ACTOR_WEAPON(passengerHandle, 22, 10000);
+        }
+    }
+
     /*
     00AE: set_car 3@ traffic_behaviour_to 2
     00AD: set_car 3@ max_speed_to 50.0             
     00A8: set_car 3@ to_psycho_driver
     */
 
-   CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->hVehicle, 2);
-   CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
-   CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicle->hVehicle);
+    CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->hVehicle, 2);
+    CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
+    CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicle->hVehicle);
 
-   m_ChasingPed = ped;
+    m_ChasingPed = ped;
+
+    //add criminals
+    auto owners = vehicle->GetOwners();
+    for(auto owner : owners)
+    {
+        auto pedOwner = Peds::TryCreatePed(owner);
+        Callouts::m_Criminals.push_back(pedOwner);
+    }
 }
 
 void Chase::EndChase()
@@ -189,4 +294,13 @@ void Chase::AddRoadBlocks(CVector position)
 void Chase::AddSpikestrips(CVector position)
 {
     AddBarrier(position, 2899, 528, 288);
+}
+
+void Chase::DeflateCarTires(int hVehicle)
+{
+    //04FE: deflate_tire 0 on_car 0@
+    CleoFunctions::DEFLATE_TIRE_ON_CAR(hVehicle, 0);
+    CleoFunctions::DEFLATE_TIRE_ON_CAR(hVehicle, 1);
+    CleoFunctions::DEFLATE_TIRE_ON_CAR(hVehicle, 2);
+    CleoFunctions::DEFLATE_TIRE_ON_CAR(hVehicle, 3);
 }

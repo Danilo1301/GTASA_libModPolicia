@@ -3,6 +3,12 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0743, HELI_FLY_TO, ifffff); //0743: heli 45@ fly_to -2244.48 129.14 34.56 altitude 0.0 0.0 
+static DEFOPCODE(0633, AS_ACTOR_EXIT_CAR, i); //0633: AS_actor 58@ exit_car 
+static DEFOPCODE(02E3, CAR_SPEED, iv); //02E3: 196@ = car 67@ speed 
+static DEFOPCODE(0811, ACTOR_USED_CAR, iv); //0811: $47 = actor $PLAYER_ACTOR used_car 
+static DEFOPCODE(00DF, ACTOR_DRIVING, i); //00DF: actor $PLAYER_ACTOR driving 
+static DEFOPCODE(0713, ACTOR_DRIVEBY, iiiffffibi); //0713: actor $PED2 driveby_actor $COP car -1 point 0.0 0.0 0.0 radius 100.0 4 1 firing_rate 90
 static DEFOPCODE(0431, CAR_PASSENGER_SEAT_FREE, ii); //0431: car $47 passenger_seat_free 0
 static DEFOPCODE(0432, GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, iiv); //0432: 19@ = get_actor_handle_from_car $47 passenger_seat 0 
 static DEFOPCODE(01EA, CAR_MAX_PASSENGERS, iv); //01EA: 68@ = car 67@ max_passengers 
@@ -157,6 +163,42 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::HELI_FLY_TO(int heli, float x, float y, float z, float minAltitude, float maxAltitude)
+{
+    sautils->ScriptCommand(&scm_HELI_FLY_TO, heli, x, y, z, minAltitude, maxAltitude);
+}
+
+void CleoFunctions::AS_ACTOR_EXIT_CAR(int _char)
+{
+    sautils->ScriptCommand(&scm_AS_ACTOR_EXIT_CAR, _char);
+}
+
+float CleoFunctions::CAR_SPEED(int car)
+{
+    float speed = 0;
+    sautils->ScriptCommand(&scm_CAR_SPEED, car, &speed);
+    return speed;
+}
+
+int CleoFunctions::ACTOR_USED_CAR(int _char)
+{
+    int car = 0;
+    sautils->ScriptCommand(&scm_ACTOR_USED_CAR, _char, &car);
+    return car;
+}
+
+bool CleoFunctions::ACTOR_DRIVING(int _char)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_DRIVING, _char);
+    return result;
+}
+
+void CleoFunctions::ACTOR_DRIVEBY(int _char, int targetChar, int targetVehicle, float x, float y, float z, float radius, int style, bool rightHandCarSeat, int fireRate)
+{
+    sautils->ScriptCommand(&scm_ACTOR_DRIVEBY, _char, targetChar, targetVehicle, x, y, z, radius, style, rightHandCarSeat, fireRate);
 }
 
 bool CleoFunctions::CAR_PASSENGER_SEAT_FREE(int car, int seatId)

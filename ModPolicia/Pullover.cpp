@@ -34,7 +34,7 @@ void Pullover::Update(int dt)
 
 void Pullover::UpdateWidgetPress(int dt)
 {
-    if(m_PullingPed || m_PullingVehicle || Chase::m_ChasingPed)
+    if(m_PullingPed || m_PullingVehicle) // || Chase::m_ChasingPed
         return;
 
     if(!Mod::m_Enabled) return;
@@ -206,10 +206,10 @@ void Pullover::PullOverCar(int hVehicle)
     auto vehicle = Vehicles::TryCreateVehicle(hVehicle);
     vehicle->UpdateInventory();
     vehicle->AddBlip();
+    vehicle->SetDriverAndPassengersOwners();
 
     auto ped = Peds::TryCreatePed(driver);
     ped->UpdateInventory();
-    ped->hVehicleOwned = vehicle->hVehicle;
     ped->AddBlip();
 
     auto passengersHandle = vehicle->GetPassengers();
@@ -219,7 +219,7 @@ void Pullover::PullOverCar(int hVehicle)
         passenger->UpdateInventory();
         passenger->AddBlip();
     }
-    
+
     if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
@@ -230,8 +230,9 @@ void Pullover::PullOverCar(int hVehicle)
 
     m_PullingVehicle = vehicle;
     m_PullingPed = ped;
+    
+    CleoFunctions::WAIT(1000, [vehicle, playerActor, hVehicle]() {
 
-    CleoFunctions::WAIT(1000, [playerActor, hVehicle]() {
         CleoFunctions::CAR_TURN_OFF_ENGINE(hVehicle);
     
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
@@ -306,7 +307,7 @@ void Pullover::CreateTestPullOverVehicle()
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
     auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
 
-    auto carHandle = CleoFunctions::CREATE_CAR_AT(596, position.x, position.y, position.z);
+    auto carHandle = CleoFunctions::CREATE_CAR_AT(479, position.x, position.y, position.z);
 
     auto ped1Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 4, 19);
 
@@ -376,7 +377,7 @@ void Pullover::FreeVehicle()
 
     m_PullingPed->driveAfterEnterCar = true;
 
-    CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed,  m_PullingPed->hVehicleOwned, 20000);
+    CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed, m_PullingPed->hVehicleOwned, 20000);
 
     m_PullingVehicle->RemoveBlip();
     m_PullingPed->RemoveBlip();
@@ -385,32 +386,30 @@ void Pullover::FreeVehicle()
     m_PullingVehicle = NULL;
 }
 
-void Pullover::AskPedToLeaveCar(Ped* ped)
+void Pullover::AskPedsToLeaveCar(Vehicle* vehicle)
 {
     /*
     0633: AS_actor 21@ exit_car
     wait 1000 
     0812: AS_actor 21@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1 // versionB 
     */
-    CleoFunctions::EXIT_CAR_AS_ACTOR(ped->hPed);
-    
-    if(ped->hVehicleOwned)
+
+    auto passengersHandle = vehicle->GetPassengers();
+    for(auto passengerHandle : passengersHandle)
     {
-        auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
+        auto passenger = Peds::TryCreatePed(passengerHandle);
 
-        auto passengersHandle = vehicle->GetPassengers();
-        for(auto passengerHandle : passengersHandle)
-        {
-            auto passenger = Peds::TryCreatePed(passengerHandle);
-
-            CleoFunctions::WAIT(1000, [passenger]() {
-                passenger->shouldHandsup = true;
-            });
-        }
+        CleoFunctions::EXIT_CAR_AS_ACTOR(passengerHandle);
+        CleoFunctions::WAIT(1000, [passenger]() {
+            passenger->shouldHandsup = true;
+        });
     }
 
-    CleoFunctions::WAIT(1000, [ped]() {
-        ped->shouldHandsup = true;
+    auto pedDriver = Peds::TryCreatePed(vehicle->GetDriver());
+
+    CleoFunctions::EXIT_CAR_AS_ACTOR(pedDriver->hPed);
+    CleoFunctions::WAIT(1000, [pedDriver]() {
+        pedDriver->shouldHandsup = true;
     });
 
     CleoFunctions::WAIT(2000, []() {

@@ -49,10 +49,10 @@ void Vehicles::TryFindNewVehicles()
 
         if(!HasVehicleHandle(ref))
         {
-            auto vehicle = TryCreateVehicle(ref);
+            //Log::Level(LOG_LEVEL::LOG_BOTH) << "Found " << ent.AsInt() << " ref " << ref << " siren " << (sirenOn ? "ON" : "OFF") << std::endl;
+            //Log::Level(LOG_LEVEL::LOG_BOTH) << "driver " << driver << std::endl;
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "Found " << ent.AsInt() << " ref " << ref << " siren " << (sirenOn ? "ON" : "OFF") << std::endl;
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "driver " << driver << std::endl;
+            auto vehicle = TryCreateVehicle(ref);
         }
     }
 }
@@ -66,13 +66,13 @@ Vehicle* Vehicles::TryCreateVehicle(int hVehicle)
 {
 	if (HasVehicleHandle(hVehicle))
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicles already added: " << hVehicle << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle already added: " << hVehicle << std::endl;
         return GetVehicleByHandle(hVehicle);
     }
 
-	Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicles: Add vehicle " << hVehicle << "(" << std::to_string(m_Vehicles.size() + 1) << " total)" << std::endl;
-
     auto vehicle = new Vehicle(hVehicle);
+
+	Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicles: Add vehicle " << hVehicle << ", ref: " << vehicle->pVehicle << ", model: " << vehicle->modelId << " (" << std::to_string(m_Vehicles.size() + 1) << " total)" << std::endl;
 
 	m_Vehicles[hVehicle] = vehicle;
 

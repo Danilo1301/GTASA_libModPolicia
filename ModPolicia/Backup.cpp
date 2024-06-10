@@ -86,101 +86,16 @@ void Backup::Update(int dt)
 
 void Backup::UpdateBackupVehiclesActionStatus(int dt)
 {
-    std::vector<Vehicle*> removeBackup;
-    for(auto vehicle : m_BackupVehicles)
-    {
-        //if backup is chasing
-        if(vehicle->actionStatus == ACTION_STATUS::CHASE_CHASING)
-        {
-            if(!Chase::m_ChasingPed)
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "making backup stop chase and move away from scene, removing vehicle from backup list" << std::endl;
-
-                vehicle->MakePedsEnterVehicleAndLeaveScene();
-
-                vehicle->RemoveDriverAndPassengersBlip();
-
-                removeBackup.push_back(vehicle);
-            }
-            continue;
-        }
-
-         //if going to callout
-        if(vehicle->actionStatus == ACTION_STATUS::CALLOUT_GOING_TO_CALLOUT)
-        {
-            if(Callouts::m_Criminals.size() == 0)
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "going to callout but there are no criminals" << std::endl;
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "set to acting on callout" << std::endl;
-
-                vehicle->actionStatus = ACTION_STATUS::CALLOUT_ACTING_ON_CALLOUT;
-
-                continue;
-            }
-
-            auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
-            auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
-            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
-
-            if(DistanceBetweenPoints(criminalPosition, vehicle->drivingTo) > 3)
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "criminal is far away from old position" << std::endl;
-
-                vehicle->drivingTo = criminalPosition;
-
-                CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, criminalPosition.x, criminalPosition.y, criminalPosition.z);
-            }
-
-            auto distance = DistanceBetweenPoints(Mod::GetCarPosition(vehicle->hVehicle), vehicle->drivingTo);
-
-            if(distance < 20)
-            {
-                vehicle->actionStatus = ACTION_STATUS::CALLOUT_ACTING_ON_CALLOUT;
-
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "vehicle is now acting on callout" << std::endl;
-
-                //05E2: AS_actor $POLICE kill_actor $CRIMINAL
-
-                for(auto criminal : Callouts::m_Criminals)
-                {
-                    CleoFunctions::KILL_ACTOR(vehicle->hDriver, criminal->hPed);
-
-                    for(auto passenger : vehicle->hPassengers)
-                        CleoFunctions::KILL_ACTOR(passenger, criminal->hPed);
-                }
-            }
-
-            continue;
-        }
-
-        //if is on callout and callout ends
-        if(vehicle->actionStatus == ACTION_STATUS::CALLOUT_ACTING_ON_CALLOUT)
-        {
-            if(!Callouts::IsOnCallout())
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "making backup stop acting on callouts and move away, removing vehicle from backup list" << std::endl;
-
-                vehicle->MakePedsEnterVehicleAndLeaveScene();    
-
-                vehicle->RemoveDriverAndPassengersBlip();
-
-                removeBackup.push_back(vehicle);
-            }
-            continue;
-        }
-    }
-
-    //remove vehicles
-    for(auto vehicle : removeBackup)
-    {
-        auto it = std::find(m_BackupVehicles.begin(), m_BackupVehicles.end(), vehicle);
-        m_BackupVehicles.erase(it);
-    }
+    
 }
 
 void Backup::UpdateBackupPeds(int dt)
 {
-    std::vector<Ped*> toRemove;
+    float distanceExitCar = 10.0f;
+    float distanceEnterCar = 30.0f;
+
+    std::vector<Ped*> pedsToRemove;
+
     for(auto ped : m_BackupPeds)
     {
         if(!Mod::IsActorAliveAndDefined(ped->hPed))
@@ -189,17 +104,360 @@ void Backup::UpdateBackupPeds(int dt)
 
             ped->RemoveBlip();
 
-            toRemove.push_back(ped);
+            pedsToRemove.push_back(ped);
             continue;
+        }
+
+        //remove cops if the are no criminals anymore and they are far from player
+        if(Callouts::m_Criminals.size() == 0)
+        {
+            auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+            auto playerPosition = Mod::GetPedPosition(playerActor);
+            auto pedPosition = Mod::GetPedPosition(ped->hPed);
+            auto distanceFromPlayer = DistanceBetweenPoints(pedPosition, playerPosition);
+
+            if(distanceFromPlayer > 200.0f)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "backup ped " << ped->hPed << " is too far away, destroying" << std::endl;
+
+                CleoFunctions::DESTROY_ACTOR(ped->hPed);
+                pedsToRemove.push_back(ped);
+            }
         }
     }
 
-    //remove peds
-    for(auto item : toRemove)
+    //remove peds 1
+    for(auto item : pedsToRemove)
     {
         auto it = std::find(m_BackupPeds.begin(), m_BackupPeds.end(), item);
         m_BackupPeds.erase(it);
     }
+    pedsToRemove.clear();
+    
+    //
+
+    std::vector<Vehicle*> vehiclesToRemove;
+    for(auto vehicle : m_BackupVehicles)
+    {
+        if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle))
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "backup vehicle is not defined anymore, removing" << std::endl;
+
+            vehicle->RemoveBlip();
+            vehicle->RemoveDriverAndPassengersBlip();
+
+            vehiclesToRemove.push_back(vehicle);
+            continue;
+        }
+
+        //remove vehicles if the are no criminals anymore and they are far from player
+        if(Callouts::m_Criminals.size() == 0)
+        {
+            auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+            auto playerPosition = Mod::GetPedPosition(playerActor);
+            auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+            auto distanceFromPlayer = DistanceBetweenPoints(vehiclePosition, playerPosition);
+
+            if(distanceFromPlayer > 200.0f)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "backup vehicle " << vehicle->hVehicle << " is too far away, destroying" << std::endl;
+
+                CleoFunctions::DESTROY_CAR(vehicle->hVehicle);
+                vehiclesToRemove.push_back(vehicle);
+            }
+        }
+    }
+
+    //remove vehicles
+    for(auto item : vehiclesToRemove)
+    {
+        auto it = std::find(m_BackupVehicles.begin(), m_BackupVehicles.end(), item);
+        m_BackupVehicles.erase(it);
+    }
+
+    //
+
+    for(auto vehicle : m_BackupVehicles)
+    {
+        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
+
+        if(criminal)
+        {
+            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+            auto distanceFromCriminal = DistanceBetweenPoints(vehiclePosition, criminalPosition);
+
+            //if criminal is 30m far away from ped
+            if(distanceFromCriminal > distanceEnterCar)
+            {
+                if(vehicle->actionStatus == ACTION_STATUS::ACTION_NONE)
+                {
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "vehicle status is NONE" << std::endl;
+
+                    auto allPassengersInSeat = vehicle->IsAllDriverAndPassengersInsideCar();
+
+                    if(allPassengersInSeat)
+                    {
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "vehicle status was NONE, but is now driving to criminal" << std::endl;
+
+                        vehicle->actionStatus = ACTION_STATUS::GOING_TO_SUSPECT;
+                        vehicle->goingToPed = criminal->hPed;
+                        //vehicle->followingCar = 0;
+                        vehicle->drivingTo = CVector(0, 0, 0);
+                    }
+                }
+            }
+
+            //if distance is less than 10m
+            if(distanceFromCriminal < distanceExitCar)
+            {
+                if(vehicle->actionStatus == ACTION_STATUS::GOING_TO_SUSPECT)
+                {
+                    bool criminalIsOnCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(criminal->hPed);
+
+                    if(criminalIsOnCar)
+                    {
+                        auto criminalCarHandle = CleoFunctions::ACTOR_USED_CAR(criminal->hPed);
+                        float speed = CleoFunctions::CAR_SPEED(criminalCarHandle);
+
+                        if(speed < 2.0f)
+                        {
+                            Log::Level(LOG_LEVEL::LOG_BOTH) << "suspect stopped, getting out of the car" << std::endl;
+
+                            vehicle->MakePedsExitCar();
+                            vehicle->actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_EXIT;
+                            vehicle->followingCar = 0;
+                        }
+                    } else {
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "suspect is on foot, getting out of the car" << std::endl;
+
+                        vehicle->MakePedsExitCar();
+                        vehicle->actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_EXIT;
+                        vehicle->followingCar = 0;
+                    }
+                }
+            }
+
+            //if going to suspect and its position changes, drive to the new position
+            if(vehicle->actionStatus == ACTION_STATUS::GOING_TO_SUSPECT)
+            {
+                auto distance = DistanceBetweenPoints(criminalPosition, vehicle->drivingTo);
+                if(distance > 2.0f)
+                {
+                    bool criminalIsOnCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(criminal->hPed);
+
+                    if(criminalIsOnCar)
+                    {
+                        auto criminalCarHandle = CleoFunctions::ACTOR_USED_CAR(criminal->hPed);
+
+                        if(vehicle->followingCar != criminalCarHandle)
+                        {
+                            vehicle->followingCar = criminalCarHandle;
+
+                            if(vehicle->IsPoliceHelicopter())
+                            {
+                                Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli " << vehicle->hVehicle << " follow criminal car " << criminalCarHandle << std::endl;
+
+                                CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
+                            } else {
+                                Log::Level(LOG_LEVEL::LOG_BOTH) << "set car " << vehicle->hVehicle << " follow criminal car " << criminalCarHandle << std::endl;
+
+                                CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
+                                CleoFunctions::CAR_FOLLOR_CAR(vehicle->hVehicle, criminalCarHandle, 8.0f);
+                            }
+                        }
+                    } else {
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "criminal position changed, going to the new position" << std::endl;
+
+                        if(vehicle->IsPoliceHelicopter())
+                        {
+                            Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli follow criminal" << std::endl;
+
+                            CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
+                        } else {
+                            Log::Level(LOG_LEVEL::LOG_BOTH) << "set car drive to criminal position" << std::endl;
+
+                            CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, criminalPosition.x, criminalPosition.y, criminalPosition.z);
+                        }
+
+                        
+                    }
+                    
+                    vehicle->drivingTo = criminalPosition;
+                }
+            }
+        } else {
+            //no criminal
+        }
+
+        Log::Level(LOG_LEVEL::LOG_UPDATE) << "b1" << std::endl;
+
+        //if vehicle is going to the suspect, and the suspect dies/despawn
+        if(vehicle->actionStatus == ACTION_STATUS::GOING_TO_SUSPECT)
+        {
+            int criminalHandle = vehicle->goingToPed;
+            if(criminalHandle > 0)
+            {
+                if(!Mod::IsActorAliveAndDefined(criminalHandle))
+                {
+                    vehicle->actionStatus = ACTION_STATUS::ACTION_NONE;
+                    vehicle->goingToPed = 0;
+                }
+            }
+        }
+    }
+
+    //
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "b2" << std::endl;
+
+    for(auto ped : m_BackupPeds)
+    {
+        auto isInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed);
+        auto pedPosition = Mod::GetPedPosition(ped->hPed);
+        auto vehicle = GetCarThatCopBelongs(ped);
+
+        //if ped is on foot, make it arrest the closest criminal
+        if(!isInCar)
+        {
+            if(
+                vehicle->actionStatus != ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_DO_NOTHING &&
+                vehicle->actionStatus != ACTION_STATUS::WAITING_FOR_PEDS_TO_EXIT
+            )
+            {
+                if(ped->goingToPed == 0)
+                {
+                    auto criminal = Callouts::GetClosestCriminal(pedPosition);
+
+                    if(criminal)
+                    {
+                        auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+
+                        if(DistanceBetweenPoints(pedPosition, criminalPosition) < distanceEnterCar)
+                        {
+                            if(criminal->willShootAtCops)
+                            {
+                                Log::Level(LOG_LEVEL::LOG_BOTH) << "backup " << ped->hPed << " is now killing criminal" << std::endl;
+
+                                CleoFunctions::KILL_ACTOR(ped->hPed, criminal->hPed);
+                            } else {
+                                Log::Level(LOG_LEVEL::LOG_BOTH) << "backup " << ped->hPed << " is now walking to criminal" << std::endl;
+
+                                CleoFunctions::AS_ACTOR_RUN_TO_ACTOR(ped->hPed, criminal->hPed, 10000, 3.0f);
+
+                                criminal->shouldHandsup = true;
+                            }
+
+                            ped->goingToPed = criminal->hPed;
+                        } else {
+                            Log::Level(LOG_LEVEL::LOG_BOTH) << "criminal is too far away" << std::endl;
+                        }
+                    }
+                } else {
+                    auto criminalIsAlive = Mod::IsActorAliveAndDefined(ped->goingToPed);
+
+                    if(!criminalIsAlive)
+                    {
+                        ped->goingToPed = 0;
+
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "backup killed its target" << std::endl;
+                    }
+                }
+            }
+        }
+    }
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "b3" << std::endl;
+
+    for(auto vehicle : m_BackupVehicles)
+    {
+        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
+        
+        //if criminal is too far away from car, make peds enter vehicle
+        if(criminal)
+        {
+            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+
+            if(DistanceBetweenPoints(vehiclePosition, criminalPosition) > distanceEnterCar)
+            {
+                if(vehicle->actionStatus == ACTION_STATUS::ACTION_NONE)
+                {
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "criminal is too far away, entering car" << std::endl;
+
+                    vehicle->actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_DO_NOTHING;
+                    vehicle->MakePedsEnterVehicle();
+
+                    auto owners = vehicle->GetOwners();
+                    for(auto owner : owners)
+                    {
+                        if(Mod::IsActorAliveAndDefined(owner)) Peds::GetPedByHandle(owner)->goingToPed = 0;
+                    }
+                }
+            }
+        }
+
+        //cops in passengers should drive by
+        auto passengersHandle = vehicle->GetPassengers();
+        for(auto passengerHandle : passengersHandle)
+        {
+            auto passenger = Peds::GetPedByHandle(passengerHandle);
+            auto passengerPos = Mod::GetPedPosition(passengerHandle);
+            
+            auto closestCriminal = Callouts::GetClosestCriminal(passengerPos);
+
+            if(closestCriminal)
+            {
+                if(closestCriminal->willShootAtCops)
+                {
+                    if(passenger->shootingAtPed != closestCriminal->hPed)
+                    {
+                        passenger->shootingAtPed = closestCriminal->hPed;
+
+                        Log::Level(LOG_LEVEL::LOG_BOTH) << "Cop passenger " << passengerHandle << " is now shooting at criminal: " << closestCriminal->hPed << std::endl;
+
+                        CleoFunctions::ACTOR_DRIVEBY(passengerHandle, closestCriminal->hPed, -1, 0, 0, 0, 100.0f, 4, true, 90);
+                    }
+                } else {
+                    passenger->shootingAtPed = 0;
+                }
+            } else {
+                passenger->shootingAtPed = 0;
+            }
+        }
+    }
+
+    for(auto vehicle : m_BackupVehicles)
+    {
+        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
+
+        if(!criminal)
+        {
+            if(vehicle->actionStatus == ACTION_STATUS::ACTION_NONE)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "No criminal in scene, leaving" << std::endl;
+
+                vehicle->MakePedsEnterVehicleAndLeaveScene();
+            }
+        }
+    }
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "b4" << std::endl;
+
+    //remove peds 2
+    //yes, it needs to be removed twice
+    //(but i changed the code, idk if i need this anymore)
+    //(yes, I still need it)
+    //(maybe not anymore [yeah, i changed again])
+    /*
+    for(auto item : pedsToRemove)
+    {
+        auto it = std::find(m_BackupPeds.begin(), m_BackupPeds.end(), item);
+        m_BackupPeds.erase(it);
+    }
+    pedsToRemove.clear();
+    */
 }
 
 void Backup::UpdateChaseBackup(int dt)
@@ -258,6 +516,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
     auto vehicle = Vehicles::TryCreateVehicle(car);
     //vehicle->AddBlip(2);
 
+    /*
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)
     {
         vehicle->actionStatus = ACTION_STATUS::CHASE_CHASING;
@@ -265,6 +524,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
     {
         vehicle->actionStatus = ACTION_STATUS::CALLOUT_GOING_TO_CALLOUT;
     }
+    */
 
     m_BackupVehicles.push_back(vehicle);
 
@@ -279,7 +539,6 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, type, backupVehicle->pedModelId);
     auto pedDriver = Peds::TryCreatePed(driver);
     pedDriver->AddBlip(2);
-    vehicle->hDriver = driver;
     m_BackupPeds.push_back(pedDriver);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "driver = " << driver << std::endl;
@@ -291,17 +550,19 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
         int passenger = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(car, type, backupVehicle->pedModelId, i);
         auto pedPassenger = Peds::TryCreatePed(passenger);
         pedPassenger->AddBlip(2);
-        vehicle->hPassengers.push_back(passenger);
         m_BackupPeds.push_back(pedPassenger);
 
         CleoFunctions::GIVE_ACTOR_WEAPON(passenger, backupVehicle->weaponId, 10000);
     }
+
+    vehicle->SetDriverAndPassengersOwners();
 
     CleoFunctions::ENABLE_CAR_SIREN(car, true);
     CleoFunctions::SET_CAR_MAX_SPEED(car, 50.0f);
     //0423: set_car 6@ improved_handling_to 1.5
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(car, 2);
     
+    /*
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)
     {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "set car " << car << " follow car " << Chase::m_ChasingPed->hVehicleOwned << std::endl;
@@ -323,6 +584,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
             vehicle->drivingTo = position;
         }
     }
+    */
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "end call backup" << std::endl;
 }
@@ -346,18 +608,20 @@ void Backup::CallBackupHeli()
 
     auto heliVehicle = Vehicles::TryCreateVehicle(heli);
     heliVehicle->AddBlip(2);
-    heliVehicle->hDriver = driver;
+    heliVehicle->SetDriverAndPassengersOwners();
 
+    /*
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)
     {
         heliVehicle->actionStatus = ACTION_STATUS::CHASE_CHASING;
     } else if (m_BackupType == BACKUP_TYPE::BACKUP_CALLOUT)
     {
         heliVehicle->actionStatus = ACTION_STATUS::CALLOUT_ACTING_ON_CALLOUT;
-    }
+    }*/
 
     m_BackupVehicles.push_back(heliVehicle);
 
+    /*
     if(m_BackupType == BACKUP_TYPE::BACKUP_CHASE)
     {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli " << heli << " follow ped " << Chase::m_ChasingPed->hPed << std::endl;
@@ -376,6 +640,7 @@ void Backup::CallBackupHeli()
             CleoFunctions::HELI_FOLLOW(heli, criminal->hPed, -1, 20.0f);
         }
     }
+    */
 
     CleoFunctions::WAIT(3000, []() {
         CleoFunctions::SHOW_TEXT_BOX("MPFX86");
@@ -401,4 +666,62 @@ void Backup::PlayRequestBackupAudio(BackupVehicle* backupVehicle)
     m_RequestBackupAudio = SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation(backupVehicle->soundRequest, false);
 
     m_WaitingToRespondDispatch = true;
+}
+
+int Backup::FindClosestCop(CVector position, float radius, bool includePlayer)
+{
+    std::vector<int> cops;
+    for(auto ped : m_BackupPeds)
+    {
+        auto copPosition = Mod::GetPedPosition(ped->hPed);
+        auto distance = DistanceBetweenPoints(position, copPosition);
+
+        if(distance > radius) continue;
+
+        cops.push_back(ped->hPed);
+    }
+
+    if(includePlayer)
+    {
+        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        cops.push_back(playerActor);
+    }
+
+    if(cops.size() == 0) return 0;
+
+    int closestCopIndex = 0;
+    double closestDistance = INFINITY;
+
+    for(size_t i = 0; i < cops.size(); i++)
+    {
+        auto copHandle = cops[0];
+        
+        auto copPosition = Mod::GetPedPosition(copHandle);
+
+        auto distance = DistanceBetweenPoints(position, copPosition);
+
+        if(distance < closestDistance)
+        {
+            closestDistance = distance;
+            closestCopIndex = i;
+        }
+    }
+
+    return cops[closestCopIndex];
+}
+
+Vehicle* Backup::GetCarThatCopBelongs(Ped* cop)
+{
+    auto copHandle = cop->hPed;
+
+    for(auto vehicle : m_BackupVehicles)
+    {
+        if(vehicle->hDriverOwner == copHandle) return vehicle;
+        for(auto passengerHandle : vehicle->hPassengersOwner)
+        {
+            if(passengerHandle == copHandle) return vehicle;
+        }
+    }
+
+    return NULL;
 }

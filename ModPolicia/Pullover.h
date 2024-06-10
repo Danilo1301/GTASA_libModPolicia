@@ -29,7 +29,7 @@ public:
     static void PullOverPed(int hPed);
     static void TryPullOverCar();
     static void PullOverCar(int hVehicle);
-
+    
     static int FindAimingPed();
 
     static void CreateTestPullOverPed();
@@ -42,7 +42,7 @@ public:
     static void MakePedWait();
     static void FreeVehicle();
 
-    static void AskPedToLeaveCar(Ped* ped);
+    static void AskPedsToLeaveCar(Vehicle* vehicle);
 
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);

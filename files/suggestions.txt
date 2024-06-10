@@ -219,6 +219,30 @@ Skins.ini
 
 --
 
+Quando for atualizar o mod 
+
+Aumenta o raio de distância que a polícia aparece 
+
+Quando a gente chama eles 
+As vezes spawna perto demais ou na frente dos suspeito 
+
+Daí falta aquela vida maior né para os npcs do crime 
+
+Também tirar o olho vermelho de carro roubado 
+E criar uma perseguição aleatória no lugar desse 
+Com as sugestões que já passei 
+
+
+E por último muito importante 
+Deixar a gente chamar a qualquer hora reforços 
+
+E que a missão deles é perseguir alvos de missões normais do game 
+
+Só vale para os policiais 
+E daí se os bandidos atirar os polícias atiram também 
+
+--
+
 [X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
 0.6.0
 
@@ -447,9 +471,27 @@ Adicionar pedir apoio de bombeiro
 
 ---------
 
+[ ] (apenaskayo) Ocorrência de tentativa de homicídio e suspeito ao redor da área, na vítima ferida dava pra utilizar uma animação que já tem no jogo, que é a do "crckidle1"(esse é o nome da animacao no mod dyos), quando chegasse ao local da tentativa de homicídio você encontraria a vítima ferida, e se possível após chegar iria aparecer no mapa a localização do suspeito, não pode ser perto mas também não muito longe
+Detalhe: não deixar a marcação no ped, e sim perto
 
+[ ] (apenaskayo) Troca o nome "carro" por veículo, porque tem vez que a pessoa aborda motos aí fica estranho, é erro besta mas vai melhorar a experiência 
 
+[ ] (Mayke) Sugestão: ocorrência de homicídio
 
+[ ] (Mayke) Outra sugestão: achado de cadáver
+Vê se consegue por alguns NPCS em volta do corpo tbm seria mais realista
+
+[ ] (apenaskayo) •MOSTRAR COMO O SUJEITO ABORDADO ESTA SE SENTINDO, EXEMPLO, SE ELE ESTAR CALMO, COM MEDO, COM RAIVA E TALS(ACHO BOM PRA IMERSÃO)
+[ ] (apenaskayo) •QUANDO O SUJEITO ESTIVER PORTANDO ARMAS, QUE DE PRA SABER SE A ARMA É LEGAL OU ILEGAL E SE O SUSPEITO TEM PORTE DE ARMAS
+[ ] (apenaskayo) •O SUJEITO NAO QUERER SAIR DO VEICULO, ASSIM A PESSOA PODE MANDAR ELE SAIR NOVAMENTE MAIS 2 VEZES E SE NAO SAI VOCE TIRAR ELE DO VEICULO A FORÇA
+[ ] (apenaskayo) •NOVAS OPCOES DE COISAS QUE PODEM ESTAR NO VEICULO E NA SUJEITO, COMO (CIGARRO,REVISTA,JORNAL, CARREGADOR E ENTRE OUTRAS COISAS) 
+[ ] (apenaskayo) •ESSA É UMA SUGESTAO QUE É MAIS DIFICIL DE SER FEITA, ENFIM, É IGUAL NO GIROFLEX QUE TEM COMO DEIXAR AS LUZES EM LOCAIS ESPECÍFICOS NO VEICULO, ASSIM PODENDO COLOCAR EM QUALQUER MOD DE VIATURA, ENFIM SERIA A MESMA COISA SO QUE COM UM PONTO QUE SERIA USADO PRA COLOCAR O SUSPEITO NO CAMBURÃO DA POLICIA, VOCE AJUSTARIA O PONTO QUE NEM SE FAZ COM AS LUZES DO GIROFLEX E COLOCAVA NO LOCAL DETERMINADO DA VIATURA, ASSIM IA TER A OPÇÃO DE COLOCAR NO CAMBURÃO DA VIATURA, COM ISSO O SUSPEITO IRIA TELEPORTA NO LOCAL DO PONTO QUE VOCE AJUSTOU
+
+[ ] (glorkc) Ocorrência de perseguição em andamento
+Que tal si en vez de nosotros generar las presentaciones nos lleguen las llamadas o las asistencias de una persecución en progreso 
+
+[ ] (glorkc) Ocorrência de acidentes ou coisas do tipo
+Bueno como digo puede ser una buena sugerencia para que tu mod de policía sea un poco más realista al igual que lleguen llamadas de accidentes o cosas así 
 
 ---------------- BUGS
 

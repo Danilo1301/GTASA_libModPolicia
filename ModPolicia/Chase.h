@@ -31,4 +31,6 @@ public:
     static Barrier* AddBarrier(CVector position, int objectId, int carModelId, int pedModelId);
     static void AddRoadBlocks(CVector position);
     static void AddSpikestrips(CVector position);
+
+    static void DeflateCarTires(int hVehicle);
 };
