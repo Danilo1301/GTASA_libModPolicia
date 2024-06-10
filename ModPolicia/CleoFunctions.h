@@ -23,6 +23,7 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void SET_ACTOR_HEALTH(int _char, int health);
     static void HELI_FLY_TO(int heli, float x, float y, float z, float minAltitude, float maxAltitude);
     static void AS_ACTOR_EXIT_CAR(int _char);
     static float CAR_SPEED(int car);

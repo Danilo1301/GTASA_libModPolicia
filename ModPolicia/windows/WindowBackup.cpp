@@ -6,6 +6,7 @@
 #include "Backup.h"
 #include "Chase.h"
 #include "Mod.h"
+#include "SoundSystem.h"
 
 Window* WindowBackup::m_Window = NULL;
 Window* WindowBackup::m_BackupConfigWindow = NULL;
@@ -44,7 +45,10 @@ void WindowBackup::Create()
     button_roadblocks->onClick = []()
     {
         Remove();
+
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX124", 0, 0, 0, 3000, 1); //apoio bloqueio
+
+        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_ROADBLOCK_", false);
 
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
@@ -56,7 +60,10 @@ void WindowBackup::Create()
     button_spikestrips->onClick = []()
     {
         Remove();
+
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX125", 0, 0, 0, 3000, 1); //apoio espinhos
+
+        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/SPIKES_DEPLOYED_", false);
 
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));

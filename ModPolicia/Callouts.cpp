@@ -16,10 +16,10 @@ float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT, 81, 0.0f, "callouts/CALLOUT_ASSAULT.wav"},
-    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED, 89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
-    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE, 97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
-    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION, 114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"}
+    {CALLOUT_TYPE::CALLOUT_ASSAULT,             81, 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
+    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED,    89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
+    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE,      97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
+    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION,      114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"}
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
@@ -291,7 +291,7 @@ void Callouts::StartGangShotsFiredCallout()
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         int gang = Mod::GetRandomNumber(1, 3);
 
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 7; i++)
         {
             auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, (SkinGang)gang);
             auto criminal = SpawnPedInRandomPedPathLocation(20, criminalSkin.modelId, pedPathNodePosition, 10.0f);
@@ -300,7 +300,9 @@ void Callouts::StartGangShotsFiredCallout()
 
             m_Criminals.push_back(criminal);
 
-            if(i < 2)
+            CleoFunctions::SET_ACTOR_HEALTH(criminal->hPed, 300.0f);
+
+            if(i < 4)
                 CleoFunctions::GIVE_ACTOR_WEAPON(criminal->hPed, 22, 10000);
 
             CleoFunctions::KILL_ACTOR(criminal->hPed, playerActor);

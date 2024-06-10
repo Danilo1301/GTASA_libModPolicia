@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod v1.1.0 (by Danilo1301)
+MPFX6 Police Mod v1.2.0 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -55,8 +55,8 @@ MPFX54 ~g~[RADIO] ~w~No records found in the IMEI
 MPFX55 ~b~[Officer] ~w~You are free to go!
 MPFX56 ~y~[Warning] ~w~You are too far away!
 MPFX57 Release
-MPFX58 Ask to leave
-MPFX59 Search the car
+MPFX58 Ask to leave vehicle
+MPFX59 Search the vehicle
 MPFX60 Beer
 MPFX61 Revolver 38
 MPFX62 Pistol

@@ -124,11 +124,20 @@ void Pullover::PullOverPed(int hPed)
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
-        CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+    int waitTime = 2000;
+    if(Peds::HasPedHandle(hPed))
+    {
+        if(Peds::GetPedByHandle(hPed)->shouldHandsup) waitTime = 0;
+    }
 
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
-    SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_PEDESTRIAN.wav", false);
+    if(waitTime != 0)
+    {
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+    
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
+        SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_PEDESTRIAN.wav", false);
+    }
 
     m_PullingPed = Peds::TryCreatePed(hPed);
     m_PullingPed->UpdateInventory();
@@ -139,7 +148,7 @@ void Pullover::PullOverPed(int hPed)
 
     if(m_PullingPed->hVehicleOwned > 0) m_PullingVehicle = Vehicles::GetVehicleByHandle(m_PullingPed->hVehicleOwned);
 
-    CleoFunctions::WAIT(2000, []() {
+    CleoFunctions::WAIT(waitTime, []() {
         WindowPullover::CreatePullingPed();
     });
 }
@@ -373,14 +382,25 @@ void Pullover::MakePedWait()
 
 void Pullover::FreeVehicle()
 {
-    m_PullingPed->shouldHandsup = false;
-
     m_PullingPed->driveAfterEnterCar = true;
+    m_PullingPed->shouldHandsup = false;
+    m_PullingPed->RemoveBlip();
 
-    CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed, m_PullingPed->hVehicleOwned, 20000);
+    CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(m_PullingPed->hPed, m_PullingPed->hVehicleOwned, 10000);
+
+    int seatId = 0;
+    auto passengersHandle = m_PullingVehicle->hPassengersOwner;
+    for(auto passengerHandle : passengersHandle)
+    {
+        auto passenger = Peds::GetPedByHandle(passengerHandle);
+        passenger->shouldHandsup = false;
+        passenger->RemoveBlip();
+
+        CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(passengerHandle, m_PullingVehicle->hVehicle, 10000, seatId);
+        seatId++;
+    }
 
     m_PullingVehicle->RemoveBlip();
-    m_PullingPed->RemoveBlip();
 
     m_PullingPed = NULL;
     m_PullingVehicle = NULL;

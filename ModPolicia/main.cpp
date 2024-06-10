@@ -13,7 +13,7 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.1.0, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.2.0, Danilo1301)
 
 // ---------------------------------------
 
@@ -58,6 +58,27 @@ DECL_HOOK(void*, UpdateGameLogic, uintptr_t a1)
 
 // ---------------------------------------
 
+std::string CheckModVersion(std::vector<std::string> GUIDs, std::vector<std::string> versions)
+{
+    for (int ii = GUIDs.size() - 1; ii >= 0; ii--)
+    {
+        auto GUID = GUIDs[ii];
+
+        for (int i = versions.size() - 1; i >= 0; i--)
+        {
+            std::string version = versions[i];
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Checking " << GUID << " " << version << "..." << std::endl;
+
+            if (aml->HasModOfVersion(GUID.c_str(), version.c_str()))
+                return version;
+        }
+    }
+    return "";
+}
+
+// ---------------------------------------
+
 ConfigEntry* cfgMenuOffsetX = NULL;
 
 //---------------------------------------------------------------------------------------------------
@@ -81,10 +102,6 @@ extern "C" void OnModPreLoad()
     char logPath[512];
 	sprintf(logPath, "%s/modPolicia/", aml->GetConfigPath());
     Log::Open(logPath);
-    
-    Log::Level(LOG_LEVEL::LOG_NORMAL) << "[normla] Test only message" << std::endl;
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "[udate] Test message plus " << 123 << std::endl;
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "[boht] Test message plus " << 123 << 456 << std::endl;
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Preload()" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "AML headers: 1.0.3.1" << std::endl;
@@ -159,11 +176,27 @@ extern "C" void OnModLoad()
         */
     }
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS: " << BASS << std::endl;
+    std::string cleoVersion = CheckModVersion(
+        { "net.rusjj.cleolib", "net.rusjj.cleomod" },
+        { "2.0.1", "2.0.1.1", "2.0.1.2", "2.0.1.3", "2.0.1.4", "2.0.1.5" }
+    );
+
+    std::string sautilsVersion = CheckModVersion(
+        { "net.rusjj.gtasa.utils" },
+        { "1.1", "1.2", "1.2.1", "1.3.0", "1.3.1", "1.4", "1.4.1", "1.5.1", "1.6"}
+    );
+    
+    std::string amlVersion = CheckModVersion(
+        { "net.rusjj.aml" },
+        { "1.0.0.0", "1.0.0.1", "1.0.0.2", "1.0.0.3", "1.0.0.4", "1.0.0.5", "1.0.0.6", "1.0.1", "1.0.2", "1.0.2.1", "1.0.2.2", "1.0.3", "1.0.3.1", "1.1", "1.2", "1.2.1", "1.2.2"}
+    );
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: v" << Mod::m_Version << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod Policia: v" << Mod::m_Version << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Menu: v" << Menu::m_Version << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "CLEO version: " << cleoVersion << " (recommended 2.0.1.3)" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils version: " << sautilsVersion << " (recommended 1.3.1)" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "AML version: " << amlVersion << " (recommended 1.2.2)" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
 
     //

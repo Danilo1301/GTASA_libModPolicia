@@ -221,25 +221,27 @@ Skins.ini
 
 Quando for atualizar o mod 
 
-Aumenta o raio de distância que a polícia aparece 
-
+[X] Aumenta o raio de distância que a polícia aparece 
+1.2.0
 Quando a gente chama eles 
 As vezes spawna perto demais ou na frente dos suspeito 
 
-Daí falta aquela vida maior né para os npcs do crime 
+[X] Daí falta aquela vida maior né para os npcs do crime 
+1.2.0
 
 Também tirar o olho vermelho de carro roubado 
-E criar uma perseguição aleatória no lugar desse 
+[ ] E criar uma perseguição aleatória no lugar desse 
 Com as sugestões que já passei 
 
 
 E por último muito importante 
-Deixar a gente chamar a qualquer hora reforços 
+[ ] Deixar a gente chamar a qualquer hora reforços 
 
 E que a missão deles é perseguir alvos de missões normais do game 
 
 Só vale para os policiais 
-E daí se os bandidos atirar os polícias atiram também 
+[X] E daí se os bandidos atirar os polícias atiram também 
+1.2.0
 
 --
 
@@ -363,7 +365,8 @@ Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iri
 [X] (@Lgsff) Fbi swat tem ? (apoio)
 1.1.0
 
-[ ] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
+[X] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
+1.2.0
 
 [ ] (@Lgsff) Colocar assalto
 
@@ -474,7 +477,8 @@ Adicionar pedir apoio de bombeiro
 [ ] (apenaskayo) Ocorrência de tentativa de homicídio e suspeito ao redor da área, na vítima ferida dava pra utilizar uma animação que já tem no jogo, que é a do "crckidle1"(esse é o nome da animacao no mod dyos), quando chegasse ao local da tentativa de homicídio você encontraria a vítima ferida, e se possível após chegar iria aparecer no mapa a localização do suspeito, não pode ser perto mas também não muito longe
 Detalhe: não deixar a marcação no ped, e sim perto
 
-[ ] (apenaskayo) Troca o nome "carro" por veículo, porque tem vez que a pessoa aborda motos aí fica estranho, é erro besta mas vai melhorar a experiência 
+[X] (apenaskayo) Troca o nome "carro" por veículo, porque tem vez que a pessoa aborda motos aí fica estranho, é erro besta mas vai melhorar a experiência 
+1.2.0
 
 [ ] (Mayke) Sugestão: ocorrência de homicídio
 
@@ -497,8 +501,18 @@ Bueno como digo puede ser una buena sugerencia para que tu mod de policía sea u
 
 [ ] (TGZIN) Taser (substitir pela silenciada, um mod a parte)
 
-[ ] (Sam) Opa, queria dar uma sugestão pro seu mod polícia, adicionar uma opção pra chamar o guincho a qualquer momento fora de uma ocorrência, igual já tem a opção pra chamar o IML e a ambulância, isso ajudaria muito já que as vezes os npc bate e dps deixa os carros largado
-[ ] (El Gatonw) mn tem como vc fazer uma função pra abrir o menu em qualquer carro? E nele ter a opção de chamar um guincho pra levar ele embora?
+[X] (Sam) Opa, queria dar uma sugestão pro seu mod polícia, adicionar uma opção pra chamar o guincho a qualquer momento fora de uma ocorrência, igual já tem a opção pra chamar o IML e a ambulância, isso ajudaria muito já que as vezes os npc bate e dps deixa os carros largado
+1.2.0
+
+[X] (El Gatonw) mn tem como vc fazer uma função pra abrir o menu em qualquer carro? E nele ter a opção de chamar um guincho pra levar ele embora?
+1.2.0
+
+[ ] (Raí gameplay) adiciona opção pra multar veículos (qualquer veículo)
+e consultar emplacamento também coloca isso também
+
+[X] (Raí gameplay) e chamar o guincho quando não está abordando um npc
+(por exemplo quero multar um veículo que está estacionado errado ou guinchar ele)
+1.2.0
 
 ---------------- BUGS
 
@@ -513,20 +527,21 @@ Bueno como digo puede ser una buena sugerencia para que tu mod de policía sea u
 [X] (Gabriel Oliveira) Quando finaliza as ocorrências as VTRs de apoio da ré e na hora de ir embora elas vai lento e não some do mapa.
 0.7.0
 
-[ ] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar
+[X] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar
+1.2.0
 
 [X] (Gabriel Oliveira) não consegue abordar veículos (apenas pedestres)
 (@Vitoruppp) não consegue abordar veículos (apenas pedestres)
 1.0.1
 
 [X] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
-should be fixed now
+1.2.0
 
 [ ] (Zacarias7) Man na próxima atualização tenta melhorar a perseguição, porque acho que buga aí os NPC em vez de da fuga ele ficar acompanhando o tráfego ou se ele bate ele sai do carro e fica parado, aí se eu aperto na buzina ele joga o carro pro lado para da espaço para mim passa. Por favor tenta arrumar isso
 
 [X] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
 (RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
-should be fixed
+1.2.0
 
 [X] (Raí gameplay) encontrei um bug também tem vez que a ambulância e o IML não vem no local parece que elas ficam paradas no local pelo que eu percebi e que se você chama a ambulância ou o IML e estiver longe do spawn delas elas não vem
 1.1.0
@@ -538,8 +553,33 @@ should be fixed
 in this version:
 
 [X] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
-should be fixed now
+1.2.0
 
 [X] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
 (RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
-should be fixed
+1.2.0
+
+[X] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar
+1.2.0
+
+[X] (Raí gameplay) e chamar o guincho quando não está abordando um npc
+(por exemplo quero multar um veículo que está estacionado errado ou guinchar ele)
+1.2.0
+
+[X] (El Gatonw) mn tem como vc fazer uma função pra abrir o menu em qualquer carro? E nele ter a opção de chamar um guincho pra levar ele embora?
+1.2.0
+
+[X] (Sam) Opa, queria dar uma sugestão pro seu mod polícia, adicionar uma opção pra chamar o guincho a qualquer momento fora de uma ocorrência, igual já tem a opção pra chamar o IML e a ambulância, isso ajudaria muito já que as vezes os npc bate e dps deixa os carros largado
+1.2.0
+
+[X] (apenaskayo) Troca o nome "carro" por veículo, porque tem vez que a pessoa aborda motos aí fica estranho, é erro besta mas vai melhorar a experiência 
+1.2.0
+
+[X] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
+1.2.0
+
+[X] (GAMER NEWS) Aumenta o raio de distância que a polícia aparece 
+1.2.0
+
+[X] (GAMER NEWS) Daí falta aquela vida maior né para os npcs do crime 
+1.2.0

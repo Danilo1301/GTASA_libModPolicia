@@ -2,9 +2,9 @@
 To release
 
 Check logs
-Add version to ModConfig::DefineVersions
 Check Mod::m_Version
-Check MYMODCFG version
+Check MYMODCFG version in main.cpp
+Add version to ModConfig::DefineVersions
 Check EN and PT .fxt
 Check .fxt mod version (EN and PT)
 Check game more than once to make sure
@@ -125,22 +125,28 @@ Initial release
 [X] ADD: new drugs
 [X] ADD: SWAT backup
 
-[ ] FIX: roadblock peds should shoot at suspect
+[1.2.0]
 [X] FIX: stolen vehicle callout (cars dissapearing)
-[ ] ADD: roadblocks and spikestrips sounds
+[X] ADD: roadblocks and spikestrips sounds
 [X] ADD: make cops shoot at criminals, and vice versa
 [X] FIX: ambulance and IML getting tired or stopping when aiming at them
 [X] ADD: detect passengers during a vehicle pullover
-[ ] ADD: lib versions to log
-[ ] Check bug where scorch car just ignores the suspect
+[X] ADD: lib versions to log
 [ ] FIX: helicopter not leaving when chase ends
 Fixing chase:
 * make criminals shot police
 * making police shot criminals
 * updated driver and passengers system COMPLETELY
 * make helicopter leave when chase ends
-(this took 2 days to make)
-[ ] FIX: car drivers slowly after free from pullover
+(this all took 2 days to make)
+[X] FIX: car drivers slowly after free from pullover
+[X] ADD: tow truck to all vehicles
+[X] FIX: change car to vehicle in fxt
+[X] CHANGE: increase the distance that backup spawns
+[X] CHANGE: increase criminals health to make it harder
+
+[ ] Check bug where scorch car just ignores the suspect
+[ ] FIX: roadblock peds should shoot at suspect
 
 --------------------------
 Notes:

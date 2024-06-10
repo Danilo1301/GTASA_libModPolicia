@@ -3,6 +3,7 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0223, SET_ACTOR_HEALTH, ii); //0223: set_actor 2@ health_to 500 
 static DEFOPCODE(0743, HELI_FLY_TO, ifffff); //0743: heli 45@ fly_to -2244.48 129.14 34.56 altitude 0.0 0.0 
 static DEFOPCODE(0633, AS_ACTOR_EXIT_CAR, i); //0633: AS_actor 58@ exit_car 
 static DEFOPCODE(02E3, CAR_SPEED, iv); //02E3: 196@ = car 67@ speed 
@@ -163,6 +164,11 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::SET_ACTOR_HEALTH(int _char, int health)
+{
+    sautils->ScriptCommand(&scm_SET_ACTOR_HEALTH, _char, health);
 }
 
 void CleoFunctions::HELI_FLY_TO(int heli, float x, float y, float z, float minAltitude, float maxAltitude)

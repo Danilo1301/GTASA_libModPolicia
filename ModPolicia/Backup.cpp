@@ -501,7 +501,7 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 100, 0, &x, &y, &z);
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 150, 0, &x, &y, &z);
 
     float spawnX = 0, spawnY = 0, spawnZ = 0;
     CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(x, y, z, 2, &spawnX, &spawnY, &spawnZ);
