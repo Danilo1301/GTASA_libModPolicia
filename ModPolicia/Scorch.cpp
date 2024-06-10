@@ -317,14 +317,14 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call tow truck to vehicle" << std::endl;
 
-    SoundSystem::PlayHTAudio();
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 2000, 1); //solicito guincho
-
-    Pullover::m_PullingPed->hVehicleOwned = 0;
-    Pullover::m_PullingPed = NULL;
-    Pullover::m_PullingVehicle->hDriverOwner = 0;
-    Pullover::m_PullingVehicle->hPassengersOwner.clear();
-    Pullover::m_PullingVehicle = NULL;
+    if(Pullover::m_PullingPed)
+    {
+        Pullover::m_PullingPed->hVehicleOwned = 0;
+        Pullover::m_PullingPed = NULL;
+        Pullover::m_PullingVehicle->hDriverOwner = 0;
+        Pullover::m_PullingVehicle->hPassengersOwner.clear();
+        Pullover::m_PullingVehicle = NULL;
+    }
 
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 

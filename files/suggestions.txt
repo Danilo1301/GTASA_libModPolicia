@@ -493,6 +493,13 @@ Que tal si en vez de nosotros generar las presentaciones nos lleguen las llamada
 [ ] (glorkc) Ocorrência de acidentes ou coisas do tipo
 Bueno como digo puede ser una buena sugerencia para que tu mod de policía sea un poco más realista al igual que lleguen llamadas de accidentes o cosas así 
 
+[ ] (brandonviljoen) Oky.   Bro.     And dat licence plate. Scanner. Bro.    When Wil u start. With it
+
+[ ] (TGZIN) Taser (substitir pela silenciada, um mod a parte)
+
+[ ] (Sam) Opa, queria dar uma sugestão pro seu mod polícia, adicionar uma opção pra chamar o guincho a qualquer momento fora de uma ocorrência, igual já tem a opção pra chamar o IML e a ambulância, isso ajudaria muito já que as vezes os npc bate e dps deixa os carros largado
+[ ] (El Gatonw) mn tem como vc fazer uma função pra abrir o menu em qualquer carro? E nele ter a opção de chamar um guincho pra levar ele embora?
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 

@@ -51,10 +51,13 @@ void Ped::Update(int dt)
 {
     if(!CleoFunctions::ACTOR_DEFINED(hPed)) return;
 
+    //this code is useless because it didnt fix the issue, its better to check if helf <= 0
+    /*
     if(CleoFunctions::ACTOR_DEAD(hPed))
     {
         shouldHandsup = false;
     }
+    */
 
     justLeftTheCar = false;
     if(CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed))
@@ -92,9 +95,12 @@ void Ped::Update(int dt)
             driveAfterEnterCar = false;
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Entered car. Now driving..." << std::endl;
+            
+            CleoFunctions::REMOVE_REFERENCES_TO_CAR(hVehicleOwned);
             CleoFunctions::SET_CAR_ENGINE_OPERATION(hVehicleOwned, true);
-            CleoFunctions::SET_CAR_MAX_SPEED(hVehicleOwned, 30.0f);
+            CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(hVehicleOwned, 0);
             CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(hVehicleOwned);
+            CleoFunctions::SET_CAR_MAX_SPEED(hVehicleOwned, 30.0f);
         }
     }
 }

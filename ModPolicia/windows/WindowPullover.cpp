@@ -228,7 +228,6 @@ void WindowPullover::CreatePullingPed()
             SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
 
-
             Remove();
             Scorch::CallTowTruckToVehicle(Vehicles::GetVehicleByHandle(ped->hVehicleOwned));
         };

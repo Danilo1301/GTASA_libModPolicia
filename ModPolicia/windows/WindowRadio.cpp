@@ -11,6 +11,7 @@
 #include "Peds.h"
 #include "Log.h"
 #include "Vehicles.h"
+#include "Scorch.h"
 
 Window* WindowRadio::m_Window = NULL;
 
@@ -49,8 +50,7 @@ void WindowRadio::Create()
         SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_AMBULANCE.wav", false);
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
 
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         auto playerPosition = Mod::GetPedPosition(playerActor);
 
         Ambulance::CallAmbulance(playerPosition);
@@ -70,6 +70,28 @@ void WindowRadio::Create()
         auto playerPosition = Mod::GetPedPosition(playerActor);
 
         Ambulance::CallIML(playerPosition);
+    };
+
+    auto button_guincho = window->AddButton(109, 0, 0);
+    button_guincho->onClick = []()
+    {
+        Remove();
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto playerPosition = Mod::GetPedPosition(playerActor);
+
+        auto vehicleHandle = Vehicles::GetRandomCarInSphere(playerPosition, 8.0f);
+        auto vehicle = vehicleHandle > 0 ? Vehicles::GetVehicleByHandle(vehicleHandle) : NULL;
+
+        if(vehicle)
+        {
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
+
+            vehicle->AddBlip();
+            Scorch::CallTowTruckToVehicle(vehicle);
+        }
     };
 
     if(ModConfig::CreateTestOptionsInRadioMenu)
