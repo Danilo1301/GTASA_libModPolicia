@@ -315,15 +315,22 @@ void Backup::UpdateBackupPeds(int dt)
     {
         auto isInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed);
         auto pedPosition = Mod::GetPedPosition(ped->hPed);
+        
+        bool enteringCarOrExiting = false;
         auto vehicle = GetCarThatCopBelongs(ped);
+        if(vehicle)
+        {
+            if(vehicle->actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_DO_NOTHING ||
+                vehicle->actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_EXIT)
+            {
+                enteringCarOrExiting = true;
+            }
+        }
 
         //if ped is on foot, make it arrest the closest criminal
         if(!isInCar)
         {
-            if(
-                vehicle->actionStatus != ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_DO_NOTHING &&
-                vehicle->actionStatus != ACTION_STATUS::WAITING_FOR_PEDS_TO_EXIT
-            )
+            if(!enteringCarOrExiting)
             {
                 if(ped->goingToPed == 0)
                 {

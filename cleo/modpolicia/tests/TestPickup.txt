@@ -1,0 +1,61 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Test pickup
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+        
+    if 0@ == 1
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 2.0 0.0  
+         
+        03BC: $SPHERE = create_sphere_at 1@ 2@ 3@ radius 2.0
+        
+        0213: $PICKUP = create_pickup 1210 type 6 at 1@ 2@ 3@  
+                
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+0247: load_model 1210
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if
+    0248: model 1210 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

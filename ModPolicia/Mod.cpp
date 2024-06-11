@@ -252,6 +252,13 @@ void Mod::LoadModels()
     AddModelToLoad(1459); //barrier
     AddModelToLoad(2899); //spikes
 
+    //pickups
+    //https://www.open.mp/docs/scripting/resources/pickupids
+    AddModelToLoad(1210); //Briefcase
+    AddModelToLoad(1239); //Information
+    AddModelToLoad(1242); //Body armour
+    
+
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load all models" << std::endl;
 
     CleoFunctions::LOAD_REQUESTED_MODELS();
