@@ -29,6 +29,8 @@ then
         03BC: $SPHERE = create_sphere_at 1@ 2@ 3@ radius 2.0
         
         0213: $PICKUP = create_pickup 1210 type 6 at 1@ 2@ 3@  
+
+        //0215: destroy_pickup $3071[0] 
                 
         wait 1000
     end

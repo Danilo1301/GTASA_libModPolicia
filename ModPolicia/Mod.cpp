@@ -16,6 +16,8 @@
 #include "Scorch.h"
 #include "Backup.h"
 #include "Ambulance.h"
+#include "PoliceDepartment.h"
+#include "SoundSystem.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -25,10 +27,13 @@ extern CVector2D *m_vecCachedPos;
 
 const char* Mod::m_Version = "1.2.0";
 unsigned int Mod::m_TimePassed = 0;
-bool Mod::m_Enabled = true;
+bool Mod::m_Enabled = false;
 
 bool loadedAnimations = false;
 bool loadedModels = false;
+bool cleoInitialized = false;
+
+CAudioStream* test3dAudio = NULL;
 
 void Mod::Update(int dt)
 {
@@ -43,7 +48,7 @@ void Mod::Update(int dt)
         delete dw;
     }
 
-    //
+    //    
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "peds ------------------" << std::endl;
 
@@ -83,6 +88,8 @@ void Mod::Update(int dt)
 
     WindowDocument::Draw();
 
+    PoliceDepartment::Update(dt);
+
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "menu" << std::endl;
 
     Menu::Update(dt);
@@ -113,14 +120,32 @@ void Mod::Update(int dt)
 
     if(CleoFunctions::PLAYER_DEFINED(0))
     {
-        if(!loadedModels)
+        if(!cleoInitialized)
         {
-            loadedModels = true;
+            cleoInitialized = true;
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading models..." << std::endl;
-
-            LoadModels();
+            CleoInit();
         }
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        /*
+        if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && test3dAudio == NULL)
+        {
+            auto carHandle = CleoFunctions::ACTOR_USED_CAR(playerActor);
+
+            auto car = Vehicles::TryCreateVehicle(carHandle);
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Attach test audio" << std::endl;
+
+            std::string audiosPath = ModConfig::GetConfigFolder() + "/audios/";
+            test3dAudio = SoundSystem::LoadStream(audiosPath + "/siren3-mono.wav", true);
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "test3dAudio: " << test3dAudio << std::endl;
+            test3dAudio->Loop(true);
+            test3dAudio->Link(car->pVehicle);
+            test3dAudio->Play();
+        }
+        */
 
         if(!loadedAnimations)
         {
@@ -145,9 +170,12 @@ void Mod::Update(int dt)
         }
     }
 
-    if(Widgets::IsWidgetJustPressed(8)) //8 = phone
+    if(m_Enabled)
     {
-        WindowRadio::Create();
+        if(Widgets::IsWidgetJustPressed(8)) //8 = phone
+        {
+            WindowRadio::Create();
+        }
     }
 
     /*
@@ -185,6 +213,32 @@ void Mod::Init()
 {
     InventoryItems::Init();
     Ambulance::Init();
+    PoliceDepartment::Init();
+}
+
+void Mod::CleoInit()
+{
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    //models
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading models..." << std::endl;
+
+    LoadModels();
+
+    //credits
+
+    CleoFunctions::SHOW_TEXT_BOX("MPFX140"); //mod policia credits
+
+    //
+
+    /*
+    //test audio
+    std::string audiosPath = ModConfig::GetConfigFolder() + "/audios/";
+    auto audioStream = SoundSystem::LoadStream(audiosPath + "/ht.wav", false);
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "audioStream: " << audioStream << std::endl;
+    audioStream->Play();
+    */
 }
 
 void Mod::LoadModels()
@@ -359,6 +413,8 @@ void Mod::ToggleMod(bool enabled)
 
     m_Enabled = enabled;
 
+    //auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
     if(enabled)
     {
         CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(0, true);
@@ -367,4 +423,5 @@ void Mod::ToggleMod(bool enabled)
         CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(0, false);
         CleoFunctions::SET_MAX_WANTED_LEVEL_TO(6);
     }
+    CleoFunctions::SET_PLAYER_WANTED_LEVEL(0, 0);
 }

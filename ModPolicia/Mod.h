@@ -10,6 +10,7 @@ public:
 
     static void Update(int dt);
     static void Init();
+    static void CleoInit();
 
     static void LoadModels();
     static void AddModelToLoad(int modelId);

@@ -4,7 +4,7 @@
 
 #include "Vehicle.h"
 #include "Ped.h"
-#include "AudioStream.h"
+#include "audiosystem.h"
 
 enum BACKUP_TYPE {
 	BACKUP_CHASE,
@@ -38,7 +38,7 @@ public:
 	static std::vector<BackupVehicle> m_DataBackupVehicles;
 	static std::vector<int> m_DataBackupWeapons;
 
-    static AudioStream* m_RequestBackupAudio;
+    static CAudioStream* m_RequestBackupAudio;
     static bool m_WaitingToRespondDispatch;
     static std::string m_IncomingBackupSoundName;
 

@@ -245,6 +245,20 @@ Só vale para os policiais
 
 --
 
+Quando for atualizar o crash do reforço 
+Tenta já trazer na minha sugestão 
+
+A função do helicóptero 
+
+1- holofotes a noite quando nas missões do mod 
+
+2- atiradores no helicóptero, quando um helicóptero for chamado tem que vir atiradores no helicóptero dando tiro nos criminosos ou fazer o helicóptero atirar que nem ele faz com nós.
+
+
+Se caso o jogador for dirigir o helicóptero da polícia, abrir um menu de spawnar atiradores ou botão de atirar do helicóptero, essa opção de atirar com helicóptero tem em dos helicópteros do game
+
+--
+
 [X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
 0.6.0
 
@@ -514,6 +528,17 @@ e consultar emplacamento também coloca isso também
 (por exemplo quero multar um veículo que está estacionado errado ou guinchar ele)
 1.2.0
 
+[ ] (brandonviljoen) Detectar quando o suspeito bate na barreira + som
+Ou quando os espinhos furam o pneu do suspeito
+
+[X] (apenaskayo) é uma sugestão porém ê bom fazer uma enquete porque vai mudar algo e não acrescentar,enfim é sobre envez da pessoa entrar no gta e o mod já ficar ativado, envez disso a pessoa tem que na delegacia de Los Santos e ativar o mod
+1.3.0
+
+[ ] (『DOM Victor』) Chamar parceiro
+
+[ ] (brandonviljoen) Bro can u. Do.    The roadblock. And spikestrips.   The hit. Sound. Or     the breach.  And missed.   Road block or spikestrips
+[ ] (brandonviljoen) And.  The search. Ligth for helkoper.  Pls bro.   The. Search. Ligth is important.
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
@@ -548,38 +573,8 @@ e consultar emplacamento também coloca isso também
 
 [ ] (El Gatonw) Tem outro bug, quando você chama uma viatura para levar um suspeito, ela passa direto e o suspeito vai embora andando na outra direção.
 
-
 ---
 in this version:
 
-[X] (PD GAMEPLAY) Um bug para você As equipes da ambulância e do IML quando eles chega no local quando a gente chama eles vão até os corpos eles chega no meio do caminho ficam cansados e acabam ficando parados é até mesmo sem querer quando a gente aponta uma arma para eles param de reviver os npcs e ficam parados
-1.2.0
-
-[X] (Raí gameplay) corrigir aquele bug da ocorrência de carro roubado quando agente chegar no local a ocorrência termina sozinho nem aparece o carro só aparece a mensagem de que a ocorrência foi atendida
-(RAI gameplay) tem um bug na ocorrência de carro roubado depois de algun tempo que agente atende a ocorrência de carro roubado acontece um bug agente atende a ocorrência chega no local amarelo aí o carro some e da ocorrência terminada sendo que o carro e a ocorrência sumiu
-1.2.0
-
-[X] (Billy) Se possível tbm arrumar o bug de quando liberar o cara, e ele andar muito devagar
-1.2.0
-
-[X] (Raí gameplay) e chamar o guincho quando não está abordando um npc
-(por exemplo quero multar um veículo que está estacionado errado ou guinchar ele)
-1.2.0
-
-[X] (El Gatonw) mn tem como vc fazer uma função pra abrir o menu em qualquer carro? E nele ter a opção de chamar um guincho pra levar ele embora?
-1.2.0
-
-[X] (Sam) Opa, queria dar uma sugestão pro seu mod polícia, adicionar uma opção pra chamar o guincho a qualquer momento fora de uma ocorrência, igual já tem a opção pra chamar o IML e a ambulância, isso ajudaria muito já que as vezes os npc bate e dps deixa os carros largado
-1.2.0
-
-[X] (apenaskayo) Troca o nome "carro" por veículo, porque tem vez que a pessoa aborda motos aí fica estranho, é erro besta mas vai melhorar a experiência 
-1.2.0
-
-[X] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
-1.2.0
-
-[X] (GAMER NEWS) Aumenta o raio de distância que a polícia aparece 
-1.2.0
-
-[X] (GAMER NEWS) Daí falta aquela vida maior né para os npcs do crime 
-1.2.0
+[X] (apenaskayo) é uma sugestão porém ê bom fazer uma enquete porque vai mudar algo e não acrescentar,enfim é sobre envez da pessoa entrar no gta e o mod já ficar ativado, envez disso a pessoa tem que na delegacia de Los Santos e ativar o mod
+1.3.0

@@ -343,7 +343,7 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
     CleoFunctions::SET_CAR_ENGINE_OPERATION(towtruck, true);
     CleoFunctions::SET_CAR_MAX_SPEED(towtruck, 25.0f);
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(towtruck, 2);
-  
+    
     int blip = towtruckVehicle->AddBlip(2);
 
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(towtruck, 23, 50);

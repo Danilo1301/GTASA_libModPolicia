@@ -4,24 +4,18 @@
 
 #include "pch.h"
 
-#include "AudioStream.h"
-#include "AudioStream3D.h"
+#include "audiosystem.h"
 
 #include <set>
 
 class SoundSystem {
 public:
-	static std::set<AudioStream*> streams;
+	static CAudioStream* LoadStream(std::string src, bool in3d);
+	static CAudioStream* LoadStreamFromAudiosFolder(std::string src, bool in3d);
 
-	static bool Init();
-	static void Update();
-	static AudioStream* LoadStream(std::string src, bool in3d);
-	static AudioStream* LoadStreamFromAudiosFolder(std::string src, bool in3d);
-
-	static AudioStream* PlayStream(std::string src, bool loop);
-	static AudioStream* PlayStreamFromAudiosFolder(std::string src, bool loop);
-	static AudioStream* PlayStreamFromAudiosFolderWithRandomVariation(std::string src, bool loop);
+	static CAudioStream* PlayStream(std::string src, bool loop);
+	static CAudioStream* PlayStreamFromAudiosFolder(std::string src, bool loop);
+	static CAudioStream* PlayStreamFromAudiosFolderWithRandomVariation(std::string src, bool loop);
 
 	static void PlayHTAudio();
-
 };

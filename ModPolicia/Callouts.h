@@ -3,7 +3,7 @@
 #include "pch.h"
 
 #include "Ped.h"
-#include "AudioStream.h"
+#include "audiosystem.h"
 
 enum CALLOUT_TYPE {
     CALLOUT_NONE = -1,
@@ -63,7 +63,7 @@ public:
     static bool m_AproachingCallout;
     static bool m_AbortedCallout;
     static bool m_WaitingToPlayAcceptCalloutAudio;
-    static AudioStream* m_ModulatingCalloutAudio;
+    static CAudioStream* m_ModulatingCalloutAudio;
 
     static std::vector<SkinData> m_Skins;
     

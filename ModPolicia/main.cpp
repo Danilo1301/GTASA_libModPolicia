@@ -28,6 +28,10 @@ ISAUtils* sautils = NULL;
 // BASS
 IBASS* BASS = NULL;
 
+#include "audiosystem.h"
+static CSoundSystem soundsysLocal;
+CSoundSystem* soundsys = &soundsysLocal;
+
 // ---------------------------------------
 
 CVector2D *m_vecCachedPos;
@@ -44,13 +48,15 @@ void* (*GetPedFromRef)(int);
 CCamera* camera;
 bool* userPaused;
 bool* codePaused;
+int nGameLoaded = -1;
 
 // ---------------------------------------
 
 DECL_HOOK(void*, UpdateGameLogic, uintptr_t a1)
 {
-    if (BASS) {
-        SoundSystem::Update();
+    if(BASS)
+    {
+        soundsys->Update();
     }
 
     return UpdateGameLogic(a1);
@@ -158,7 +164,7 @@ extern "C" void OnModLoad()
     else {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS loaded: " << BASS << std::endl;
 
-        SoundSystem::Init();
+        soundsys->Init();
 
         /*
         std::string audiosPath = ModConfig::GetConfigFolder() + "/audios/";
@@ -207,7 +213,21 @@ extern "C" void OnModLoad()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "hGTASA: " << hGTASA << std::endl;
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Getting Syms..." << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Getting Syms 1..." << std::endl;
+
+    SET_TO(camera, cleo->GetMainLibrarySymbol("TheCamera"));
+    SET_TO(userPaused, cleo->GetMainLibrarySymbol("_ZN6CTimer11m_UserPauseE"));
+    SET_TO(codePaused, cleo->GetMainLibrarySymbol("_ZN6CTimer11m_CodePauseE"));
+
+    if((uintptr_t)camera == gameAddr + 0x951FA8) nGameLoaded = 0; // SA 2.00
+    else if((uintptr_t)camera == gameAddr + 0x595420) nGameLoaded = 1; // VC 1.09
+    else
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "The loaded game is not GTA:SA v2.00 or GTA:VC v1.09. Aborting..." << std::endl;
+        return;
+    }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Getting Syms 2..." << std::endl;
 
     SET_TO(m_vecCachedPos, aml->GetSym(hGTASA, "_ZN15CTouchInterface14m_vecCachedPosE"));
     SET_TO(pVehiclePool, aml->GetSym(hGTASA, "_ZN6CPools15ms_pVehiclePoolE"));
@@ -219,10 +239,6 @@ extern "C" void OnModLoad()
     SET_TO(GetVehicleFromRef, aml->GetSym(hGTASA, "_ZN6CPools10GetVehicleEi"));
     SET_TO(GetPedRef, aml->GetSym(hGTASA, "_ZN6CPools9GetPedRefEP4CPed"));
     SET_TO(GetPedFromRef, aml->GetSym(hGTASA, "_ZN6CPools6GetPedEi"));
-
-    SET_TO(camera, cleo->GetMainLibrarySymbol("TheCamera"));
-    SET_TO(userPaused, cleo->GetMainLibrarySymbol("_ZN6CTimer11m_UserPauseE"));
-    SET_TO(codePaused, cleo->GetMainLibrarySymbol("_ZN6CTimer11m_CodePauseE"));
     
     HOOKPLT(UpdateGameLogic, gameAddr + 0x66FE58);
 

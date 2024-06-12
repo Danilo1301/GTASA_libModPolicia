@@ -25,6 +25,7 @@ public:
 
 class ModConfig {
 public:
+	static std::string m_ConfigMainFolderName;
     static bool EnableTestMenu;
     static bool CreateTestOptionsInRadioMenu;
 

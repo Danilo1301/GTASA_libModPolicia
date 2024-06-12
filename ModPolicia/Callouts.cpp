@@ -27,7 +27,7 @@ std::vector<Ped*> Callouts::m_Criminals;
 bool Callouts::m_AproachingCallout = false;
 bool Callouts::m_AbortedCallout = false;
 bool Callouts::m_WaitingToPlayAcceptCalloutAudio = false;
-AudioStream* Callouts::m_ModulatingCalloutAudio = NULL;
+CAudioStream* Callouts::m_ModulatingCalloutAudio = NULL;
 
 std::vector<SkinData> Callouts::m_Skins = {
     {19, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},

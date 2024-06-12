@@ -145,6 +145,9 @@ Fixing chase:
 [X] CHANGE: increase the distance that backup spawns
 [X] CHANGE: increase criminals health to make it harder
 
+Explicar melhor oq cada pasta faz
+Adicionar uma nova pasta /ModPolicia/ dentro do .zip
+
 [ ] Check bug where scorch car just ignores the suspect
 [ ] FIX: roadblock peds should shoot at suspect
 

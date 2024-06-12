@@ -3,6 +3,9 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(010D, SET_PLAYER_WANTED_LEVEL, ii); //010D: set_player $PLAYER_CHAR wanted_level_to 0
+static DEFOPCODE(0215, DESTROY_PICKUP, i); //0215: destroy_pickup $3071[0]
+static DEFOPCODE(0213, CREATE_PICKUP, iifffv); //0213: $PICKUP = create_pickup 1210 type 6 at 1@ 2@ 3@
 static DEFOPCODE(0223, SET_ACTOR_HEALTH, ii); //0223: set_actor 2@ health_to 500 
 static DEFOPCODE(0743, HELI_FLY_TO, ifffff); //0743: heli 45@ fly_to -2244.48 129.14 34.56 altitude 0.0 0.0 
 static DEFOPCODE(0633, AS_ACTOR_EXIT_CAR, i); //0633: AS_actor 58@ exit_car 
@@ -164,6 +167,23 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::SET_PLAYER_WANTED_LEVEL(int player, int wantedLevel)
+{
+    sautils->ScriptCommand(&scm_SET_PLAYER_WANTED_LEVEL, player, wantedLevel);
+}
+
+void CleoFunctions::DESTROY_PICKUP(int pickup)
+{
+    sautils->ScriptCommand(&scm_DESTROY_PICKUP, pickup);
+}
+
+int CleoFunctions::CREATE_PICKUP(int modelId, int pickupType, float x, float y, float z)
+{
+    int pickup = 0;
+    sautils->ScriptCommand(&scm_CREATE_PICKUP, modelId, pickupType, x, y, z, &pickup);
+    return pickup;
 }
 
 void CleoFunctions::SET_ACTOR_HEALTH(int _char, int health)

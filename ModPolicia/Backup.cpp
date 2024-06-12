@@ -27,7 +27,7 @@ std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
 };
 std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 
-AudioStream* Backup::m_RequestBackupAudio = NULL;
+CAudioStream* Backup::m_RequestBackupAudio = NULL;
 bool Backup::m_WaitingToRespondDispatch = false;
 std::string Backup::m_IncomingBackupSoundName = "";
 
@@ -59,7 +59,7 @@ void Backup::Update(int dt)
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "backup audio was playing but it now stopped" << std::endl;
 
-            m_RequestBackupAudio->Destroy();
+            //m_RequestBackupAudio->Destroy();
             m_RequestBackupAudio = NULL;
         }
     }
@@ -663,7 +663,7 @@ void Backup::PlayRequestBackupAudio(BackupVehicle* backupVehicle)
     if(m_RequestBackupAudio != NULL)
     {
         m_RequestBackupAudio->Stop();
-        m_RequestBackupAudio->Destroy();
+        //m_RequestBackupAudio->Destroy();
         m_RequestBackupAudio = NULL;
     }
 

@@ -129,6 +129,7 @@ void VersionControl::ApplyPatches()
 
 //
 
+std::string ModConfig::m_ConfigMainFolderName = "modPolicia";
 bool ModConfig::EnableTestMenu = false;
 bool ModConfig::CreateTestOptionsInRadioMenu = false;
 
@@ -168,7 +169,7 @@ void ModConfig::ConfigDeleteFile(std::string path)
 std::string ModConfig::GetConfigFolder()
 {
     char path[0xFF];
-    snprintf(path, sizeof(path), "%s/modPolicia", aml->GetConfigPath());
+    snprintf(path, sizeof(path), "%s/%s", aml->GetConfigPath(), m_ConfigMainFolderName.c_str());
     return path;
 }
 
@@ -395,10 +396,6 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [PRE] Updating from " << prevVersion << " to " << currentVersion << std::endl;
 
-    //if (prevVersion == currentVersion) return;
-
-    //-------------
-
     /*
     VersionControl::AddPatch("1.0.1", [] () {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1" << std::endl;
@@ -406,9 +403,6 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
     */
 
     VersionControl::ApplyPatches();
-
-    //-------------
-
 }
 
 void ModConfig::ProcessVersionChanges_PostConfigLoad()
@@ -418,9 +412,7 @@ void ModConfig::ProcessVersionChanges_PostConfigLoad()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [POST] Updating from " << prevVersion << " to " << currentVersion << std::endl;
     
-    //if (prevVersion == currentVersion) return;
-
-    //-------------
+    //patches
 
     VersionControl::AddPatch("1.0.2", [] () {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.0.2 POST" << std::endl;
@@ -431,7 +423,7 @@ void ModConfig::ProcessVersionChanges_PostConfigLoad()
 
     VersionControl::ApplyPatches();
 
-    //-------------
+    //
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Saving version file" << std::endl;
 

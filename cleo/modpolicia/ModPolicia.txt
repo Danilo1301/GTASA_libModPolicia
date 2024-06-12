@@ -90,158 +90,19 @@ end
 
 0000:
 
-0F23: add_log_message 100
-
 0390: load_txd_dictionary 'TXD'
 038F: load_texture "mptx1" as 100
 038F: load_texture "mptx2" as 101
 
-/*
-0247: load_model 596 //copcarla
-0247: load_model 280 //ls
-0247: load_model 597 //copcarsf
-0247: load_model 281 //sf
-0247: load_model 598 //copcarvg
-0247: load_model 282 //lv
-0247: load_model 599 //ranger
-0247: load_model 283 //csher
-0247: load_model 523 //copbike
-0247: load_model 284 //lapdm1
-0247: load_model 490 //fbiranch
-0247: load_model 286 //fbi
-0247: load_model 497 //maverick
-0247: load_model 525 //towtruck
-0247: load_model 416 //ambulance
-0247: load_model 442 //romero
-0247: load_model 528 //fbitruck
-0247: load_model 288 //dsher
-0247: load_model 285 //swat
-0247: load_model 601 //swatvan
-
-//male
-0247: load_model 19
-0247: load_model 7
-0247: load_model 29
-0247: load_model 50 //wmymech
-0247: load_model 274 //laemt1
-0247: load_model 70 //wmosci
-
-//female
-0247: load_model 193
-0247: load_model 12
-0247: load_model 13
-
-//gang
-0247: load_model 102
-0247: load_model 103
-0247: load_model 104
-0247: load_model 108
-0247: load_model 109
-0247: load_model 110
-0247: load_model 114
-0247: load_model 115
-0247: load_model 116 
-
-//weapons
-0247: load_model 346 //pistol
-0247: load_model 335 //knife
-0247: load_model 348 //deagle
-0247: load_model 349 //shotgun
-0247: load_model 356 //m4
-0247: load_model 367 //camera
-
-//objects
-0247: load_model 1459 //barrier
-0247: load_model 2899 //spikes
-*/
-          
-//038B: load_requested_models 
-
-01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
-01F0: set_max_wanted_level_to 0 
-
-0F23: add_log_message 101
+//01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
+//01F0: set_max_wanted_level_to 0 
+//010D: set_player $PLAYER_CHAR wanted_level_to 0
 
 jump @PRELOAD
 
 //----------------------------------------------------
 
 :PRELOAD
-
-0F23: add_log_message 102
-
-/*
-if and
-    0248: model 596 available //copcarla
-    0248: model 280 available //ls
-    0248: model 597 available //copcarsf
-    0248: model 281 available //sf
-    0248: model 598 available //copcarvg
-    0248: model 282 available //lv
-    0248: model 599 available //ranger
-    0248: model 283 available //csher
-jf @PRELOAD
-if and
-    0248: model 523 available //copbike
-    0248: model 284 available //lapdm1
-    0248: model 490 available //fbiranch
-    0248: model 286 available //fbi
-    0248: model 497 available //maverick
-    0248: model 525 available //towtruck
-    0248: model 416 available //ambulance
-    0248: model 442 available //romero
-jf @PRELOAD
-if and
-    0248: model 528 available //fbitruck
-    0248: model 288 available //dsher
-    0248: model 285 available //swat
-    0248: model 601 available //swatvan
-        
-    //male
-    0248: model 19 available
-    0248: model 7 available
-    0248: model 29 available
-    0248: model 50 available //wmymech       
-jf @PRELOAD
-if and
-    0248: model 274 available //laemt1
-    0248: model 70 available //wmosci
-    
-    //female
-    0248: model 193 available
-    0248: model 12 available
-    0248: model 13 available
-    
-     //gang
-    0248: model 102 available 
-    0248: model 103 available
-    0248: model 104 available
-jf @PRELOAD
-if and
-    0248: model 108 available
-    0248: model 109 available
-    0248: model 110 available
-    0248: model 114 available
-    0248: model 115 available
-    0248: model 116 available
-    
-    //weapons
-    0248: model 346 available
-    0248: model 335 available
-jf @PRELOAD
-if and
-    0248: model 348 available //deagle
-    0248: model 349 available //shotgun
-    0248: model 356 available //m4
-    0248: model 367 available //camera
-        
-    //objects
-    0248: model 1459 available //barrier
-    0248: model 2899 available //spikes        
-jf @PRELOAD
-*/
-
-0F23: add_log_message 103
 
 jump @LOOP
 
@@ -1040,5 +901,21 @@ end
 if VAR_GxtId == 138
 then
      VAR_STR_1 = "MPFX138"
+end
+if VAR_GxtId == 139
+then
+     VAR_STR_1 = "MPFX139"
+end
+if VAR_GxtId == 140
+then
+     VAR_STR_1 = "MPFX140"
+end
+if VAR_GxtId == 141
+then
+     VAR_STR_1 = "MPFX141"
+end
+if VAR_GxtId == 142
+then
+     VAR_STR_1 = "MPFX142"
 end
 return
