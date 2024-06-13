@@ -23,6 +23,7 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static int ACTOR_HEALTH(int _char);
     static void SET_PLAYER_WANTED_LEVEL(int player, int wantedLevel);
     static void DESTROY_PICKUP(int pickup);
     static int CREATE_PICKUP(int modelId, int pickupType, float x, float y, float z);

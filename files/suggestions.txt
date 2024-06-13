@@ -1,176 +1,47 @@
 by GAMER NEWS:
-Sugestões e Correções para o Mod de Polícia no GTA San Andreas:
 
-Aguardar Suspeito:
-Adicionar opção para chamar uma viatura enquanto o suspeito aguarda.
-Viatura chega em 5 segundos.
-Possibilidade de o policial levar o suspeito para a delegacia se a viatura não puder vir.
 
-Eventos Aleatórios:
-Mudar NPCs para aleatórios durante as ocorrências para evitar repetição.
-
-Ocorrências da Central:
-Adicionar eventos aleatórios de ambulância e bombeiros apenas quando estiver no veículo correto.
+[ ] (GAMER NEWS) Adicionar eventos aleatórios de ambulância e bombeiros apenas quando estiver no veículo correto.
 Para ambulância (funciona apenas quando estiver dirigindo uma ambulância):
 Resgatar vítima com animação de salvamento, polícia dar apoio.
 Para bombeiros (funciona apenas quando estiver dirigindo um caminhão de bombeiros):
 Enfrentar incêndios em veículos ou casas, polícia dar apoio.
 
-Roubo de Carro e Tiroteios:
+[ ] (GAMER NEWS) Roubo de Carro e Tiroteios:
 Viatura de apoio para roubo de carro.
 Duas viaturas para tiroteios, sem policiais atirando no jogador.
 
-IDs Necessários:
-
-Veículos de Emergência:
-Ambulância: ID 416 (Ambulan)
-Caminhão de Bombeiros (FIRELA): ID 544 (Firela)
-Caminhão de Bombeiros (Fire Truck): ID 407 (Firetruk)
-Veículos de Emergência da Polícia:
-FBI Car: ID 596 (Fbicar)
-FBI Rancher: ID 490 (Fbiranch)
-FBI Truck: ID 528 (Fbirtwin)
-
-Policiais:
-Policial: ID 280 (Lapd1), ID 281 (Lapdm1), ID 282 (Lapdm2), ID 283 (Sfpd1), ID 284 (Sfpdm1), ID 285 (Sfpdm2)
-Viatura de Polícia: ID 596 (Copcarla), ID 597 (Copcarsf), ID 598 (Copcarvg), ID 599 (Copcarru), ID 596 (Copcarla)
-
-Bombeiros:
-Bombeiro: ID 274 (Fireman)
-
-Gangues:
-Gangue Grove Street: ID 105 (Gangrl3), ID 106 (Gangrl2), ID 107 (Gangrl1)
-Gangue Ballas: ID 102 (Ballas1), ID 103 (Ballas2), ID 104 (Ballas3)
-Gangue Vagos: ID 108 (Vagos1), ID 109 (Vagos2), ID 110 (Vagos3)
-
-Peds do FBI e SWAT:
-FBI: ID 286 (FbiMan)
-SWAT: ID 285 (Sfpdm2)
-
---
-
-Sugestão de Melhorias para o Police Mod:
-
-Ajuste na Distância de Fuga do NPC:
-Proposta: Aumentar a curta distância de fuga do NPC durante a abordagem para um raio de 5km.
-
-Interação dos Policiais em Perseguição:
-Proposta: Se o NPC ficar encurralado ou capotar o carro, os policiais devem sair do veículo, apontar suas armas e o NPC deve levantar as mãos até ser abordado.
-Regras de Engajamento: 
+[X] (GAMER NEWS) Se o NPC ficar encurralado ou capotar o carro, os policiais devem sair do veículo, apontar suas armas e o NPC deve levantar as mãos até ser abordado.
+1.2.0
 Os policiais só devem disparar se o NPC estiver armado com uma pistola ou se reagir de maneira violenta.
 Se o NPC estiver armado com um bastão ou faca, ele deve levantar as mãos.
 Adicionar uma chance aleatória de NPCs partirem para cima dos policiais, provocando um confronto armado.
 
-Reforço em Caso de Perseguição:
-Proposta: Quando um veículo não parar durante a perseguição, um dos NPCs passageiros deve receber automaticamente uma arma e começar a atirar nas viaturas policiais, iniciando um tiroteio.
+[X] (GAMER NEWS) Proposta: Quando um veículo não parar durante a perseguição, um dos NPCs passageiros deve receber automaticamente uma arma e começar a atirar nas viaturas policiais, iniciando um tiroteio.
 Situação: Se o carro pegar fogo ou os NPCs saírem do veículo, os policiais devem abrir fogo contra eles.
-Opção de Controle: Adicionar uma opção no menu de reforço para mandar os policiais se retirarem da cena, permitindo ao jogador escolher se os policiais devem permanecer ou não.
+[ ] (GAMER NEWS) Opção de Controle: Adicionar uma opção no menu de reforço para mandar os policiais se retirarem da cena, permitindo ao jogador escolher se os policiais devem permanecer ou não.
 
-Reação a Carro Roubado:
+[X] (GAMER NEWS) Reação a Carro Roubado:
 Proposta: Em casos de roubo de carro, aplicar as mesmas regras mencionadas anteriormente.
 Perseguição Automática: O roubo de carro deve iniciar automaticamente uma perseguição policial sem a necessidade de chamar reforços manualmente.
 Menu de Reforços: Manter o menu de chamar reforços disponível para que o jogador possa solicitar mais apoio policial conforme necessário.
 
 --
 
-Ambulância e IML
-
+[ ] (GAMER NEWS)
 Bug: Veículos capotam e batem com frequência, se perdendo no caminho.
 Solução: Ajustar a velocidade da ambulância e IML para evitar colisões e melhorar a navegação.
 
-Polícias
-
-Bug: Polícias spawnem muito perto dos NPCs criminosos.
+[ ] (GAMER NEWS) Bug: Polícias spawnem muito perto dos NPCs criminosos.
 Solução: Aumentar a distância de spawn para 1,5km dos bandidos.
-Requisito adicional: Aumentar o nível de vida dos criminosos para dificultar a vida dos policiais.
 
-Veículos
+[X] (GAMER NEWS) Requisito adicional: Aumentar o nível de vida dos criminosos para dificultar a vida dos policiais.
 
-Bug: Veículos não desaparecem do marcador após explodirem.
-Solução: Adicionar funcionalidade para que os veículos explodidos desapareçam do marcador.
-
-Helicóptero
-
-Requisito: Adicionar atiradores ao helicóptero.
-Solução: Encontrar o mod que adiciona atiradores ao helicóptero.
-
-Radio
-
-Requisito: Adicionar opção no rádio para todos os reforços (polícias, ambulância, etc.) sem precisar esperar chegar ao local.
-Solução: Desenvolver essa funcionalidade para permitir que os jogadores usem esses reforços em missões normais do jogo, incluindo missões de polícia.
-
---
-
-Coisas para mexer 
-
-
-Alterar os spawn das vtrs 
-
-
-Por que elas aparecem nem na frente do suspeito ou perto deles isso que meio que acaba com a missão 
-
-
-Botar mais vida nos bandidos para 300
-
-
-Tipo o mod dyon você pode aumentar bastante a vida dos npcs 
-
-
-
-No roubo de carro visto pelo olho vermelho 
-
-Ou tira 
-
-Ou troca por perseguição aleatório 
-
-Exemplo l:
-
-Atenção todas as unidades veículo roubado e está fugindo 
-
-
-Daí inicia perseguição entendeu ?
-
-Nesta situação já coloca o botão de chamar vtrs 
-
-E também quando aceitar a missão tem que ter umas 3 vtrs perseguindo o carro para dar mais sessão ao game 
-
-
-E para finalizar, o NPC ao sair do carro os policiais também devem sair, para ou prender ele e por na viatura ou se tiver armada indicar disparos entrem eles
-A outra coisa 
-
-Muda a opção de chamar as vtrs
-
+[ ] (GAMER NEWS) Muda a opção de chamar as vtrs
 Deixa só no rádio mesmo 
 E tira do botão verde
 
-Por que ali no rádio a gente chama todas vtrs possíveis 
-Na hora que quer entendeu ?
-
-Tipo se eu for fazer as missões normais do jogo 
-Dos veículos de ermegencia 
-
-Eu possa chamar as vtrs seguindo o suspeito que eu estou fazendo 
-
-
-É tipo uma opção de chamar gangues para ir atrás dos balas etc...
-
---
-
-Isso, acho melhor tirar esse do olho vermelho 
-E criar uma perseguição aleatório com três viaturas spawnadas perto do suspeito 
-
-Isso a vida pra deixar mais difícil, como se eles tivessem coletes 
-
-
-O botão verte para chamadas de ocorrências 
-Tem que deixar só para aceitar ocorrências 
-
-Na novo botão de chamar ambulância e IML 
-
-Colocar lá todos os veículos de ermegencia 
-
-Seria bom sabe o que nessa questão de veículos de ermegencia 
-
+-------------------
 
 Tu pode criar uma pasta que nem as do áudio e nós poder escolher os veículos que iram vir na chamada de ermegencia igualzinho as do áudios
 
@@ -217,47 +88,30 @@ Skins.ini
 2-287
 3-288
 
---
-
-Quando for atualizar o mod 
+-------------------
 
 [X] Aumenta o raio de distância que a polícia aparece 
 1.2.0
-Quando a gente chama eles 
+(GAMER NEWS) Quando a gente chama eles 
 As vezes spawna perto demais ou na frente dos suspeito 
 
-[X] Daí falta aquela vida maior né para os npcs do crime 
+[X] (GAMER NEWS) vida maior para os npcs criminosos
 1.2.0
 
-Também tirar o olho vermelho de carro roubado 
-[ ] E criar uma perseguição aleatória no lugar desse 
-Com as sugestões que já passei 
+[ ] (GAMER NEWS) Também tirar o olho vermelho de carro roubado 
 
-
-E por último muito importante 
-[ ] Deixar a gente chamar a qualquer hora reforços 
-
+[ ] (GAMER NEWS) Deixar a gente chamar a qualquer hora reforços 
 E que a missão deles é perseguir alvos de missões normais do game 
 
-Só vale para os policiais 
-[X] E daí se os bandidos atirar os polícias atiram também 
+[X] (GAMER NEWS) E daí se os bandidos atirar os polícias atiram também 
 1.2.0
 
---
+[ ] (GAMER NEWS) holofotes a noite quando nas missões do mod
 
-Quando for atualizar o crash do reforço 
-Tenta já trazer na minha sugestão 
+[ ] (GAMER NEWS) atiradores no helicóptero
+quando um helicóptero for chamado tem que vir atiradores no helicóptero dando tiro nos criminosos ou fazer o helicóptero atirar que nem ele faz com nós.
 
-A função do helicóptero 
-
-1- holofotes a noite quando nas missões do mod 
-
-2- atiradores no helicóptero, quando um helicóptero for chamado tem que vir atiradores no helicóptero dando tiro nos criminosos ou fazer o helicóptero atirar que nem ele faz com nós.
-
-
-Se caso o jogador for dirigir o helicóptero da polícia, abrir um menu de spawnar atiradores ou botão de atirar do helicóptero, essa opção de atirar com helicóptero tem em dos helicópteros do game
-
---
+[ ] (GAMER NEWS) Se caso o jogador for dirigir o helicóptero da polícia, abrir um menu de spawnar atiradores ou botão de atirar do helicóptero, essa opção de atirar com helicóptero tem em dos helicópteros do game
 
 [X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
 0.6.0
@@ -543,6 +397,9 @@ Ou quando os espinhos furam o pneu do suspeito
 [ ] (brandonviljoen) And.  The search. Ligth for helkoper.  Pls bro.   The. Search. Ligth is important.
 
 [ ] (El Gatonw) mano ainda não é possível pôr o holofote do helicóptero da polícia direcionado ao carro em fuga? Ou a um pedestre marcado com aquela "seta" vermelha durante as ocorrências? 
+
+[ ] Adicionar opção para o abordado seguir ou ir para um local (sair da rua)
+(apenaskayo) Fazer o veículo encostar no local determinado pela pessoa, ou pelo menos o seguir até o local que a pessoa quer, que nem acontece na primeira missão do GTA San Andreas que um carro dos ballas o segue e atira, mas claro tira a função de atira, só pra seguir mesmo
 
 
 

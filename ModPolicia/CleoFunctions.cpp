@@ -3,6 +3,7 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0226, ACTOR_HEALTH, iv); //0226: $7826 = actor 173@ health
 static DEFOPCODE(010D, SET_PLAYER_WANTED_LEVEL, ii); //010D: set_player $PLAYER_CHAR wanted_level_to 0
 static DEFOPCODE(0215, DESTROY_PICKUP, i); //0215: destroy_pickup $3071[0]
 static DEFOPCODE(0213, CREATE_PICKUP, iifffv); //0213: $PICKUP = create_pickup 1210 type 6 at 1@ 2@ 3@
@@ -167,6 +168,13 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+int CleoFunctions::ACTOR_HEALTH(int _char)
+{
+    int health = 0;
+    sautils->ScriptCommand(&scm_ACTOR_HEALTH, _char, &health);
+    return health;
 }
 
 void CleoFunctions::SET_PLAYER_WANTED_LEVEL(int player, int wantedLevel)

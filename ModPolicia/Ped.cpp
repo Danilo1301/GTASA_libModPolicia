@@ -58,6 +58,17 @@ void Ped::Update(int dt)
         shouldHandsup = false;
     }
     */
+    auto pedHealth = CleoFunctions::ACTOR_HEALTH(hPed);
+    if(pedHealth <= 0)
+    {
+        if(shouldHandsup)
+        {
+            shouldHandsup = false;
+            CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(hPed);        
+            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "hndshkfa_swt", "gangs", 200.0f, 0, 0, 0, 0, 10);
+        }
+    }
+
 
     justLeftTheCar = false;
     if(CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed))
