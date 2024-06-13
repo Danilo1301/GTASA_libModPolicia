@@ -7,6 +7,7 @@
 #include "CleoFunctions.h"
 #include "SoundSystem.h"
 #include "Locations.h"
+#include "Callouts.h"
 
 std::vector<ScorchPedData*> Scorch::m_ScorchingPeds;
 
@@ -284,6 +285,8 @@ void Scorch::TeleportPedToPrision(Ped* ped)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "destroy actor" << std::endl;
 
     CleoFunctions::DESTROY_ACTOR(ped->hPed);
+
+    Callouts::UpdateCriminals(0);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "fade" << std::endl;
 

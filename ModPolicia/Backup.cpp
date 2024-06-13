@@ -33,8 +33,7 @@ std::string Backup::m_IncomingBackupSoundName = "";
 
 void Backup::Update(int dt)
 {
-    UpdateBackupPeds(dt);
-    UpdateBackupVehiclesActionStatus(dt);
+    UpdateBackupPedsAndCars(dt);
 
     UpdateChaseBackup(dt);
 
@@ -84,13 +83,10 @@ void Backup::Update(int dt)
     }
 }
 
-void Backup::UpdateBackupVehiclesActionStatus(int dt)
+void Backup::UpdateBackupPedsAndCars(int dt)
 {
-    
-}
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b1" << std::endl;
 
-void Backup::UpdateBackupPeds(int dt)
-{
     float distanceExitCar = 10.0f;
     float distanceEnterCar = 30.0f;
 
@@ -176,6 +172,8 @@ void Backup::UpdateBackupPeds(int dt)
     }
 
     //
+
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b2" << std::endl;
 
     for(auto vehicle : m_BackupVehicles)
     {
@@ -290,8 +288,6 @@ void Backup::UpdateBackupPeds(int dt)
             //no criminal
         }
 
-        Log::Level(LOG_LEVEL::LOG_UPDATE) << "b1" << std::endl;
-
         //if vehicle is going to the suspect, and the suspect dies/despawn
         if(vehicle->actionStatus == ACTION_STATUS::GOING_TO_SUSPECT)
         {
@@ -309,7 +305,7 @@ void Backup::UpdateBackupPeds(int dt)
 
     //
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "b2" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b3" << std::endl;
 
     for(auto ped : m_BackupPeds)
     {
@@ -374,7 +370,7 @@ void Backup::UpdateBackupPeds(int dt)
         }
     }
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "b3" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b4" << std::endl;
 
     for(auto vehicle : m_BackupVehicles)
     {
@@ -450,7 +446,7 @@ void Backup::UpdateBackupPeds(int dt)
         }
     }
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "b4" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b5" << std::endl;
 
     //remove peds 2
     //yes, it needs to be removed twice
@@ -499,25 +495,12 @@ void Backup::UpdateCalloutBackup(int dt)
     }
 }
 
-void Backup::CallBackupCar(BackupVehicle* backupVehicle)
+void Backup::SpawnBackupCar(BackupVehicle* backupVehicle, CVector position)
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "call backup vehicleModelId: " << backupVehicle->vehicleModelId << ", pedModelId: " << backupVehicle->pedModelId << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "SpawnBackupCar" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawn position = " << CVectorToString(position) << std::endl;
 
-    PlayRequestBackupAudio(backupVehicle);
-
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-    float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 150, 0, &x, &y, &z);
-
-    float spawnX = 0, spawnY = 0, spawnZ = 0;
-    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(x, y, z, 2, &spawnX, &spawnY, &spawnZ);
-
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawnX = " << spawnX << std::endl;
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawnY = " << spawnY << std::endl;
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "spawnZ = " << spawnZ << std::endl;
-
-    auto car = CleoFunctions::CREATE_CAR_AT(backupVehicle->vehicleModelId, spawnX, spawnY, spawnZ);
+    auto car = CleoFunctions::CREATE_CAR_AT(backupVehicle->vehicleModelId, position.x, position.y, position.z);
     Log::Level(LOG_LEVEL::LOG_BOTH) << "car = " << car << std::endl;
 
     auto vehicle = Vehicles::TryCreateVehicle(car);
@@ -592,6 +575,23 @@ void Backup::CallBackupCar(BackupVehicle* backupVehicle)
         }
     }
     */
+}
+
+void Backup::CallBackupCar(BackupVehicle* backupVehicle)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "call backup vehicleModelId: " << backupVehicle->vehicleModelId << ", pedModelId: " << backupVehicle->pedModelId << std::endl;
+
+    PlayRequestBackupAudio(backupVehicle);
+
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 150, 0, &x, &y, &z);
+
+    float spawnX = 0, spawnY = 0, spawnZ = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(x, y, z, 2, &spawnX, &spawnY, &spawnZ);
+
+    SpawnBackupCar(backupVehicle, CVector(spawnX, spawnY, spawnZ));
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "end call backup" << std::endl;
 }

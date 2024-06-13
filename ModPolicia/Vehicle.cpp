@@ -465,7 +465,7 @@ std::vector<int> Vehicle::GetOwners()
 {
     std::vector<int> owners;
 
-    owners.push_back(hDriverOwner);
+    if(hDriverOwner > 0) owners.push_back(hDriverOwner);
 
     for(auto passengerHandle : hPassengersOwner)
     {

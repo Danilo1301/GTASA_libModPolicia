@@ -539,6 +539,13 @@ Ou quando os espinhos furam o pneu do suspeito
 [ ] (brandonviljoen) Bro can u. Do.    The roadblock. And spikestrips.   The hit. Sound. Or     the breach.  And missed.   Road block or spikestrips
 [ ] (brandonviljoen) And.  The search. Ligth for helkoper.  Pls bro.   The. Search. Ligth is important.
 
+[ ] (El Gatonw) mano ainda não é possível pôr o holofote do helicóptero da polícia direcionado ao carro em fuga? Ou a um pedestre marcado com aquela "seta" vermelha durante as ocorrências? 
+
+
+
+
+
+
 ---------------- BUGS
 
 [X] (El Gatonw) Teria Como Resolver Um Bug Em Que ao Acionar A Moto Da Polícia, O Policial Que Vem na COPBIKE não e o LAPDM1? 
@@ -572,6 +579,12 @@ Ou quando os espinhos furam o pneu do suspeito
 1.1.0
 
 [ ] (El Gatonw) Tem outro bug, quando você chama uma viatura para levar um suspeito, ela passa direto e o suspeito vai embora andando na outra direção.
+
+[ ] (HARD) O meu tá com um bug q quando chamo a VTR pra leva o npc não leva ela fica parado e o npc sai andando normal
+
+
+
+
 
 ---
 in this version:

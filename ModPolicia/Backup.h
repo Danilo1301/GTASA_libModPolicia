@@ -43,11 +43,11 @@ public:
     static std::string m_IncomingBackupSoundName;
 
     static void Update(int dt);
-    static void UpdateBackupVehiclesActionStatus(int dt);
-    static void UpdateBackupPeds(int dt);
+    static void UpdateBackupPedsAndCars(int dt);
     static void UpdateChaseBackup(int dt);
     static void UpdateCalloutBackup(int dt);
 
+    static void SpawnBackupCar(BackupVehicle* backupVehicle, CVector position);
     static void CallBackupCar(BackupVehicle* backupVehicle);
     static void CallBackupHeli();
 

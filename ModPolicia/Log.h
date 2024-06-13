@@ -17,7 +17,7 @@ public:
 
     static LogFile Level(LOG_LEVEL level);
 
-    static void Open(std::string folderPath);
+    static void Open(std::string folderPath, std::string fileName);
 
     static const char* FormatDate();
 };

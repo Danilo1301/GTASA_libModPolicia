@@ -29,6 +29,7 @@ public:
 
     static void ProcessMenuButtons(int dt);
     
+    static CVector GetCarPositionWithOffset(int hVehicle, CVector offset);
     static CVector GetCarPosition(int hVehicle);
     static CVector GetPedPositionWithOffset(int hPed, CVector offset);
     static CVector GetPedPosition(int hPed);
@@ -36,4 +37,5 @@ public:
     static bool IsActorAliveAndDefined(int hPed);
 
     static void ToggleMod(bool enabled);
+    static void ShowCredits();
 };

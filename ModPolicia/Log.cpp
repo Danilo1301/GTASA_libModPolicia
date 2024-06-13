@@ -24,10 +24,10 @@ LogFile Log::Level(LOG_LEVEL level)
     return logFile;
 }
 
-void Log::Open(std::string folderPath)
+void Log::Open(std::string folderPath, std::string fileName)
 {
-    logfile.open((folderPath + "/modPolicia.log"), std::fstream::out | std::fstream::trunc);
-    updateFile.open((folderPath + "/modPolicia_update.log"), std::fstream::out | std::fstream::trunc);
+    logfile.open((folderPath + "/" + fileName + ".log"), std::fstream::out | std::fstream::trunc);
+    updateFile.open((folderPath + "/" + fileName + "_update.log"), std::fstream::out | std::fstream::trunc);
 }
 
 const char* Log::FormatDate()

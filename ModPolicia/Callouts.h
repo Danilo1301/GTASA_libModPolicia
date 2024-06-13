@@ -10,7 +10,8 @@ enum CALLOUT_TYPE {
     CALLOUT_ASSAULT,
     CALLOUT_GANG_SHOTS_FIRED,
     CALLOUT_STOLEN_VEHICLE,
-    CALLOUT_HOUSE_INVASION
+    CALLOUT_HOUSE_INVASION,
+    CALLOUT_CHASE
 };
 
 /*
@@ -88,9 +89,11 @@ public:
     static void StartGangShotsFiredCallout();
     static void StartStolenVehicleCallout();
     static void StartHouseInvasionCallout();
+    static void StartChaseCallout();
 
     static void AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker, std::function<void()> onAbort);
     static void AproachCalloutPedPath(float aproachDistance, std::function<void(CVector)> onReachMarker);
+    static void AproachCalloutCarPath(float aproachDistance, std::function<void(CVector)> onReachMarker);
 
     static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);
 

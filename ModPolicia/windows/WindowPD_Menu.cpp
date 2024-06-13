@@ -2,6 +2,8 @@
 
 #include "ModConfig.h"
 #include "Mod.h"
+#include "PoliceDepartment.h"
+#include "CleoFunctions.h"
 
 Window* WindowPD_Menu::m_Window = NULL;
 
@@ -42,4 +44,54 @@ void WindowPD_Menu::Remove()
 {
     m_Window->RemoveThisWindow();
     m_Window = NULL;
+}
+
+void WindowPD_Menu::CreatePartnerMenu()
+{
+    if (m_Window) return;
+
+    auto window = m_Window = Menu::AddWindow(6);
+    window->showPageControls = true;
+
+    auto weaponOptions = window->AddOptions(108);
+    weaponOptions->optionsValue = PoliceDepartment::m_PartnerWeaponIndex;
+    for(auto weapon : PoliceDepartment::m_Weapons)
+    {
+        weaponOptions->AddOption(weapon.gxtId, 0, 0);
+    }
+    weaponOptions->onValueChange = [weaponOptions]() {
+        PoliceDepartment::m_PartnerWeaponIndex = weaponOptions->optionsValue;
+    };
+
+    auto skinOptions = window->AddOptions(159);
+    skinOptions->optionsValue = PoliceDepartment::m_PartnerSkinIndex;
+    for(auto skin : PoliceDepartment::m_PartnerSkins)
+    {
+        skinOptions->AddOption(skin.gxtId, 0, 0);
+    }
+    skinOptions->onValueChange = [skinOptions]() {
+        PoliceDepartment::m_PartnerSkinIndex = skinOptions->optionsValue;
+    };
+
+    auto button_spawnPed = window->AddButton(148);
+    button_spawnPed->onClick = []()
+    {
+        Remove();
+
+        PoliceDepartment::SpawnPartner();
+    };
+
+    auto button_removeParterns = window->AddButton(149);
+    button_removeParterns->onClick = []()
+    {
+        Remove();
+
+        PoliceDepartment::RemoveAllPartners();
+    };
+
+    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    button_close->onClick = []()
+    {
+        Remove();
+    };
 }

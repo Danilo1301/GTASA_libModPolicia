@@ -11,6 +11,7 @@
 #include "Vehicles.h"
 #include "SoundSystem.h"
 #include "Locations.h"
+#include "Backup.h"
 
 float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
@@ -19,7 +20,8 @@ std::vector<Callout> Callouts::m_Callouts = {
     {CALLOUT_TYPE::CALLOUT_ASSAULT,             81, 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
     {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED,    89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
     {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE,      97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
-    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION,      114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"}
+    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION,      114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"},
+    {CALLOUT_TYPE::CALLOUT_CHASE,               160, 1.0f, "callouts/CALLOUT_CHASE.wav"}
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
@@ -117,6 +119,7 @@ void Callouts::Update(int dt)
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED) StartGangShotsFiredCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE) StartStolenVehicleCallout();
                 else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_HOUSE_INVASION) StartHouseInvasionCallout();
+                else if(m_CurrentCalloutIndex == CALLOUT_TYPE::CALLOUT_CHASE) StartChaseCallout();
             }
         }
     }
@@ -312,10 +315,7 @@ void Callouts::StartGangShotsFiredCallout()
 
 void Callouts::StartStolenVehicleCallout()
 {
-    AproachCalloutPedPath(150.0f, [] (CVector calloutPosition) {
-
-        float spawnX = 0, spawnY = 0, spawnZ = 0;
-        CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(calloutPosition.x, calloutPosition.y, calloutPosition.z, 2, &spawnX, &spawnY, &spawnZ);
+    AproachCalloutCarPath(150.0f, [] (CVector calloutPosition) {
 
         std::vector<int> vehicleIds;
         for(auto id : m_StolenVehicleIds) vehicleIds.push_back(id);
@@ -325,7 +325,7 @@ void Callouts::StartStolenVehicleCallout()
         
         Log::Level(LOG_LEVEL::LOG_BOTH) << "creating car " << vehicleModel << std::endl;
 
-        int carHandle = CleoFunctions::CREATE_CAR_AT(vehicleModel, spawnX, spawnY, spawnZ);
+        int carHandle = CleoFunctions::CREATE_CAR_AT(vehicleModel, calloutPosition.x, calloutPosition.y, calloutPosition.z);
 
         auto vehicle = Vehicles::TryCreateVehicle(carHandle);
         vehicle->isStolen = true;
@@ -391,6 +391,46 @@ void Callouts::StartHouseInvasionCallout()
     }, []() {});
 }
 
+void Callouts::StartChaseCallout()
+{
+    AproachCalloutCarPath(100.0f, [] (CVector carPathNodePosition) {
+        std::vector<int> vehicleIds;
+        for(auto id : m_StolenVehicleIds) vehicleIds.push_back(id);
+        for(auto id : m_StolenTruckIds) vehicleIds.push_back(id);
+
+        auto vehicleModel = vehicleIds[Mod::GetRandomNumber(0, vehicleIds.size() -1)];
+        
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "creating car " << vehicleModel << std::endl;
+
+        auto carHandle = CleoFunctions::CREATE_CAR_AT(vehicleModel, carPathNodePosition.x, carPathNodePosition.y, carPathNodePosition.z);
+
+        auto vehicle = Vehicles::TryCreateVehicle(carHandle);
+        vehicle->isStolen = true;
+        vehicle->AddBlip();
+
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "create driver" << std::endl;
+
+        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+
+        auto hDriver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 20, pedSkin.modelId);
+        auto driver = Peds::TryCreatePed(hDriver);
+        driver->AddBlip();
+
+        vehicle->SetDriverAndPassengersOwners();
+        
+        //m_Criminals.push_back(driver);
+
+        CleoFunctions::REMOVE_REFERENCES_TO_CAR(carHandle);
+        CleoFunctions::SET_CAR_ENGINE_OPERATION(carHandle, true);
+
+        Chase::MakeCarStartRunning(vehicle, driver);
+
+        auto spawnBackupPosition = Mod::GetCarPositionWithOffset(carHandle, CVector(0, -5.0f, 0));
+
+        Backup::SpawnBackupCar(&Backup::m_DataBackupVehicles[0], spawnBackupPosition);
+    });
+}
+
 void Callouts::AproachCallout(CVector location, float aproachDistance, std::function<void(CVector)> onReachMarker, std::function<void()> onAbort)
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
@@ -435,6 +475,22 @@ void Callouts::AproachCalloutPedPath(float aproachDistance, std::function<void(C
 
     float nodeX = 0, nodeY = 0, nodeZ = 0;
     CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(x, y, z, &nodeX, &nodeY, &nodeZ);
+    CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
+
+    AproachCallout(nodePosition, aproachDistance, onReachMarker, []() {});
+}
+
+void Callouts::AproachCalloutCarPath(float aproachDistance, std::function<void(CVector)> onReachMarker)
+{
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    auto distX = Mod::GetRandomNumber(-CALLOUT_DISTANCE, CALLOUT_DISTANCE);
+
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, (float)distX, CALLOUT_DISTANCE, 0, &x, &y, &z);
+
+    float nodeX = 0, nodeY = 0, nodeZ = 0;
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(x, y, z, 2, &nodeX, &nodeY, &nodeZ);
     CVector nodePosition = CVector(nodeX, nodeY, nodeZ);
 
     AproachCallout(nodePosition, aproachDistance, onReachMarker, []() {});

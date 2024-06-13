@@ -13,7 +13,7 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.2.0, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.3.0, Danilo1301)
 
 // ---------------------------------------
 
@@ -107,7 +107,7 @@ extern "C" void OnModPreLoad()
 
     char logPath[512];
 	sprintf(logPath, "%s/modPolicia/", aml->GetConfigPath());
-    Log::Open(logPath);
+    Log::Open(logPath, "modPolicia");
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Preload()" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "AML headers: 1.0.3.1" << std::endl;

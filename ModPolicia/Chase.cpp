@@ -183,6 +183,8 @@ void Chase::UpdateBarriers(int dt)
 
 void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 {
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "MakeCarStartRunning" << std::endl;
+
     ped->willShootAtCops = Mod::CalculateProbability(0.3f);
     //ped->willShootAtCops = Mod::CalculateProbability(0.0f);
     if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;

@@ -28,12 +28,14 @@ CAudioStream* SoundSystem::PlayStream(std::string src, bool loop)
         Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS is not loaded: can't play stream" << std::endl;
         return NULL;
     }
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS = " << (uintptr_t)BASS << std::endl;
 
     CAudioStream* audioStream = LoadStream(src, false);
 
-    if(loop) audioStream->Loop(true);
-    audioStream->Play();
+    if(audioStream)
+    {
+        if(loop) audioStream->Loop(true);
+        audioStream->Play();
+    }
 
     return audioStream;
 }

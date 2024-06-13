@@ -7,6 +7,7 @@
 #include "Chase.h"
 #include "Mod.h"
 #include "SoundSystem.h"
+#include "PoliceDepartment.h"
 
 Window* WindowBackup::m_Window = NULL;
 Window* WindowBackup::m_BackupConfigWindow = NULL;
@@ -215,9 +216,9 @@ void WindowBackup::CreateBackupConfig()
 int GetOptionByWeaponId(int weaponId)
 {
     int i = 0;
-    for(auto id : Backup::m_DataBackupWeapons)
+    for(auto weapon : PoliceDepartment::m_Weapons)
     {
-        if(id == weaponId) return i;
+        if(weapon.weaponId == weaponId) return i;
         i++;
     }
     return 0;
@@ -232,12 +233,12 @@ void WindowBackup::CreateBackupConfigForBackup(BackupVehicle* backupVehicle)
 
     auto weaponOptions = window->AddOptions(108);
     weaponOptions->optionsValue = GetOptionByWeaponId(backupVehicle->weaponId);
-    for(auto weaponId : Backup::m_DataBackupWeapons)
+    for(auto weapon : PoliceDepartment::m_Weapons)
     {
-        weaponOptions->AddOption(105, weaponId, 0);
+        weaponOptions->AddOption(weapon.gxtId, 0, 0);
     }
     weaponOptions->onValueChange = [weaponOptions, backupVehicle]() {
-        backupVehicle->weaponId = Backup::m_DataBackupWeapons[weaponOptions->optionsValue];
+        backupVehicle->weaponId = PoliceDepartment::m_Weapons[weaponOptions->optionsValue].weaponId;
     };
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));

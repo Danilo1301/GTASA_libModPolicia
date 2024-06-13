@@ -25,7 +25,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "1.2.0";
+const char* Mod::m_Version = "1.3.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 
@@ -228,7 +228,7 @@ void Mod::CleoInit()
 
     //credits
 
-    CleoFunctions::SHOW_TEXT_BOX("MPFX140"); //mod policia credits
+    ShowCredits();
 
     //
 
@@ -284,6 +284,11 @@ void Mod::LoadModels()
         AddModelToLoad(skin.modelId);
     }
 
+    for(auto skin : PoliceDepartment::m_PartnerSkins)
+    {
+        AddModelToLoad(skin.pedModelId);
+    }
+
     //stolen vehicles
     for(auto id : Callouts::m_StolenVehicleIds)
     {
@@ -295,12 +300,13 @@ void Mod::LoadModels()
     }
 
     //weapons
-    AddModelToLoad(346); //pistol
     AddModelToLoad(335); //knife
-    AddModelToLoad(348); //deagle
-    AddModelToLoad(349); //shotgun
-    AddModelToLoad(356); //m4
     AddModelToLoad(367); //camera
+
+    for(auto weapon : PoliceDepartment::m_Weapons)
+    {
+        AddModelToLoad(weapon.weaponModelId);
+    }
 
     //objects
     AddModelToLoad(1459); //barrier
@@ -311,6 +317,7 @@ void Mod::LoadModels()
     AddModelToLoad(1210); //Briefcase
     AddModelToLoad(1239); //Information
     AddModelToLoad(1242); //Body armour
+    AddModelToLoad(1314); //Two-player
     
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load all models" << std::endl;
@@ -374,12 +381,17 @@ void Mod::ProcessMenuButtons(int dt)
     }
 }
 
-CVector Mod::GetCarPosition(int hVehicle)
+CVector Mod::GetCarPositionWithOffset(int hVehicle, CVector offset)
 {
     float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, 0, 0, 0, &x, &y, &z);
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, offset.x, offset.y, offset.z, &x, &y, &z);
 
     return CVector(x, y, z);
+}
+
+CVector Mod::GetCarPosition(int hVehicle)
+{
+    return GetCarPositionWithOffset(hVehicle, CVector(0, 0, 0));
 }
 
 CVector Mod::GetPedPositionWithOffset(int hPed, CVector offset)
@@ -419,9 +431,16 @@ void Mod::ToggleMod(bool enabled)
     {
         CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(0, true);
         CleoFunctions::SET_MAX_WANTED_LEVEL_TO(0);
+
+        ShowCredits();
     } else {
         CleoFunctions::SET_PLAYER_IGNORED_BY_COPS(0, false);
         CleoFunctions::SET_MAX_WANTED_LEVEL_TO(6);
     }
     CleoFunctions::SET_PLAYER_WANTED_LEVEL(0, 0);
+}
+
+void Mod::ShowCredits()
+{
+    CleoFunctions::SHOW_TEXT_BOX("MPFX140"); //mod policia credits
 }

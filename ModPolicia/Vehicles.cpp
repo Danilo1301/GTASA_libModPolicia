@@ -63,7 +63,13 @@ bool Vehicles::HasVehicleHandle(int hVehicle)
 }
 
 Vehicle* Vehicles::TryCreateVehicle(int hVehicle)
-{
+{   
+    if(hVehicle == 0)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Bro, i think your code has some issues (ERROR) (Vehicles)" << std::endl;
+        return NULL;
+    }
+
 	if (HasVehicleHandle(hVehicle))
     {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle already added: " << hVehicle << std::endl;

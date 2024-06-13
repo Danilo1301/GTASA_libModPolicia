@@ -15,7 +15,7 @@ void Pickup::Update(int dt)
     auto playerPosition = Mod::GetPedPosition(playerActor);
     auto distanceFromPlayer = DistanceBetweenPoints(playerPosition, position);
 
-    if(distanceFromPlayer < 50.0f)
+    if(distanceFromPlayer < 100.0f)
     {
         if(sphere == 0)
         {

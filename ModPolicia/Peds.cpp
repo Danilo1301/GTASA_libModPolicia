@@ -96,6 +96,12 @@ bool Peds::HasPedHandle(int hPed)
 
 Ped* Peds::TryCreatePed(int hPed)
 {
+    if(hPed == 0)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Bro, i think your code has some issues (ERROR) (Peds)" << std::endl;
+        return NULL;
+    }
+
 	if (HasPedHandle(hPed))
     {
         return GetPedByHandle(hPed);
