@@ -408,7 +408,8 @@ E o motorista dirigir na mão certa da rua.
 
 [ ] (apenaskayo) junto com o mod de chamar o iml e a ambulância, tem como colocar pra chamar bombeiros
 
-[ ] (_Shelby) Não sei se alguém ja falou essa sugestão, mais seria bom poder chamar o paceiros para andar com você na vtr
+[X] (_Shelby) Não sei se alguém ja falou essa sugestão, mais seria bom poder chamar o paceiros para andar com você na vtr
+1.3.0
 
 [ ] (PEDRO_ GUILHERME 157) TIPO NESSA VERSÃO DO MOD POLÍCIA TEM CHAMA BOMBEIRO NÃO?
 TIPO FICARIA TOPP TAMBÉM TLG BEM TOPP
@@ -505,8 +506,9 @@ Vê se consegue por alguns NPCS em volta do corpo tbm seria mais realista
 [ ] (apenaskayo) •NOVAS OPCOES DE COISAS QUE PODEM ESTAR NO VEICULO E NA SUJEITO, COMO (CIGARRO,REVISTA,JORNAL, CARREGADOR E ENTRE OUTRAS COISAS) 
 [ ] (apenaskayo) •ESSA É UMA SUGESTAO QUE É MAIS DIFICIL DE SER FEITA, ENFIM, É IGUAL NO GIROFLEX QUE TEM COMO DEIXAR AS LUZES EM LOCAIS ESPECÍFICOS NO VEICULO, ASSIM PODENDO COLOCAR EM QUALQUER MOD DE VIATURA, ENFIM SERIA A MESMA COISA SO QUE COM UM PONTO QUE SERIA USADO PRA COLOCAR O SUSPEITO NO CAMBURÃO DA POLICIA, VOCE AJUSTARIA O PONTO QUE NEM SE FAZ COM AS LUZES DO GIROFLEX E COLOCAVA NO LOCAL DETERMINADO DA VIATURA, ASSIM IA TER A OPÇÃO DE COLOCAR NO CAMBURÃO DA VIATURA, COM ISSO O SUSPEITO IRIA TELEPORTA NO LOCAL DO PONTO QUE VOCE AJUSTOU
 
-[ ] (glorkc) Ocorrência de perseguição em andamento
+[X] (glorkc) Ocorrência de perseguição em andamento
 Que tal si en vez de nosotros generar las presentaciones nos lleguen las llamadas o las asistencias de una persecución en progreso 
+1.3.0
 
 [ ] (glorkc) Ocorrência de acidentes ou coisas do tipo
 Bueno como digo puede ser una buena sugerencia para que tu mod de policía sea un poco más realista al igual que lleguen llamadas de accidentes o cosas así 
@@ -534,7 +536,8 @@ Ou quando os espinhos furam o pneu do suspeito
 [X] (apenaskayo) é uma sugestão porém ê bom fazer uma enquete porque vai mudar algo e não acrescentar,enfim é sobre envez da pessoa entrar no gta e o mod já ficar ativado, envez disso a pessoa tem que na delegacia de Los Santos e ativar o mod
 1.3.0
 
-[ ] (『DOM Victor』) Chamar parceiro
+[X] (『DOM Victor』) Chamar parceiro
+1.3.0
 
 [ ] (brandonviljoen) Bro can u. Do.    The roadblock. And spikestrips.   The hit. Sound. Or     the breach.  And missed.   Road block or spikestrips
 [ ] (brandonviljoen) And.  The search. Ligth for helkoper.  Pls bro.   The. Search. Ligth is important.
@@ -590,4 +593,14 @@ Ou quando os espinhos furam o pneu do suspeito
 in this version:
 
 [X] (apenaskayo) é uma sugestão porém ê bom fazer uma enquete porque vai mudar algo e não acrescentar,enfim é sobre envez da pessoa entrar no gta e o mod já ficar ativado, envez disso a pessoa tem que na delegacia de Los Santos e ativar o mod
+1.3.0
+
+[X] (『DOM Victor』) Chamar parceiro
+1.3.0
+
+[X] (glorkc) Ocorrência de perseguição em andamento
+Que tal si en vez de nosotros generar las presentaciones nos lleguen las llamadas o las asistencias de una persecución en progreso 
+1.3.0
+
+[X] (_Shelby) Não sei se alguém ja falou essa sugestão, mais seria bom poder chamar o paceiros para andar com você na vtr
 1.3.0

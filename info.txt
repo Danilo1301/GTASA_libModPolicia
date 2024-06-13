@@ -152,6 +152,8 @@ Fixing chase:
 [X] ADD: menu outside pd to spawn partner
 [X] ADD: ongoing chase callout
 
+[ ] FIX: NPC died but still doing handsup
+
 [ ] Check bug where scorch car just ignores the suspect
 [ ] FIX: roadblock peds should shoot at suspect
 

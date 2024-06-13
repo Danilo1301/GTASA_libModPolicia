@@ -29,11 +29,14 @@ const char* Mod::m_Version = "1.3.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 
-bool loadedAnimations = false;
-bool loadedModels = false;
-bool cleoInitialized = false;
+bool hasLoadedAnimations = false;
+//bool hasLoadedModels = false;
+bool hasCleoInitialized = false;
 
 CAudioStream* test3dAudio = NULL;
+
+std::vector<int> modelsToLoad;
+//std::vector<int> loadedModels;
 
 void Mod::Update(int dt)
 {
@@ -120,9 +123,9 @@ void Mod::Update(int dt)
 
     if(CleoFunctions::PLAYER_DEFINED(0))
     {
-        if(!cleoInitialized)
+        if(!hasCleoInitialized)
         {
-            cleoInitialized = true;
+            hasCleoInitialized = true;
 
             CleoInit();
         }
@@ -147,7 +150,7 @@ void Mod::Update(int dt)
         }
         */
 
-        if(!loadedAnimations)
+        if(!hasLoadedAnimations)
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Checking for animations..." << std::endl;
 
@@ -157,7 +160,7 @@ void Mod::Update(int dt)
                 CleoFunctions::HAS_ANIMATION_LOADED("MEDIC")
             )
             {
-                loadedAnimations = true;
+                hasLoadedAnimations = true;
 
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Animations are already loaded!" << std::endl;
             } else {
@@ -224,7 +227,7 @@ void Mod::CleoInit()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading models..." << std::endl;
 
-    LoadModels();
+    RequestModelsToLoad();
 
     //credits
 
@@ -241,7 +244,7 @@ void Mod::CleoInit()
     */
 }
 
-void Mod::LoadModels()
+void Mod::RequestModelsToLoad()
 {
     AddModelToLoad(596); //copcarla
     AddModelToLoad(280); //ls
@@ -312,22 +315,45 @@ void Mod::LoadModels()
     AddModelToLoad(1459); //barrier
     AddModelToLoad(2899); //spikes
 
-    //pickups
-    //https://www.open.mp/docs/scripting/resources/pickupids
-    AddModelToLoad(1210); //Briefcase
-    AddModelToLoad(1239); //Information
-    AddModelToLoad(1242); //Body armour
-    AddModelToLoad(1314); //Two-player
-    
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: loading models..." << std::endl;
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load all models" << std::endl;
+    LoadRequestedModels([] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Models loaded!" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Loading pickups..." << std::endl;
+
+        //pickups
+        //https://www.open.mp/docs/scripting/resources/pickupids
+        AddModelToLoad(1210); //Briefcase
+        AddModelToLoad(1239); //Information
+        AddModelToLoad(1242); //Body armour
+        AddModelToLoad(1314); //Two-player
+        
+        LoadRequestedModels([] () {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Pickups loaded!" << std::endl;
+        });
+    });
+
+    
+}
+
+void Mod::LoadRequestedModels(std::function<void()> callback)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load requested models" << std::endl;
 
     CleoFunctions::LOAD_REQUESTED_MODELS();
+
+    CleoFunctions::AddWaitForFunction([] () {
+        return CheckModelsLoaded();
+    }, [callback] () {
+        callback();
+    });
 }
 
 void Mod::AddModelToLoad(int modelId)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: loading model " << modelId << std::endl;
+
+    modelsToLoad.push_back(modelId);
 
     CleoFunctions::LOAD_MODEL(modelId);
 
@@ -338,6 +364,32 @@ void Mod::AddModelToLoad(int modelId)
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Model " << modelId << " loaded!" << std::endl;
     });
     */
+}
+
+bool Mod::CheckModelsLoaded()
+{
+    if(modelsToLoad.size() == 0) return true;
+
+    std::vector<int> newLoadedModels;
+    for(auto modelId : modelsToLoad)
+    {
+        if(CleoFunctions::MODEL_AVAILABLE(modelId))
+        {
+            newLoadedModels.push_back(modelId);
+            
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Model " << modelId << " has been loaded" << std::endl;
+        }
+    }
+
+    for(auto modelId : newLoadedModels)
+    {
+        auto it = std::find(modelsToLoad.begin(), modelsToLoad.end(), modelId);
+        modelsToLoad.erase(it);
+
+        //loadedModels.push_back(modelId);
+    }
+
+    return false;
 }
 
 int Mod::GetRandomNumber(int min, int max)

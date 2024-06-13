@@ -12,8 +12,10 @@ public:
     static void Init();
     static void CleoInit();
 
-    static void LoadModels();
+    static void RequestModelsToLoad();
+    static void LoadRequestedModels(std::function<void()> callback);
     static void AddModelToLoad(int modelId);
+    static bool CheckModelsLoaded();
     
     static int GetRandomNumber(int min, int max);
 

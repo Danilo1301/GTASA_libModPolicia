@@ -22,7 +22,7 @@ void Pickup::Update(int dt)
             sphere = CleoFunctions::CREATE_SPHERE(position.x, position.y, position.z, 1.5f);
         }
         
-        if(pickup == 0)
+        if(pickup == 0 && CleoFunctions::MODEL_AVAILABLE(pickupModelId))
         {
             pickup = CleoFunctions::CREATE_PICKUP(pickupModelId, 6, position.x, position.y, position.z);
         }
