@@ -18,6 +18,18 @@ std::map<int, TrunkModelData> Trunk::m_TrunkModels = {
     {598, {
         {CVector(-0.50f, -1.80f, 0.90f), CVector(0.50f, -1.80f, 0.90f)}, {90.0f, -90.0f}
     }},
+    {599, {
+        {CVector(-0.50f, -1.80f, 0.90f), CVector(0.50f, -1.80f, 0.90f)}, {90.0f, -90.0f}
+    }},
+    {528, {
+        {CVector(-0.50f, -1.80f, 0.90f), CVector(0.50f, -1.80f, 0.90f)}, {90.0f, -90.0f}
+    }},
+    {490, {
+        {CVector(-0.50f, -1.80f, 0.90f), CVector(0.50f, -1.80f, 0.90f)}, {90.0f, -90.0f}
+    }},
+    {601, {
+        {CVector(-0.50f, -1.80f, 0.90f), CVector(0.50f, -1.80f, 0.90f)}, {90.0f, -90.0f}
+    }},
 };
 Vehicle* Trunk::m_PreviewVehicle = NULL;
 
@@ -81,7 +93,7 @@ void Trunk::CreatePreviewPeds(Vehicle* vehicle)
 
     auto ped1Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
     
-    auto ped2Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
+    auto ped2Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 193, position.x, position.y, position.z);
 
     vehicle->trunk->PutPedAtTrunk(ped1Handle);
     vehicle->trunk->PutPedAtTrunk(ped2Handle);

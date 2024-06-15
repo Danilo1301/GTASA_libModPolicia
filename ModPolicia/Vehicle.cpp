@@ -215,9 +215,9 @@ bool Vehicle::IsPoliceCar()
     if(modelId == 597) return true;
     if(modelId == 598) return true;
     if(modelId == 599) return true;
-    if(modelId == 601) return true;
     if(modelId == 528) return true;
     if(modelId == 490) return true;
+    if(modelId == 601) return true;
     return false;
 }
 

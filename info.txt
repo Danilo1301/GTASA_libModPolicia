@@ -157,6 +157,8 @@ Fixing chase:
 [X] FIX: Spikestrips now gets destroyed when it hits the suspect
 [-] ADD: audio when suspect hits spikestrips (theres no audio)
 [X] ADD: mod now detect vehicle crashes
+[X] ADD: option to make pullover car drive to the side of the road
+[X] ADD: option to spawn partners in car menu
 [X] ADD: audio when suspect hits roadblock
 [X] ADD: audio when suspect evades roadblock
 [X] ADD: carry ped to trunk

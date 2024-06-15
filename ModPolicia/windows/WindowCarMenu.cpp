@@ -77,12 +77,15 @@ void WindowCarMenu::Create(Vehicle* vehicle)
         CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);
     };
 
-    auto button_configTrunk = window->AddButton(165);
-    button_configTrunk->onClick = []()
+    if(vehicle->trunk->HasModelData())
     {
-        Remove();
-        WindowTrunk::Create();
-    };
+        auto button_configTrunk = window->AddButton(165);
+        button_configTrunk->onClick = []()
+        {
+            Remove();
+            WindowTrunk::Create();
+        };
+    }
 
     auto button_configBackup = window->AddButton(107);
     button_configBackup->onClick = []()

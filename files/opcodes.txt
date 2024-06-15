@@ -9,3 +9,7 @@ Sanny Builder 3/data/sa_mobile/SASCM.ini
 0F21=3,%3g% = get_draw_item_info %1d% id %2d%
 0F22=2,send_touch_state %1d% state %2d%
 0F23=1,add_log_message %1d%
+
+possible opcodes:
+0F24=0,is_police_radio_enabled
+0F25=1,select_police_radio_option %1d%
