@@ -6,6 +6,8 @@
 
 #include "Inventory.h"
 
+#include "TrunkData.h"
+
 enum ACTION_STATUS {
     ACTION_NONE = 0,
 
@@ -61,6 +63,11 @@ public:
 
     int towingVehicle = 0;
 
+    float prevSpeed = 0.0f;
+    bool hasJustCrashed = false;
+
+    TrunkData* trunk = NULL;
+
     Vehicle(int hVehicle);
 	~Vehicle();
 
@@ -99,4 +106,5 @@ public:
     bool IsAllDriverAndPassengersInsideCar();
     bool IsAllDriverAndPassengersOutsideCar();
 
+    float GetSpeed();
 };

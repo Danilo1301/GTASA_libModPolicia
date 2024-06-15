@@ -159,7 +159,7 @@ void WindowRadio::CreateTestOptions()
         auto ped = Peds::TryCreatePed(pedHandle);
         ped->AddBlip();
 
-        Callouts::m_Criminals.push_back(ped);
+        Callouts::AddPedToCriminalList(ped);
     };
 
     auto button_test8 = window->AddButton(23, 8, 0);

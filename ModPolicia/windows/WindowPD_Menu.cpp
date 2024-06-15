@@ -33,6 +33,20 @@ void WindowPD_Menu::Create()
 
     window->AddCheckbox(139, &ModConfig::CreateTestOptionsInRadioMenu);
 
+    auto button_editRoadblocks = window->AddButton(169);
+    button_editRoadblocks->onClick = []()
+    {
+        Remove();
+        CreateEditBarrier(&Chase::m_BarrierModels[0]);
+    };
+
+    auto button_editSpikes = window->AddButton(170);
+    button_editSpikes->onClick = []()
+    {
+        Remove();
+        CreateEditBarrier(&Chase::m_BarrierModels[1]);
+    };
+
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
@@ -93,5 +107,63 @@ void WindowPD_Menu::CreatePartnerMenu()
     button_close->onClick = []()
     {
         Remove();
+    };
+}
+
+int GetIndexBySkinId(int id)
+{
+    int i = 0;
+    for(auto skin : PoliceDepartment::m_PartnerSkins)
+    {
+        if(skin.pedModelId == id) return i;
+        i++;
+    }
+    return 0;
+}
+
+int GetIndexByVehicleId(int id)
+{
+    int i = 0;
+    for(auto vehicleId : PoliceDepartment::m_VehicleIds)
+    {
+        if(vehicleId == id) return i;
+        i++;
+    }
+    return 0;
+}
+
+void WindowPD_Menu::CreateEditBarrier(BarrierModel* barrierModel)
+{
+    auto window = m_Window = Menu::AddWindow(6);
+    window->showPageControls = true;
+
+    auto skinOptions = window->AddOptions(159);
+    skinOptions->optionsValue = GetIndexBySkinId(barrierModel->pedModelId);
+    for(auto skin : PoliceDepartment::m_PartnerSkins)
+    {
+        skinOptions->AddOption(skin.gxtId, 0, 0);
+    }
+    skinOptions->onValueChange = [barrierModel, skinOptions]() {
+        barrierModel->pedModelId = PoliceDepartment::m_PartnerSkins[skinOptions->optionsValue].pedModelId;
+    };
+
+    auto vehicleOptions = window->AddOptions(171);
+    vehicleOptions->optionsValue = GetIndexByVehicleId(barrierModel->vehicleModelId);
+    for(auto vehicleId : PoliceDepartment::m_VehicleIds)
+    {
+        vehicleOptions->AddOption(1, vehicleId, 0);
+    }
+    vehicleOptions->onValueChange = [barrierModel, vehicleOptions]() {
+        barrierModel->vehicleModelId = PoliceDepartment::m_VehicleIds[vehicleOptions->optionsValue];
+    };
+
+    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    button_close->onClick = []()
+    {
+        Remove();
+
+        ModConfig::SaveDataSettings();
+
+        Create();
     };
 }

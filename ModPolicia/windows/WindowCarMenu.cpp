@@ -1,15 +1,22 @@
 #include "WindowCarMenu.h"
 
-#include "../Mod.h"
-#include "../ModConfig.h"
-#include "../CleoFunctions.h"
+#include "Mod.h"
+#include "ModConfig.h"
+#include "CleoFunctions.h"
 
 #include "windows/WindowBackup.h"
+#include "windows/WindowTrunk.h"
+#include "windows/WindowPD_Menu.h"
 
 Window* WindowCarMenu::m_Window = NULL;
+Vehicle* WindowCarMenu::m_Vehicle = NULL;
 
-void WindowCarMenu::Create()
+void WindowCarMenu::Create(Vehicle* vehicle)
 {
+    if(m_Window) return;
+
+    m_Vehicle = vehicle;
+
     auto window = m_Window = Menu::AddWindow(6);
     window->showPageControls = true;
 
@@ -49,7 +56,7 @@ void WindowCarMenu::Create()
             positionWindow->RemoveThisWindow();
             testWindow->RemoveThisWindow();
 
-            Create();
+            Create(m_Vehicle);
         };
     };
 
@@ -70,11 +77,25 @@ void WindowCarMenu::Create()
         CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);
     };
 
+    auto button_configTrunk = window->AddButton(165);
+    button_configTrunk->onClick = []()
+    {
+        Remove();
+        WindowTrunk::Create();
+    };
+
     auto button_configBackup = window->AddButton(107);
     button_configBackup->onClick = []()
     {
         Remove();
         WindowBackup::CreateBackupConfig();
+    };
+
+    auto button_spawnPartner = window->AddButton(167);
+    button_spawnPartner->onClick = []()
+    {
+        Remove();
+        WindowPD_Menu::CreatePartnerMenu();
     };
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));

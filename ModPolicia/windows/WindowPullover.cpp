@@ -274,6 +274,13 @@ void WindowPullover::CreatePullingCar()
         Pullover::AskPedsToLeaveCar(vehicle);
     };
     
+    auto button_stopOnRight = window->AddButton(161);
+    button_stopOnRight->onClick = [vehicle]()
+    {
+        Remove();
+        Pullover::AskPedToStopCarOnRight(vehicle);
+    };
+
     auto button_close = window->AddButton(57, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
@@ -290,18 +297,18 @@ void WindowPullover::CreateScorchWindow()
     auto window = m_Window = Menu::AddWindow(6);
     window->showPageControls = true;
 
-    auto button_conduzir = window->AddButton(64, 0, 0);
-    button_conduzir->onClick = [ped]()
-    {
-        Remove();
-        Scorch::StartScorchingPed(ped);
-    };
-
     auto button_callVehicle = window->AddButton(83, 0, 0);
     button_callVehicle->onClick = [ped]()
     {
         Remove();
         Scorch::CallVehicleToScorchPed(ped);
+    };
+
+    auto button_conduzirPortaMalas = window->AddButton(164, 0, 0);
+    button_conduzirPortaMalas->onClick = [ped]()
+    {
+        Remove();
+        Scorch::CarryPed(ped);
     };
 
     auto button_teleport = window->AddButton(84, 0, 0);

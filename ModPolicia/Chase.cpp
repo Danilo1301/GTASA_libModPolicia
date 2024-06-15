@@ -8,11 +8,19 @@
 #include "Mod.h"
 #include "Peds.h"
 #include "Callouts.h"
+#include "SoundSystem.h"
 
 #include "windows/WindowBackup.h"
 
+const int BARRIER_MODEL = 1459;
+const int SPIKES_MODEL = 2899;
+
 Ped* Chase::m_ChasingPed = NULL;
 std::vector<Barrier*> Chase::m_Barriers;
+std::vector<BarrierModel> Chase::m_BarrierModels = {
+    {BARRIER_MODEL, 596, 280}, //roadblock
+    {SPIKES_MODEL, 528, 288}, //spikes
+};
 
 void Chase::Update(int dt)
 {
@@ -25,34 +33,34 @@ void Chase::UpdateChase(int dt)
     auto chasingPed = m_ChasingPed;
     Vehicle* vehicle = NULL;
 
-    //car despawned
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "c1" << std::endl;
+
     if(chasingPed)
     {
-        if(
-            Callouts::m_Criminals.size() == 0
-        )
-        {
-            //!CleoFunctions::CAR_DEFINED(chasingPed->hVehicleOwned) ||
-            //!Mod::IsActorAliveAndDefined(chasingPed->hPed) ||
-
+        //end chase if criminals is 0 or if actor is not defined
+        if(Callouts::GetCriminals().size() == 0 || !CleoFunctions::ACTOR_DEFINED(chasingPed->hPed)) {
             EndChase();
             chasingPed = NULL;
         }
     }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "c2" << std::endl;
 
     //make passengers leave after driver also leaves, so it fixes the bug
     if(chasingPed)
     {
         if(chasingPed->justLeftTheCar)
         {
-            auto vehicle = Vehicles::GetVehicleByHandle(chasingPed->hVehicleOwned);
+            vehicle = Vehicles::GetVehicleByHandle(chasingPed->hVehicleOwned);
             vehicle->MakePedsExitCar();
 
             vehicle->RemoveBlip();
         }
     }
     
-    for(auto criminal : Callouts::m_Criminals)
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "c3" << std::endl;
+
+    for(auto criminal : Callouts::GetCriminals())
     {
         bool isCriminalInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(criminal->hPed);
 
@@ -124,21 +132,7 @@ void Chase::UpdateChase(int dt)
         }
     }
 
-    /*
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-    auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
-
-    if(distance > Pullover::PULLOVER_MIN_DISTANCE_VEHICLE) return;
-    
-    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
-      
-    Pullover::m_PullingVehicle = vehicle;
-    Pullover::m_PullingPed = ped;
-    Pullover::AskPedToLeaveCar(ped);
-
-    EndChase();
-    */
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "c4" << std::endl;
 }
 
 void Chase::UpdateBarriers(int dt)
@@ -147,13 +141,72 @@ void Chase::UpdateBarriers(int dt)
 
     for(auto barrier : m_Barriers)
     {
+        if(barrier->object == 0) continue;
+
         //spikestrips
-        if(barrier->objectId == 2899)
+        if(barrier->objectId == SPIKES_MODEL)
         {
             auto vehicles = Vehicles::GetAllCarsInSphere(barrier->objectPosition, 4.0f);
             for(auto vehicle : vehicles)
             {
                 DeflateCarTires(vehicle->hVehicle);
+
+                if(Chase::m_ChasingPed)
+                {
+                    if(vehicle->hVehicle == Chase::m_ChasingPed->hVehicleOwned)
+                    {
+                        CleoFunctions::DESTROY_OBJECT(barrier->object);
+                        barrier->object = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //roadblocks
+        if(barrier->objectId == BARRIER_MODEL)
+        {
+            if(Chase::m_ChasingPed)
+            {
+                auto vehicle = Vehicles::GetVehicleByHandle(Chase::m_ChasingPed->hVehicleOwned);
+
+                if(vehicle)
+                {
+                    auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+                    auto distanceFromBarrier = DistanceBetweenPoints(vehiclePosition, barrier->objectPosition);
+
+                    if(distanceFromBarrier < 10.0f)
+                    {
+                        if(vehicle->hasJustCrashed)
+                        {
+                            barrier->suspectCrashedInBarrier = true;
+
+                            Log::Level(LOG_LEVEL::LOG_BOTH) << "Suspect's vehicle just hit the barrier!" << std::endl;
+
+                            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("roadblocks/ROADBLOCK_HIT_", false);
+                        }
+                    }
+
+                    if(distanceFromBarrier < 10.0f)
+                    {
+                        barrier->suspectHasGottenClose = true;
+                    }
+
+                    if(distanceFromBarrier > 10.0f)
+                    {
+                        if(barrier->suspectHasGottenClose && !barrier->suspectCrashedInBarrier)
+                        {
+                            if(!barrier->suspectHasEvaded)
+                            {
+                                barrier->suspectHasEvaded = true;
+
+                                Log::Level(LOG_LEVEL::LOG_BOTH) << "Suspect's vehicle just evaded the barrier!" << std::endl;
+
+                                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("roadblocks/ROADBLOCK_BREACHED_", false);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -172,7 +225,7 @@ void Chase::UpdateBarriers(int dt)
         if(CleoFunctions::ACTOR_DEFINED(barrier->ped1)) CleoFunctions::DESTROY_ACTOR(barrier->ped1);
         if(CleoFunctions::ACTOR_DEFINED(barrier->ped2)) CleoFunctions::DESTROY_ACTOR(barrier->ped2);
         if(CleoFunctions::CAR_DEFINED(barrier->car)) CleoFunctions::DESTROY_CAR(barrier->car);
-        CleoFunctions::DESTROY_OBJECT(barrier->object);
+        if(barrier->object > 0) CleoFunctions::DESTROY_OBJECT(barrier->object);
         CleoFunctions::DISABLE_MARKER(barrier->marker);
 
         auto it = std::find(m_Barriers.begin(), m_Barriers.end(), barrier); 
@@ -222,13 +275,15 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
     for(auto owner : owners)
     {
         auto pedOwner = Peds::TryCreatePed(owner);
-        Callouts::m_Criminals.push_back(pedOwner);
+        Callouts::AddPedToCriminalList(pedOwner);
     }
 }
 
 void Chase::EndChase()
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "end chase" << std::endl;
+
+    Callouts::RemovePedFromCriminalList(m_ChasingPed);
 
     m_ChasingPed = NULL;
 }
@@ -273,7 +328,7 @@ Barrier* Chase::AddBarrier(CVector position, int objectId, int carModelId, int p
 
     angle = CleoFunctions::ACTOR_Z_ANGLE(playerActor);
 
-    if(objectId == 2899) angle += 90.0;
+    if(objectId == SPIKES_MODEL) angle += 90.0;
 
     CleoFunctions::SET_OBJECT_Z_ANGLE(object, angle);
     
@@ -288,14 +343,20 @@ Barrier* Chase::AddBarrier(CVector position, int objectId, int carModelId, int p
     return barrier;
 }
 
+Barrier* Chase::AddBarrier(CVector position, BarrierModel* barrierModel)
+{
+    return AddBarrier(position, barrierModel->objectId, barrierModel->vehicleModelId, barrierModel->pedModelId);
+}
+
 void Chase::AddRoadBlocks(CVector position)
 {
-    AddBarrier(position, 1459, 596, 280);
+    AddBarrier(position, &m_BarrierModels[0]);
+    
 }
 
 void Chase::AddSpikestrips(CVector position)
 {
-    AddBarrier(position, 2899, 528, 288);
+    AddBarrier(position, &m_BarrierModels[1]);
 }
 
 void Chase::DeflateCarTires(int hVehicle)

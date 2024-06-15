@@ -8,10 +8,14 @@
 #include "SoundSystem.h"
 #include "Locations.h"
 #include "Callouts.h"
+#include "Trunk.h"
 
 std::vector<ScorchPedData*> Scorch::m_ScorchingPeds;
 
 std::vector<Vehicle*> Scorch::m_TowTrucks;
+
+Ped* Scorch::m_CarryingPed = NULL;
+int Scorch::m_CarryObject = 0;
 
 void Scorch::Update(int dt)
 {
@@ -25,42 +29,14 @@ void Scorch::UpdateScorchingPeds(int dt)
 
     for(auto scorchData : m_ScorchingPeds)
     {
-        if(scorchData->followingPlayer)
+        if(!Mod::IsActorAliveAndDefined(scorchData->ped->hPed))
         {
-            if(!Mod::IsActorAliveAndDefined(scorchData->ped->hPed))
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "Scorching ped became undefined or is now dead" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Scorching ped became undefined or is now dead" << std::endl;
 
-                DestroyScorchData(scorchData);
-                toRemove.push_back(scorchData);
-                continue;
-            }
-
-            auto dpLocation = scorchData->toDp;
-            auto pedPos = Mod::GetPedPosition(scorchData->ped->hPed);
-            auto distance = DistanceBetweenPoints(dpLocation.position, pedPos);
-
-            if(distance < 3.0f)
-            {
-                /*
-                01C2: remove_references_to_actor 4@ 
-                009B: destroy_actor 4@ 
-                03BD: destroy_sphere 7@
-                */
-
-                CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(scorchData->ped->hPed);
-                CleoFunctions::DESTROY_ACTOR(scorchData->ped->hPed);
-
-                scorchData->ped->arrested = true;
-
-                DestroyScorchData(scorchData);
-                toRemove.push_back(scorchData);
-
-                //m_PullingPed = NULL;
-                //m_PullingVehicle = NULL;
-            }
+            DestroyScorchData(scorchData);
+            toRemove.push_back(scorchData);
             continue;
-        } 
+        }
 
         //not beeing scorched by player
         auto vehicle = scorchData->vehicle;
@@ -157,6 +133,7 @@ void Scorch::UpdateTowTrucks(int dt)
     }
 }
 
+/*
 void Scorch::StartScorchingPed(Ped* ped)
 {
     Pullover::m_PullingPed = NULL;
@@ -176,16 +153,6 @@ void Scorch::StartScorchingPed(Ped* ped)
     
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Conduzir para a DP" << std::endl;
 
-    /*
-    01C2: remove_references_to_actor 4@
-
-    07AF: 6@ = player $PLAYER_CHAR group 
-
-    //062F: 6@ = create_group_type 0 //is this really encessary    
-    0630: put_actor $PLAYER_ACTOR in_group 4@ as_leader 
-    0631: put_actor 4@ in_group 6@
-    */
-
     ped->shouldHandsup = false;
 
     CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(ped->hPed);
@@ -196,10 +163,6 @@ void Scorch::StartScorchingPed(Ped* ped)
 
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    /*
-    CleoFunctions::PUT_ACTOR_IN_GROUP_AS_LEADER(playerActor, ped->hPed);
-    CleoFunctions::PUT_ACTOR_IN_GROUP(ped->hPed, playerGroup);
-    */
     CleoFunctions::PUT_ACTOR_IN_GROUP_AS_LEADER(ped->hPed, playerActor);
     CleoFunctions::PUT_ACTOR_IN_GROUP(playerGroup, ped->hPed);
 
@@ -214,6 +177,7 @@ void Scorch::StartScorchingPed(Ped* ped)
     scorchData->blip = CleoFunctions::CreateMarker(dpPosition.x, dpPosition.y, dpPosition.z, 0, 3, 3);
     Log::Level(LOG_LEVEL::LOG_BOTH) << "blip = " << scorchData->blip << std::endl;
 }
+*/
 
 void Scorch::CallVehicleToScorchPed(Ped* ped)
 {
@@ -300,11 +264,11 @@ void Scorch::DestroyScorchData(ScorchPedData* data)
 {
     data->ped->RemoveBlip();
 
-    CleoFunctions::DESTROY_SPHERE(data->sphere);
-    data->sphere = 0;
+    //CleoFunctions::DESTROY_SPHERE(data->sphere);
+    //data->sphere = 0;
 
-    CleoFunctions::DISABLE_MARKER(data->blip);
-    data->blip = 0;
+    //CleoFunctions::DISABLE_MARKER(data->blip);
+    //data->blip = 0;
 }
 
 bool Scorch::IsPedBeeingScorched(int hPed)
@@ -365,3 +329,63 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
 
     CleoFunctions::CAR_DRIVE_TO(towtruck, driveToX, driveToY, driveToZ);
 }
+
+void Scorch::CarryPed(Ped* ped)
+{
+    Pullover::m_PullingPed = NULL;
+    Pullover::m_PullingVehicle = NULL;
+
+    m_CarryingPed = ped;
+
+    ped->shouldHandsup = false;
+    
+    auto objectSpawnPosition = Mod::GetPedPositionWithOffset(ped->hPed, CVector(0, 0, 0));
+
+    auto object = m_CarryObject = CleoFunctions::CREATE_OBJECT(2328, objectSpawnPosition.x, objectSpawnPosition.y, objectSpawnPosition.z);
+    CleoFunctions::SET_OBJECT_VISIBILITY(object, false);
+    CleoFunctions::SET_OBJECT_COLLISION_DETECTION(object, false);
+
+    auto playerActor = Mod::GetPlayerActor();
+    auto objectOffset = CVector(0, 0, 0);
+
+    CleoFunctions::ATTACH_OBJECT_TO_ACTOR(object, playerActor, objectOffset.x, objectOffset.y, objectOffset.z, 0, 0, 0);
+
+    CleoFunctions::ENABLE_ACTOR_COLLISION_DETECTION(ped->hPed, false);
+
+    auto angleLimit = 360.0f; //or 360.0f
+    auto actorOffset = CVector(0, 1, 0);
+    CleoFunctions::PUT_ACTOR_INTO_TURRET_ON_OBJECT(ped->hPed, object, actorOffset.x, actorOffset.y, actorOffset.z, 0, angleLimit, 0);
+}
+
+/*
+if(scorchData->followingPlayer)
+{
+    if(!Mod::IsActorAliveAndDefined(scorchData->ped->hPed))
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Scorching ped became undefined or is now dead" << std::endl;
+
+        DestroyScorchData(scorchData);
+        toRemove.push_back(scorchData);
+        continue;
+    }
+
+    auto dpLocation = scorchData->toDp;
+    auto pedPos = Mod::GetPedPosition(scorchData->ped->hPed);
+    auto distance = DistanceBetweenPoints(dpLocation.position, pedPos);
+
+    if(distance < 3.0f)
+    {
+        CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(scorchData->ped->hPed);
+        CleoFunctions::DESTROY_ACTOR(scorchData->ped->hPed);
+
+        scorchData->ped->arrested = true;
+
+        DestroyScorchData(scorchData);
+        toRemove.push_back(scorchData);
+
+        //m_PullingPed = NULL;
+        //m_PullingVehicle = NULL;
+    }
+    continue;
+} 
+*/

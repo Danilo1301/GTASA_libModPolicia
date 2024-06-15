@@ -68,6 +68,11 @@ void INISection::AddInt(std::string key, int value)
     //file << key << " = " << std::to_string(value) << std::endl;
 }
 
+void INISection::AddIntFromBool(std::string key, bool value)
+{
+    AddString(key, std::to_string(value ? 1 : 0));
+}
+
 float INISection::GetFloatWithDefaultValue(std::string key, float defaultValue)
 {
     auto valueStr = GetString(key);
@@ -98,19 +103,30 @@ void INISection::GetBool(std::string key, bool* pValue)
     *pValue = GetBoolWithDefaultValue(key, *pValue);
 }
 
+void INISection::GetBoolFromInt(std::string key, bool* pValue)
+{
+    auto value = GetIntWithDefaultValue(key, *pValue ? 1 : 0);
+    *pValue = value >= 1;
+}
+
 void INISection::AddBool(std::string key, bool value)
 {
     AddString(key, std::string((value ? "true" : "false")));
     //file << key << " = " << (value ? "true" : "false") << std::endl;
 }
 
-CVector INISection::GetCVector(std::string key, CVector defaultValue)
+CVector INISection::GetCVectorWithDefaultValue(std::string key, CVector defaultValue)
 {
     return CVector(
         GetFloatWithDefaultValue(key + ".x", defaultValue.x),
         GetFloatWithDefaultValue(key + ".y", defaultValue.y),
         GetFloatWithDefaultValue(key + ".z", defaultValue.z)
     );
+}
+
+void INISection::GetCVector(std::string key, CVector* pValue)
+{
+    *pValue = GetCVectorWithDefaultValue(key, *pValue);
 }
 
 void INISection::AddCVector(std::string key, CVector value)
@@ -150,4 +166,9 @@ void INISection::AddCRGBA(std::string key, CRGBA value)
     AddInt(key + ".g", value.g);
     AddInt(key + ".b", value.b);
     AddInt(key + ".a", value.a);
+}
+
+std::vector<int> INISection::GetIntVectorList(std::string key)
+{
+    auto valueStr = GetString(key);
 }

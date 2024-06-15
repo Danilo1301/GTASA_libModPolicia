@@ -990,4 +990,48 @@ if VAR_GxtId == 160
 then
      VAR_STR_1 = "MPFX160"
 end
+if VAR_GxtId == 161
+then
+     VAR_STR_1 = "MPFX161"
+end
+if VAR_GxtId == 162
+then
+     VAR_STR_1 = "MPFX162"
+end
+if VAR_GxtId == 163
+then
+     VAR_STR_1 = "MPFX163"
+end
+if VAR_GxtId == 164
+then
+     VAR_STR_1 = "MPFX164"
+end
+if VAR_GxtId == 165
+then
+     VAR_STR_1 = "MPFX165"
+end
+if VAR_GxtId == 166
+then
+     VAR_STR_1 = "MPFX166"
+end
+if VAR_GxtId == 167
+then
+     VAR_STR_1 = "MPFX167"
+end
+if VAR_GxtId == 168
+then
+     VAR_STR_1 = "MPFX168"
+end
+if VAR_GxtId == 169
+then
+     VAR_STR_1 = "MPFX169"
+end
+if VAR_GxtId == 170
+then
+     VAR_STR_1 = "MPFX170"
+end
+if VAR_GxtId == 171
+then
+     VAR_STR_1 = "MPFX171"
+end
 return

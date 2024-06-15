@@ -60,7 +60,9 @@ public:
     static std::vector<Callout> m_Callouts;
     static CALLOUT_TYPE m_ModulatingCalloutIndex;
     static CALLOUT_TYPE m_CurrentCalloutIndex;
+private:
     static std::vector<Ped*> m_Criminals;
+public:
     static bool m_AproachingCallout;
     static bool m_AbortedCallout;
     static bool m_WaitingToPlayAcceptCalloutAudio;
@@ -76,6 +78,11 @@ public:
     static void UpdateCriminals(int dt);
 
     static CALLOUT_TYPE GetRandomCallout();
+
+    static void AddPedToCriminalList(Ped* ped);
+    static void RemovePedFromCriminalList(Ped* ped);
+    static bool IsPedOnCriminalList(Ped* ped);
+    static std::vector<Ped*> GetCriminals();
 
     static void AbortCallout();
 

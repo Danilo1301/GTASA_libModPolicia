@@ -18,4 +18,5 @@ public:
 
     static std::vector<Vehicle*> GetAllCarsInSphere(CVector position, float radius);
     static int GetRandomCarInSphere(CVector position, float radius);
+    static std::vector<Vehicle*> GetDefinedVehicles();
 };

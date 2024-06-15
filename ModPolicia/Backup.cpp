@@ -105,7 +105,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         }
 
         //remove cops if the are no criminals anymore and they are far from player
-        if(Callouts::m_Criminals.size() == 0)
+        if(Callouts::GetCriminals().size() == 0)
         {
             auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
             auto playerPosition = Mod::GetPedPosition(playerActor);
@@ -147,7 +147,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         }
 
         //remove vehicles if the are no criminals anymore and they are far from player
-        if(Callouts::m_Criminals.size() == 0)
+        if(Callouts::GetCriminals().size() == 0)
         {
             auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
             auto playerPosition = Mod::GetPedPosition(playerActor);
@@ -256,7 +256,8 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                             {
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli " << vehicle->hVehicle << " follow criminal car " << criminalCarHandle << std::endl;
 
-                                CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
+                                //CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
+                                CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
                             } else {
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "set car " << vehicle->hVehicle << " follow criminal car " << criminalCarHandle << std::endl;
 
@@ -271,7 +272,8 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                         {
                             Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli follow criminal" << std::endl;
 
-                            CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
+                            //CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
+                            CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
                         } else {
                             Log::Level(LOG_LEVEL::LOG_BOTH) << "set car drive to criminal position" << std::endl;
 
@@ -482,7 +484,7 @@ void Backup::UpdateChaseBackup(int dt)
 void Backup::UpdateCalloutBackup(int dt)
 {
     //show backup button
-    if(Callouts::IsOnCallout() && Callouts::m_Criminals.size() > 0)
+    if(Callouts::IsOnCallout() && Callouts::GetCriminals().size() > 0)
     {
         if(!WindowBackup::m_Window)
         {

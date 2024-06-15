@@ -4,6 +4,18 @@
 
 #include "INISection.h"
 
+/*
+[1.0.0] 26/05/24
+
+[1.1.0] 14/06/24
+Added GetBoolFromInt and AddIntFromBool to INISection
+Now it recognizes empty lines
+It recognizes lines starting with ; as a comment
+Updated GetCVectorWithDefaultValue and GetCVector
+Added 
+*/
+
+
 class INIFile {
 public:
 	std::vector<INISection*> sections;

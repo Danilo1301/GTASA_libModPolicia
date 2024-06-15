@@ -437,6 +437,24 @@ void Pullover::AskPedsToLeaveCar(Vehicle* vehicle)
     });
 }
 
+void Pullover::AskPedToStopCarOnRight(Vehicle* vehicle)
+{
+    auto stopPosition = Mod::GetCarPositionWithOffset(vehicle->hVehicle, CVector(5.0f, 7.0f, 0));
+    
+    auto sphere = CleoFunctions::CREATE_SPHERE(stopPosition.x, stopPosition.y, stopPosition.z, 1.0f);
+
+    CleoFunctions::SET_CAR_ENGINE_OPERATION(vehicle->hVehicle, true);
+    CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->hVehicle, 0);
+    CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
+    CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, stopPosition.x, stopPosition.y, stopPosition.z);
+
+    CleoFunctions::WAIT(2000, [sphere]() {
+        WindowPullover::CreatePullingCar();
+
+        CleoFunctions::DESTROY_SPHERE(sphere);
+    });
+}
+
 double Pullover::GetDistanceBetweenPedAndCar(int hChar, int hVehicle)
 {
     float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;

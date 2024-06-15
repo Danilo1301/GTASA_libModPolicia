@@ -2,10 +2,6 @@
 
 #include "../pch.h"
 
-/*
-[1.0.0] 26/05/24
-*/
-
 class INISection {
 public:
     std::vector<std::pair<std::string, std::string>> values;
@@ -27,6 +23,7 @@ public:
     int GetIntWithDefaultValue(std::string key, int defaultValue);
     void GetInt(std::string key, int* pValue);
 	void AddInt(std::string key, int value);
+    void AddIntFromBool(std::string key, bool value);
 
     float GetFloatWithDefaultValue(std::string key, float defaultValue);
     void GetFloat(std::string key, float* pValue);
@@ -34,9 +31,11 @@ public:
 
     bool GetBoolWithDefaultValue(std::string key, bool defaultValue);
     void GetBool(std::string key, bool* pValue);
+    void GetBoolFromInt(std::string key, bool* pValue);
 	void AddBool(std::string key, bool value);
 
-    CVector GetCVector(std::string key, CVector defaultValue);
+    CVector GetCVectorWithDefaultValue(std::string key, CVector defaultValue);
+    void GetCVector(std::string key, CVector* pValue);
 	void AddCVector(std::string key, CVector value);
 
     CVector2D GetCVector2D(std::string key, CVector2D defaultValue);
@@ -44,4 +43,6 @@ public:
 
     CRGBA GetCRGBA(std::string key, CRGBA defaultValue);
 	void AddCRGBA(std::string key, CRGBA value);
+
+    std::vector<int> GetIntVectorList(std::string key);
 };

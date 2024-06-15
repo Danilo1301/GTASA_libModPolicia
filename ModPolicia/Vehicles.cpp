@@ -95,12 +95,10 @@ std::vector<Vehicle*> Vehicles::GetAllCarsInSphere(CVector position, float radiu
 {
     std::vector<Vehicle*> vehicles;
 
-    for(auto pair : m_Vehicles)
+    auto allVehicles = GetDefinedVehicles();
+
+    for(auto vehicle : allVehicles)
     {
-        auto vehicle = pair.second;
-
-        if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle)) continue;
-
         auto vehiclePos = Mod::GetCarPosition(vehicle->hVehicle);
         auto distance = DistanceBetweenPoints(position, vehiclePos);
 
@@ -120,4 +118,20 @@ int Vehicles::GetRandomCarInSphere(CVector position, float radius)
     if(vehicles.size() == 0) return 0;
 
     return vehicles[0]->hVehicle;
+}
+
+std::vector<Vehicle*> Vehicles::GetDefinedVehicles()
+{
+    std::vector<Vehicle*> vehicles;
+
+    for(auto pair : m_Vehicles)
+    {
+        auto vehicle = pair.second;
+
+        if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle)) continue;
+
+        vehicles.push_back(vehicle);
+    }
+
+    return vehicles;
 }

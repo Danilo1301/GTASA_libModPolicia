@@ -18,6 +18,8 @@
 #include "Ambulance.h"
 #include "PoliceDepartment.h"
 #include "SoundSystem.h"
+#include "Trunk.h"
+#include "Stats.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -28,6 +30,7 @@ extern CVector2D *m_vecCachedPos;
 const char* Mod::m_Version = "1.3.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
+bool Mod::m_DevModeEnabled = true;
 
 bool hasLoadedAnimations = false;
 //bool hasLoadedModels = false;
@@ -52,7 +55,7 @@ void Mod::Update(int dt)
     }
 
     //    
-
+    
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "peds ------------------" << std::endl;
 
     Peds::Update(dt);
@@ -60,6 +63,10 @@ void Mod::Update(int dt)
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "vehicles" << std::endl;
 
     Vehicles::Update(dt);
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofuncitions" << std::endl;
+
+    CleoFunctions::Update(dt);
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "chase" << std::endl;
 
@@ -85,13 +92,13 @@ void Mod::Update(int dt)
    
     Ambulance::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofuncitions" << std::endl;
-
-    CleoFunctions::Update(dt);
-
     WindowDocument::Draw();
 
     PoliceDepartment::Update(dt);
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "trunk" << std::endl;
+
+    Trunk::Update(dt);
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "menu" << std::endl;
 
@@ -106,6 +113,8 @@ void Mod::Update(int dt)
     Widgets::Update(dt);
 
     Mod::ProcessMenuButtons(dt);
+
+    Stats::Update(dt);
 
     //
 
@@ -217,6 +226,10 @@ void Mod::Init()
     InventoryItems::Init();
     Ambulance::Init();
     PoliceDepartment::Init();
+
+    //stats
+    Stats::TimesOpenedGame += 1;
+    ModConfig::SaveStats();
 }
 
 void Mod::CleoInit()
@@ -232,6 +245,27 @@ void Mod::CleoInit()
     //credits
 
     ShowCredits();
+
+    if(ModConfig::EnableModWhenGameStarts)
+    {
+        ToggleMod(true);
+    }
+
+    //
+
+    if(m_DevModeEnabled)
+    {
+        ToggleMod(true);
+
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+        {
+            auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
+            auto carHandle = CleoFunctions::CREATE_CAR_AT(597, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+            CleoFunctions::SET_CAR_DOOR_STATUS(carHandle, 1);
+        }
+
+        ModConfig::CreateTestOptionsInRadioMenu = true;
+    }
 
     //
 
@@ -314,6 +348,7 @@ void Mod::RequestModelsToLoad()
     //objects
     AddModelToLoad(1459); //barrier
     AddModelToLoad(2899); //spikes
+    AddModelToLoad(2328); //small box
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: loading models..." << std::endl;
 
@@ -323,10 +358,14 @@ void Mod::RequestModelsToLoad()
 
         //pickups
         //https://www.open.mp/docs/scripting/resources/pickupids
-        AddModelToLoad(1210); //Briefcase
-        AddModelToLoad(1239); //Information
-        AddModelToLoad(1242); //Body armour
-        AddModelToLoad(1314); //Two-player
+        //AddModelToLoad(1210); //Briefcase
+        //AddModelToLoad(1239); //Information
+        //AddModelToLoad(1242); //Body armour
+        //AddModelToLoad(1314); //Two-player (crashes for Leonardo Alves)
+
+        AddModelToLoad(PoliceDepartment::m_PickupEquipment->pickupModelId);
+        AddModelToLoad(PoliceDepartment::m_PickupMenu->pickupModelId);
+        AddModelToLoad(PoliceDepartment::m_PickupPartner->pickupModelId);
         
         LoadRequestedModels([] () {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Pickups loaded!" << std::endl;
@@ -459,6 +498,11 @@ CVector Mod::GetPedPosition(int hPed)
     return GetPedPositionWithOffset(hPed, CVector(0, 0, 0));
 }
 
+int Mod::GetPlayerActor()
+{
+    return CleoFunctions::GET_PLAYER_ACTOR(0);
+}
+
 double Mod::DistanceFromPed(int hPed, CVector position)
 {
     auto pedPosition = GetPedPosition(hPed);
@@ -469,6 +513,13 @@ double Mod::DistanceFromPed(int hPed, CVector position)
 bool Mod::IsActorAliveAndDefined(int hPed)
 {
     return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);
+}
+
+int Mod::GetVehiclePedIsUsing(int hPed)
+{
+    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed)) return 0;
+
+    return CleoFunctions::ACTOR_USED_CAR(hPed);
 }
 
 void Mod::ToggleMod(bool enabled)

@@ -8,12 +8,7 @@
 
 struct ScorchPedData {
     Ped* ped = NULL;
-    Location toDp = {{0, 0, 0}, 0, CITY::LOS_SANTOS};
-
-    bool followingPlayer = false;
-
-    int sphere = 0;
-    int blip = 0;
+    //Location toDp = {{0, 0, 0}, 0, CITY::LOS_SANTOS};
 
     Vehicle* vehicle = NULL;
 };
@@ -24,11 +19,14 @@ public:
 
     static std::vector<Vehicle*> m_TowTrucks;
 
+    static Ped* m_CarryingPed;
+    static int m_CarryObject;
+
     static void Update(int dt);
     static void UpdateTowTrucks(int dt);
     static void UpdateScorchingPeds(int dt);
 
-    static void StartScorchingPed(Ped* ped);
+    //static void StartScorchingPed(Ped* ped);
     static void CallVehicleToScorchPed(Ped* ped);
     static void TeleportPedToPrision(Ped* ped);
 
@@ -37,4 +35,6 @@ public:
     static bool IsPedBeeingScorched(int hPed);
 
     static void CallTowTruckToVehicle(Vehicle* vehicle);
+
+    static void CarryPed(Ped* ped);
 };

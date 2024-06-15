@@ -401,8 +401,11 @@ Ou quando os espinhos furam o pneu do suspeito
 [ ] Adicionar opção para o abordado seguir ou ir para um local (sair da rua)
 (apenaskayo) Fazer o veículo encostar no local determinado pela pessoa, ou pelo menos o seguir até o local que a pessoa quer, que nem acontece na primeira missão do GTA San Andreas que um carro dos ballas o segue e atira, mas claro tira a função de atira, só pra seguir mesmo
 
+[ ] (@mitakurukito6379) Colocar suspeito no porta malas
 
-
+[ ] (plucaswz) Colocar opção de spawnar parceiro no menu do carro
+ 
+[ ] (brandonviljoen) U can.  Choose.   Wich. Car can deploy. The spikestrips like explain. The coprang or copcorla
 
 
 

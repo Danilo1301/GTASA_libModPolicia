@@ -5,6 +5,12 @@
 #include "Ped.h"
 #include "Vehicle.h"
 
+struct BarrierModel {
+    int objectId;
+    int vehicleModelId;
+    int pedModelId;
+};
+
 struct Barrier {
     int objectId = 0;
     CVector objectPosition = CVector(0, 0, 0);
@@ -14,12 +20,17 @@ struct Barrier {
     int object = 0;
     int car = 0;
     int marker = 0;
+
+    bool suspectHasGottenClose = false;
+    bool suspectHasEvaded = false;
+    bool suspectCrashedInBarrier = false;
 };
 
 class Chase {
 public:
     static Ped* m_ChasingPed;
     static std::vector<Barrier*> m_Barriers;
+    static std::vector<BarrierModel> m_BarrierModels;
 
     static void Update(int dt);
     static void UpdateChase(int dt);
@@ -29,6 +40,7 @@ public:
     static void EndChase();
 
     static Barrier* AddBarrier(CVector position, int objectId, int carModelId, int pedModelId);
+    static Barrier* AddBarrier(CVector position, BarrierModel* barrierModel);
     static void AddRoadBlocks(CVector position);
     static void AddSpikestrips(CVector position);
 

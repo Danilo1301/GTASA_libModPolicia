@@ -5,6 +5,7 @@
 #include "CleoFunctions.h"
 #include "Widgets.h"
 #include "Peds.h"
+#include "SoundSystem.h"
 
 #include "windows/WindowCarMenu.h"
 
@@ -22,6 +23,8 @@ Vehicle::Vehicle(int hVehicle)
     this->modelId = CleoFunctions::GET_CAR_MODEL(hVehicle);
 
     this->isStolen = Mod::CalculateProbability(CHANCE_VEHICLE_BEEING_STOLEN);
+
+    this->trunk = new TrunkData(modelId, hVehicle);
 }
 
 Vehicle::~Vehicle()
@@ -32,6 +35,20 @@ Vehicle::~Vehicle()
 void Vehicle::Update(int dt)
 {
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
+
+    //detect if car crashes
+    hasJustCrashed = false;
+    auto speed = GetSpeed();
+    if(prevSpeed == 0.0f) prevSpeed = speed;
+    auto difference = std::abs(speed - prevSpeed);
+    if(difference > 5.0f)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle " << hVehicle << " has crashed! Speed went from " << prevSpeed << " to " << speed << std::endl;
+        hasJustCrashed = true;
+    }
+    prevSpeed = speed;
+
+    //
 
     UpdateCarMenuWidget();
 
@@ -153,7 +170,7 @@ void Vehicle::UpdateCarMenuWidget()
         {
             if(Widgets::IsWidgetJustPressed(69))
             {
-                WindowCarMenu::Create();
+                WindowCarMenu::Create(this);
             }
         }
     }
@@ -558,4 +575,9 @@ bool Vehicle::IsAllDriverAndPassengersOutsideCar()
     }
 
     return pedsOnCar == 0;
+}
+
+float Vehicle::GetSpeed()
+{
+    return CleoFunctions::CAR_SPEED(hVehicle);
 }

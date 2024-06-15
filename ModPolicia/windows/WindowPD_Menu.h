@@ -2,6 +2,8 @@
 
 #include "menu/Menu.h"
 
+#include "Chase.h"
+
 class WindowPD_Menu {
 public:
 	static Window* m_Window;
@@ -10,4 +12,5 @@ public:
 	static void Remove();
 
 	static void CreatePartnerMenu();
+	static void CreateEditBarrier(BarrierModel* barrierModel);
 };

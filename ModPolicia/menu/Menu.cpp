@@ -55,7 +55,7 @@ Window* Menu::AddWindow(int gxtId, Window* parent)
     return window;
 }
 
-Window* Menu::AddPositionWindow(Window* parent, CVector* vec, float min, float max, float addBy, std::function<void()> onChange)
+Window* Menu::AddPositionWindow(Window* parent, CVector* vec, float min, float max, float addBy, std::function<void()> onChange, std::function<void()> onBack)
 {
     Window* window = AddWindow(9, parent);
     window->width = 200.0f;
@@ -71,9 +71,10 @@ Window* Menu::AddPositionWindow(Window* parent, CVector* vec, float min, float m
     auto floatz = window->AddFloatRange(12, &vec->z, min, max, addBy);
     floatz->onValueChange = [onChange]() {onChange(); };
 
-    window->btnBack->onClick = [window]()
+    window->btnBack->onClick = [window, onBack]()
     {
         window->GoToPrevWindow();
+        onBack();
     };
 
     return window;
@@ -81,7 +82,7 @@ Window* Menu::AddPositionWindow(Window* parent, CVector* vec, float min, float m
 
 Window* Menu::AddPositionWindow(Window* parent, CVector* vec)
 {
-    return AddPositionWindow(parent, vec, 1000.0f, -1000.0f, 0.01f, []() {});
+    return AddPositionWindow(parent, vec, 1000.0f, -1000.0f, 0.01f, []() {}, []() {});
 }
 
 Window* Menu::AddPosition2DWindow(Window* parent, CVector2D* vec, float min, float max, float addBy, std::function<void()> onChange)

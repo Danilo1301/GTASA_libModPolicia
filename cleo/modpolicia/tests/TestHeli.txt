@@ -1,0 +1,82 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+// Test police helicopter
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+    
+    if 0@ == 1
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 50.0
+        00A5: $HELI = create_car 497 at 1@ 2@ 3@
+        0129: $COP = create_actor_pedtype 23 model 280 in_car $HELI driverseat 
+        0825: set_helicopter $HELI instant_rotor_start
+        0918: set_car $HELI engine_operation 1 
+
+        0186: $MARKER = create_marker_above_car $HELI
+        
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 0.0
+        
+        073E: get_car_in_sphere 1@ 2@ 3@ radius 20.0 model -1 handle_as $CAR
+        
+        wait 1000
+        
+        if 056E: car $CAR defined
+        then
+            0186: $MARKER2 = create_marker_above_car $CAR
+            
+            //0726: heli $HELI follow_actor -1 follow_car $CAR radius 15.0
+            0727: set_heli $HELI behavior_to_police_heli_and_follow_actor -1 follow_car $CAR radius 15.0 
+             
+            03E5: show_text_box 'MPFX86' 
+        end
+
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------
+
+:PRELOAD
+
+                      
+0247: load_model 280
+0247: load_model 497
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if and
+    0248: model 280 available
+    0248: model 497 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

@@ -227,6 +227,44 @@ CALLOUT_TYPE Callouts::GetRandomCallout()
     return (CALLOUT_TYPE)randomCalloutIndex;
 }
 
+void Callouts::AddPedToCriminalList(Ped* ped)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "AddPedToCriminalList " << ped->hPed << std::endl;
+
+    if(IsPedOnCriminalList(ped))
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is already on criminal list" << std::endl;
+        return;
+    }
+
+    m_Criminals.push_back(ped);
+}
+
+void Callouts::RemovePedFromCriminalList(Ped* ped)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "RemovePedFromCriminalList " << ped->hPed << std::endl;
+
+    if(!IsPedOnCriminalList(ped))
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is not on criminal list" << std::endl;
+        return;
+    }
+
+    auto it = std::find(m_Criminals.begin(), m_Criminals.end(), ped);
+    m_Criminals.erase(it);
+}
+
+bool Callouts::IsPedOnCriminalList(Ped* ped)
+{
+    auto it = std::find(m_Criminals.begin(), m_Criminals.end(), ped);
+    return it != m_Criminals.end();
+}
+
+std::vector<Ped*> Callouts::GetCriminals()
+{
+    return m_Criminals;
+}
+
 void Callouts::AbortCallout()
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Callouts: AbortCallout" << std::endl;

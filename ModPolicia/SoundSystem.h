@@ -18,4 +18,5 @@ public:
 	static CAudioStream* PlayStreamFromAudiosFolderWithRandomVariation(std::string src, bool loop);
 
 	static void PlayHTAudio();
+	static void PlayHT2Audio();
 };

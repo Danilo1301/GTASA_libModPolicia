@@ -3,6 +3,16 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0750, SET_OBJECT_VISIBILITY, ib); //0750: set_object $OBJ visibility 0
+static DEFOPCODE(0109, ADD_MONEY, ii); //0109
+static DEFOPCODE(0727, SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW, iiif); //0727: set_heli $HELI behavior_to_police_heli_and_follow_actor -1 follow_car $CAR radius 15.0
+static DEFOPCODE(0173, SET_ACTOR_ANGLE_TO, if); //0173: set_actor $PLAYER_ACTOR Z_angle_to 90.0 
+static DEFOPCODE(0464, PUT_ACTOR_INTO_TURRET_ON_CAR, iifffifi); //0464: put_actor $PED into_turret_on_car $CAR at_car_offset 0.0 0.0 0.0 position 0 shooting_angle_limit 0.0 with_weapon 0
+static DEFOPCODE(0465, REMOVE_ACTOR_FROM_TURRET_MODE, i); //0465: remove_actor $PED from_turret_mode
+static DEFOPCODE(0619, ENABLE_ACTOR_COLLISION_DETECTION, ib); //0619: enable_actor $PED2 collision_detection 0
+static DEFOPCODE(0382, SET_OBJECT_COLLISION_DETECTION, ib); //0382: set_object $OBJ collision_detection 0
+static DEFOPCODE(04F4, PUT_ACTOR_INTO_TURRET_ON_OBJECT, iifffifi); //04F4: put_actor $PED2 into_turret_on_object $OBJ offset_from_object_origin 0.0 0.0 0.0 orientation 0 both_side_angle_limit 360.0 lock_weapon 0 
+static DEFOPCODE(069B, ATTACH_OBJECT_TO_ACTOR, iiffffff); //069B: attach_object $OBJ to_actor $PLAYER_ACTOR with_offset 0.0 1.0 0.0 rotation 0.0 0.0 0.0
 static DEFOPCODE(0226, ACTOR_HEALTH, iv); //0226: $7826 = actor 173@ health
 static DEFOPCODE(010D, SET_PLAYER_WANTED_LEVEL, ii); //010D: set_player $PLAYER_CHAR wanted_level_to 0
 static DEFOPCODE(0215, DESTROY_PICKUP, i); //0215: destroy_pickup $3071[0]
@@ -168,6 +178,56 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::SET_OBJECT_VISIBILITY(int object, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_OBJECT_VISIBILITY, object, state);
+}
+
+void CleoFunctions::ADD_MONEY(int player, int money)
+{
+    sautils->ScriptCommand(&scm_ADD_MONEY, player, money);
+}
+
+void CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(int heli, int _char, int vehicle, float radius)
+{
+    sautils->ScriptCommand(&scm_SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW, heli, _char, vehicle, radius);
+}
+
+void CleoFunctions::SET_ACTOR_ANGLE_TO(int _char, float heading)
+{
+    sautils->ScriptCommand(&scm_SET_ACTOR_ANGLE_TO, _char, heading);
+}
+
+void CleoFunctions::PUT_ACTOR_INTO_TURRET_ON_CAR(int _char, int vehicle, float offsetX, float offsetY, float offsetZ, int position, float angleLimit, int weaponType)
+{
+    sautils->ScriptCommand(&scm_PUT_ACTOR_INTO_TURRET_ON_CAR, _char, vehicle, offsetX, offsetY, offsetZ, position, angleLimit, weaponType);
+}
+
+void CleoFunctions::REMOVE_ACTOR_FROM_TURRET_MODE(int _char)
+{
+    sautils->ScriptCommand(&scm_REMOVE_ACTOR_FROM_TURRET_MODE, _char);
+}
+
+void CleoFunctions::ENABLE_ACTOR_COLLISION_DETECTION(int _char, bool state)
+{
+    sautils->ScriptCommand(&scm_ENABLE_ACTOR_COLLISION_DETECTION, _char, state);
+}
+
+void CleoFunctions::SET_OBJECT_COLLISION_DETECTION(int object, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_OBJECT_COLLISION_DETECTION, object, state);
+}
+
+void CleoFunctions::PUT_ACTOR_INTO_TURRET_ON_OBJECT(int _char, int object, float offsetX, float offsetY, float offsetZ, int orientation, float angleLimit, int weaponType)
+{
+    sautils->ScriptCommand(&scm_PUT_ACTOR_INTO_TURRET_ON_OBJECT, _char, object, offsetX, offsetY, offsetZ, orientation, angleLimit, weaponType);
+}
+
+void CleoFunctions::ATTACH_OBJECT_TO_ACTOR(int object, int _char, float offsetX, float offsetY, float offsetZ, float rotationX, float rotationY, float rotationZ)
+{
+    sautils->ScriptCommand(&scm_ATTACH_OBJECT_TO_ACTOR, object, _char, offsetX, offsetY, offsetZ, rotationX, rotationY, rotationZ);
 }
 
 int CleoFunctions::ACTOR_HEALTH(int _char)

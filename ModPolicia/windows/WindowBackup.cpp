@@ -208,7 +208,7 @@ void WindowBackup::CreateBackupConfig()
             Create();
             m_CloseToBackupWindow = false;
         } else {
-            WindowCarMenu::Create();
+            WindowCarMenu::Create(WindowCarMenu::m_Vehicle);
         }
     };
 }

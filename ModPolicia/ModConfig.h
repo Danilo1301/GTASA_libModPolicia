@@ -28,6 +28,7 @@ public:
 	static std::string m_ConfigMainFolderName;
     static bool EnableTestMenu;
     static bool CreateTestOptionsInRadioMenu;
+    static bool EnableModWhenGameStarts;
 
 	static void MakePaths();
 	static bool DirExists(std::string path);
@@ -43,9 +44,13 @@ public:
 	
 	static void Save();
 	static void SaveSettings();
+	static void SaveDataSettings();
+	static void SaveStats();
 
 	static void Load();
 	static void LoadSettings();
+	static void LoadDataSettings();
+	static void LoadStats();
 
     static std::string ReadVersionFile();
 	static void DefineVersions();

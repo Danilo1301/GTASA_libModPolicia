@@ -152,9 +152,24 @@ Fixing chase:
 [X] ADD: menu outside pd to spawn partner
 [X] ADD: ongoing chase callout
 
-[ ] FIX: NPC died but still doing handsup
+[1.4.0]
+[X] FIX: NPC died but still doing handsup
+[X] FIX: Spikestrips now gets destroyed when it hits the suspect
+[-] ADD: audio when suspect hits spikestrips (theres no audio)
+[X] ADD: mod now detect vehicle crashes
+[X] ADD: audio when suspect hits roadblock
+[X] ADD: audio when suspect evades roadblock
+[X] ADD: carry ped to trunk
+[X] ADD: edit trunk position
+[X] ADD: searchlight for the heli (only works at night)
+[X] ADD: money reward when arresting suspects
+[X] CHANGE: rework the scorch system (sistema de conduzir para DP)
+[X] ADD: option to enable mod when game starts in settings.ini
+[X] ADD: option to change vehice and skin of barriers 
 
+[ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect
+[ ] Check bug where gang suspect ignores the scorch car
 [ ] FIX: roadblock peds should shoot at suspect
 
 --------------------------

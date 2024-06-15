@@ -20,6 +20,10 @@
 #include "Vehicle.h"
 #include "Callouts.h"
 #include "Backup.h"
+#include "Trunk.h"
+#include "PoliceDepartment.h"
+#include "Stats.h"
+#include "Chase.h"
 
 bool isDirExist(const std::string& path)
 {
@@ -132,6 +136,7 @@ void VersionControl::ApplyPatches()
 std::string ModConfig::m_ConfigMainFolderName = "modPolicia";
 bool ModConfig::EnableTestMenu = false;
 bool ModConfig::CreateTestOptionsInRadioMenu = false;
+bool ModConfig::EnableModWhenGameStarts = false;
 
 void ModConfig::MakePaths()
 {
@@ -226,8 +231,18 @@ void ModConfig::SaveSettings()
     INIFile file;
     
     auto generalSection = file.AddSection("General");
-    generalSection->AddBool("enable_test_options_in_radio_menu", ModConfig::CreateTestOptionsInRadioMenu);
+    generalSection->AddLine("");
+    generalSection->AddLine("; Enables the test options in the radio menu");
+    generalSection->AddLine("; 0 = disabled | 1 = enabled");
+    generalSection->AddIntFromBool("enable_test_options_in_radio_menu", ModConfig::CreateTestOptionsInRadioMenu);
+
+    generalSection->AddLine("");
+    generalSection->AddLine("; Starts the game with mod enabled");
+    generalSection->AddLine("; 0 = starts disabled | 1 = starts enabled");
+    generalSection->AddIntFromBool("enable_mod_when_game_starts", ModConfig::EnableModWhenGameStarts);
+
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
+    generalSection->AddInt("money_reward", PoliceDepartment::m_MoneyReward);
 
     //
 
@@ -247,17 +262,89 @@ void ModConfig::SaveSettings()
     windowSection->AddFloat("position_x", Window::m_DefaultWindowPosition.x);
     windowSection->AddFloat("position_y", Window::m_DefaultWindowPosition.y);
 
-    //
+    file.Save(settingsFileDir);
+    file.Destroy();
+
+    SaveDataSettings();
+}
+
+void ModConfig::SaveDataSettings()
+{
+    auto dataDir = GetConfigFolder() + "/data/";
+
+    //backupFile
+
+    INIFile backupFile;
 
     for(auto backupVehicle : Backup::m_DataBackupVehicles)
     {
-        auto backupSection = file.AddSection("Backup_" + std::to_string(backupVehicle.vehicleModelId));
+        auto backupSection = backupFile.AddSection("Backup_" + std::to_string(backupVehicle.vehicleModelId));
 
         backupSection->AddInt("num_peds", backupVehicle.numPeds);
         backupSection->AddInt("weapon_id", backupVehicle.weaponId);
     }
 
-    file.Save(settingsFileDir);
+    backupFile.Save(dataDir + "backup.ini");
+    backupFile.Destroy();
+
+    //trunk
+
+    INIFile trunkFile;
+
+    for(auto pair : Trunk::m_TrunkModels)
+    {
+        auto modelId = pair.first;
+        auto trunkModelData = &pair.second;
+
+        auto backupSection = trunkFile.AddSection("Trunk_" + std::to_string(modelId));
+
+        backupSection->AddCVector("position1", trunkModelData->trunkPositions[0]);
+        backupSection->AddCVector("position2", trunkModelData->trunkPositions[1]);
+    }
+
+    trunkFile.Save(dataDir + "trunk.ini");
+    trunkFile.Destroy();
+
+    //pickups
+
+    INIFile pickupsFile;
+
+    auto pickupsSection = pickupsFile.AddSection("PICKUPS");
+    pickupsSection->AddInt("pickup_equipment_model_id", PoliceDepartment::m_PickupEquipment->pickupModelId);
+    pickupsSection->AddInt("pickup_menu_model_id", PoliceDepartment::m_PickupMenu->pickupModelId);
+    pickupsSection->AddInt("pickup_partner_model_id", PoliceDepartment::m_PickupPartner->pickupModelId);
+
+    pickupsFile.Save(dataDir + "pickups.ini");
+    pickupsFile.Destroy();
+
+    //barriers
+
+    INIFile barriersFile;
+    
+    auto barriersSection = barriersFile.AddSection("BARRIERS");
+    barriersSection->AddInt("barrier_roadblock_ped_id", Chase::m_BarrierModels[0].pedModelId);
+    barriersSection->AddInt("barrier_roadblock_vehicle_id", Chase::m_BarrierModels[0].vehicleModelId);
+
+    barriersSection->AddInt("barrier_spikes_ped_id", Chase::m_BarrierModels[1].pedModelId);
+    barriersSection->AddInt("barrier_spikes_vehicle_id", Chase::m_BarrierModels[1].vehicleModelId);
+
+    barriersFile.Save(dataDir + "barriers.ini");
+    barriersFile.Destroy();
+}
+
+void ModConfig::SaveStats()
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: SaveStats (data/stats.ini)" << std::endl;
+
+    auto dir = GetConfigFolder() + "/data/stats.ini";
+
+    INIFile file;
+    
+    auto section = file.AddSection("STATS");
+    section->AddInt("times_opened_game", Stats::TimesOpenedGame);
+    section->AddInt("time_played", Stats::TimePlayed);
+
+    file.Save(dir);
     file.Destroy();
 }
 
@@ -266,6 +353,7 @@ void ModConfig::Load()
     MakePaths();
 
     LoadSettings();
+    LoadStats();
 }
 
 void ModConfig::LoadSettings()
@@ -291,6 +379,13 @@ void ModConfig::LoadSettings()
     for(auto section : file.sections)
     {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Section: " << section->key << " has " << section->values.size() << " values" << std::endl;
+
+        /*
+        for(auto value : section->values)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << value.first << "|" << value.second << std::endl;
+        }
+        */
     }
 
     auto generalSections = file.GetSections("General");
@@ -298,8 +393,10 @@ void ModConfig::LoadSettings()
     {
         auto generalSection = generalSections[0];
 
-        generalSection->GetBool("enable_test_options_in_radio_menu", &ModConfig::CreateTestOptionsInRadioMenu);
+        generalSection->GetBoolFromInt("enable_test_options_in_radio_menu", &ModConfig::CreateTestOptionsInRadioMenu);
+        generalSection->GetBoolFromInt("enable_mod_when_game_starts", &ModConfig::EnableModWhenGameStarts);        
         generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
+        generalSection->GetInt("money_reward", &PoliceDepartment::m_MoneyReward);
     }
 
     //
@@ -330,25 +427,110 @@ void ModConfig::LoadSettings()
         windowSection->GetFloat("position_y", &Window::m_DefaultWindowPosition.y);
     }
 
-    //
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Success reading settings.ini" << std::endl;
 
-    for(auto& backupVehicle : Backup::m_DataBackupVehicles)
+    LoadDataSettings();
+}
+
+void ModConfig::LoadDataSettings()
+{
+    auto dataDir = GetConfigFolder() + "/data/";
+
+    INIFile backupFile;
+    if (backupFile.Read(dataDir + "backup.ini"))
     {
-        std::string backupSectionName = "Backup_" + std::to_string(backupVehicle.vehicleModelId);
-
-        auto sections = file.GetSections(backupSectionName);
-        if (sections.size() > 0)
+        for(auto& backupVehicle : Backup::m_DataBackupVehicles)
         {
-            auto section = sections[0];
+            std::string backupSectionName = "Backup_" + std::to_string(backupVehicle.vehicleModelId);
 
-            section->GetInt("num_peds", &backupVehicle.numPeds);
-            section->GetInt("weapon_id", &backupVehicle.weaponId);
+            auto sections = backupFile.GetSections(backupSectionName);
+            if (sections.size() > 0)
+            {
+                auto section = sections[0];
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Loaded " << backupSectionName << std::endl;
+                section->GetInt("num_peds", &backupVehicle.numPeds);
+                section->GetInt("weapon_id", &backupVehicle.weaponId);
+
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Loaded " << backupSectionName << std::endl;
+            }
         }
+    } else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading backup.ini (Not found)" << std::endl;
     }
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Success reading settings.ini" << std::endl;
+    INIFile trunkFile;
+    if (trunkFile.Read(dataDir + "trunk.ini"))
+    {   
+        for(auto pair : Trunk::m_TrunkModels)
+        {
+            auto modelId = pair.first;
+            auto trunkModelData = &Trunk::m_TrunkModels[modelId];
+
+            std::string sectionName = "Trunk_" + std::to_string(modelId);
+
+            auto sections = trunkFile.GetSections(sectionName);
+            if (sections.size() > 0)
+            {
+                auto section = sections[0];
+
+                section->GetCVector("position1", &trunkModelData->trunkPositions[0]);
+                section->GetCVector("position2", &trunkModelData->trunkPositions[1]);
+
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Loaded " << sectionName << std::endl;
+            }
+        }
+    } else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading trunk.ini (Not found)" << std::endl;
+    }
+
+    INIFile pickupFile;
+    if (pickupFile.Read(dataDir + "pickups.ini"))
+    {   
+        auto sections = pickupFile.GetSections("PICKUPS");
+        auto section = sections[0];
+
+        section->GetInt("pickup_equipment_model_id", &PoliceDepartment::m_PickupEquipment->pickupModelId);
+        section->GetInt("pickup_menu_model_id", &PoliceDepartment::m_PickupMenu->pickupModelId);
+        section->GetInt("pickup_partner_model_id", &PoliceDepartment::m_PickupPartner->pickupModelId);
+    } else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading pickups.ini (Not found)" << std::endl;
+    }
+
+    INIFile barriersFile;
+    if (barriersFile.Read(dataDir + "barriers.ini"))
+    {   
+        auto sections = barriersFile.GetSections("BARRIERS");
+        auto section = sections[0];
+
+        section->GetInt("barrier_roadblock_ped_id", &Chase::m_BarrierModels[0].pedModelId);
+        section->GetInt("barrier_roadblock_vehicle_id", &Chase::m_BarrierModels[0].vehicleModelId);
+
+        section->GetInt("barrier_spikes_ped_id", &Chase::m_BarrierModels[1].pedModelId);
+        section->GetInt("barrier_spikes_vehicle_id", &Chase::m_BarrierModels[1].vehicleModelId);
+    } else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading barriers.ini (Not found)" << std::endl;
+    }
+}
+
+void ModConfig::LoadStats()
+{
+    auto dir = GetConfigFolder() + "/data/stats.ini";
+
+    INIFile file;
+    if (!file.Read(dir))
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading stats.ini (Not found)" << std::endl;
+        return;
+    }
+
+    auto sections = file.GetSections("STATS");
+    if (sections.size() > 0)
+    {
+        auto section = sections[0];
+
+        section->GetInt("times_opened_game", &Stats::TimesOpenedGame);
+        section->GetInt("time_played", &Stats::TimePlayed);
+    }
 }
 
 std::string ModConfig::ReadVersionFile()

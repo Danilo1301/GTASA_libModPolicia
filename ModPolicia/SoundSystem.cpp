@@ -85,3 +85,8 @@ void SoundSystem::PlayHTAudio()
 {
     PlayStreamFromAudiosFolder("ht.wav", false);
 }
+
+void SoundSystem::PlayHT2Audio()
+{
+    PlayStreamFromAudiosFolder("ht-2.wav", false);
+}

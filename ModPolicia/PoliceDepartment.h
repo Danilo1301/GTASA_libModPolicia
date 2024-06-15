@@ -26,11 +26,19 @@ public:
     static int m_PartnerSkinIndex;
     static std::vector<Ped*> m_Partners;
 
+    static int m_PDMarker;
+    static int m_PDSphere;
+    static CVector m_SphereAndMarkerPosition;
+
     static std::vector<Weapon> m_Weapons;
     static std::vector<PartnerSkin> m_PartnerSkins;
+    static std::vector<int> m_VehicleIds;
+
+    static int m_MoneyReward;
 
     static void Init();
     static void Update(int dt);
+    static void UpdateTrunkScorch(int dt);
 
     static Ped* SpawnPartner();
     static void RemoveAllPartners();

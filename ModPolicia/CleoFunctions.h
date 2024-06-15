@@ -23,6 +23,16 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void SET_OBJECT_VISIBILITY(int object, bool state);
+    static void ADD_MONEY(int player, int money);
+    static void SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(int heli, int _char, int vehicle, float radius);
+    static void SET_ACTOR_ANGLE_TO(int _char, float heading);
+    static void PUT_ACTOR_INTO_TURRET_ON_CAR(int _char, int vehicle, float offsetX, float offsetY, float offsetZ, int position, float angleLimit, int weaponType);
+    static void REMOVE_ACTOR_FROM_TURRET_MODE(int _char);
+    static void ENABLE_ACTOR_COLLISION_DETECTION(int _char, bool state);
+    static void SET_OBJECT_COLLISION_DETECTION(int object, bool state);
+    static void PUT_ACTOR_INTO_TURRET_ON_OBJECT(int _char, int object, float offsetX, float offsetY, float offsetZ, int orientation, float angleLimit, int weaponType);
+    static void ATTACH_OBJECT_TO_ACTOR(int object, int _char, float offsetX, float offsetY, float offsetZ, float rotationX, float rotationY, float rotationZ);
     static int ACTOR_HEALTH(int _char);
     static void SET_PLAYER_WANTED_LEVEL(int player, int wantedLevel);
     static void DESTROY_PICKUP(int pickup);
@@ -72,6 +82,7 @@ public:
     static void CAR_DRIVE_TO(int car, float x, float y, float z);
     static void FREEZE_CAR_POSITION(int car, bool state);
     static void SET_MARKER_COLOR_TO(int blip, int color);
+
     //doesnt work for some reason
     static void SET_ACTOR_WEAPON_AND_AMMO(int _char, int weaponType, int ammo);
     static void ENABLE_CAR_SIREN(int car, bool state);

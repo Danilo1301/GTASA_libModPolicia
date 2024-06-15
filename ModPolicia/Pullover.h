@@ -43,6 +43,7 @@ public:
     static void FreeVehicle();
 
     static void AskPedsToLeaveCar(Vehicle* vehicle);
+    static void AskPedToStopCarOnRight(Vehicle* vehicle);
 
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);
