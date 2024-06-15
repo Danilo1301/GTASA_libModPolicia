@@ -53,6 +53,8 @@ std::vector<int> PoliceDepartment::m_VehicleIds = {
 
 int PoliceDepartment::m_MoneyReward = 350;
 
+CVector PoliceDepartment::m_SpawnParterAtPosition = CVector(0, 0, 0);
+
 void PoliceDepartment::Init()
 {
     
@@ -78,6 +80,7 @@ void PoliceDepartment::Update(int dt)
 
     if(m_PickupPartner->playerJustPickedPickup)
     {
+        m_SpawnParterAtPosition = m_PickupPartner->position;
         WindowPD_Menu::CreatePartnerMenu();
     }
 }
@@ -179,7 +182,7 @@ Ped* PoliceDepartment::SpawnPartner()
 {
     auto weapon = m_Weapons[m_PartnerWeaponIndex];
     auto skin = m_PartnerSkins[m_PartnerSkinIndex];
-    auto spawnPosition = m_PickupPartner->position;
+    auto spawnPosition = m_SpawnParterAtPosition;
 
     //type 8 = gang2
     auto hPed = CleoFunctions::CREATE_ACTOR_PEDTYPE(8, skin.pedModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);

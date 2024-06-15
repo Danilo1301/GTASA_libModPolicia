@@ -23,17 +23,16 @@ SprintFixByYuna.csa
 ( as libs já vem dentro do .zip, em 'libs necessárias', basta apenas jogar os arquivos .so dentro da sua pasta /mods )<br>
 ( exemplo: para /Android/data/ro.samp_mobile.game/mods )<br>
 
-1. Baixe o **ModPolicia-0.0.0.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
-2. Abra a pasta "/1. required libs" e copie a pasta "mods" para dentro da sua pasta "mods" (em com.rockstargames.gtasa/mods)
-3. Abra a pasta "/2. inside game folder", copie as pastas "mods" e "configs" e cole na pasta raiz do jogo (em com.rockstargames.gtasa)
-4. Abra a pasta "/3. inside CLEO" e copie o "ModPolicia.csa" para a pasta raiz do seu jogo (em com.rockstargames.gtasa)
-5. Abra a pasta "/4. language", escolha uma linguagem e copie o "ModPolicia.fxt" para a pasta raiz do seu jogo (em com.rockstargames.gtasa)
-6. OPCIONAL: Abra a pasta "/optional lib (for audio playing)" e copie a pasta "mods" para a sua pasta "mods" (em com.rockstargames.gtasa/mods)
-7. Coloque as texturas do mod no seu 'txd.txt' usando o 'TXD Tool' (Tutoriais abaixo)
+1. Baixe o **ModPolicia-0.0.0__pt-br.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
+2. Abra a pasta "1. libs necessárias" e copie a pasta "mods" para dentro da sua pasta "mods" (em com.rockstargames.gtasa/mods)
+3. Abra a pasta "2. dentro da pasta do jogo", copie as pastas "mods" e "configs" e cole na pasta raiz do jogo (em com.rockstargames.gtasa)
+4. Abra a pasta "3. dentro da CLEO" e copie o "ModPolicia.csa" e o "ModPolicia.fxt" para a pasta raiz do seu jogo (em com.rockstargames.gtasa)
+5. OPCIONAL: Para ouvir os sons, abra a pasta "lib opcional (para tocar sons)" e copie a pasta "mods" para a sua pasta "mods" (em com.rockstargames.gtasa/mods)
+6. Coloque as texturas do mod no seu 'txd.txt' usando o 'TXD Tool' (Tutoriais abaixo)
 
 <h1>Como usar</h1>
 
-* Para ativar o mod: abra o menu do carro policial e ative o mod, ou entre na DP e ative por lá
+* Para ativar o mod: entre na DP e ative por lá, ou abra o menu do carro policial e ative o mod
 * Para abrir o menu do carro policial: chegue perto de uma viatura (carro) e aperte o widget de checkmark ([exemplo](https://imgur.com/gallery/checkmark-apBNac1))
 * Você precisa estar a pé ou de carro para abordar
 * Para abordar a pé: mire em alguém e aperte o botão de buzina

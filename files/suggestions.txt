@@ -432,6 +432,8 @@ e consultar emplacamento também coloca isso também
 [ ] (brandonviljoen) Detectar quando o suspeito bate na barreira + som
 Ou quando os espinhos furam o pneu do suspeito
 
+[ ] (apenaskayo) na próxima atualização coloca pro suspeito seguir vc, porque fica mais massa pra imersão a pessoa conseguir levar ele pro canto da parede pra abordar
+
 #####################################################################
 ###### BUGS #########################################################
 #####################################################################
@@ -478,29 +480,8 @@ Ou quando os espinhos furam o pneu do suspeito
 ---
 in this version:
 
-[X] (plucaswz) Colocar opção de spawnar parceiro no menu do carro
-1.4.0
 
 [X] (brandonviljoen) U can.  Choose.   Wich. Car can deploy. The spikestrips like explain. The coprang or copcorla
-1.4.0
-
-[X] (@mitakurukito6379) Colocar suspeito no porta malas
-1.4.0
-
-[X] (apenaskayo) •ESSA É UMA SUGESTAO QUE É MAIS DIFICIL DE SER FEITA, ENFIM, É IGUAL NO GIROFLEX QUE TEM COMO DEIXAR AS LUZES EM LOCAIS ESPECÍFICOS NO VEICULO, ASSIM PODENDO COLOCAR EM QUALQUER MOD DE VIATURA, ENFIM SERIA A MESMA COISA SO QUE COM UM PONTO QUE SERIA USADO PRA COLOCAR O SUSPEITO NO CAMBURÃO DA POLICIA, VOCE AJUSTARIA O PONTO QUE NEM SE FAZ COM AS LUZES DO GIROFLEX E COLOCAVA NO LOCAL DETERMINADO DA VIATURA, ASSIM IA TER A OPÇÃO DE COLOCAR NO CAMBURÃO DA VIATURA, COM ISSO O SUSPEITO IRIA TELEPORTA NO LOCAL DO PONTO QUE VOCE AJUSTOU
-1.4.0
-
-[X] Adicionar opção para o abordado seguir ou ir para um local (sair da rua)
-(apenaskayo) Fazer o veículo encostar no local determinado pela pessoa, ou pelo menos o seguir até o local que a pessoa quer, que nem acontece na primeira missão do GTA San Andreas que um carro dos ballas o segue e atira, mas claro tira a função de atira, só pra seguir mesmo
-1.4.0
-
-[X] (El Gatonw) mano ainda não é possível pôr o holofote do helicóptero da polícia direcionado ao carro em fuga? Ou a um pedestre marcado com aquela "seta" vermelha durante as ocorrências? 
-1.4.0
-
-[X] (brandonviljoen) Bro can u. Do.    The roadblock. And spikestrips.   The hit. Sound. Or     the breach.  And missed.   Road block or spikestrips
-1.4.0
-
-[X] (brandonviljoen) And.  The search. Ligth for helkoper.  Pls bro.   The. Search. Ligth is important.
 1.4.0
 
 [X] (@Ryanduarte.09) receber dinheiro quando levar o npc pra dp
@@ -520,4 +501,5 @@ Mas na minha opinião esse trabalho todo não vale a pena, só acho melhor que e
 (El Gatonw) Polícia - Levar suspeito no porta malas
 1.4.0
 
-[ ] (GAMER NEWS) holofotes a noite quando nas missões do mod
+[X] (GAMER NEWS) holofotes a noite quando nas missões do mod
+1.4.0

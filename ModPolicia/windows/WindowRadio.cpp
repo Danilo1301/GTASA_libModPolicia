@@ -302,4 +302,7 @@ void WindowRadio::CreateTestOptions()
 
         int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 4, 284);
     };
+
+    auto testWidgetId = window->AddIntRange(23, &Mod::m_TestWidgetId, 0, 200, 1);
+    testWidgetId->holdToChange = false;
 }

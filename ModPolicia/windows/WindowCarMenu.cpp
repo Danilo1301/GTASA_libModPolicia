@@ -3,6 +3,7 @@
 #include "Mod.h"
 #include "ModConfig.h"
 #include "CleoFunctions.h"
+#include "PoliceDepartment.h"
 
 #include "windows/WindowBackup.h"
 #include "windows/WindowTrunk.h"
@@ -95,9 +96,11 @@ void WindowCarMenu::Create(Vehicle* vehicle)
     };
 
     auto button_spawnPartner = window->AddButton(167);
-    button_spawnPartner->onClick = []()
+    button_spawnPartner->onClick = [vehicle]()
     {
         Remove();
+
+        PoliceDepartment::m_SpawnParterAtPosition = Mod::GetCarPositionWithOffset(vehicle->hVehicle, CVector(-3.0f, 0, 0));
         WindowPD_Menu::CreatePartnerMenu();
     };
 

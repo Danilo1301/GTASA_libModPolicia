@@ -35,6 +35,8 @@ public:
     static std::vector<int> m_VehicleIds;
 
     static int m_MoneyReward;
+    
+	static CVector m_SpawnParterAtPosition;
 
     static void Init();
     static void Update(int dt);

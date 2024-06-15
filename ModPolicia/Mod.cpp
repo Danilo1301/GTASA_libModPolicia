@@ -31,6 +31,7 @@ const char* Mod::m_Version = "1.4.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 bool Mod::m_DevModeEnabled = false;
+int Mod::m_TestWidgetId = 0;
 
 bool hasLoadedAnimations = false;
 //bool hasLoadedModels = false;
@@ -190,6 +191,12 @@ void Mod::Update(int dt)
         }
     }
 
+    if(m_TestWidgetId > 0)
+    {
+        //shows widget only for testing
+        Widgets::IsWidgetJustPressed(m_TestWidgetId);
+    }
+
     /*
     if(Widgets::IsWidgetJustPressed(38)) //POWER
     {
@@ -217,6 +224,8 @@ void Mod::Update(int dt)
         }
     }
     */
+
+
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "end ---------" << std::endl;
 }

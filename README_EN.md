@@ -19,17 +19,16 @@ SprintFixByYuna.csa
 ( those libs are all inside the .zip file, in '/required libs', you just have to copy the .so files inside your /mods folder )<br>
 ( example: inside /Android/data/ro.samp_mobile.game/mods )<br>
 
-1. Download the **ModPolicia-0.0.0.zip** file in [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
-2. Open the folder "/1. required libs" and copy the "mods" folder to your "mods" folder (in com.rockstargames.gtasa/mods)
-3. Open the folder "/2. inside game folder", copy the folders "mods" and "configs" and paste it in your game folder (in com.rockstargames.gtasa)
-4. Open the folder "/3. inside CLEO" and copy the file "ModPolicia.csa to your game folder (in com.rockstargames.gtasa)
-5. Open the folder "/4. language", choose a language and copy the "ModPolicia.fxt" to your game folder (in com.rockstargames.gtasa)
-6. OPTIONAL: Open the folder "/optional lib (for audio playing)" and copy the "mods" folder to your "mods" folder (in com.rockstargames.gtasa/mods)
-7. Install the mod textures inside the 'txd.txt' using 'TXD Tool' (Tutorials below)
+1. Download the **ModPolicia-0.0.0__en.zip** file in [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
+2. Open the folder "1. required libs" and copy the "mods" folder to your "mods" folder (in com.rockstargames.gtasa/mods)
+3. Open the folder "2. inside game folder", copy the folders "mods" and "configs" and paste it in your game folder (in com.rockstargames.gtasa)
+4. Open the folder "3. inside CLEO" and copy the files "ModPolicia.csa" and "ModPolicia.fxt" to your game folder (in com.rockstargames.gtasa)
+5. OPTIONAL: Open the folder "optional lib (for audio playing)" and copy the "mods" folder to your "mods" folder (in com.rockstargames.gtasa/mods)
+6. Install the mod textures inside the 'txd.txt' using 'TXD Tool' (Tutorials below)
 
 <h1>How to use</h1>
 
-* To enable the mod: open the police car menu and enable it, or enter the PD and enable there
+* To enable the mod: enter the PD and enable there, or open the police car menu and enable the mod
 * To open the police car menu: get closer to a police car and press the checkmark widget ([example](https://imgur.com/gallery/checkmark-apBNac1))
 * You need to be on foot or in a vehicle to pull over
 * To stop in foot: aim to someone and press horn button
