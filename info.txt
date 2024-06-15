@@ -5,6 +5,7 @@ Check logs
 Check Mod::m_Version
 Check MYMODCFG version in main.cpp
 Add version to ModConfig::DefineVersions
+Set Mod::m_DevModeEnabled to false
 Check EN and PT .fxt
 Check .fxt mod version (EN and PT)
 Check game more than once to make sure
@@ -144,7 +145,6 @@ Fixing chase:
 [X] FIX: change car to vehicle in fxt
 [X] CHANGE: increase the distance that backup spawns
 [X] CHANGE: increase criminals health to make it harder
-
 
 [1.3.0]
 [X] ADD: pickups

@@ -27,10 +27,10 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "1.3.0";
+const char* Mod::m_Version = "1.4.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
-bool Mod::m_DevModeEnabled = true;
+bool Mod::m_DevModeEnabled = false;
 
 bool hasLoadedAnimations = false;
 //bool hasLoadedModels = false;

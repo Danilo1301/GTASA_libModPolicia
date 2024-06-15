@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod v1.3.0 (by Danilo1301)
+MPFX6 Police Mod v1.4.0 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -158,6 +158,17 @@ MPFX157 Army
 MPFX158 Desert Sheriff
 MPFX159 Skin
 MPFX160 ~g~[RADIO] ~w~An officer is requesting backup on an ongoing pursuit
+MPFX161 Move car to the right
+MPFX162 Stop in another place
+MPFX163 Ask to follow
+MPFX164 Take to the trunk
+MPFX165 Edit trunk
+MPFX166 Edit trunk ~1~
+MPFX167 Spawn partners
+MPFX168 You received a cash reward of ~g~$~1~
+MPFX169 Edit barriers
+MPFX170 Edit spikestrips
+MPFX171 Vehicle
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v
