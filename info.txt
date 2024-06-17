@@ -174,11 +174,13 @@ Fixing chase:
 [ ] Check bug where gang suspect ignores the scorch car
 [ ] FIX: roadblock peds should shoot at suspect
 
+
 --------------------------
 Notes:
 
 Explicar melhor oq cada pasta faz
 Adicionar uma nova pasta /ModPolicia/ dentro do .zip
+Colocar créditos do novo audio dispatch
 
 [ ] Add callout_chase wav sound
 [X] Changed willShootAtCops chance and chance of vehicle having guns

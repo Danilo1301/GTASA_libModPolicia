@@ -42,7 +42,7 @@ SprintFixByYuna.csa
 
 <h1>Tutoriais</h1>
 
-* Instalando o mod polícia: https://youtu.be/4mq7lfXUUfY
+* Instalando o mod polícia: https://youtu.be/U-JmGorku38
 * Instalando GTA SA 2.00 com data original: https://youtu.be/wT4N_NAYFOI
 * Instalando as texturas do mod: https://youtu.be/ghzIKrxtvx4
 

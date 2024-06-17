@@ -434,6 +434,17 @@ Ou quando os espinhos furam o pneu do suspeito
 
 [ ] (apenaskayo) na próxima atualização coloca pro suspeito seguir vc, porque fica mais massa pra imersão a pessoa conseguir levar ele pro canto da parede pra abordar
 
+[ ] (HARD) colocar pra dialogar com o npc tipo quando abordar um NPC de carro pergunta pra ele de ond tá vindo etc
+
+[ ] (cl•) Coloca tip GTA 5 quando abordar um carro colocar uma bolha vermelha aonde e para o carro encostar, sem eu precisar descer da VTR
+
+[ ] (Raí gameplay) quando você clica na opção de levar no porta- malas o npc continua com as mãos pra cima 
+tem como ele ficar normal com quando você pega e coloca no porta- malas?
+
+[ ] (GAMER NEWS) Chamar a o veículo enforcer para por suspeitos na VTR também seria bom, quando a gente escolher chamar uma VTR
+
+[ ] NPC entrar no banco de trás quando levar pro carro
+
 #####################################################################
 ###### BUGS #########################################################
 #####################################################################
@@ -472,9 +483,11 @@ Ou quando os espinhos furam o pneu do suspeito
 
 [ ] (Zacarias7) Man na próxima atualização tenta melhorar a perseguição, porque acho que buga aí os NPC em vez de da fuga ele ficar acompanhando o tráfego ou se ele bate ele sai do carro e fica parado, aí se eu aperto na buzina ele joga o carro pro lado para da espaço para mim passa. Por favor tenta arrumar isso
 
+[ ] Crash quando o suspeito perseguido vai muito longe
 
+[ ] quando abordar um carro com duas pessoas dentro quando eu levo o passageiro pra DP e libero o outro o jogo sai Man
 
-
+[ ] (GAMER NEWS) NPC da moto continua ficando travado com as mãos para cima  quando polícial cerca ele 
 
 
 ---
