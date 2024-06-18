@@ -174,6 +174,7 @@ Fixing chase:
 [ ] Check bug where gang suspect ignores the scorch car
 [ ] FIX: roadblock peds should shoot at suspect
 
+[ ] ADD: sounds when checking ID, plate, wanted
 
 --------------------------
 Notes:

@@ -445,6 +445,10 @@ tem como ele ficar normal com quando você pega e coloca no porta- malas?
 
 [ ] NPC entrar no banco de trás quando levar pro carro
 
+[ ] (• BravoMike - Nick Nelson) Colocar pros policiais só atirarem se o npc reagir
+Adiciona algum botão com a função de autorizar os policiais que estão dando apoio na ocorrência a atirar.
+
+
 #####################################################################
 ###### BUGS #########################################################
 #####################################################################

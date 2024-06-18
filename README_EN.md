@@ -67,7 +67,7 @@ To change the menu's position, you need to enable the edit mode in: "Options" > 
 
 For all versions:
 * BASS Mod: 1.0.0.0
-* CLEO Mod: 2.0.1.5
+* CLEO Mod: 2.0.1.3
 * AML: 1.2.1
 * AML Headers: 1.0.3.1
 * SAUtils: 1.6
