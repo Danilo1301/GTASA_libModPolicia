@@ -169,12 +169,14 @@ Fixing chase:
 [X] ADD: option to enable mod when game starts in settings.ini
 [X] ADD: option to change vehice and skin of barriers 
 
+[1.4.1]
+[X] ADD: sounds when checking ID, plate, wanted
+
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect
 [ ] Check bug where gang suspect ignores the scorch car
 [ ] FIX: roadblock peds should shoot at suspect
 
-[ ] ADD: sounds when checking ID, plate, wanted
 
 --------------------------
 Notes:

@@ -40,12 +40,16 @@ void WindowDocument::Create()
             SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_ID.wav", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX71", 0, 0, 0, 3000, 1); //consultar rg
 
-            CleoFunctions::WAIT(2000, []() {
+            CleoFunctions::WAIT(4000, []() {
                 auto ped = m_Ped;
                 if(ped->isWanted)
                 {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/ID_WITH_ARREST_WARRANT.wav", false);
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX73", 0, 0, 0, 3000, 1); //com mandado
                 } else {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/ID_OK.wav", false);
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX72", 0, 0, 0, 3000, 1); //sem queixas
                 }
 

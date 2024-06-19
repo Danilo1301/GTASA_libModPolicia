@@ -96,13 +96,17 @@ void WindowPullover::CreatePullingPed()
             SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_VEHICLE_PLATE.wav", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
 
-            CleoFunctions::WAIT(2000, [ped]() {
+            CleoFunctions::WAIT(4000, [ped]() {
                 auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
 
                 if(vehicle->isStolen)
                 {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_STOLEN.wav", false);
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
                 } else {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_OK.wav", false);
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
                 }
 

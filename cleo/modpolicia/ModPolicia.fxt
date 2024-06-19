@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia v1.4.0 (by ~y~Danilo1301~w~)
+MPFX6 Mod Policia v1.4.1 (by ~y~Danilo1301~w~)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -25,7 +25,7 @@ MPFX24 Sim
 MPFX25 Nao
 MPFX26 <  ( Coloque no CENTRO )  >
 MPFX27 Ped ID ~1~
-MPFX28 Test ~1~
+MPFX28 ###############VAZIO###############
 MPFX29 ShowDebug
 MPFX30 Short description of something
 MPFX31 ~b~[Policial] ~w~Parado, aqui e a policia!
@@ -70,7 +70,7 @@ MPFX69 ~g~[COPOM] ~w~Veiculo sem queixas
 MPFX70 ~g~[COPOM] ~w~Veiculo cadastrado como produto de roubo
 MPFX71 ~b~[Policial] ~w~COPOM, consulta de individuo...
 MPFX72 ~g~[COPOM] ~w~Individuo sem queixas
-MPFX73 ~g~[COPOM] ~w~Individuo com mandado de prisao em aberto
+MPFX73 ~g~[COPOM] ~w~O individuo esta com um mandado de prisao em aberto
 MPFX74 ~r~O individuo apreendeu fuga!
 MPFX75 Chamar reforco
 MPFX76 Chamar reforco (ROCAM)

@@ -8,6 +8,7 @@ int Stats::m_msTimePlayed = 0;
 
 void Stats::Update(int dt)
 {
+    /*
     m_msTimePlayed += dt;
 
     if(m_msTimePlayed > 5000)
@@ -18,4 +19,5 @@ void Stats::Update(int dt)
         m_msTimePlayed -= 5000;
 
     }
+    */
 }

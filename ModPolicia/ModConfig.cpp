@@ -568,6 +568,8 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.1.0");
     VersionControl::AddVersion("1.2.0");
     VersionControl::AddVersion("1.3.0");
+    VersionControl::AddVersion("1.4.0");
+    VersionControl::AddVersion("1.4.1");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }
