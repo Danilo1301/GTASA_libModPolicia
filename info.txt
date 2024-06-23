@@ -172,6 +172,13 @@ Fixing chase:
 [1.4.1]
 [X] ADD: sounds when checking ID, plate, wanted
 
+[1.5.0]
+[X] ADD: radio and textures
+[X] ADD: interface (ModPolicia)
+[ ] FIX: save stats
+[ ] FIX: car teleporting after pullover and start running
+
+
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect
 [ ] Check bug where gang suspect ignores the scorch car

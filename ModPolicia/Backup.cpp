@@ -40,6 +40,7 @@ void Backup::Update(int dt)
     UpdateCalloutBackup(dt);
     
     //if backup window is open (try to close)
+    /*
     if(WindowBackup::m_Window)
     {
         //if not chasing, remove window
@@ -48,6 +49,7 @@ void Backup::Update(int dt)
         //if not on callout, remove window
         if(m_BackupType == BACKUP_TYPE::BACKUP_CALLOUT && !Callouts::IsOnCallout()) WindowBackup::Remove();
     }
+    */
 
     //update audio
     if(m_RequestBackupAudio != NULL)
@@ -468,6 +470,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 void Backup::UpdateChaseBackup(int dt)
 {
     //show backup button
+    /*
     if(Chase::m_ChasingPed)
     {
         if(!WindowBackup::m_Window)
@@ -479,11 +482,13 @@ void Backup::UpdateChaseBackup(int dt)
             }
         }
     }
+    */
 }
 
 void Backup::UpdateCalloutBackup(int dt)
 {
     //show backup button
+    /*
     if(Callouts::IsOnCallout() && Callouts::GetCriminals().size() > 0)
     {
         if(!WindowBackup::m_Window)
@@ -495,6 +500,7 @@ void Backup::UpdateCalloutBackup(int dt)
             }
         }
     }
+    */
 }
 
 void Backup::SpawnBackupCar(BackupVehicle* backupVehicle, CVector position)

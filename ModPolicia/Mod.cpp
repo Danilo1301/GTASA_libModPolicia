@@ -30,7 +30,7 @@ extern CVector2D *m_vecCachedPos;
 const char* Mod::m_Version = "1.4.1";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
-bool Mod::m_DevModeEnabled = false;
+bool Mod::m_DevModeEnabled = true;
 int Mod::m_TestWidgetId = 0;
 
 bool hasLoadedAnimations = false;
@@ -45,6 +45,12 @@ std::vector<int> modelsToLoad;
 void Mod::Update(int dt)
 {
     //Log::file << "Mod::Update" << std::endl;
+
+    if(dt > 40)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "WARNING: dt was " << dt << std::endl;
+        dt = 40;
+    }
 
     m_TimePassed += dt;
 
@@ -94,6 +100,8 @@ void Mod::Update(int dt)
     Ambulance::Update(dt);
 
     WindowDocument::Draw();
+    WindowRadio::Update(dt);
+    WindowRadio::Draw();
 
     PoliceDepartment::Update(dt);
 
@@ -185,9 +193,22 @@ void Mod::Update(int dt)
 
     if(m_Enabled)
     {
-        if(Widgets::IsWidgetJustPressed(8)) //8 = phone
+        auto hasRadio = false;
+        auto playerActor = Mod::GetPlayerActor();
+
+        if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         {
-            WindowRadio::Create();
+            hasRadio = Ped::PedHasWeaponId(playerActor, 10);
+        } else {
+            hasRadio = CleoFunctions::GET_CURRENT_WEAPON(playerActor) == 10;
+        }
+        
+        if(hasRadio)
+        {
+            if(Widgets::IsWidgetJustPressed(8)) //8 = phone
+            {
+                WindowRadio::ToggleRadio(true);
+            }
         }
     }
 
@@ -195,6 +216,11 @@ void Mod::Update(int dt)
     {
         //shows widget only for testing
         Widgets::IsWidgetJustPressed(m_TestWidgetId);
+    }
+
+    if(!Menu::m_Credits->hasShownCredits)
+    {
+        Menu::ShowCredits(6, 5000, 80 + 50 + 10);
     }
 
     /*
@@ -266,6 +292,8 @@ void Mod::CleoInit()
     {
         ToggleMod(true);
 
+        //WindowRadio::ToggleRadio(true);
+
         if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         {
             auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
@@ -275,6 +303,9 @@ void Mod::CleoInit()
 
         ModConfig::CreateTestOptionsInRadioMenu = true;
     }
+
+    //
+
 
     //
 

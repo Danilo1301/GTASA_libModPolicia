@@ -3,10 +3,6 @@
 #include "../Input.h"
 #include "Menu.h"
 
-CRGBA Window::COLOR_BUTTON_DEFAULT = CRGBA(30, 30, 30);
-CRGBA Window::COLOR_TITLE_BOX = CRGBA(58, 58, 58);
-CRGBA Window::COLOR_BACKGROUND = CRGBA(0, 0, 0);
-
 CVector2D Window::m_DefaultWindowPosition = CVector2D(200, 200);
 float Window::m_DefaultWindowWidth = 320.0f;
 
@@ -80,12 +76,12 @@ Item* Window::AddButton(int gxtId, int num1, int num2, CRGBA color)
 
 Item* Window::AddButton(int gxtId)
 {
-	return AddButton(gxtId, 0, 0, COLOR_BUTTON_DEFAULT);	
+	return AddButton(gxtId, 0, 0, Menu::GetStyle()->COLOR_BUTTON_DEFAULT);	
 }
 
 Item* Window::AddButton(int gxtId, int num1, int num2)
 {
-	return AddButton(gxtId, num1, num2, COLOR_BUTTON_DEFAULT);	
+	return AddButton(gxtId, num1, num2, Menu::GetStyle()->COLOR_BUTTON_DEFAULT);	
 }
 
 Item* Window::AddButton(int gxtId, CRGBA color)
@@ -116,7 +112,7 @@ Item* Window::AddFloatingButton(int gxtId, int num1, int num2, CVector2D positio
 
 Item* Window::AddFloatingButton(int gxtId, int num1, int num2, CVector2D position, CVector2D size)
 {
-	return AddFloatingButton(gxtId, num1, num2, position, size, COLOR_BUTTON_DEFAULT);
+	return AddFloatingButton(gxtId, num1, num2, position, size, Menu::GetStyle()->COLOR_BUTTON_DEFAULT);
 }
 
 Item* Window::AddCheckbox(int gxtId, bool* value)
@@ -264,16 +260,17 @@ void Window::Draw()
 	if (!visible) return;
 
 	CVector2D pos = position;
+	auto style = Menu::GetStyle();
 
 	if(showTitle)
-		Draw::DrawBoxWithText(titleGtxId, 0, 0, pos, CVector2D(width, titleHeight), COLOR_TITLE_BOX, CRGBA(255, 255, 255), eTextAlign::ALIGN_LEFT);
+		Draw::DrawBoxWithText(titleGtxId, 0, 0, pos, CVector2D(width, titleHeight), style->COLOR_TITLE_BOX, CRGBA(255, 255, 255), eTextAlign::ALIGN_LEFT);
 
 	//
 
 	if (showPageControls)
 	{
 		auto btnSize = CVector2D(40.0f, 40.0f);
-		auto btnColor = COLOR_BACKGROUND;
+		auto btnColor = style->COLOR_BACKGROUND;
 
 		bool canGoLeft = page > 0;
 		bool canGoRight = page < GetMaxPages() - 1;
@@ -320,7 +317,7 @@ void Window::Draw()
 
 		if (item->useFullWidth) item->box->size.x = width - padding*2;
 
-		Draw::DrawBox(pos, CVector2D(width, item->box->size.y + padding * 2), COLOR_BACKGROUND);
+		Draw::DrawBox(pos, CVector2D(width, item->box->size.y + padding * 2), style->COLOR_BACKGROUND);
 
 		pos.y += padding;
 

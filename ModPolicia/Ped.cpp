@@ -297,3 +297,18 @@ void Ped::AddDrugs(bool drugDealer)
         inventory->AddItemToInventory(Item_Type::LANCA_PERFUME);
     }
 }
+
+bool Ped::PedHasWeaponId(int hPed, int weaponId)
+{
+    for(int i = 1; i <= 13; i++)
+    {
+        int weaponType = 0, weaponAmmo = 0, weaponModel = 0;
+
+        CleoFunctions::GET_WEAPON_DATA_FROM_ACTOR(hPed, i, &weaponType, &weaponAmmo, &weaponModel);
+
+        if(weaponId == weaponType) return true;
+
+        //Log::Level(LOG_LEVEL::LOG_BOTH) << "slot " << i << ": " << weaponType << "|" << weaponAmmo << "|" <<weaponModel << std::endl;
+    }
+    return false;
+}

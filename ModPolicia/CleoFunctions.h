@@ -23,6 +23,11 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static float GET_CAR_Z_ANGLE(int car);
+    static int GET_CURRENT_WEAPON(int _char);
+    static void GET_WEAPON_DATA_FROM_ACTOR(int _char, int weaponSlotId, int* weaponType, int* weaponAmmo, int* weaponModel);
+    static void ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION(int _char, int object, float offsetX, float offsetY, float offsetZ, int boneId, int _p7, const char* animationName, const char* animationFile, int time);
+    static void PLAY_SOUND(float x, float y, float z, int soundId);
     static void SET_OBJECT_VISIBILITY(int object, bool state);
     static void ADD_MONEY(int player, int money);
     static void SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(int heli, int _char, int vehicle, float radius);

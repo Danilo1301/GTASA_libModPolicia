@@ -228,6 +228,12 @@ void WindowPullover::CreatePullingPed()
         auto button_guincho = window->AddButton(109, 0, 0);
         button_guincho->onClick = [ped]()
         {
+            if(!CleoFunctions::CAR_DEFINED(ped->hVehicleOwned))
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Tried to call tow truck to a not defined vehicle" << std::endl;
+                return;
+            }
+
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho

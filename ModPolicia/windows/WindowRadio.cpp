@@ -12,8 +12,28 @@
 #include "Log.h"
 #include "Vehicles.h"
 #include "Scorch.h"
+#include "Widgets.h"
+#include "Backup.h"
+#include "WindowBackup.h"
 
 Window* WindowRadio::m_Window = NULL;
+bool WindowRadio::m_Enabled = false;
+CVector2D WindowRadio::m_Position = CVector2D(455, 210);
+
+std::vector<RadioChannel> WindowRadio::m_Channels = {
+    {103, { {104}, {105}, {106} }},
+    {107, { {108}, {109} }},
+    {110, { {111}, {112}, {113} }},
+    {114, { {115}, {116}, {117} }},
+    {118, { {119}, {120}, {121} }},
+    {122, {}},
+    {123, {}}
+};
+int WindowRadio::m_CurrentChannel = 0;
+int WindowRadio::m_CurrentFrequency = 0;
+bool WindowRadio::m_ChangingChannels = true;
+
+int radioObject = 0;
 
 #include "isautils.h"
 extern ISAUtils* sautils;
@@ -31,16 +51,14 @@ void WindowRadio::Create()
     auto window = m_Window = Menu::AddWindow(6);
     window->showPageControls = true;
 
-    if(Callouts::m_AproachingCallout)
+    auto button_abortCallout = window->AddButton(119, 0, 0);
+    button_abortCallout->onClick = []()
     {
-        auto button_abortCallout = window->AddButton(119, 0, 0);
-        button_abortCallout->onClick = []()
-        {
-            Remove();
-            Callouts::AbortCallout();
-        };
-    }
+        Remove();
+        Callouts::AbortCallout();
+    };
 
+    /*
     auto button_ambulance = window->AddButton(117, 0, 0);
     button_ambulance->onClick = []()
     {
@@ -55,7 +73,9 @@ void WindowRadio::Create()
 
         Ambulance::CallAmbulance(playerPosition);
     };
+    */
 
+    /*
     auto button_IML = window->AddButton(118, 0, 0);
     button_IML->onClick = []()
     {
@@ -71,7 +91,9 @@ void WindowRadio::Create()
 
         Ambulance::CallIML(playerPosition);
     };
+    */
 
+    /*
     auto button_guincho = window->AddButton(109, 0, 0);
     button_guincho->onClick = []()
     {
@@ -92,6 +114,13 @@ void WindowRadio::Create()
             vehicle->AddBlip();
             Scorch::CallTowTruckToVehicle(vehicle);
         }
+    };
+    */
+
+    auto button_config = window->AddButton(107);
+    button_config->onClick = [window]()
+    {
+        WindowBackup::CreateBackupConfig(window);
     };
 
     if(ModConfig::CreateTestOptionsInRadioMenu)
@@ -305,4 +334,363 @@ void WindowRadio::CreateTestOptions()
 
     auto testWidgetId = window->AddIntRange(23, &Mod::m_TestWidgetId, 0, 200, 1);
     testWidgetId->holdToChange = false;
+
+    auto button_position = window->AddButton(9, 1, 0);
+    button_position->onClick = [window]() {
+        Menu::AddPosition2DWindow(window, &m_Position, -1000.0f, 1000.0f, 0.5f, []() {});
+    };
+}
+
+void WindowRadio::ToggleRadio(bool enabled)
+{
+    m_Enabled = enabled;
+    m_CurrentChannel = 0;
+    m_CurrentFrequency = 0;
+    m_ChangingChannels = true;
+
+    if(!enabled) ToggleRadioOff(false);
+
+    if(enabled)
+    {
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto inCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor);
+
+        if(!inCar)
+        {   
+            if(radioObject != 0) CleoFunctions::DESTROY_OBJECT(radioObject);
+
+            radioObject = CleoFunctions::CREATE_OBJECT(321, 0, 0, 0);
+            CleoFunctions::ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION(playerActor, radioObject, 0, 0, 0, 6, 16, "PHONE_TALK", "PED", 1);
+            //CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "PHONE_TALK", "PED", 4.0f, false, false, false, false, 1);
+        }
+    }
+}
+
+void WindowRadio::ToggleRadioOff(bool keepAnimation)
+{
+    m_Enabled = false;
+    m_CurrentChannel = 0;
+    m_CurrentFrequency = 0;
+    m_ChangingChannels = true;
+
+    int time = keepAnimation ? 2000 : 0;
+
+    CleoFunctions::WAIT(time, []{
+        if(m_Enabled) return;
+
+        if(radioObject != 0) CleoFunctions::DESTROY_OBJECT(radioObject);
+        radioObject = 0;
+    });
+}
+
+void WindowRadio::Update(int dt)
+{
+    if(!m_Enabled) return;
+
+    auto channel = m_Channels[m_CurrentChannel];
+
+    // ----------------------------
+
+    if(m_ChangingChannels == true && m_CurrentChannel > 0)
+    {
+        if(Widgets::IsWidgetJustPressed(122)) //-
+        { 
+            m_CurrentChannel--;
+            CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
+        }
+    }
+
+    if(m_ChangingChannels == false && m_CurrentFrequency > 0)
+    {
+        if(Widgets::IsWidgetJustPressed(122)) //-
+        {
+            m_CurrentFrequency--;
+            CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
+        }
+    }
+    
+    // ----------------------------
+
+    if(m_ChangingChannels == true && m_CurrentChannel < m_Channels.size() - 1)
+    {
+        if(Widgets::IsWidgetJustPressed(121)) //+
+        {
+            m_CurrentChannel++;
+            CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
+        }
+    }
+
+    if(m_ChangingChannels == false && m_CurrentFrequency < channel.frequencies.size() - 1)
+    {
+        if(Widgets::IsWidgetJustPressed(121)) //+
+        {
+           m_CurrentFrequency++;
+           CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
+        }
+    }
+
+    // ----------------------------
+    
+    if(Widgets::IsWidgetJustPressed(123)) //DEAL
+    {
+        if(m_ChangingChannels)
+        {
+            if(m_Channels[m_CurrentChannel].frequencies.size() == 0)
+            {
+                SelectFrequency(m_CurrentChannel + 1, -1);
+            } else {
+                m_ChangingChannels = false;
+                m_CurrentFrequency = 0;
+            }
+
+        } else {
+            SelectFrequency(m_CurrentChannel + 1, m_CurrentFrequency + 1);
+        }
+    }
+
+    if(Widgets::IsWidgetJustPressed(134)) //EXIT
+    {
+        if(m_ChangingChannels)
+        {
+            ToggleRadio(false);
+        } else {
+            m_ChangingChannels = true;
+        }
+    }
+}
+
+void WindowRadio::Draw()
+{
+    if(!m_Enabled) return;
+
+    auto channel = m_Channels[m_CurrentChannel];
+    
+    auto textureId = channel.textureId;
+    if(!m_ChangingChannels)
+    {
+        auto frequency = channel.frequencies[m_CurrentFrequency];
+        textureId = frequency.textureId;
+    }
+
+    Draw::DrawSprite(textureId, CVector2D(m_Position.x, m_Position.y), CVector2D(150, 300), CRGBA(255, 255, 255));
+}
+
+void WindowRadio::SelectFrequency(int channelId, int frequencyId)
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "SelectFrequency " << channelId << " : " << frequencyId << std::endl;
+
+    if(channelId == 1)
+    {
+        bool hasCriminals = Callouts::GetCriminals().size() > 0;
+
+        switch (frequencyId)
+        {
+        case 1: //VIATURA LS
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[0]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        case 2: //ROCAM
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[1]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        case 3: //HELICOPTERO
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX88", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupHeli();
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+        default:
+            break;
+        }
+    }
+
+    if(channelId == 2)
+    {
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
+        
+        switch (frequencyId)
+        {
+        case 1: //OBSTACULOS
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX124", 0, 0, 0, 3000, 1); //apoio bloqueio
+
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_ROADBLOCK_", false);
+
+            Chase::AddRoadBlocks(position);
+
+            ToggleRadioOff(true);
+            break;
+        case 2: //ESPINHOS
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX125", 0, 0, 0, 3000, 1); //apoio espinhos
+
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/SPIKES_DEPLOYED_", false);
+
+            Chase::AddSpikestrips(position);
+
+            ToggleRadioOff(true);
+            break;
+        default:
+            break;
+        }
+    }
+
+    if(channelId == 3)
+    {
+        bool hasCriminals = Callouts::GetCriminals().size() > 0;
+
+        switch (frequencyId)
+        {
+        case 1: //VIATURA SF
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[3]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        case 2: //VIATURA LV
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[4]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        case 3: //RANGER
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if(channelId == 4)
+    {
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto randomVehicleHandle = Vehicles::GetRandomCarInSphere(playerPosition, 8.0f);
+        auto randomVehicle = randomVehicleHandle > 0 ? Vehicles::GetVehicleByHandle(randomVehicleHandle) : NULL;
+
+        switch (frequencyId)
+        {
+        case 1:
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_AMBULANCE.wav", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
+
+            Ambulance::CallAmbulance(playerPosition);
+
+            ToggleRadioOff(true);
+            break;
+        case 2:
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_IML.wav", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX121", 0, 0, 0, 3000, 1); //apoio IML
+
+            Ambulance::CallIML(playerPosition);
+
+            ToggleRadioOff(true);
+            break;
+        case 3:
+            if(randomVehicle)
+            {
+                SoundSystem::PlayHTAudio();
+                SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
+
+                randomVehicle->AddBlip();
+                Scorch::CallTowTruckToVehicle(randomVehicle);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if(channelId == 5)
+    {
+        bool hasCriminals = Callouts::GetCriminals().size() > 0;
+
+        switch (frequencyId)
+        {
+        case 1: //FBI
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[2]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        case 2: //SWAT
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[7]);
+
+                ToggleRadioOff(true);
+            } else {
+                ToggleRadioOff(false);
+            }
+            break;
+        case 3: //EXERCITO
+            /*
+            if(hasCriminals)
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
+            }
+            */
+            ToggleRadioOff(false);
+
+            break;
+        default:
+            break;
+        }
+    }
+
+    if(channelId == 6)
+    {
+        WindowRadio::Create();
+
+        ToggleRadioOff(false);
+    }
 }

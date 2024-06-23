@@ -90,7 +90,7 @@ void WindowDocument::Draw()
     if(m_DocumentType == DOC_TYPE::RG)
     {
         //Fundo RG
-        Draw::DrawSprite(100, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
+        Draw::DrawSprite(101, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
 
         //TEST text
         Draw::DrawText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
@@ -112,7 +112,7 @@ void WindowDocument::Draw()
         Draw::DrawText(41, m_Ped->cpf[0], m_Ped->cpf[1], CVector2D(365, 336), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
     } else {
         //Fundo CNH
-        Draw::DrawSprite(101, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
+        Draw::DrawSprite(102, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
 
         //TEST text
         Draw::DrawText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);

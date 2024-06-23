@@ -91,8 +91,30 @@ end
 0000:
 
 0390: load_txd_dictionary 'TXD'
-038F: load_texture "mptx1" as 100
-038F: load_texture "mptx2" as 101
+038F: load_texture "mptx1" as 101
+038F: load_texture "mptx2" as 102
+
+//radio
+038F: load_texture "mptx3" as 103
+038F: load_texture "mptx4" as 104
+038F: load_texture "mptx5" as 105
+038F: load_texture "mptx6" as 106
+038F: load_texture "mptx7" as 107
+038F: load_texture "mptx8" as 108
+038F: load_texture "mptx9" as 109
+038F: load_texture "mptx10" as 110
+038F: load_texture "mptx11" as 111
+038F: load_texture "mptx12" as 112
+038F: load_texture "mptx13" as 113
+038F: load_texture "mptx14" as 114
+038F: load_texture "mptx15" as 115
+038F: load_texture "mptx16" as 116
+038F: load_texture "mptx17" as 117
+038F: load_texture "mptx18" as 118
+038F: load_texture "mptx19" as 119
+038F: load_texture "mptx20" as 120
+038F: load_texture "mptx21" as 121
+038F: load_texture "mptx22" as 122
 
 //01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
 //01F0: set_max_wanted_level_to 0 

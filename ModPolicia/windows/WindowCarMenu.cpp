@@ -89,10 +89,9 @@ void WindowCarMenu::Create(Vehicle* vehicle)
     }
 
     auto button_configBackup = window->AddButton(107);
-    button_configBackup->onClick = []()
+    button_configBackup->onClick = [window]()
     {
-        Remove();
-        WindowBackup::CreateBackupConfig();
+        WindowBackup::CreateBackupConfig(window);
     };
 
     auto button_spawnPartner = window->AddButton(167);

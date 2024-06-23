@@ -4,10 +4,6 @@
 
 class Window {
 public:
-	static CRGBA COLOR_BUTTON_DEFAULT;
-	static CRGBA COLOR_TITLE_BOX;
-	static CRGBA COLOR_BACKGROUND;
-
 	static CVector2D m_DefaultWindowPosition;
 	static float m_DefaultWindowWidth;
 

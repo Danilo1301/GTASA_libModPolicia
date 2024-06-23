@@ -10,7 +10,7 @@
 #include "PoliceDepartment.h"
 
 Window* WindowBackup::m_Window = NULL;
-Window* WindowBackup::m_BackupConfigWindow = NULL;
+//Window* WindowBackup::m_BackupConfigWindow = NULL;
 bool WindowBackup::m_CloseToBackupWindow = false;
 
 void WindowBackup::Create()
@@ -113,11 +113,9 @@ void WindowBackup::Create()
     };
 
     auto button_config = window->AddButton(107);
-    button_config->onClick = []()
+    button_config->onClick = [window]()
     {
-        Remove();
-        m_CloseToBackupWindow = true;
-        CreateBackupConfig();
+        CreateBackupConfig(window);
     };
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
@@ -135,70 +133,73 @@ void WindowBackup::Remove()
         m_Window = NULL;
     }
 
+    /*
     if(m_BackupConfigWindow)
     {
         m_BackupConfigWindow->RemoveThisWindow();
         m_BackupConfigWindow = NULL;
     }
+    */
 }
 
-void WindowBackup::CreateBackupConfig()
+void WindowBackup::CreateBackupConfig(Window* parent)
 {
-    auto window = m_BackupConfigWindow = Menu::AddWindow(6);
+    auto window = Menu::AddWindow(6, parent);
     window->showPageControls = true;
 
     window->AddText(107);
 
     auto button_normalBackup = window->AddButton(75);
-    button_normalBackup->onClick = []()
+    button_normalBackup->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[0]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[0]);
     };
 
     auto button_backupRocam = window->AddButton(76);
-    button_backupRocam->onClick = []()
+    button_backupRocam->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[1]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[1]);
     };
 
     auto button_backupFBI = window->AddButton(93);
-    button_backupFBI->onClick = []()
+    button_backupFBI->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[2]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[2]);
     };
 
 
     auto button_backupSf = window->AddButton(95);
-    button_backupSf->onClick = []()
+    button_backupSf->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[3]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[3]);
     };
 
     auto button_backupLv = window->AddButton(96);
-    button_backupLv->onClick = []()
+    button_backupLv->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[4]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[4]);
     };
 
     auto button_backupRanger = window->AddButton(98);
-    button_backupRanger->onClick = []()
+    button_backupRanger->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[5]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[5]);
     };
 
     auto button_backupSWAT = window->AddButton(138);
-    button_backupSWAT->onClick = []()
+    button_backupSWAT->onClick = [window]()
     {
         Remove();
-        CreateBackupConfigForBackup(&Backup::m_DataBackupVehicles[7]);
+        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[7]);
     };
 
+    /*
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
@@ -211,6 +212,7 @@ void WindowBackup::CreateBackupConfig()
             WindowCarMenu::Create(WindowCarMenu::m_Vehicle);
         }
     };
+    */
 }
 
 int GetOptionByWeaponId(int weaponId)
@@ -224,9 +226,9 @@ int GetOptionByWeaponId(int weaponId)
     return 0;
 }
 
-void WindowBackup::CreateBackupConfigForBackup(BackupVehicle* backupVehicle)
+void WindowBackup::CreateBackupConfigForBackup(Window* parent, BackupVehicle* backupVehicle)
 {
-    auto window = m_BackupConfigWindow = Menu::AddWindow(6);
+    auto window = Menu::AddWindow(6, parent);
     window->showPageControls = true;
 
     window->AddIntRange(106, &backupVehicle->numPeds, 1, backupVehicle->maxPeds, 1);
@@ -241,10 +243,12 @@ void WindowBackup::CreateBackupConfigForBackup(BackupVehicle* backupVehicle)
         backupVehicle->weaponId = PoliceDepartment::m_Weapons[weaponOptions->optionsValue].weaponId;
     };
 
+    /*
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
     button_close->onClick = []()
     {
         Remove();
         CreateBackupConfig();
     };
+    */
 }

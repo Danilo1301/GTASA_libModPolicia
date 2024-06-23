@@ -32,6 +32,8 @@ IBASS* BASS = NULL;
 static CSoundSystem soundsysLocal;
 CSoundSystem* soundsys = &soundsysLocal;
 
+#include "ModPolicia.h"
+
 // ---------------------------------------
 
 CVector2D *m_vecCachedPos;
@@ -54,8 +56,7 @@ int nGameLoaded = -1;
 
 DECL_HOOK(void*, UpdateGameLogic, uintptr_t a1)
 {
-    if(BASS)
-    {
+    if(BASS) {
         soundsys->Update();
     }
 
@@ -115,6 +116,10 @@ extern "C" void OnModPreLoad()
     logger->SetTag("ModPolicia");
 
     logger->Info("Preload");
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Registering interface 'ModPolicia'..." << std::endl;
+
+    RegisterInterface("ModPolicia", modPolicia);
 }
 
 extern "C" void OnModLoad()
@@ -151,7 +156,7 @@ extern "C" void OnModLoad()
     else {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils loaded" << std::endl;
 
-        sautils->AddClickableItem(eTypeOfSettings::SetType_Mods, "Mod Policia - Test", 0, 0, sizeofA(optionsTest) - 1, optionsTest, TestChanged);
+        //sautils->AddClickableItem(eTypeOfSettings::SetType_Mods, "Mod Policia - Test", 0, 0, sizeofA(optionsTest) - 1, optionsTest, TestChanged);
     }
 
     //BASS

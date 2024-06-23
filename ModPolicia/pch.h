@@ -15,6 +15,11 @@
 
 #include "ibass.h"
 
+static unsigned char ucharIntensity(unsigned char uc, float intensity)
+{
+    return (unsigned char)std::clamp((int)round(((float)uc) * intensity), 0, 255);
+}
+
 static double distanceBetweenTwoPoints(double x, double y, double a, double b)
 {
     return sqrt(pow(x - a, 2) + pow(y - b, 2));

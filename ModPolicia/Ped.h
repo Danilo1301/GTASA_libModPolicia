@@ -73,7 +73,7 @@ public:
     int chasingCriminal = 0;
 
     Inventory* inventory = new Inventory();
-
+    
     Ped(int hPed);
 	~Ped();
 
@@ -94,4 +94,6 @@ public:
     void CopyFrom(Ped* fromPed);
 
     void AddDrugs(bool drugDealer);
+
+    static bool PedHasWeaponId(int hPed, int weaponId);
 };

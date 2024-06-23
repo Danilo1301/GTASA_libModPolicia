@@ -3,6 +3,11 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0174, GET_CAR_Z_ANGLE, iv); //0174: $1339 = car $1314 Z_angle 
+static DEFOPCODE(0470, GET_CURRENT_WEAPON, iv); //0470: 84@ = actor $PLAYER_ACTOR current_weapon 
+static DEFOPCODE(04B8, GET_WEAPON_DATA_FROM_ACTOR, iivvv); //04B8: get_weapon_data_from_actor $PLAYER_ACTOR slot 2 weapon 404@ ammo 405@ model 405@ 
+static DEFOPCODE(070A, ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION, iifffiissi); //070A: AS_actor $PLAYER_ACTOR attach_to_object 38@ offset 0.0 0.0 0.0 on_bone 6 16 perform_animation "PHONE_TALK" IFP_file "PED" time 1 
+static DEFOPCODE(018C, PLAY_SOUND, fffi); //018C: play_sound 1052 at 0.0 0.0 0.0
 static DEFOPCODE(0750, SET_OBJECT_VISIBILITY, ib); //0750: set_object $OBJ visibility 0
 static DEFOPCODE(0109, ADD_MONEY, ii); //0109
 static DEFOPCODE(0727, SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW, iiif); //0727: set_heli $HELI behavior_to_police_heli_and_follow_actor -1 follow_car $CAR radius 15.0
@@ -178,6 +183,35 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+float CleoFunctions::GET_CAR_Z_ANGLE(int car)
+{
+    float heading = 0;
+    sautils->ScriptCommand(&scm_GET_CAR_Z_ANGLE, car, &heading);
+    return heading;
+}
+
+int CleoFunctions::GET_CURRENT_WEAPON(int _char)
+{
+    int weaponType = 0;
+    sautils->ScriptCommand(&scm_GET_CURRENT_WEAPON, _char, &weaponType);
+    return weaponType;
+}
+
+void CleoFunctions::GET_WEAPON_DATA_FROM_ACTOR(int _char, int weaponSlotId, int* weaponType, int* weaponAmmo, int* weaponModel)
+{
+    sautils->ScriptCommand(&scm_GET_WEAPON_DATA_FROM_ACTOR, _char, weaponSlotId, weaponType, weaponAmmo, weaponModel);
+}
+
+void CleoFunctions::ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION(int _char, int object, float offsetX, float offsetY, float offsetZ, int boneId, int _p7, const char* animationName, const char* animationFile, int time)
+{
+    sautils->ScriptCommand(&scm_ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION, _char, object, offsetX, offsetY, offsetZ, boneId, _p7, animationName, animationFile, time);
+}
+
+void CleoFunctions::PLAY_SOUND(float x, float y, float z, int soundId)
+{
+    sautils->ScriptCommand(&scm_PLAY_SOUND, x, y, z, soundId);
 }
 
 void CleoFunctions::SET_OBJECT_VISIBILITY(int object, bool state)

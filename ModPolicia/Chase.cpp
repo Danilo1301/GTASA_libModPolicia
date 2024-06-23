@@ -266,9 +266,15 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
     00A8: set_car 3@ to_psycho_driver
     */
 
+    auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+    auto vehicleAngle = CleoFunctions::GET_CAR_Z_ANGLE(vehicle->hVehicle);
+
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->hVehicle, 2);
     CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
     CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicle->hVehicle);
+
+    CleoFunctions::PUT_CAR_AT(vehicle->hVehicle, vehiclePosition.x, vehiclePosition.y, vehiclePosition.z);
+    CleoFunctions::SET_CAR_Z_ANGLE(vehicle->hVehicle, vehicleAngle);
 
     m_ChasingPed = ped;
 

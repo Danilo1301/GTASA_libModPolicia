@@ -3,24 +3,9 @@
 #include "../Log.h"
 #include "../Input.h"
 
-/*
-[1.0.0]
-default
+#include "pch.h"
 
-[1.0.1]
-added canBeRemoved (to fix a crash)
-
-[1.0.2] 27/05/24
-added extra num1 and num2 to AddText
-
-[1.1.0] 04/06/24
-added opcodes for creating windows, creating buttons and etc
-
-[1.2.0] 07/06/24
-added extraTexts on the right of the item
-*/
-
-std::string Menu::m_Version = "1.2.0";
+std::string Menu::m_Version = "1.3.1";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);
 
@@ -28,8 +13,25 @@ std::vector<Window*> Menu::m_Windows;
 Window* Menu::m_MainWindow = new Window();
 
 MenuPopup* Menu::m_PopUp = new MenuPopup();
+MenuCredits* Menu::m_Credits = new MenuCredits();
 
 bool Menu::m_DrawCursor = false;
+
+int Menu::m_StyleId = 0;
+std::vector<MenuStyle> Menu::m_Styles = {
+    { //black
+        CRGBA(30, 30, 30),
+        CRGBA(100, 100, 100),
+        CRGBA(58, 58, 58),
+        CRGBA(0, 0, 0)
+    },
+    { //blue
+        CRGBA(0, 0, 50),
+        CRGBA(96, 125, 219),
+        CRGBA(23, 30, 53),
+        CRGBA(54, 70, 124)
+    }
+};
 
 Window* Menu::AddWindow(int gxtId)
 {
@@ -193,10 +195,31 @@ void Menu::ShowPopup(int gfxId, int val1, int val2, int time, float width)
     m_PopUp->width = width;
 }
 
+void Menu::ShowCredits(int gfxId, int time, int height)
+{
+    m_Credits->gfxId = gfxId;
+    m_Credits->time = time;
+    m_Credits->timeElapsed = 0;
+    m_Credits->hasShownCredits = true;
+    m_Credits->height = height;
+}
+
 void Menu::Update(int dt)
 {
+    //popup
     m_PopUp->timeLeft -= dt;
     if (m_PopUp->timeLeft < 0) m_PopUp->timeLeft = 0;
+
+    //credits
+    if(m_Credits->time > 0) {
+        m_Credits->timeElapsed += dt;
+        if(m_Credits->timeElapsed >= m_Credits->time)
+        {
+            m_Credits->timeElapsed = 0;
+            m_Credits->time = 0;
+        }
+    }
+    
 
     m_MainWindow->Update();
 
@@ -246,6 +269,38 @@ void Menu::Draw()
         y += 20;
         Draw::DrawBoxWithText(m_PopUp->gfxId, m_PopUp->val1, m_PopUp->val2, { x, y }, { w, hoxH }, { 0, 119, 204, 255 }, white);
     }
+
+    if (m_Credits->time > 0)
+    {
+        auto screenSize = Input::GetGTAScreenSize();
+
+        float boxW = 300;
+        float hoxH = 50;
+
+        float x = screenSize.x/2 - boxW/2;
+        float y = m_Credits->height;
+
+        unsigned char alpha = 255;
+
+        if(m_Credits->timeElapsed >= 0 && m_Credits->timeElapsed < m_Credits->fadeTime)
+        {
+            float in = ((float)m_Credits->fadeTime - (float)m_Credits->timeElapsed) / (float)m_Credits->fadeTime;
+            alpha = 255 - ucharIntensity(255, in);
+            //Log::Level(LOG_LEVEL::LOG_BOTH) << "in: " << in << std::endl;
+        }
+        if(m_Credits->timeElapsed >= m_Credits->time - m_Credits->fadeTime && m_Credits->timeElapsed <= m_Credits->time)
+        {
+            float out = ((float)m_Credits->time - (float)m_Credits->timeElapsed) / (float)m_Credits->fadeTime;
+            alpha = ucharIntensity(255, out);
+            //Log::Level(LOG_LEVEL::LOG_BOTH) << "out: " << out << std::endl;
+        }
+
+        CRGBA textColor = { 255, 255, 255, alpha };
+        auto boxColor = GetStyle()->COLOR_BACKGROUND;
+        boxColor.a = alpha;
+
+        Draw::DrawBoxWithText(m_Credits->gfxId, 0, 0, { x, y }, { boxW, hoxH }, boxColor, textColor);
+    }
     
     //cursor
     if (m_DrawCursor)
@@ -279,4 +334,9 @@ void Menu::RemoveAllWindows()
     while (m_Windows.size() > 0) {
         RemoveWindow(m_Windows[0]);
     }
+}
+
+MenuStyle* Menu::GetStyle()
+{
+    return &m_Styles[m_StyleId];
 }
