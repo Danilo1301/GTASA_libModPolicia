@@ -5,6 +5,7 @@
 class ModPolicia : public IModPolicia {
 public:
     bool IsRadioOpen();
+    bool IsMenuOpen();
 };
 
 extern IModPolicia* modPolicia;

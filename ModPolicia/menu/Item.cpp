@@ -62,6 +62,8 @@ void Item::AddOption(int gxtId, int num1, int num2)
 
 void Item::Update()
 {
+	if(!visible) return;
+
 	hasPressedThisFrame = false;
 
 	isPointerOver = Input::IsPointInsideRect(Input::GetTouchPos(), position, box->size);
@@ -182,6 +184,8 @@ void Item::Update()
 
 void Item::Draw()
 {
+	if(!visible) return;
+	
 	if (type == eItemType::ITEM_BUTTON)
 	{
 		CRGBA boxColor = box->color;
@@ -202,7 +206,7 @@ void Item::Draw()
 		textPos.x += box->size.x / 2.0f;
 		textPos.y += box->size.y / 2.0f;
 
-		Draw::DrawText(text->gxtId, text->num1, text->num2, textPos, text->color);
+		Draw::DrawGxtText(text->gxtId, text->num1, text->num2, textPos, text->color);
 	}
 
 	if (type == eItemType::ITEM_OPTIONS || type == eItemType::ITEM_INT_RANGE || type == eItemType::ITEM_FLOAT_RANGE)
@@ -288,7 +292,7 @@ void Item::Draw()
 		textPos.x += text->pos.x;
 		textPos.y += text->pos.y;
 
-		Draw::DrawText(text->gxtId, text->num1, text->num2, textPos, CRGBA(255, 255, 255), eTextAlign::ALIGN_RIGHT);
+		Draw::DrawGxtText(text->gxtId, text->num1, text->num2, textPos, CRGBA(255, 255, 255), eTextAlign::ALIGN_RIGHT);
 	}
 
 	//

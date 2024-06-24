@@ -87,7 +87,7 @@ void Backup::Update(int dt)
 
 void Backup::UpdateBackupPedsAndCars(int dt)
 {
-    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b1" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "b1" << std::endl;
 
     float distanceExitCar = 10.0f;
     float distanceEnterCar = 30.0f;
@@ -175,7 +175,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     //
 
-    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b2" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "b2" << std::endl;
 
     for(auto vehicle : m_BackupVehicles)
     {
@@ -258,8 +258,8 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                             {
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli " << vehicle->hVehicle << " follow criminal car " << criminalCarHandle << std::endl;
 
-                                //CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
-                                CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
+                                CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
+                                //CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(vehicle->hVehicle, -1, criminalCarHandle, 20.0f);
                             } else {
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "set car " << vehicle->hVehicle << " follow criminal car " << criminalCarHandle << std::endl;
 
@@ -309,7 +309,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     //
 
-    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b3" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "b3" << std::endl;
 
     for(auto ped : m_BackupPeds)
     {
@@ -374,7 +374,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         }
     }
 
-    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b4" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "b4" << std::endl;
 
     for(auto vehicle : m_BackupVehicles)
     {
@@ -450,7 +450,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         }
     }
 
-    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "b5" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "b5" << std::endl;
 
     //remove peds 2
     //yes, it needs to be removed twice
@@ -530,9 +530,10 @@ void Backup::SpawnBackupCar(BackupVehicle* backupVehicle, CVector position)
 
     //23 = special
     //6 = cop
+    //4 = civ male
     //to fix a issue
-    int type = 6;
-    if(backupVehicle->pedModelId == 284) type = 23;
+    int type = 4;
+    //if(backupVehicle->pedModelId == 284) type = 23;
 
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, type, backupVehicle->pedModelId);
     auto pedDriver = Peds::TryCreatePed(driver);

@@ -175,8 +175,8 @@ Fixing chase:
 [1.5.0]
 [X] ADD: radio and textures
 [X] ADD: interface (ModPolicia)
-[ ] FIX: save stats
-[ ] FIX: car teleporting after pullover and start running
+[X] FIX: save stats
+[-] FIX: car teleporting after pullover and start running (not fixed)
 
 
 [ ] ADD: audio when helicopter looses the suspect

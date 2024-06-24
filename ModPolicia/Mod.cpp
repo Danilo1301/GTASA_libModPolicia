@@ -27,10 +27,10 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "1.4.1";
+const char* Mod::m_Version = "1.5.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
-bool Mod::m_DevModeEnabled = true;
+bool Mod::m_DevModeEnabled = false;
 int Mod::m_TestWidgetId = 0;
 
 bool hasLoadedAnimations = false;
@@ -133,10 +133,10 @@ void Mod::Update(int dt)
 
     if (Menu::m_DrawCursor)
     {
-        Draw::DrawText(2, m_vecCachedPos->x, m_vecCachedPos->y, CVector2D(20, 300), CRGBA(255, 255, 0));
-        Draw::DrawText(2, (int)Menu::m_MenuOffset.x, (int)Menu::m_MenuOffset.y, CVector2D(20, 320), CRGBA(255, 255, 0));
-        Draw::DrawText(1, Draw::m_DrawItems.size(), 0, CVector2D(20, 340), CRGBA(255, 255, 0));
-        Draw::DrawText(1, dt, 0, CVector2D(20, 360), CRGBA(255, 255, 0));
+        Draw::DrawGxtText(2, m_vecCachedPos->x, m_vecCachedPos->y, CVector2D(20, 300), CRGBA(255, 255, 0));
+        Draw::DrawGxtText(2, (int)Menu::m_MenuOffset.x, (int)Menu::m_MenuOffset.y, CVector2D(20, 320), CRGBA(255, 255, 0));
+        Draw::DrawGxtText(1, Draw::m_DrawItems.size(), 0, CVector2D(20, 340), CRGBA(255, 255, 0));
+        Draw::DrawGxtText(1, dt, 0, CVector2D(20, 360), CRGBA(255, 255, 0));
     }
 
     if(CleoFunctions::PLAYER_DEFINED(0))

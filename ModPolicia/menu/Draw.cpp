@@ -35,7 +35,7 @@ void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector
 		
 	}
 
-	Draw::DrawText(gxtId, num1, num2, textPos, textColor, align);
+	Draw::DrawGxtText(gxtId, num1, num2, textPos, textColor, align);
 }
 
 void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector2D boxSize, CRGBA boxColor, CRGBA textColor)
@@ -43,7 +43,7 @@ void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector
 	Draw::DrawBoxWithText(gxtId, num1, num2, pos, boxSize, boxColor, textColor, eTextAlign::ALIGN_CENTER);
 }
 
-void Draw::DrawText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, eTextAlign align)
+void Draw::DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, eTextAlign align)
 {
 	DrawItem* item = new DrawItem(eDrawType::TEXT);
 	//item->type = eDrawType::TEXT;
@@ -54,14 +54,14 @@ void Draw::DrawText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, e
 	item->pos = pos;
 	item->color = color;
 
-	//Log::file << "Draw: DrawText " << gxtId << ", nums " << num1 << " and " << num2 << ", at (" << pos.x << ", " << pos.y << ")" << std::endl;
+	//Log::file << "Draw: DrawGxtText " << gxtId << ", nums " << num1 << " and " << num2 << ", at (" << pos.x << ", " << pos.y << ")" << std::endl;
 
 	m_DrawItems.push_back(item);
 }
 
-void Draw::DrawText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color)
+void Draw::DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color)
 {
-	DrawText(gxtId, num1, num2, pos, color, eTextAlign::ALIGN_CENTER);
+	DrawGxtText(gxtId, num1, num2, pos, color, eTextAlign::ALIGN_CENTER);
 }
 
 void Draw::DrawSprite(int spriteId, CVector2D pos, CVector2D size, CRGBA color)
@@ -96,5 +96,5 @@ void Draw::DrawSpriteWithText(int spriteId, int gxtId, int num1, int num2, CVect
 
 	}
 
-	Draw::DrawText(gxtId, num1, num2, textPos, textColor, align);
+	Draw::DrawGxtText(gxtId, num1, num2, textPos, textColor, align);
 }

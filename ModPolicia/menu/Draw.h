@@ -43,8 +43,8 @@ public:
 	static std::vector<DrawItem*> m_DrawItems;
 
     static void DrawBox(CVector2D pos, CVector2D size, CRGBA color);
-	static void DrawText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, eTextAlign align);
-	static void DrawText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color);
+	static void DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, eTextAlign align);
+	static void DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color);
 	static void DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector2D boxSize, CRGBA boxColor, CRGBA textColor, eTextAlign align);
 	static void DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector2D boxSize, CRGBA boxColor, CRGBA textColor);
 	static void DrawSprite(int spriteId, CVector2D pos, CVector2D size, CRGBA color);

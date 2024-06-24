@@ -120,6 +120,37 @@ int Vehicles::GetRandomCarInSphere(CVector position, float radius)
     return vehicles[0]->hVehicle;
 }
 
+int Vehicles::GetClosestCar(CVector position, float radius)
+{
+    std::vector<Vehicle*> vehicles = GetAllCarsInSphere(position, radius);
+
+    Vehicle* closestCar = NULL;
+    double closestDistance = INFINITY;
+
+    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
+    CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
+
+    for(size_t i = 0; i < vehicles.size(); i++)
+    {
+        auto vehicle = vehicles[i];
+        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        
+        auto distance = DistanceBetweenPoints(vehiclePosition, CVector(playerX, playerY, playerZ));
+
+        if(distance < closestDistance)
+        {
+            closestDistance = distance;
+            closestCar = vehicle;
+        }
+    }
+
+    if(!closestCar) return -1;
+
+    return closestCar->hVehicle;
+}
+
 std::vector<Vehicle*> Vehicles::GetDefinedVehicles()
 {
     std::vector<Vehicle*> vehicles;

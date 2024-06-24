@@ -24,6 +24,7 @@
 #include "PoliceDepartment.h"
 #include "Stats.h"
 #include "Chase.h"
+#include "Pullover.h"
 
 bool isDirExist(const std::string& path)
 {
@@ -120,6 +121,11 @@ void VersionControl::ApplyPatches()
         prevInfo = m_Versions[index];
 
         Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: Processing index " << index << ", version " << prevInfo->version << std::endl;
+
+        if(prevInfo->patches.size() > 0)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: Applying " << prevInfo->patches.size() << " patches..." << std::endl;
+        }
 
         for(auto patch : prevInfo->patches)
         {
@@ -243,6 +249,8 @@ void ModConfig::SaveSettings()
 
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
     generalSection->AddInt("money_reward", PoliceDepartment::m_MoneyReward);
+    generalSection->AddIntFromBool("enable_deep_log", Log::deepLogEnabled);
+    generalSection->AddIntFromBool("PULLOVER_PLAY_ANIMATION", Pullover::PULLOVER_PLAY_ANIMATION);
 
     //
 
@@ -397,6 +405,8 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("enable_mod_when_game_starts", &ModConfig::EnableModWhenGameStarts);        
         generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
         generalSection->GetInt("money_reward", &PoliceDepartment::m_MoneyReward);
+        generalSection->GetBoolFromInt("enable_deep_log", &Log::deepLogEnabled);
+        generalSection->GetBoolFromInt("PULLOVER_PLAY_ANIMATION", &Pullover::PULLOVER_PLAY_ANIMATION);  
     }
 
     //
@@ -570,6 +580,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.3.0");
     VersionControl::AddVersion("1.4.0");
     VersionControl::AddVersion("1.4.1");
+    VersionControl::AddVersion("1.5.0");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }
@@ -604,6 +615,12 @@ void ModConfig::ProcessVersionChanges_PostConfigLoad()
 
         Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.2f;
         Ped::CHANCE_PED_CONSUME_DRUGS = 0.4f;
+    });
+
+    VersionControl::AddPatch("1.4.1", [] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.4.1 POST" << std::endl;
+
+        Stats::TimePlayed = 0;
     });
 
     VersionControl::ApplyPatches();

@@ -323,7 +323,7 @@ void Window::Draw()
 
 		if (item->drawLabel)
 		{
-			Draw::DrawText(item->label->gxtId, item->label->num1, item->label->num2, CVector2D(pos.x, pos.y + item->box->size.y / 2), item->label->color, eTextAlign::ALIGN_LEFT);
+			Draw::DrawGxtText(item->label->gxtId, item->label->num1, item->label->num2, CVector2D(pos.x, pos.y + item->box->size.y / 2), item->label->color, eTextAlign::ALIGN_LEFT);
 		}
 
 

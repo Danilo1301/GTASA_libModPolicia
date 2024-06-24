@@ -16,6 +16,7 @@ public:
     static double PULLOVER_MIN_DISTANCE_PED;
     static double PULLOVER_MIN_DISTANCE_VEHICLE;
     static double PULLOVER_MAX_DISTANCE;
+    static bool PULLOVER_PLAY_ANIMATION;
 
     static Ped* m_PullingPed;
     static Vehicle* m_PullingVehicle;

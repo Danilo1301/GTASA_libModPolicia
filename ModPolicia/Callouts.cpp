@@ -300,7 +300,7 @@ void Callouts::StartAssaultCallout()
 
     AproachCalloutPedPath(100.0f, [] (CVector pedPathNodePosition) {
         auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
-        int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, criminalSkin.modelId, pedPathNodePosition.x, pedPathNodePosition.y, pedPathNodePosition.z);
+        int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, criminalSkin.modelId, pedPathNodePosition.x, pedPathNodePosition.y, pedPathNodePosition.z);
 
         auto criminalPed = Peds::TryCreatePed(criminal);
         m_Criminals.push_back(criminalPed);
@@ -316,7 +316,7 @@ void Callouts::StartAssaultCallout()
         CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(findX, findY, findZ, &pedX, &pedY, &pedZ);
 
         auto pedSkin = GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
-        int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, pedSkin.modelId, pedX, pedY, pedZ);
+        int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(5, pedSkin.modelId, pedX, pedY, pedZ);
 
         CleoFunctions::FLEE_FROM_ACTOR(ped, criminal, 1000.0f, -1);
 
@@ -335,7 +335,7 @@ void Callouts::StartGangShotsFiredCallout()
         for(int i = 0; i < 7; i++)
         {
             auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, (SkinGang)gang);
-            auto criminal = SpawnPedInRandomPedPathLocation(20, criminalSkin.modelId, pedPathNodePosition, 10.0f);
+            auto criminal = SpawnPedInRandomPedPathLocation(4, criminalSkin.modelId, pedPathNodePosition, 10.0f);
             criminal->AddBlip();
             criminal->willShootAtCops = true;
 
@@ -373,7 +373,7 @@ void Callouts::StartStolenVehicleCallout()
 
         auto pedSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
-        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 20, pedSkin.modelId);
+        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 4, pedSkin.modelId);
         auto pedDriver = Peds::TryCreatePed(driver);
         pedDriver->AddBlip();
         
@@ -400,7 +400,7 @@ void Callouts::StartHouseInvasionCallout()
 
         auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
-        int criminalAtDoor = CleoFunctions::CREATE_ACTOR_PEDTYPE(20, criminalSkin.modelId, calloutPosition.x, calloutPosition.y, calloutPosition.z);
+        int criminalAtDoor = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, criminalSkin.modelId, calloutPosition.x, calloutPosition.y, calloutPosition.z);
         auto criminalPedAtDoor = Peds::TryCreatePed(criminalAtDoor);
         criminalPedAtDoor->AddBlip();
         criminals.push_back(criminalPedAtDoor);
@@ -409,7 +409,7 @@ void Callouts::StartHouseInvasionCallout()
         {
             criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
-            auto criminalPed = SpawnPedInRandomPedPathLocation(20, criminalSkin.modelId, calloutPosition, 5.0f);
+            auto criminalPed = SpawnPedInRandomPedPathLocation(4, criminalSkin.modelId, calloutPosition, 5.0f);
             criminalPed->AddBlip();
             criminals.push_back(criminalPed);
         }
@@ -450,7 +450,7 @@ void Callouts::StartChaseCallout()
 
         auto pedSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
-        auto hDriver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 20, pedSkin.modelId);
+        auto hDriver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 4, pedSkin.modelId);
         auto driver = Peds::TryCreatePed(hDriver);
         driver->AddBlip();
 

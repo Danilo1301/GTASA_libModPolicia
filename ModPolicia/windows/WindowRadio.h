@@ -14,9 +14,15 @@ struct RadioChannel {
 
 class WindowRadio {
 public:
-	static Window* m_Window;
+	static Window* m_WindowMenu;
 	static bool m_Enabled;
 	static CVector2D m_Position;
+
+	static Window* m_WindowRadio;
+	static Item* m_LeftButton;
+	static Item* m_RightButton;
+	static Item* m_OkButton;
+	static Item* m_BackButton;
 
 	static std::vector<RadioChannel> m_Channels;
 	static int m_CurrentChannel;

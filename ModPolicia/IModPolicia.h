@@ -5,4 +5,5 @@
 class IModPolicia {
 public:
     virtual bool IsRadioOpen() = 0;
+    virtual bool IsMenuOpen() = 0;
 };

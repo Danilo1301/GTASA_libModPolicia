@@ -17,6 +17,7 @@
 double Pullover::PULLOVER_MIN_DISTANCE_PED = 1;
 double Pullover::PULLOVER_MIN_DISTANCE_VEHICLE = 2;
 double Pullover::PULLOVER_MAX_DISTANCE = 30;
+bool Pullover::PULLOVER_PLAY_ANIMATION = true;
 
 Ped* Pullover::m_PullingPed = NULL;
 Vehicle* Pullover::m_PullingVehicle = NULL;
@@ -124,17 +125,22 @@ void Pullover::PullOverPed(int hPed)
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    int waitTime = 2000;
+    int waitTime = 1000;
     if(Peds::HasPedHandle(hPed))
     {
         if(Peds::GetPedByHandle(hPed)->shouldHandsup) waitTime = 0;
     }
 
+    if(PULLOVER_PLAY_ANIMATION)
+    {
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && waitTime != 0)
+        {
+            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+        }
+    }
+
     if(waitTime != 0)
     {
-        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
-            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
-    
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
         SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_PEDESTRIAN.wav", false);
     }
@@ -198,8 +204,11 @@ void Pullover::PullOverCar(int hVehicle)
     int driver = CleoFunctions::GET_DRIVER_OF_CAR(hVehicle);
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
-        CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+    if(PULLOVER_PLAY_ANIMATION)
+    {
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+    }
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
     SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_VEHICLE.wav", false);

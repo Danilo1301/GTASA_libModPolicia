@@ -16,9 +16,15 @@
 #include "Backup.h"
 #include "WindowBackup.h"
 
-Window* WindowRadio::m_Window = NULL;
+Window* WindowRadio::m_WindowMenu = NULL;
 bool WindowRadio::m_Enabled = false;
-CVector2D WindowRadio::m_Position = CVector2D(455, 210);
+CVector2D WindowRadio::m_Position = CVector2D(280, 210);
+
+Window* WindowRadio::m_WindowRadio = NULL;
+Item* WindowRadio::m_LeftButton = NULL;
+Item* WindowRadio::m_RightButton = NULL;
+Item* WindowRadio::m_OkButton = NULL;
+Item* WindowRadio::m_BackButton = NULL;
 
 std::vector<RadioChannel> WindowRadio::m_Channels = {
     {103, { {104}, {105}, {106} }},
@@ -46,9 +52,9 @@ static DEFOPCODE(0256, IS_PLAYER_PLAYING, i); //0256:  player $PLAYER_CHAR defin
 
 void WindowRadio::Create()
 {
-	if (m_Window) return;
+	if (m_WindowMenu) return;
 
-    auto window = m_Window = Menu::AddWindow(6);
+    auto window = m_WindowMenu = Menu::AddWindow(6);
     window->showPageControls = true;
 
     auto button_abortCallout = window->AddButton(119, 0, 0);
@@ -137,13 +143,13 @@ void WindowRadio::Create()
 
 void WindowRadio::Remove()
 {
-    m_Window->RemoveThisWindow();
-    m_Window = NULL;
+    m_WindowMenu->RemoveThisWindow();
+    m_WindowMenu = NULL;
 }
 
 void WindowRadio::CreateTestOptions()
 {
-    auto window = m_Window;
+    auto window = m_WindowMenu;
     
     auto button_pedPullover = window->AddButton(127, 0, 0);
     button_pedPullover->onClick = []()
@@ -343,12 +349,35 @@ void WindowRadio::CreateTestOptions()
 
 void WindowRadio::ToggleRadio(bool enabled)
 {
+    if(enabled == m_Enabled) return;
+
     m_Enabled = enabled;
     m_CurrentChannel = 0;
     m_CurrentFrequency = 0;
     m_ChangingChannels = true;
 
-    if(!enabled) ToggleRadioOff(false);
+    if(enabled)
+    {
+        auto window = m_WindowRadio = Menu::AddWindow(6);
+        window->position = CVector2D(0, 0);
+        
+        auto left_button = m_LeftButton = window->AddFloatingButton(4, 0, 0, CVector2D(0, 0), CVector2D(50, 50));
+        left_button->visible = false;
+
+        auto right_button = m_RightButton = window->AddFloatingButton(5, 0, 0, CVector2D(0, 0), CVector2D(50, 50));
+        right_button->visible = false;
+
+        auto ok_button = m_OkButton = window->AddFloatingButton(20, 0, 0, CVector2D(0, 0), CVector2D(50, 50), CRGBA(0, 180, 20));
+
+        auto back_button = m_BackButton = window->AddFloatingButton(10, 0, 0, CVector2D(0, 0), CVector2D(50, 50), CRGBA(240, 90, 90));
+    } else {
+        m_WindowRadio->RemoveThisWindow();
+        m_WindowRadio = NULL;
+        m_LeftButton = NULL;
+        m_RightButton = NULL;
+        m_OkButton = NULL;
+        m_BackButton = NULL;
+    }
 
     if(enabled)
     {
@@ -368,10 +397,7 @@ void WindowRadio::ToggleRadio(bool enabled)
 
 void WindowRadio::ToggleRadioOff(bool keepAnimation)
 {
-    m_Enabled = false;
-    m_CurrentChannel = 0;
-    m_CurrentFrequency = 0;
-    m_ChangingChannels = true;
+    ToggleRadio(false);
 
     int time = keepAnimation ? 2000 : 0;
 
@@ -387,13 +413,39 @@ void WindowRadio::Update(int dt)
 {
     if(!m_Enabled) return;
 
+    if(m_LeftButton)
+    {
+        m_LeftButton->position = CVector2D(m_Position.x - 50, m_Position.y + 160);
+        m_LeftButton->visible = false;
+    }
+
+    if(m_RightButton)
+    {
+        m_RightButton->position = CVector2D(m_Position.x + 110, m_Position.y + 160);
+        m_RightButton->visible = false;
+    }
+
+    if(m_OkButton)
+    {
+        m_OkButton->position = CVector2D(m_Position.x + 200, m_Position.y + 160);
+    }
+
+    if(m_BackButton)
+    {
+        m_BackButton->position = CVector2D(m_Position.x + 260, m_Position.y + 160);
+    }
+
+    //
+
     auto channel = m_Channels[m_CurrentChannel];
 
     // ----------------------------
 
     if(m_ChangingChannels == true && m_CurrentChannel > 0)
     {
-        if(Widgets::IsWidgetJustPressed(122)) //-
+        m_LeftButton->visible = true;
+
+        if(m_LeftButton->hasPressedThisFrame) //-
         { 
             m_CurrentChannel--;
             CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
@@ -402,7 +454,9 @@ void WindowRadio::Update(int dt)
 
     if(m_ChangingChannels == false && m_CurrentFrequency > 0)
     {
-        if(Widgets::IsWidgetJustPressed(122)) //-
+        m_LeftButton->visible = true;
+
+        if(m_LeftButton->hasPressedThisFrame) //-
         {
             m_CurrentFrequency--;
             CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
@@ -413,7 +467,9 @@ void WindowRadio::Update(int dt)
 
     if(m_ChangingChannels == true && m_CurrentChannel < m_Channels.size() - 1)
     {
-        if(Widgets::IsWidgetJustPressed(121)) //+
+        m_RightButton->visible = true;
+
+        if(m_RightButton->hasPressedThisFrame) //+
         {
             m_CurrentChannel++;
             CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
@@ -422,7 +478,9 @@ void WindowRadio::Update(int dt)
 
     if(m_ChangingChannels == false && m_CurrentFrequency < channel.frequencies.size() - 1)
     {
-        if(Widgets::IsWidgetJustPressed(121)) //+
+        m_RightButton->visible = true;
+
+        if(m_RightButton->hasPressedThisFrame) //+
         {
            m_CurrentFrequency++;
            CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
@@ -431,30 +489,40 @@ void WindowRadio::Update(int dt)
 
     // ----------------------------
     
-    if(Widgets::IsWidgetJustPressed(123)) //DEAL
+    if(m_OkButton)
     {
-        if(m_ChangingChannels)
+        if(m_OkButton->hasPressedThisFrame) //DEAL
         {
-            if(m_Channels[m_CurrentChannel].frequencies.size() == 0)
-            {
-                SelectFrequency(m_CurrentChannel + 1, -1);
-            } else {
-                m_ChangingChannels = false;
-                m_CurrentFrequency = 0;
-            }
+            CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
 
-        } else {
-            SelectFrequency(m_CurrentChannel + 1, m_CurrentFrequency + 1);
+            if(m_ChangingChannels)
+            {
+                if(m_Channels[m_CurrentChannel].frequencies.size() == 0)
+                {
+                    SelectFrequency(m_CurrentChannel + 1, -1);
+                } else {
+                    m_ChangingChannels = false;
+                    m_CurrentFrequency = 0;
+                }
+
+            } else {
+                SelectFrequency(m_CurrentChannel + 1, m_CurrentFrequency + 1);
+            }
         }
     }
 
-    if(Widgets::IsWidgetJustPressed(134)) //EXIT
+    if(m_BackButton)
     {
-        if(m_ChangingChannels)
+        if(m_BackButton->hasPressedThisFrame) //EXIT
         {
-            ToggleRadio(false);
-        } else {
-            m_ChangingChannels = true;
+            CleoFunctions::PLAY_SOUND(0, 0, 0, 1052);
+
+            if(m_ChangingChannels)
+            {
+                ToggleRadioOff(false);
+            } else {
+                m_ChangingChannels = true;
+            }
         }
     }
 }
@@ -473,6 +541,8 @@ void WindowRadio::Draw()
     }
 
     Draw::DrawSprite(textureId, CVector2D(m_Position.x, m_Position.y), CVector2D(150, 300), CRGBA(255, 255, 255));
+
+    Draw::DrawGxtText(172, 0, 0, CVector2D(m_Position.x + 110, m_Position.y + 220), CRGBA(255, 255, 255), eTextAlign::ALIGN_LEFT);
 }
 
 void WindowRadio::SelectFrequency(int channelId, int frequencyId)
@@ -600,8 +670,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
     {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         auto playerPosition = Mod::GetPedPosition(playerActor);
-        auto randomVehicleHandle = Vehicles::GetRandomCarInSphere(playerPosition, 8.0f);
-        auto randomVehicle = randomVehicleHandle > 0 ? Vehicles::GetVehicleByHandle(randomVehicleHandle) : NULL;
+        auto closestVehicleHandle = Vehicles::GetClosestCar(playerPosition, 8.0f);
+        auto closestVehicle = closestVehicleHandle > 0 ? Vehicles::GetVehicleByHandle(closestVehicleHandle) : NULL;
 
         switch (frequencyId)
         {
@@ -624,14 +694,14 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
             ToggleRadioOff(true);
             break;
         case 3:
-            if(randomVehicle)
+            if(closestVehicle)
             {
                 SoundSystem::PlayHTAudio();
                 SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
 
-                randomVehicle->AddBlip();
-                Scorch::CallTowTruckToVehicle(randomVehicle);
+                closestVehicle->AddBlip();
+                Scorch::CallTowTruckToVehicle(closestVehicle);
 
                 ToggleRadioOff(true);
             } else {
@@ -688,6 +758,38 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
     }
 
     if(channelId == 6)
+    {
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto closestVehicleHandle = Vehicles::GetClosestCar(playerPosition, 8.0f);
+        auto closestVehicle = closestVehicleHandle > 0 ? Vehicles::GetVehicleByHandle(closestVehicleHandle) : NULL;
+
+        if(closestVehicle)
+        {
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_VEHICLE_PLATE.wav", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
+
+            CleoFunctions::WAIT(4000, [closestVehicle]() {
+                if(closestVehicle->isStolen)
+                {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_STOLEN.wav", false);
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
+                } else {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_OK.wav", false);
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
+                }
+            });
+
+            ToggleRadioOff(true);
+        } else {
+            ToggleRadioOff(false);
+        }
+    }
+
+    if(channelId == 7)
     {
         WindowRadio::Create();
 

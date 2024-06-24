@@ -93,41 +93,41 @@ void WindowDocument::Draw()
         Draw::DrawSprite(101, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
 
         //TEST text
-        Draw::DrawText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Registro Geral
-        Draw::DrawText(40, m_Ped->rg[0], m_Ped->rg[1], CVector2D(284, 152), CRGBA(110, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(40, m_Ped->rg[0], m_Ped->rg[1], CVector2D(284, 152), CRGBA(110, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //ID
-        Draw::DrawText(27, m_Ped->hPed, 0, CVector2D(491, 155), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(27, m_Ped->hPed, 0, CVector2D(491, 155), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
         
         //Nome
-        Draw::DrawText(39, 0, 0, CVector2D(365, 241), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(39, 0, 0, CVector2D(365, 241), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Data de nascimento
-        Draw::DrawText(42, m_Ped->birthDay, m_Ped->birthMonth, CVector2D(365, 288), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
-        Draw::DrawText(43, m_Ped->birthYear, 0, CVector2D(420, 288), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(42, m_Ped->birthDay, m_Ped->birthMonth, CVector2D(365, 288), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(43, m_Ped->birthYear, 0, CVector2D(420, 288), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //CPF
-        Draw::DrawText(41, m_Ped->cpf[0], m_Ped->cpf[1], CVector2D(365, 336), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(41, m_Ped->cpf[0], m_Ped->cpf[1], CVector2D(365, 336), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
     } else {
         //Fundo CNH
         Draw::DrawSprite(102, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
 
         //TEST text
-        Draw::DrawText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Nome
-        Draw::DrawText(39, 0, 0, CVector2D(276, 200), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(39, 0, 0, CVector2D(276, 200), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //ID
-        Draw::DrawText(1, m_Ped->hPed, 0, CVector2D(412, 247), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(1, m_Ped->hPed, 0, CVector2D(412, 247), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Nº de Registro
-        Draw::DrawText(1, m_Ped->cnhRegisterNum, 0, CVector2D(279, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(1, m_Ped->cnhRegisterNum, 0, CVector2D(279, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Validade
-        Draw::DrawText(42, m_Ped->cnhValidDay, m_Ped->cnhValidMonth, CVector2D(426, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
-        Draw::DrawText(43, m_Ped->cnhValidYear, 0, CVector2D(480, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(42, m_Ped->cnhValidDay, m_Ped->cnhValidMonth, CVector2D(426, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(43, m_Ped->cnhValidYear, 0, CVector2D(480, 367), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
     }
 }

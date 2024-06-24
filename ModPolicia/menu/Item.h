@@ -100,6 +100,8 @@ public:
 
 	bool hasPressedThisFrame = false;
 
+	bool visible = true;
+
 	Item(eItemType type);
 
 	void AddColorIndicator(CRGBA* color);

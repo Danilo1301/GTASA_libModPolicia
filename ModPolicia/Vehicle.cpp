@@ -34,6 +34,8 @@ Vehicle::~Vehicle()
 
 void Vehicle::Update(int dt)
 {
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Vehicle " << hVehicle << ": Update" << std::endl;
+
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
 
     //detect if car crashes
@@ -55,14 +57,12 @@ void Vehicle::Update(int dt)
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
 
     UpdateLeaveScene();
-    
-    
 }
 
 void Vehicle::UpdateLeaveScene()
 {
     if(actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_LEAVE)
-    {        
+    {   
         auto isPedsOnCar = IsAllDriverAndPassengersInsideCar();
 
         if(isPedsOnCar)
@@ -73,14 +73,14 @@ void Vehicle::UpdateLeaveScene()
             {
                 actionStatus = ACTION_STATUS::LEAVING_SCENE;
 
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "leaving scene" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle " << hVehicle << " leaving scene" << std::endl;
 
                 float findX = 0, findY = 0, findZ = 0;
                 CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, 0, 200, 0, &findX, &findY, &findZ);
 
                 if(IsPoliceHelicopter())
                 {
-                    Log::Level(LOG_LEVEL::LOG_BOTH) << "heli leaving scene" << std::endl;
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "heli " << hVehicle << " leaving scene" << std::endl;
 
                     CleoFunctions::HELI_FLY_TO(hVehicle, findX, findY, 200.0f, 200.0f, 200.0f);
                 } else {
@@ -93,7 +93,7 @@ void Vehicle::UpdateLeaveScene()
             } else {
                 actionStatus = ACTION_STATUS::ACTION_NONE;
 
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "was going to leave scene but num of peds is 0, setting action to NONE" << std::endl;
+                Log::Level(LOG_LEVEL::LOG_BOTH) << hVehicle << " was going to leave scene but num of peds is 0, setting action to NONE" << std::endl;
             }
             
         }
@@ -131,7 +131,7 @@ void Vehicle::UpdateLeaveScene()
         {
             actionStatus = ACTION_STATUS::ACTION_NONE;
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "destroying vehicle and passengers" << std::endl;
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "destroying vehicle " << hVehicle << " and passengers" << std::endl;
 
             if(Mod::IsActorAliveAndDefined(hDriverOwner)) CleoFunctions::DESTROY_ACTOR(hDriverOwner);
 
@@ -272,7 +272,7 @@ void Vehicle::RemoveBlip()
 
 void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "MakePedsEnterVehicleAndLeaveScene" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "MakePedsEnterVehicleAndLeaveScene " << hVehicle  << std::endl;
 
     actionStatus = ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_LEAVE;
 
@@ -281,7 +281,7 @@ void Vehicle::MakePedsEnterVehicleAndLeaveScene()
 
 void Vehicle::MakePedsEnterVehicle()
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "MakePedsEnterVehicle" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "MakePedsEnterVehicle " << hVehicle << std::endl;
 
     CheckDriverAndPassengersAreAlive();
 

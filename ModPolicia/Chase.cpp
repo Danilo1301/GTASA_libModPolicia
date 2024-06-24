@@ -33,9 +33,9 @@ void Chase::UpdateChase(int dt)
     auto chasingPed = m_ChasingPed;
     Vehicle* vehicle = NULL;
 
-    bool log = false;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "c1" << std::endl;
 
-    if(log) Log::Level(LOG_LEVEL::LOG_BOTH) << "c1" << std::endl;
+    Callouts::UpdateCriminals(0);
 
     if(chasingPed)
     {
@@ -46,7 +46,7 @@ void Chase::UpdateChase(int dt)
         }
     }
 
-    if(log) Log::Level(LOG_LEVEL::LOG_BOTH) << "c2" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "c2" << std::endl;
 
     //make passengers leave after driver also leaves, so it fixes the bug
     if(chasingPed)
@@ -60,7 +60,7 @@ void Chase::UpdateChase(int dt)
         }
     }
     
-    if(log) Log::Level(LOG_LEVEL::LOG_BOTH) << "c3" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "c3" << std::endl;
 
     for(auto criminal : Callouts::GetCriminals())
     {
@@ -134,7 +134,7 @@ void Chase::UpdateChase(int dt)
         }
     }
 
-    if(log) Log::Level(LOG_LEVEL::LOG_BOTH) << "c4" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "c4" << std::endl;
 }
 
 void Chase::UpdateBarriers(int dt)
