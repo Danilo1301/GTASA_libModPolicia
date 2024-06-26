@@ -255,31 +255,39 @@ void Pullover::PullOverCar(int hVehicle)
     
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
 
-        //wait to get closer to the car
-        CleoFunctions::AddWaitForFunction([playerActor, hVehicle] () {
-            
-            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting to get closer to the car" << std::endl;
 
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
+        CleoFunctions::AddCondition([playerActor, hVehicle] (std::function<void()> complete, std::function<void()> cancel) {
+            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from car: " << distance << std::endl;
-
-            if(distance < PULLOVER_MIN_DISTANCE_VEHICLE) return true;
-            if(distance > PULLOVER_MAX_DISTANCE) return true;
-
-            return false;
-        },
-        [playerActor, hVehicle] () {
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
-
-            if(distance <= PULLOVER_MIN_DISTANCE_VEHICLE)
+            if(!CleoFunctions::CAR_DEFINED(hVehicle))
             {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "Create pulling car menu" << std::endl;
-                WindowPullover::CreatePullingCar();
-            } else {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away!" << std::endl;
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is not defined anymore" << std::endl;
+                cancel();
+                return;
             }
+
+            auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
+
+            if(distance > PULLOVER_MAX_DISTANCE)
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away" << std::endl;
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+                cancel();
+                return;
+            }
+
+            if(distance < PULLOVER_MIN_DISTANCE_VEHICLE)
+            {
+                complete();
+                return;
+            }
+        }, []() {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Create pulling car menu" << std::endl;
+            WindowPullover::CreatePullingCar();
+        }, [] () {
+            Pullover::m_PullingVehicle = NULL;
+            Pullover::m_PullingPed = NULL;
         });
     });
 }

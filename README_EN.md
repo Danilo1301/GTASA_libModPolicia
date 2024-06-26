@@ -41,6 +41,7 @@ SprintFixByYuna.csa
 * Installing the police mod: https://youtu.be/U-JmGorku38
 * Installing GTA SA 2.00 with original data: https://youtu.be/wT4N_NAYFOI
 * Installing the textures of the mod: https://youtu.be/ghzIKrxtvx4
+* Installing the radio and the textures: https://youtu.be/3RkYI10-icU
 
 <h1>Issues</h1>
 

@@ -30,7 +30,7 @@ extern CVector2D *m_vecCachedPos;
 const char* Mod::m_Version = "1.5.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
-bool Mod::m_DevModeEnabled = false;
+bool Mod::m_DevModeEnabled = true;
 int Mod::m_TestWidgetId = 0;
 
 bool hasLoadedAnimations = false;
@@ -46,10 +46,10 @@ void Mod::Update(int dt)
 {
     //Log::file << "Mod::Update" << std::endl;
 
-    if(dt > 40)
+    if(dt > 60)
     {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "WARNING: dt was " << dt << std::endl;
-        dt = 40;
+        dt = 60;
     }
 
     m_TimePassed += dt;
@@ -71,7 +71,7 @@ void Mod::Update(int dt)
 
     Vehicles::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofuncitions" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofunctions" << std::endl;
 
     CleoFunctions::Update(dt);
 
@@ -148,9 +148,9 @@ void Mod::Update(int dt)
             CleoInit();
         }
 
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
         /*
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
         if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && test3dAudio == NULL)
         {
             auto carHandle = CleoFunctions::ACTOR_USED_CAR(playerActor);
@@ -269,6 +269,8 @@ void Mod::Init()
 
 void Mod::CleoInit()
 {
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Cleo init" << std::endl;
+
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     //models
@@ -276,6 +278,8 @@ void Mod::CleoInit()
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading models..." << std::endl;
 
     RequestModelsToLoad();
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Showing credits" << std::endl;
 
     //credits
 
@@ -420,6 +424,8 @@ void Mod::LoadRequestedModels(std::function<void()> callback)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load requested models" << std::endl;
 
     CleoFunctions::LOAD_REQUESTED_MODELS();
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "AddWaitForFunction" << std::endl;
 
     CleoFunctions::AddWaitForFunction([] () {
         return CheckModelsLoaded();

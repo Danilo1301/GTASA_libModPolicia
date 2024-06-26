@@ -2,13 +2,24 @@
 
 #include <functional>
 
+enum WAIT_FN_STATE {
+    WAIT_FN_NONE,
+    WAIT_FN_COMPLETED,
+    WAIT_FN_CANCELLED
+};
+
 struct WaitFunction {
     int timePassed = 0;
     int time = 0;
-    std::function<void()> callback;
+    WAIT_FN_STATE state = WAIT_FN_STATE::WAIT_FN_NONE;
+    std::function<void()> onComplete;
+    std::function<void()> onCancel;
     
     bool isTestFunction = false;
     std::function<bool()> testFn;
+
+    bool isConditionFunction = false;
+    std::function<void(std::function<void()>, std::function<void()>)> conditionFn;
 };
 
 class CleoFunctions {
@@ -18,8 +29,10 @@ public:
     static void Update(int dt);
 
     static WaitFunction* AddWaitFunction(int time, std::function<void()> callback);
-    static WaitFunction* AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback);
     static void RemoveWaitFunction(WaitFunction* waitFunction);
+
+    static WaitFunction* AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback);
+    static WaitFunction* AddCondition(std::function<void(std::function<void()>, std::function<void()>)> fn, std::function<void()> onComplete, std::function<void()> onCancel);
 
     static void WAIT(int time, std::function<void()> callback);
 

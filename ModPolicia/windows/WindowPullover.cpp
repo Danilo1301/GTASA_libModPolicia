@@ -48,39 +48,45 @@ void WindowPullover::CreatePullingPed()
 
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
 
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "adding wait for function" << std::endl;
-
-            CleoFunctions::AddWaitForFunction([ped] () {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "testing condition" << std::endl;
-
-                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
-                int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-                auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
-
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from car: " << distance << std::endl;
-
-                if(distance < Pullover::PULLOVER_MIN_DISTANCE_VEHICLE) return true;
-                if(distance > Pullover::PULLOVER_MAX_DISTANCE) return true;
-
-                return false;
-            },
-            [ped] () {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "condition executed" << std::endl;
-
-                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
-                int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-                auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
-
-                if(distance <= Pullover::PULLOVER_MIN_DISTANCE_VEHICLE)
+            CleoFunctions::AddCondition([ped] (std::function<void()> complete, std::function<void()> cancel) {
+                if(!CleoFunctions::ACTOR_DEFINED(ped->hPed))
                 {
-                    Pullover::m_FriskType = FRISK_TYPE::FRISK_VEHICLE;
-                    Pullover::FriskVehicle();
-                } else {
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is not defined anymore" << std::endl;
+                    cancel();
+                    return;
+                }
+
+                if(!CleoFunctions::CAR_DEFINED(ped->hVehicleOwned))
+                {
+                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Car owned is not defined anymore" << std::endl;
+                    cancel();
+                    return;
+                }
+
+                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
+                auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+                auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
+
+                if(distance > Pullover::PULLOVER_MAX_DISTANCE)
+                {
                     Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away!" << std::endl;
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+                    cancel();
+                    return;
                 }
+
+                if(distance < Pullover::PULLOVER_MIN_DISTANCE_VEHICLE)
+                {
+                    complete();
+                    return;
+                }
+            }, []() {
+                Pullover::m_FriskType = FRISK_TYPE::FRISK_VEHICLE;
+                Pullover::FriskVehicle();
+            }, []() {
+                Pullover::m_PullingVehicle = NULL;
+                Pullover::m_PullingPed = NULL;
             });
         };
     }
@@ -124,35 +130,41 @@ void WindowPullover::CreatePullingPed()
 
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
         
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "adding wait for function" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting to get closer to the ped" << std::endl;
 
-        CleoFunctions::AddWaitForFunction([playerActor, ped] () {
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "testing condition" << std::endl;
+        CleoFunctions::AddCondition([playerActor, ped] (std::function<void()> complete, std::function<void()> cancel) {
+            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
 
-            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return false;
+            if(!CleoFunctions::ACTOR_DEFINED(ped->hPed))
+            {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is not defined anymore" << std::endl;
+                cancel();
+                return;
+            }
 
             auto distance = Pullover::GetDistanceBetweenPeds(playerActor, ped->hPed);
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "distance from ped: " << distance << std::endl;
 
-            if(distance < Pullover::PULLOVER_MIN_DISTANCE_PED) return true;
-            if(distance > Pullover::PULLOVER_MAX_DISTANCE) return true;
-
-            return false;
-        },
-        [playerActor, ped] () {
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "condition executed" << std::endl;
-
-            auto distance = Pullover::GetDistanceBetweenPeds(playerActor, ped->hPed);
-
-            if(distance <= Pullover::PULLOVER_MIN_DISTANCE_PED)
+            if(distance > Pullover::PULLOVER_MAX_DISTANCE)
             {
-                Pullover::m_FriskType = FRISK_TYPE::FRISK_PED;
-                Pullover::FriskPed();
-            } else {
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is too far away!" << std::endl;
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+                cancel();
+                return;
             }
+
+            if(distance < Pullover::PULLOVER_MIN_DISTANCE_PED)
+            {
+                complete();
+                return;
+            }
+        }, []() {
+            Pullover::m_FriskType = FRISK_TYPE::FRISK_PED;
+            Pullover::FriskPed();
+        }, []() {
+            Pullover::m_PullingVehicle = NULL;
+            Pullover::m_PullingPed = NULL;
         });
     };
 

@@ -177,7 +177,9 @@ Fixing chase:
 [X] ADD: interface (ModPolicia)
 [X] FIX: save stats
 [-] FIX: car teleporting after pullover and start running (not fixed)
+[X] FIX: cops shooting suspect when he handsups
 
+[ ] FIX: crash when frisk vehicle/ped then it despawns
 
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect

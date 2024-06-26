@@ -1,5 +1,7 @@
 #include "CleoFunctions.h"
 
+#include "Log.h"
+
 #include "isautils.h"
 extern ISAUtils* sautils;
 
@@ -123,30 +125,51 @@ std::vector<WaitFunction*> CleoFunctions::m_WaitFunctions;
 
 void CleoFunctions::Update(int dt)
 {
-    std::vector<WaitFunction*> completed;
-
     for(auto waitFunction : m_WaitFunctions)
     {
+        if(waitFunction->isConditionFunction)
+        {
+            waitFunction->conditionFn([waitFunction] () {
+                waitFunction->state = WAIT_FN_STATE::WAIT_FN_COMPLETED;
+            }, [waitFunction] () {
+                waitFunction->state = WAIT_FN_STATE::WAIT_FN_CANCELLED;
+            });
+            continue;
+        }
+
         if(waitFunction->isTestFunction)
         {
             auto result = waitFunction->testFn();
-            if(result) completed.push_back(waitFunction);
+            if(result) waitFunction->state = WAIT_FN_STATE::WAIT_FN_COMPLETED;
             continue;
         }
 
         waitFunction->timePassed += dt;
         if(waitFunction->timePassed >= waitFunction->time)
         {
-            completed.push_back(waitFunction);
+            waitFunction->state = WAIT_FN_STATE::WAIT_FN_COMPLETED;
         }
     }
 
-    for(auto waitFunction : completed) {
-        waitFunction->callback();
-        
+    std::vector<WaitFunction*> toRemove;
+
+    for(auto waitFunction : m_WaitFunctions)
+    {
+        if(waitFunction->state == WAIT_FN_STATE::WAIT_FN_COMPLETED)
+        {
+            waitFunction->onComplete();
+            toRemove.push_back(waitFunction);
+        }
+
+        if(waitFunction->state == WAIT_FN_STATE::WAIT_FN_CANCELLED)
+        {
+            waitFunction->onCancel();
+            toRemove.push_back(waitFunction);
+        }
     }
 
-    for(auto waitFunction : completed) {
+    for(auto waitFunction : toRemove)
+    {
         RemoveWaitFunction(waitFunction);
     }
 }
@@ -155,20 +178,8 @@ WaitFunction* CleoFunctions::AddWaitFunction(int time, std::function<void()> cal
 {
     WaitFunction* waitFunction = new WaitFunction();
     waitFunction->time = time;
-    waitFunction->callback = callback;
+    waitFunction->onComplete = callback;
     m_WaitFunctions.push_back(waitFunction);
-    return waitFunction;
-}
-
-WaitFunction* CleoFunctions::AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback)
-{
-    WaitFunction* waitFunction = new WaitFunction();
-    waitFunction->time = 0;
-    waitFunction->callback = callback;
-    waitFunction->isTestFunction = true;
-    waitFunction->testFn = testFn;
-    m_WaitFunctions.push_back(waitFunction);
-
     return waitFunction;
 }
 
@@ -178,6 +189,31 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
     if (it == m_WaitFunctions.end()) return;
     m_WaitFunctions.erase(it);
     delete waitFunction;
+}
+
+WaitFunction* CleoFunctions::AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback)
+{
+    WaitFunction* waitFunction = new WaitFunction();
+    waitFunction->time = 0;
+    waitFunction->onComplete = callback;
+    waitFunction->isTestFunction = true;
+    waitFunction->testFn = testFn;
+    m_WaitFunctions.push_back(waitFunction);
+
+    return waitFunction;
+}
+
+WaitFunction* CleoFunctions::AddCondition(std::function<void(std::function<void()>, std::function<void()>)> fn, std::function<void()> onComplete, std::function<void()> onCancel)
+{
+    WaitFunction* waitFunction = new WaitFunction();
+    waitFunction->time = 0;
+    waitFunction->onComplete = onComplete;
+    waitFunction->onCancel = onCancel;
+    waitFunction->isConditionFunction = true;
+    waitFunction->conditionFn = fn;
+    m_WaitFunctions.push_back(waitFunction);
+
+    return waitFunction;
 }
 
 void CleoFunctions::WAIT(int time, std::function<void()> callback)

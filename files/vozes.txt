@@ -1,0 +1,35 @@
+Policial:
+(ASK_STOP_PEDESTRIAN) Parado, é a policia!
+(ASK_STOP_VEHICLE) Encosta o carro!
+(?) Voce esta liberado!
+(CHECK_VEHICLE_PLATE) COPOM, consulta de placa...
+(CHECK_ID) COPOM, consulta de individuo...
+COPOM, solicito apoio acompanhamento
+COPOM, solicito apoio da ROCAM
+COPOM, solicito uma viatura para transportar um suspeito
+COPOM, solicito apoio do Aguia
+COPOM, solicito apoio de uma viatura especial
+COPOM, solicito apoio de um guincho
+COPOM, solicito apoio da ambulancia
+COPOM, solicito apoio do IML
+COPOM, solicito unidade de bloqueio na pista
+COPOM, solicito unidade com espinhos na pista
+
+
+COPOM:
+IMEI registrado como produto de furto
+Nada consta no IMEI
+(VEHICLE_PLATE_OK) Veiculo sem queixas
+(VEHICLE_PLATE_STOLEN) Veiculo cadastrado como produto de roubo
+(ID_OK) Individuo sem queixas
+(ID_WITH_ARREST_WARRANT) O individuo esta com um mandado de prisao em aberto
+(CALLOUT_ASSAULT) Solicito uma viatura para atender ocorrencia de desentendimento
+Solicito uma viatura para atender ocorrencia de tiros disparados
+Um veiculo roubado foi identificado pelas cameras do olho vivo
+Recebemos uma denuncia de invasao domiciliar
+Uma viatura solicita apoio para uma perseguicao em andamento
+
+Change Pitch: -12
+
+Effect > Filter curve EQ
+Preset: RADIO

@@ -146,6 +146,10 @@ void WindowBackup::CreateBackupConfig(Window* parent)
 {
     auto window = Menu::AddWindow(6, parent);
     window->showPageControls = true;
+    window->btnBack->onClick = [window]()
+    {
+        window->GoToPrevWindow();
+    };
 
     window->AddText(107);
 
@@ -230,7 +234,11 @@ void WindowBackup::CreateBackupConfigForBackup(Window* parent, BackupVehicle* ba
 {
     auto window = Menu::AddWindow(6, parent);
     window->showPageControls = true;
-
+    window->btnBack->onClick = [window]()
+    {
+        window->GoToPrevWindow();
+    };
+    
     window->AddIntRange(106, &backupVehicle->numPeds, 1, backupVehicle->maxPeds, 1);
 
     auto weaponOptions = window->AddOptions(108);
