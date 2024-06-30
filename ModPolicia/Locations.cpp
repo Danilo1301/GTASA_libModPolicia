@@ -62,7 +62,7 @@ CVector Locations::GetRandomHouse()
     //int maxIndex = locations.size() - 1;
     //if(maxIndex > 3) maxIndex = 3;
 
-    auto randomLocation = locations[Mod::GetRandomNumber(0, locations.size() - 1)];
+    auto randomLocation = locations[GetRandomNumber(0, locations.size() - 1)];
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Location selected: " << CVectorToString(randomLocation.position) << std::endl;
 

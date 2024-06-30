@@ -34,7 +34,7 @@ public:
 	static bool DirExists(std::string path);
 	static bool FileExists(std::string path);
 	static std::vector<std::string> GetDirectoriesName(std::string path);
-	static void ConfigDeleteFile(std::string path);
+	static void ConfigDelete(std::string path);
 
 	static std::string GetConfigFolder();
 	static void CreateFolder(std::string path);

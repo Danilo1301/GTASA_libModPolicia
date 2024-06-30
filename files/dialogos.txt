@@ -1,0 +1,26 @@
+~b~[Policial] ~w~De onde voce ta vindo?
+Da minha casa
+Da casa da minha tia
+Da casa de um amigo
+Do trabalho
+
+~b~[Policial] ~w~De quem e o veiculo?
+E meu
+E do meu pai
+
+~b~[Policial] ~w~Roubou quando?
+Eu nao roubei nada
+Roubei faz umas ~1~ semanas
+
+~b~[Policial] ~w~Voce e usuario?
+Nao, senhor
+Sou sim, senhor
+
+~b~[Policial] ~w~Tem passagem?
+Tenho nao, senhor
+Tenho so por ~1~
+Tenho por ~1~ e ~1~
+
+~b~[Policial] ~w~Ja foi preso?
+Nunca, senhor
+Ja fui sim

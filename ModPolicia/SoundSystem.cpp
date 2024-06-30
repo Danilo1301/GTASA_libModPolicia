@@ -76,7 +76,7 @@ CAudioStream* SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation(std::st
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Found " << numVariations << " variations" << std::endl;
 
-    auto newSrc = audiosPath + src + std::to_string(Mod::GetRandomNumber(1, numVariations)) + ".wav";
+    auto newSrc = audiosPath + src + std::to_string(GetRandomNumber(1, numVariations)) + ".wav";
 
     return PlayStream(newSrc, loop);
 }

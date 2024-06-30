@@ -32,7 +32,7 @@ MPFX31 ~b~[Policial] ~w~Parado, aqui e a policia!
 MPFX32 Nao foi possivel encontrar ninguem para abordar
 MPFX33 Revistar
 MPFX34 Pedir RG
-MPFX35 Me de o seu RG
+MPFX35 ~b~[Policial] ~w~Me de seu RG
 MPFX36 Eu esqueci em casa, senhor
 MPFX37 Aqui esta!
 MPFX38 ~1~.~1~
@@ -170,3 +170,19 @@ MPFX169 Editar barreiras
 MPFX170 Editar espinhos
 MPFX171 Veiculo
 MPFX172 Radio by ~y~Strange Mods ~w~& ~y~LCG
+MPFX173 ~b~[Policial] ~w~Me de a sua CNH
+MPFX174 Dialogo
+MPFX175 ~b~[Policial] ~w~De onde voce ta vindo?
+MPFX176 Da minha casa
+MPFX177 Da casa da minha tia
+MPFX178 Da casa de um amigo
+MPFX179 Do trabalho
+MPFX180 ~b~[Policial] ~w~De quem e o veiculo?
+MPFX181 Ele e meu
+MPFX182 E do meu pai
+MPFX183 Nao sei
+MPFX184 ~g~DEV mode
+MPFX185 ~b~[Policial] ~w~Tem passagem?
+MPFX186 Tenho nao, senhor
+MPFX187 Tenho so por ~1~
+MPFX188 Tenho por ~1~ e ~1~

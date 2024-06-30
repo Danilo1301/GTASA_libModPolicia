@@ -32,7 +32,7 @@ MPFX31 ~b~[Officer] ~w~Stop, it's the police!
 MPFX32 Could not find anyone to pullover
 MPFX33 Frisk
 MPFX34 Ask for ID
-MPFX35 Give me your ID
+MPFX35 ~b~[Officer] ~w~Give me your ID
 MPFX36 I forgot at home, sir
 MPFX37 Here it is!
 MPFX38 ~1~.~1~
@@ -170,6 +170,7 @@ MPFX169 Edit barriers
 MPFX170 Edit spikestrips
 MPFX171 Vehicle
 MPFX172 Radio by ~y~Strange Mods ~w~& ~y~LCG
+MPFX173 ~b~[Officer] ~w~Give me your driver's license
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

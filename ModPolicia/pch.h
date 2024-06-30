@@ -15,6 +15,17 @@
 
 #include "ibass.h"
 
+static int GetRandomNumber(int min, int max)
+{
+    int n = max - min + 1;
+    int remainder = RAND_MAX % n;
+    int x;
+    do{
+        x = rand();
+    }while (x >= RAND_MAX - remainder);
+    return min + x % n;
+}
+
 static unsigned char ucharIntensity(unsigned char uc, float intensity)
 {
     return (unsigned char)std::clamp((int)round(((float)uc) * intensity), 0, 255);

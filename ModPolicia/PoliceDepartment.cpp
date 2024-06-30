@@ -65,7 +65,7 @@ void PoliceDepartment::Update(int dt)
     UpdateTrunkScorch(dt);
 
     m_PickupMenu->Update(dt);
-    m_PickupEquipment->Update(dt);
+    //m_PickupEquipment->Update(dt);
     m_PickupPartner->Update(dt);
 
     if(m_PickupMenu->playerJustPickedPickup)

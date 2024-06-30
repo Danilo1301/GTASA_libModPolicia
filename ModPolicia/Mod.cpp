@@ -27,7 +27,7 @@
 
 extern CVector2D *m_vecCachedPos;
 
-const char* Mod::m_Version = "1.5.0";
+const char* Mod::m_Version = "1.6.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 bool Mod::m_DevModeEnabled = true;
@@ -137,6 +137,15 @@ void Mod::Update(int dt)
         Draw::DrawGxtText(2, (int)Menu::m_MenuOffset.x, (int)Menu::m_MenuOffset.y, CVector2D(20, 320), CRGBA(255, 255, 0));
         Draw::DrawGxtText(1, Draw::m_DrawItems.size(), 0, CVector2D(20, 340), CRGBA(255, 255, 0));
         Draw::DrawGxtText(1, dt, 0, CVector2D(20, 360), CRGBA(255, 255, 0));
+    }
+    
+    if(m_DevModeEnabled)
+    {
+        auto screenSize = Input::GetGTAScreenSize();
+        float x = screenSize.x/2;
+        float y = 35;
+
+        Draw::DrawGxtText(184, 0, 0, CVector2D(x, y), CRGBA(255, 255, 255));
     }
 
     if(CleoFunctions::PLAYER_DEFINED(0))
@@ -301,9 +310,12 @@ void Mod::CleoInit()
         if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         {
             auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
-            auto carHandle = CleoFunctions::CREATE_CAR_AT(597, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+            auto carHandle = CleoFunctions::CREATE_CAR_AT(598, spawnPosition.x, spawnPosition.y, spawnPosition.z);
             CleoFunctions::SET_CAR_DOOR_STATUS(carHandle, 1);
+            CleoFunctions::ENABLE_CAR_SIREN(carHandle, true);
         }
+
+        CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 282);
 
         ModConfig::CreateTestOptionsInRadioMenu = true;
     }
@@ -394,29 +406,20 @@ void Mod::RequestModelsToLoad()
     AddModelToLoad(2899); //spikes
     AddModelToLoad(2328); //small box
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: loading models..." << std::endl;
+    //pickups
+    //https://www.open.mp/docs/scripting/resources/pickupids
+    //AddModelToLoad(1210); //Briefcase
+    //AddModelToLoad(1239); //Information
+    //AddModelToLoad(1242); //Body armour
+    //AddModelToLoad(1314); //Two-player (crashes for Leonardo Alves)
 
+    AddModelToLoad(PoliceDepartment::m_PickupEquipment->pickupModelId);
+    AddModelToLoad(PoliceDepartment::m_PickupMenu->pickupModelId);
+    AddModelToLoad(PoliceDepartment::m_PickupPartner->pickupModelId);
+    
     LoadRequestedModels([] () {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Models loaded!" << std::endl;
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Loading pickups..." << std::endl;
-
-        //pickups
-        //https://www.open.mp/docs/scripting/resources/pickupids
-        //AddModelToLoad(1210); //Briefcase
-        //AddModelToLoad(1239); //Information
-        //AddModelToLoad(1242); //Body armour
-        //AddModelToLoad(1314); //Two-player (crashes for Leonardo Alves)
-
-        AddModelToLoad(PoliceDepartment::m_PickupEquipment->pickupModelId);
-        AddModelToLoad(PoliceDepartment::m_PickupMenu->pickupModelId);
-        AddModelToLoad(PoliceDepartment::m_PickupPartner->pickupModelId);
-        
-        LoadRequestedModels([] () {
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Pickups loaded!" << std::endl;
-        });
     });
-
-    
 }
 
 void Mod::LoadRequestedModels(std::function<void()> callback)
@@ -475,17 +478,6 @@ bool Mod::CheckModelsLoaded()
     }
 
     return false;
-}
-
-int Mod::GetRandomNumber(int min, int max)
-{
-    int n = max - min + 1;
-    int remainder = RAND_MAX % n;
-    int x;
-    do{
-        x = rand();
-    }while (x >= RAND_MAX - remainder);
-    return min + x % n;
 }
 
 bool Mod::CalculateProbability(float chance)

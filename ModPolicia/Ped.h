@@ -6,6 +6,8 @@
 
 #include "Inventory.h"
 
+#include "systems/Dialog.h"
+
 enum PED_ACTION_STATUS {
     PED_ACTION_NONE = 0,
 
@@ -73,6 +75,10 @@ public:
     int chasingCriminal = 0;
 
     Inventory* inventory = new Inventory();
+
+    std::map<eDialogId, int> dialogResponses;
+
+    std::vector<int> crimeCodes;
     
     Ped(int hPed);
 	~Ped();
@@ -96,4 +102,6 @@ public:
     void AddDrugs(bool drugDealer);
 
     static bool PedHasWeaponId(int hPed, int weaponId);
+
+    int GetDialogResponse(eDialogId id);
 };

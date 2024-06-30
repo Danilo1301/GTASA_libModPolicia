@@ -256,7 +256,6 @@ quando um helicóptero for chamado tem que vir atiradores no helicóptero dando 
 
 [ ] (pL) Nas ocorrências Aparecer um círculo No mapa indicando o local do chamado ai você tem que procurar a pessoa isso fica mais realista 
 [ ] (pL) OCORRÊNCIA DE MANDATO DE PRISÃO 
-[ ] (pL) FAZER PERGUNTAS AO PRESO IGUAL NO LSPDFR DO GTA 5
 
 by El Gatonw: (Discord)
 [ ] Polícia - modo comboio de viaturas, (carro ou moto) 2 ou + Viaturas com 4 polícias e 2 ou + motos com garupa. ( Tenho Anim do garupa com o fuzil pra cima tipo BPraio )

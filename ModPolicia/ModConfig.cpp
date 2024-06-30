@@ -50,6 +50,15 @@ std::vector<std::string> get_directories_name(const std::string& s)
     return r;
 }
 
+std::vector<std::string> get_files_name(const std::string& s)
+{
+    std::vector<std::string> r;
+    for (auto& p : std::filesystem::recursive_directory_iterator(s))
+        if (!p.is_directory())
+            r.push_back(p.path().filename().string());
+    return r;
+}
+
 //
 
 std::vector<VersionInfo*> VersionControl::m_Versions;
@@ -164,7 +173,7 @@ std::vector<std::string> ModConfig::GetDirectoriesName(std::string path)
     return get_directories_name(path);
 }
 
-void ModConfig::ConfigDeleteFile(std::string path)
+void ModConfig::ConfigDelete(std::string path)
 {
     try {
         if (std::filesystem::remove(path))
@@ -581,6 +590,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.4.0");
     VersionControl::AddVersion("1.4.1");
     VersionControl::AddVersion("1.5.0");
+    VersionControl::AddVersion("1.6.0");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }
@@ -592,11 +602,75 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [PRE] Updating from " << prevVersion << " to " << currentVersion << std::endl;
 
-    /*
-    VersionControl::AddPatch("1.0.1", [] () {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1" << std::endl;
+
+    VersionControl::AddPatch("1.5.0", [] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.5.0 PRE" << std::endl;
+
+        std::vector<std::string> oldAudios = {
+            "HELI_APPROACHING_DISPATCH_1.wav",
+            "HELI_APPROACHING_DISPATCH_2.wav",
+            "HELI_NO_VISUAL_DISPATCH_1.wav",
+            "HELI_NO_VISUAL_DISPATCH_2.wav",
+            "REQUEST_BACKUP_BIKE_1.wav",
+            "REQUEST_BACKUP_BIKE_2.wav",
+            "REQUEST_BACKUP_FBI_1.wav",
+            "REQUEST_BACKUP_FBI_2.wav",
+            "REQUEST_BACKUP_HELI_1.wav",
+            "REQUEST_BACKUP_HELI_2.wav",
+            "REQUEST_BACKUP_LS_1.wav",
+            "REQUEST_BACKUP_LS_2.wav",
+            "REQUEST_BACKUP_LV_1.wav",
+            "REQUEST_BACKUP_LV_2.wav",
+            "REQUEST_BACKUP_RANGER_1.wav",
+            "REQUEST_BACKUP_RANGER_2.wav",
+            "REQUEST_BACKUP_SF_1.wav",
+            "REQUEST_BACKUP_SF_2.wav",
+            "REQUEST_BACKUP_SWAT_1.wav",
+            "REQUEST_BACKUP_SWAT_2.wav",
+            "UNIT_RESPONDING_DISPATCH_1.wav",
+            "UNIT_RESPONDING_DISPATCH_2.wav",
+            "UNIT_RESPONDING_DISPATCH_3.wav",
+            "UNIT_RESPONDING_DISPATCH_4.wav",
+            "SPIKES_DEPLOYED_1.wav",
+            "SPIKES_DEPLOYED_2.wav",
+            "SPIKES_DEPLOYED_3.wav",
+            "SPIKES_DEPLOYED_4.wav",
+            "SPIKES_DEPLOYED_5.wav",
+            "REQUEST_ROADBLOCK_1.wav"
+        };
+        
+        auto audiosPath = ModConfig::GetConfigFolder() + "/audios/";
+        auto unusedPath = audiosPath + "/unused_audios/";
+
+        CreateFolder(unusedPath);
+
+        for(auto wavName : oldAudios)
+        {
+            auto path = audiosPath + "/voices/" + wavName;
+
+            if(!FileExists(path)) continue;
+
+            auto newPath = unusedPath + wavName;
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Moving to unused: " << wavName << std::endl;
+            try {
+                std::filesystem::rename(path, newPath);
+            } catch (std::filesystem::filesystem_error& e) {
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "Could not move. Error: " << e.what() << std::endl;
+            }
+        }
+
+        auto files = get_files_name(unusedPath);
+
+        Log::Level(LOG_LEVEL::LOG_BOTH) << files.size() << " files in /unused_audios/" << std::endl;
+
+        if(files.size() == 0)
+        {
+            ModConfig::ConfigDelete(unusedPath);
+        }
     });
-    */
+
+
 
     VersionControl::ApplyPatches();
 }

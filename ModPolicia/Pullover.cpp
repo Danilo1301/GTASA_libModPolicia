@@ -371,6 +371,7 @@ void Pullover::FreePed()
     //CleoFunctions::SET_PLAYER_CAN_MOVE(m_PullingPed->hPed, true);
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX55", 0, 0, 0, 3000, 1); //liberado
+    SoundSystem::PlayStreamFromAudiosFolder("voices/PULLOVER_FREE_PED.wav", false);
 
     m_PullingPed->RemoveBlip();
     m_PullingPed->shouldHandsup = false;
@@ -399,6 +400,9 @@ void Pullover::MakePedWait()
 
 void Pullover::FreeVehicle()
 {
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX55", 0, 0, 0, 3000, 1); //liberado
+    SoundSystem::PlayStreamFromAudiosFolder("voices/PULLOVER_FREE_PED.wav", false);
+    
     m_PullingPed->driveAfterEnterCar = true;
     m_PullingPed->shouldHandsup = false;
     m_PullingPed->RemoveBlip();

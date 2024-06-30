@@ -19,27 +19,42 @@ Ped::Ped(int hPed)
 
     this->pPed = (CPed*)GetPedFromRef(hPed);
 
-    this->birthDay = Mod::GetRandomNumber(1, 29);
-    this->birthMonth = Mod::GetRandomNumber(1, 12);
-    this->birthYear = Mod::GetRandomNumber(1964, 1990);
+    this->birthDay = GetRandomNumber(1, 29);
+    this->birthMonth = GetRandomNumber(1, 12);
+    this->birthYear = GetRandomNumber(1964, 1990);
 
-    this->rg[0] = Mod::GetRandomNumber(100, 999);
-    this->rg[1] = Mod::GetRandomNumber(100, 999);
+    this->rg[0] = GetRandomNumber(100, 999);
+    this->rg[1] = GetRandomNumber(100, 999);
 
-    this->cpf[0] = Mod::GetRandomNumber(100, 999);
-    this->cpf[1] = Mod::GetRandomNumber(100, 999);
+    this->cpf[0] = GetRandomNumber(100, 999);
+    this->cpf[1] = GetRandomNumber(100, 999);
 
     int currentYear = 2024;
     
-    this->cnhRegisterNum = Mod::GetRandomNumber(100000, 999999);
-    this->cnhValidDay = Mod::GetRandomNumber(1, 29);
-    this->cnhValidMonth = Mod::GetRandomNumber(1, 12);
-    this->cnhValidYear = Mod::GetRandomNumber(currentYear, currentYear + 10);
-    if(Mod::CalculateProbability(CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE)) this->cnhValidYear = Mod::GetRandomNumber(currentYear - 5, currentYear);
+    this->cnhRegisterNum = GetRandomNumber(100000, 999999);
+    this->cnhValidDay = GetRandomNumber(1, 29);
+    this->cnhValidMonth = GetRandomNumber(1, 12);
+    this->cnhValidYear = GetRandomNumber(currentYear, currentYear + 10);
+    if(Mod::CalculateProbability(CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE)) this->cnhValidYear = GetRandomNumber(currentYear - 5, currentYear);
 
     this->isWanted = Mod::CalculateProbability(CHANCE_PED_BEEING_WANTED);
 
-    this->money = Mod::GetRandomNumber(0, 200);
+    this->money = GetRandomNumber(0, 200);
+
+    if(Mod::CalculateProbability(0.3))
+    {
+        std::vector<int> crimes = {157, 171, 147, 121};
+
+        int numCrimes = 1;
+        if(Mod::CalculateProbability(0.5)) numCrimes = 2;
+
+        for(int i = 0; i < numCrimes; i++)
+        {
+            int rnd = GetRandomNumber(0, crimes.size() - 1);
+            crimeCodes.push_back(crimes[rnd]);
+            crimes.erase(crimes.begin() + rnd);
+        }
+    }
 }
 
 Ped::~Ped()
@@ -173,11 +188,11 @@ void Ped::UpdateBreathalyzer()
     {
         int maximunValue = 4;
 
-        bool drankTooMuch = Mod::GetRandomNumber(0, 1) == 0;
+        bool drankTooMuch = GetRandomNumber(0, 1) == 0;
 
         if(drankTooMuch) maximunValue = 50;
 
-        breathalyzerValue = Mod::GetRandomNumber(0, maximunValue) * 0.01f;
+        breathalyzerValue = GetRandomNumber(0, maximunValue) * 0.01f;
     }
 }
 
@@ -245,14 +260,14 @@ void Ped::CopyFrom(Ped* fromPed)
 
 void Ped::AddDrugs(bool drugDealer)
 {
-    int drugRng = Mod::GetRandomNumber(0, 4);
+    int drugRng = GetRandomNumber(0, 4);
 
     if(drugRng == 0)
     {
         auto drug = inventory->AddItemToInventory(Item_Type::WEED);
         if(drugDealer)
         {
-            drug->amount = Mod::GetRandomNumber(10, 50);
+            drug->amount = GetRandomNumber(10, 50);
         }
     }
 
@@ -261,7 +276,7 @@ void Ped::AddDrugs(bool drugDealer)
         auto drug = inventory->AddItemToInventory(Item_Type::CRACK);
         if(drugDealer)
         {
-            drug->amount = Mod::GetRandomNumber(10, 50);
+            drug->amount = GetRandomNumber(10, 50);
         }
     }
 
@@ -270,7 +285,7 @@ void Ped::AddDrugs(bool drugDealer)
         auto drug = inventory->AddItemToInventory(Item_Type::COCAINE);
         if(drugDealer)
         {
-            drug->amount = Mod::GetRandomNumber(10, 50);
+            drug->amount = GetRandomNumber(10, 50);
         }
     }
 
@@ -279,7 +294,7 @@ void Ped::AddDrugs(bool drugDealer)
         auto drug = inventory->AddItemToInventory(Item_Type::K9);
         if(drugDealer)
         {
-            drug->amount = Mod::GetRandomNumber(10, 50);
+            drug->amount = GetRandomNumber(10, 50);
         }
     }
 
@@ -288,7 +303,7 @@ void Ped::AddDrugs(bool drugDealer)
         auto drug = inventory->AddItemToInventory(Item_Type::METHAMPHETAMINE);
         if(drugDealer)
         {
-            drug->amount = Mod::GetRandomNumber(10, 50);
+            drug->amount = GetRandomNumber(10, 50);
         }
     }
 
@@ -311,4 +326,10 @@ bool Ped::PedHasWeaponId(int hPed, int weaponId)
         //Log::Level(LOG_LEVEL::LOG_BOTH) << "slot " << i << ": " << weaponType << "|" << weaponAmmo << "|" <<weaponModel << std::endl;
     }
     return false;
+}
+
+int Ped::GetDialogResponse(eDialogId id)
+{
+    if(dialogResponses.count(id)) return dialogResponses[id];
+    return -1;
 }

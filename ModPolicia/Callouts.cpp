@@ -220,7 +220,7 @@ CALLOUT_TYPE Callouts::GetRandomCallout()
         Log::Level(LOG_LEVEL::LOG_BOTH) << "callout " << calloutIndex << " chance " << chance << " total " << ids.size() << std::endl;
     }
     
-    int randomCalloutIndex = ids[Mod::GetRandomNumber(0, ids.size() - 1)];
+    int randomCalloutIndex = ids[GetRandomNumber(0, ids.size() - 1)];
 
     ids.clear();
 
@@ -330,7 +330,7 @@ void Callouts::StartGangShotsFiredCallout()
 {
     AproachCalloutPedPath(100.0f,[] (CVector pedPathNodePosition) {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        int gang = Mod::GetRandomNumber(1, 3);
+        int gang = GetRandomNumber(1, 3);
 
         for(int i = 0; i < 7; i++)
         {
@@ -359,7 +359,7 @@ void Callouts::StartStolenVehicleCallout()
         for(auto id : m_StolenVehicleIds) vehicleIds.push_back(id);
         for(auto id : m_StolenTruckIds) vehicleIds.push_back(id);
 
-        int vehicleModel = vehicleIds[Mod::GetRandomNumber(0, vehicleIds.size() -1)];
+        int vehicleModel = vehicleIds[GetRandomNumber(0, vehicleIds.size() -1)];
         
         Log::Level(LOG_LEVEL::LOG_BOTH) << "creating car " << vehicleModel << std::endl;
 
@@ -405,7 +405,7 @@ void Callouts::StartHouseInvasionCallout()
         criminalPedAtDoor->AddBlip();
         criminals.push_back(criminalPedAtDoor);
 
-        for(int i = 0; i < Mod::GetRandomNumber(0, 1); i++)
+        for(int i = 0; i < GetRandomNumber(0, 1); i++)
         {
             criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
@@ -422,9 +422,9 @@ void Callouts::StartHouseInvasionCallout()
 
             criminal->UpdateInventory();
 
-            for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::CELLPHONE);
-            for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WALLET);
-            for(int i = 0; i < Mod::GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WATCH);
+            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::CELLPHONE);
+            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WALLET);
+            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WATCH);
         }
     }, []() {});
 }
@@ -436,7 +436,7 @@ void Callouts::StartChaseCallout()
         for(auto id : m_StolenVehicleIds) vehicleIds.push_back(id);
         for(auto id : m_StolenTruckIds) vehicleIds.push_back(id);
 
-        auto vehicleModel = vehicleIds[Mod::GetRandomNumber(0, vehicleIds.size() -1)];
+        auto vehicleModel = vehicleIds[GetRandomNumber(0, vehicleIds.size() -1)];
         
         Log::Level(LOG_LEVEL::LOG_BOTH) << "creating car " << vehicleModel << std::endl;
 
@@ -522,7 +522,7 @@ void Callouts::AproachCalloutCarPath(float aproachDistance, std::function<void(C
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    auto distX = Mod::GetRandomNumber(-CALLOUT_DISTANCE, CALLOUT_DISTANCE);
+    auto distX = GetRandomNumber(-CALLOUT_DISTANCE, CALLOUT_DISTANCE);
 
     float x = 0, y = 0, z = 0;
     CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, (float)distX, CALLOUT_DISTANCE, 0, &x, &y, &z);
@@ -543,8 +543,8 @@ Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector
     Log::Level(LOG_LEVEL::LOG_BOTH) << "position.z = " << position.z << std::endl;
 
     CVector offset = CVector(
-      radius/2 + (float)(Mod::GetRandomNumber(0, (int)radius)),
-      radius/2 + (float)(Mod::GetRandomNumber(0, (int)radius)),
+      radius/2 + (float)(GetRandomNumber(0, (int)radius)),
+      radius/2 + (float)(GetRandomNumber(0, (int)radius)),
       0
     );
 
@@ -585,7 +585,7 @@ SkinData Callouts::GetRandomSkin(SkinGenre genre, SkinGang gang)
         possibleSkins.push_back(skin);
     }
 
-    auto skin = possibleSkins[Mod::GetRandomNumber(0, possibleSkins.size() - 1)];
+    auto skin = possibleSkins[GetRandomNumber(0, possibleSkins.size() - 1)];
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Skin chosed: " << skin.modelId << std::endl;
 

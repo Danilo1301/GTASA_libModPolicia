@@ -179,7 +179,11 @@ Fixing chase:
 [-] FIX: car teleporting after pullover and start running (not fixed)
 [X] FIX: cops shooting suspect when he handsups
 
-[ ] FIX: crash when frisk vehicle/ped then it despawns
+[1.6.0]
+[X] FIX: crash when frisk vehicle/ped then it despawns
+[ ] dialogue system
+
+[ ] ADD: more sound variations
 
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect

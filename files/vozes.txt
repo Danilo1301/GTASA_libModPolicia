@@ -1,8 +1,10 @@
 Policial:
 (ASK_STOP_PEDESTRIAN) Parado, é a policia!
 (ASK_STOP_VEHICLE) Encosta o carro!
-(?) Voce esta liberado!
-(CHECK_VEHICLE_PLATE) COPOM, consulta de placa...
+(ASK_FOR_DRIVERS_LICENSE) Me de a sua CNH
+(ASK_FOR_ID) Me de seu RG
+(PULLOVER_FREE_PED) Voce esta liberado!
+(CHECK_VEHICLE_PLATE) COPOM, consulta de emplacamento...
 (CHECK_ID) COPOM, consulta de individuo...
 COPOM, solicito apoio acompanhamento
 COPOM, solicito apoio da ROCAM
@@ -29,7 +31,10 @@ Um veiculo roubado foi identificado pelas cameras do olho vivo
 Recebemos uma denuncia de invasao domiciliar
 Uma viatura solicita apoio para uma perseguicao em andamento
 
-Change Pitch: -12
+Change Pitch: -10
 
 Effect > Filter curve EQ
 Preset: RADIO
+
+Effect > Amplify
+Ampl: 20

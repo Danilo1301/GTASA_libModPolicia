@@ -1060,5 +1060,69 @@ end
 if VAR_GxtId == 172                    
 then
      VAR_STR_1 = "MPFX172"
+end    
+if VAR_GxtId == 173                    
+then
+     VAR_STR_1 = "MPFX173"
+end
+if VAR_GxtId == 174                    
+then
+     VAR_STR_1 = "MPFX174"
+end
+if VAR_GxtId == 175                    
+then
+     VAR_STR_1 = "MPFX175"
+end
+if VAR_GxtId == 176                    
+then
+     VAR_STR_1 = "MPFX176"
+end
+if VAR_GxtId == 177                    
+then
+     VAR_STR_1 = "MPFX177"
+end
+if VAR_GxtId == 178                    
+then
+     VAR_STR_1 = "MPFX178"
+end
+if VAR_GxtId == 179                    
+then
+     VAR_STR_1 = "MPFX179"
+end
+if VAR_GxtId == 180                    
+then
+     VAR_STR_1 = "MPFX180"
+end
+if VAR_GxtId == 181                    
+then
+     VAR_STR_1 = "MPFX181"
+end
+if VAR_GxtId == 182                    
+then
+     VAR_STR_1 = "MPFX182"
+end
+if VAR_GxtId == 183                    
+then
+     VAR_STR_1 = "MPFX183"
+end
+if VAR_GxtId == 184                   
+then
+     VAR_STR_1 = "MPFX184"
+end
+if VAR_GxtId == 185                   
+then
+     VAR_STR_1 = "MPFX185"
+end
+if VAR_GxtId == 186                   
+then
+     VAR_STR_1 = "MPFX186"
+end
+if VAR_GxtId == 187                   
+then
+     VAR_STR_1 = "MPFX187"
+end
+if VAR_GxtId == 188                   
+then
+     VAR_STR_1 = "MPFX188"
 end
 return

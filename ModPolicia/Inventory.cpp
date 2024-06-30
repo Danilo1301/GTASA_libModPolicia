@@ -35,7 +35,7 @@ InventoryItem* Inventory::AddItemToInventory(Item_Type type)
 
         item->itemNameGxtId = itemInfo.itemNameGxtId;
         item->type = itemInfo.type;
-        item->amount = Mod::GetRandomNumber(itemInfo.amountMin, itemInfo.amountMax);
+        item->amount = GetRandomNumber(itemInfo.amountMin, itemInfo.amountMax);
         item->amountMin = itemInfo.amountMin;
         item->amountMax = itemInfo.amountMax;
         item->isStolen = itemInfo.isStolen;

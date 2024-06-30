@@ -182,6 +182,23 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
+    auto button_test9 = window->AddButton(23, 9, 0);
+    button_test9->onClick = []()
+    {
+        Remove();
+
+        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        float x = 0, y = 0, z = 0;
+        CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 10, 0, &x, &y, &z);
+
+        auto car = CleoFunctions::CREATE_CAR_AT(596, x, y, z);
+
+        CleoFunctions::ENABLE_CAR_SIREN(car, true);
+
+        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 4, 284);
+    };
+
     auto button_test7 = window->AddButton(23, 7, 0);
     button_test7->onClick = []()
     {
@@ -602,7 +619,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 1: //OBSTACULOS
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX124", 0, 0, 0, 3000, 1); //apoio bloqueio
 
-            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_ROADBLOCK_", false);
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("roadblocks/REQUEST_ROADBLOCK_", false);
 
             Chase::AddRoadBlocks(position);
 
@@ -611,7 +628,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 2: //ESPINHOS
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX125", 0, 0, 0, 3000, 1); //apoio espinhos
 
-            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/SPIKES_DEPLOYED_", false);
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("roadblocks/REQUEST_SPIKES_", false);
 
             Chase::AddSpikestrips(position);
 

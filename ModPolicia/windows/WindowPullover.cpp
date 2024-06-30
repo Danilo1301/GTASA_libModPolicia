@@ -10,6 +10,7 @@
 #include "../CleoFunctions.h"
 #include "../Vehicles.h"
 #include "../SoundSystem.h"
+#include "systems/Dialog.h"
 
 Window* WindowPullover::m_Window = NULL;
 
@@ -37,6 +38,13 @@ void WindowPullover::CreatePullingPed()
     {
         Remove();
         Pullover::MakePedWait();
+    };
+
+    auto button_dialog = window->AddButton(174, 0, 0);
+    button_dialog->onClick = [ped]()
+    {
+        Remove();
+        CreateDialogWindow();
     };
 
     if(ped->hVehicleOwned > 0)
@@ -192,37 +200,49 @@ void WindowPullover::CreatePullingPed()
     auto button_rg = window->AddButton(34, 0, 0);
     button_rg->onClick = [ped]()
     {
-        if(ped->HasDocuments())
-        {
-            //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX35", 0, 0, 0, 3000, 1); //me ve o RG
+        SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_FOR_ID.wav", false);
 
-            Remove();
+        Remove();
 
-            WindowDocument::ToggleDocuments(DOC_TYPE::RG, ped);
-            WindowDocument::m_OnClose = []() {
+        CleoFunctions::WAIT(3000, [ped]() {
+            if(ped->HasDocuments())
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+
+                WindowDocument::ToggleDocuments(DOC_TYPE::RG, ped);
+                WindowDocument::m_OnClose = []() {
+                    CreatePullingPed();
+                };
+            } else {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
                 CreatePullingPed();
-            };
-        } else {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
-        }
+            }
+        });
     };
 
     auto button_cnh = window->AddButton(44, 0, 0);
     button_cnh->onClick = [ped]()
     {
-        if(ped->HasDocuments())
-        {
-            //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX35", 0, 0, 0, 3000, 1); //me ve a CNH
+        SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_FOR_DRIVERS_LICENSE.wav", false);
 
-            Remove();
+        Remove();
 
-            WindowDocument::ToggleDocuments(DOC_TYPE::CNH, ped);
-            WindowDocument::m_OnClose = []() {
+        CleoFunctions::WAIT(3000, [ped]() {
+            if(ped->HasDocuments())
+            {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+
+                WindowDocument::ToggleDocuments(DOC_TYPE::CNH, ped);
+                WindowDocument::m_OnClose = []() {
+                    CreatePullingPed();
+                };
+            } else {
+                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
                 CreatePullingPed();
-            };
-        } else {
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
-        }
+            }
+        });
     };
 
     if(ped->hVehicleOwned > 0)
@@ -338,6 +358,88 @@ void WindowPullover::CreateScorchWindow()
     {
         Remove();
         Scorch::TeleportPedToPrision(ped);
+    };
+}
+
+void WindowPullover::CreateDialogWindow()
+{
+    auto vehicle = Pullover::m_PullingVehicle;
+    auto ped = Pullover::m_PullingPed;
+
+    auto window = m_Window = Menu::AddWindow(6);
+    window->position = CVector2D(150, 200);
+    window->showPageControls = true;
+    window->width = 500.0f;
+    
+    for(auto pair : Dialogs::m_Dialogs)
+    {
+        auto id = pair.first;
+        auto dialog = &Dialogs::m_Dialogs[id];
+
+        if(id == eDialogId::DIALOG_VEHICLE_OWNER && !vehicle) continue;
+
+        int response = ped->GetDialogResponse(id);
+        int num1 = 0;
+        int num2 = 0;
+
+        if(id == eDialogId::DIALOG_CRIMES)
+        {
+            response = 0;
+            if(ped->crimeCodes.size() == 1)
+            {
+                response = 1;
+                num1 = ped->crimeCodes[0];
+            }
+            if(ped->crimeCodes.size() == 2)
+            {
+                response = 2;
+                num1 = ped->crimeCodes[0];
+                num2 = ped->crimeCodes[1];
+            }
+        }
+
+        if(response == -1)
+        {
+            switch (id)
+            {
+            case eDialogId::DIALOG_VEHICLE_OWNER:
+                response = GetRandomNumber(0, 1);
+
+                if(vehicle->isStolen) response = GetRandomNumber(0, 2);
+                break;
+            case eDialogId::DIALOG_CRIMES:
+                break;
+            default:
+                response = GetRandomNumber(0, dialog->responses.size() - 1);
+                break;
+            }  
+
+            ped->dialogResponses[id] = response;
+        }
+
+        auto button_question = window->AddButton(dialog->gxtId);
+        button_question->onClick = [dialog, response, num1, num2]()
+        {
+            Remove();
+
+            CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->gxtId, 0, 0, 0, 3000, 1);
+
+            CleoFunctions::WAIT(3000, [dialog, response, num1, num2] () {
+
+                CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->responses[response], num1, num2, 0, 3000, 1);
+
+                CleoFunctions::WAIT(3000, [] () {
+                    CreateDialogWindow();
+                });
+            });
+        };
+    }
+
+    auto button_close = window->AddButton(8, CRGBA(170, 70, 70));
+    button_close->onClick = []()
+    {
+        Remove();
+        CreatePullingPed();
     };
 }
 

@@ -13,7 +13,7 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.5.0, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.0, Danilo1301)
 
 // ---------------------------------------
 
@@ -120,6 +120,8 @@ extern "C" void OnModPreLoad()
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Registering interface 'ModPolicia'..." << std::endl;
 
     RegisterInterface("ModPolicia", modPolicia);
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Preload() END" << std::endl;
 }
 
 extern "C" void OnModLoad()
@@ -272,5 +274,5 @@ extern "C" void OnModLoad()
 
     Mod::Init();
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Mod loaded" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Load() END" << std::endl;
 }

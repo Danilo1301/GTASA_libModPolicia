@@ -825,6 +825,13 @@ void CleoFunctions::SHOW_TEXT_3NUMBERS(const char* key, int num1, int num2, int 
     sautils->ScriptCommand(&scm_SHOW_TEXT_3NUMBERS, key, num1, num2, num3, duration, style);
 }
 
+void CleoFunctions::SHOW_TEXT_3NUMBERS(int gxtId, int num1, int num2, int num3, int duration, int style)
+{
+    char buffer[256];
+    sprintf(buffer, "MPFX%i", gxtId);
+    CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, num1, num2, num3, duration, style);
+}
+
 int CleoFunctions::GET_RANDOM_CHAR_IN_SPHERE(float x, float y, float z, float radius, bool civilian, bool gang, bool criminal)
 {
     int _char = 0;
