@@ -29,6 +29,7 @@ public:
     static bool EnableTestMenu;
     static bool CreateTestOptionsInRadioMenu;
     static bool EnableModWhenGameStarts;
+    static bool StartGameWithRadio;
 
 	static void MakePaths();
 	static bool DirExists(std::string path);

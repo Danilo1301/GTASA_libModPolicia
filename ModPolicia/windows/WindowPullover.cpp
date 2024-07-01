@@ -346,6 +346,14 @@ void WindowPullover::CreateScorchWindow()
         Scorch::CallVehicleToScorchPed(ped);
     };
 
+    auto button_conduzir = window->AddButton(64, 0, 0);
+    button_conduzir->onClick = [ped]()
+    {
+        Remove();
+        Scorch::CarryPed(ped);
+        Scorch::ToggleCarryWindow(true);
+    };
+
     auto button_conduzirPortaMalas = window->AddButton(164, 0, 0);
     button_conduzirPortaMalas->onClick = [ped]()
     {
@@ -369,19 +377,18 @@ void WindowPullover::CreateDialogWindow()
     auto window = m_Window = Menu::AddWindow(6);
     window->position = CVector2D(150, 200);
     window->showPageControls = true;
-    window->width = 500.0f;
+    window->width = 400.0f;
     
     for(auto pair : Dialogs::m_Dialogs)
     {
         auto id = pair.first;
         auto dialog = &Dialogs::m_Dialogs[id];
 
-        if(id == eDialogId::DIALOG_VEHICLE_OWNER && !vehicle) continue;
-
         int response = ped->GetDialogResponse(id);
         int num1 = 0;
         int num2 = 0;
 
+        if(id == eDialogId::DIALOG_VEHICLE_OWNER && !vehicle) continue;
         if(id == eDialogId::DIALOG_CRIMES)
         {
             response = 0;

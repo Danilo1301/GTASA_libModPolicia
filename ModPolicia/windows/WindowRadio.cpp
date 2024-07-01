@@ -182,6 +182,19 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
+    auto button_freezeCarChase = window->AddButton(214, 9, 0);
+    button_freezeCarChase->onClick = []()
+    {
+        Remove();
+
+        auto chasingPed = Chase::m_ChasingPed;
+
+        if(chasingPed) {
+            auto vehicle = Vehicles::GetVehicleByHandle(chasingPed->hVehicleOwned);
+            vehicle->freezeCarPosition = !vehicle->freezeCarPosition;
+        }
+    };
+
     auto button_test9 = window->AddButton(23, 9, 0);
     button_test9->onClick = []()
     {

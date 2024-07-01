@@ -52,6 +52,15 @@ void Vehicle::Update(int dt)
 
     //
 
+    if(freezeCarPosition)
+    {
+        auto position = Mod::GetCarPosition(hVehicle);
+
+        CleoFunctions::PUT_CAR_AT(hVehicle, position.x, position.y, position.z);
+    }
+
+    //
+
     UpdateCarMenuWidget();
 
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;

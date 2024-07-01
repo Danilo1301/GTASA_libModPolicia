@@ -102,7 +102,7 @@ void WindowDocument::Draw()
         Draw::DrawGxtText(27, m_Ped->hPed, 0, CVector2D(491, 155), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
         
         //Nome
-        Draw::DrawGxtText(39, 0, 0, CVector2D(365, 241), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(m_Ped->name.gxtId, 0, 0, CVector2D(365, 241), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Data de nascimento
         Draw::DrawGxtText(42, m_Ped->birthDay, m_Ped->birthMonth, CVector2D(365, 288), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);

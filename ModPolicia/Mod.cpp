@@ -20,6 +20,9 @@
 #include "SoundSystem.h"
 #include "Trunk.h"
 #include "Stats.h"
+#include "Debug.h"
+
+#include "systems/Skins.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -114,6 +117,8 @@ void Mod::Update(int dt)
     Menu::Update(dt);
     
     Menu::Draw();
+
+    Debug::Draw();
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "input" << std::endl;
 
@@ -312,12 +317,20 @@ void Mod::CleoInit()
             auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
             auto carHandle = CleoFunctions::CREATE_CAR_AT(598, spawnPosition.x, spawnPosition.y, spawnPosition.z);
             CleoFunctions::SET_CAR_DOOR_STATUS(carHandle, 1);
-            CleoFunctions::ENABLE_CAR_SIREN(carHandle, true);
+            //CleoFunctions::ENABLE_CAR_SIREN(carHandle, true); //annying
         }
 
         CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 282);
 
         ModConfig::CreateTestOptionsInRadioMenu = true;
+    }
+
+    if(ModConfig::StartGameWithRadio)
+    {
+        if(!Ped::PedHasWeaponId(playerActor, 10))
+        {
+            CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
+        }
     }
 
     //
@@ -372,7 +385,7 @@ void Mod::RequestModelsToLoad()
     AddModelToLoad(285); //swatvan
 
     //skins
-    for(auto skin : Callouts::m_Skins)
+    for(auto skin : Skins::m_Skins)
     {
         AddModelToLoad(skin.modelId);
     }

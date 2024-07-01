@@ -68,6 +68,8 @@ public:
 
     TrunkData* trunk = NULL;
 
+    bool freezeCarPosition = false;
+
     Vehicle(int hVehicle);
 	~Vehicle();
 

@@ -28,30 +28,6 @@ struct Callout
     std::string audio;
 };
 
-enum SkinGenre {
-    SKIN_MALE,
-    SKIN_FEMALE,
-    BOTH
-};
-
-enum SkinGang {
-    GANG_NONE,
-    GANG_BALLAS,
-    GANG_VAGOS,
-    GANG_AZTECAS
-};
-
-/*
-int modelId;
-SkinGenre genre;
-SkinGang gang;
-*/
-struct SkinData {
-    int modelId;
-    SkinGenre genre;
-    SkinGang gang;
-};
-
 class Callouts {
 public:
     static float CALLOUT_DISTANCE;
@@ -68,8 +44,6 @@ public:
     static bool m_WaitingToPlayAcceptCalloutAudio;
     static CAudioStream* m_ModulatingCalloutAudio;
 
-    static std::vector<SkinData> m_Skins;
-    
     static std::vector<int> m_StolenVehicleIds;
     static std::vector<int> m_StolenTruckIds;
 
@@ -103,8 +77,6 @@ public:
     static void AproachCalloutCarPath(float aproachDistance, std::function<void(CVector)> onReachMarker);
 
     static Ped* SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector position, float radius);
-
-    static SkinData GetRandomSkin(SkinGenre genre, SkinGang gang);
 
     static Ped* GetClosestCriminal(CVector fromPosition);
 };

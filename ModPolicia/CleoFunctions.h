@@ -36,6 +36,8 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void AIM_AT_ACTOR(int _char, int target, int time);
+    static bool ACTOR_MALE(int _char);
     static float GET_CAR_Z_ANGLE(int car);
     static int GET_CURRENT_WEAPON(int _char);
     static void GET_WEAPON_DATA_FROM_ACTOR(int _char, int weaponSlotId, int* weaponType, int* weaponAmmo, int* weaponModel);

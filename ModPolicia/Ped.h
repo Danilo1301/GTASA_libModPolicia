@@ -7,6 +7,7 @@
 #include "Inventory.h"
 
 #include "systems/Dialog.h"
+#include "systems/Names.h"
 
 enum PED_ACTION_STATUS {
     PED_ACTION_NONE = 0,
@@ -24,6 +25,7 @@ public:
     static float CHANCE_PED_CONSUME_DRUGS;
     static float CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE;
     static float CHANCE_PED_BEEING_WANTED;
+    static float CHANCE_PED_RESISTING_PULLOVER;
 
     int hPed;
     CPed* pPed = NULL;
@@ -79,6 +81,11 @@ public:
     std::map<eDialogId, int> dialogResponses;
 
     std::vector<int> crimeCodes;
+
+    bool willResistPullover = false;
+
+    Name name;
+    bool isMale = false;
     
     Ped(int hPed);
 	~Ped();

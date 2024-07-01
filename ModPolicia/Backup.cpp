@@ -313,7 +313,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     for(auto ped : m_BackupPeds)
     {
-        auto isInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed);
+        auto isCopInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed);
         auto pedPosition = Mod::GetPedPosition(ped->hPed);
         
         bool enteringCarOrExiting = false;
@@ -328,7 +328,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         }
 
         //if ped is on foot, make it arrest the closest criminal
-        if(!isInCar)
+        if(!isCopInCar)
         {
             if(!enteringCarOrExiting)
             {
@@ -342,7 +342,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
                         if(DistanceBetweenPoints(pedPosition, criminalPosition) < distanceEnterCar)
                         {
-                            if(criminal->willShootAtCops)
+                           if(criminal->willShootAtCops)
                             {
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "backup " << ped->hPed << " is now killing criminal" << std::endl;
 

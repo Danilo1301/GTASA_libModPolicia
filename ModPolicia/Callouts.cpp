@@ -12,6 +12,7 @@
 #include "SoundSystem.h"
 #include "Locations.h"
 #include "Backup.h"
+#include "systems/Skins.h"
 
 float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
@@ -30,27 +31,6 @@ bool Callouts::m_AproachingCallout = false;
 bool Callouts::m_AbortedCallout = false;
 bool Callouts::m_WaitingToPlayAcceptCalloutAudio = false;
 CAudioStream* Callouts::m_ModulatingCalloutAudio = NULL;
-
-std::vector<SkinData> Callouts::m_Skins = {
-    {19, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
-    {7, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
-    {29, SkinGenre::SKIN_MALE, SkinGang::GANG_NONE},
-    {193, SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE},
-    {12, SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE},
-    {13, SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE},
-
-    {102, SkinGenre::SKIN_MALE, SkinGang::GANG_BALLAS},
-    {103, SkinGenre::SKIN_MALE, SkinGang::GANG_BALLAS},
-    {104, SkinGenre::SKIN_MALE, SkinGang::GANG_BALLAS},
-
-    {108, SkinGenre::SKIN_MALE, SkinGang::GANG_VAGOS},
-    {109, SkinGenre::SKIN_MALE, SkinGang::GANG_VAGOS},
-    {110, SkinGenre::SKIN_MALE, SkinGang::GANG_VAGOS},
-
-    {114, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS},
-    {115, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS},
-    {116, SkinGenre::SKIN_MALE, SkinGang::GANG_AZTECAS}
-};
 
 std::vector<int> Callouts::m_StolenVehicleIds = {
     400, 445, 461, 479, 507, 522
@@ -299,7 +279,7 @@ void Callouts::StartAssaultCallout()
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     AproachCalloutPedPath(100.0f, [] (CVector pedPathNodePosition) {
-        auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+        auto criminalSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
         int criminal = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, criminalSkin.modelId, pedPathNodePosition.x, pedPathNodePosition.y, pedPathNodePosition.z);
 
         auto criminalPed = Peds::TryCreatePed(criminal);
@@ -315,7 +295,7 @@ void Callouts::StartAssaultCallout()
         float pedX = 0, pedY = 0, pedZ = 0;
         CleoFunctions::STORE_PED_PATH_COORDS_CLOSEST_TO(findX, findY, findZ, &pedX, &pedY, &pedZ);
 
-        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
+        auto pedSkin = Skins::GetRandomSkin(SkinGenre::SKIN_FEMALE, SkinGang::GANG_NONE);
         int ped = CleoFunctions::CREATE_ACTOR_PEDTYPE(5, pedSkin.modelId, pedX, pedY, pedZ);
 
         CleoFunctions::FLEE_FROM_ACTOR(ped, criminal, 1000.0f, -1);
@@ -334,7 +314,7 @@ void Callouts::StartGangShotsFiredCallout()
 
         for(int i = 0; i < 7; i++)
         {
-            auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, (SkinGang)gang);
+            auto criminalSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, (SkinGang)gang);
             auto criminal = SpawnPedInRandomPedPathLocation(4, criminalSkin.modelId, pedPathNodePosition, 10.0f);
             criminal->AddBlip();
             criminal->willShootAtCops = true;
@@ -371,7 +351,7 @@ void Callouts::StartStolenVehicleCallout()
 
         Log::Level(LOG_LEVEL::LOG_BOTH) << "create driver" << std::endl;
 
-        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+        auto pedSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
         int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 4, pedSkin.modelId);
         auto pedDriver = Peds::TryCreatePed(driver);
@@ -398,7 +378,7 @@ void Callouts::StartHouseInvasionCallout()
 
         std::vector<Ped*> criminals;
 
-        auto criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+        auto criminalSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
         int criminalAtDoor = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, criminalSkin.modelId, calloutPosition.x, calloutPosition.y, calloutPosition.z);
         auto criminalPedAtDoor = Peds::TryCreatePed(criminalAtDoor);
@@ -407,7 +387,7 @@ void Callouts::StartHouseInvasionCallout()
 
         for(int i = 0; i < GetRandomNumber(0, 1); i++)
         {
-            criminalSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+            criminalSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
             auto criminalPed = SpawnPedInRandomPedPathLocation(4, criminalSkin.modelId, calloutPosition, 5.0f);
             criminalPed->AddBlip();
@@ -448,7 +428,7 @@ void Callouts::StartChaseCallout()
 
         Log::Level(LOG_LEVEL::LOG_BOTH) << "create driver" << std::endl;
 
-        auto pedSkin = GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+        auto pedSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
 
         auto hDriver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carHandle, 4, pedSkin.modelId);
         auto driver = Peds::TryCreatePed(hDriver);
@@ -560,36 +540,6 @@ Ped* Callouts::SpawnPedInRandomPedPathLocation(int pedType, int modelId, CVector
     int hPed = CleoFunctions::CREATE_ACTOR_PEDTYPE(pedType, modelId, nodeX, nodeY, nodeZ);
 
     return Peds::TryCreatePed(hPed);
-}
-
-
-SkinData Callouts::GetRandomSkin(SkinGenre genre, SkinGang gang)
-{
-    std::vector<SkinData> possibleSkins;
-
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Get random skin genre " << genre << ", gang " << gang << std::endl;
-
-    for(auto skin : m_Skins)
-    {
-        if(skin.gang != gang) continue;
-
-        if(genre == SkinGenre::BOTH)
-        {
-            //ok
-        } else {
-            if(skin.genre != genre) continue;
-        }
-
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Possible skin: " << skin.modelId << " genre " << skin.genre << ", gang " << skin.gang << std::endl;
-
-        possibleSkins.push_back(skin);
-    }
-
-    auto skin = possibleSkins[GetRandomNumber(0, possibleSkins.size() - 1)];
-
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Skin chosed: " << skin.modelId << std::endl;
-
-    return skin;
 }
 
 Ped* Callouts::GetClosestCriminal(CVector fromPosition)

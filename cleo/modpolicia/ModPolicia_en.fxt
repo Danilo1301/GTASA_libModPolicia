@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod v1.5.0 (by Danilo1301)
+MPFX6 Police Mod v1.6.0 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -24,7 +24,7 @@ MPFX23 Test ~1~
 MPFX24 Yes
 MPFX25 No
 MPFX26 <  ( Place it on CENTER )  >
-MPFX27 Ped ID ~1~
+MPFX27 ID ~1~
 MPFX28 Test ~1~
 MPFX29 ShowDebug
 MPFX30 Short description of something
@@ -61,7 +61,7 @@ MPFX60 Beer
 MPFX61 Revolver 38
 MPFX62 Pistol
 MPFX63 Get closer!
-MPFX64 Take to the PD
+MPFX64 Escort
 MPFX65 Press ~y~2 + Horn ~w~to pull over
 MPFX66 Check ID
 MPFX67 Check plate

@@ -5,6 +5,8 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(0635, AIM_AT_ACTOR, iii); //0635: AS_actor -1 aim_at_actor $PLAYER_ACTOR 2000 ms 
+static DEFOPCODE(03A3, ACTOR_MALE, i); //03A3: actor 0@ male 
 static DEFOPCODE(0174, GET_CAR_Z_ANGLE, iv); //0174: $1339 = car $1314 Z_angle 
 static DEFOPCODE(0470, GET_CURRENT_WEAPON, iv); //0470: 84@ = actor $PLAYER_ACTOR current_weapon 
 static DEFOPCODE(04B8, GET_WEAPON_DATA_FROM_ACTOR, iivvv); //04B8: get_weapon_data_from_actor $PLAYER_ACTOR slot 2 weapon 404@ ammo 405@ model 405@ 
@@ -219,6 +221,18 @@ WaitFunction* CleoFunctions::AddCondition(std::function<void(std::function<void(
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::AIM_AT_ACTOR(int _char, int target, int time)
+{
+    sautils->ScriptCommand(&scm_AIM_AT_ACTOR, _char, target, time);
+}
+
+bool CleoFunctions::ACTOR_MALE(int _char)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_MALE, _char);
+    return result;
 }
 
 float CleoFunctions::GET_CAR_Z_ANGLE(int car)

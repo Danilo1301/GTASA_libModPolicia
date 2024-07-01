@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia v1.5.0 (by ~y~Danilo1301~w~)
+MPFX6 Mod Policia v1.6.0 (by ~y~Danilo1301~w~)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -24,7 +24,7 @@ MPFX23 Test ~1~
 MPFX24 Sim
 MPFX25 Nao
 MPFX26 <  ( Coloque no CENTRO )  >
-MPFX27 Ped ID ~1~
+MPFX27 ID ~1~
 MPFX28 ###############VAZIO###############
 MPFX29 ShowDebug
 MPFX30 Short description of something
@@ -61,7 +61,7 @@ MPFX60 Cerveja
 MPFX61 Revolver 38
 MPFX62 Pistola
 MPFX63 Chegue mais perto!
-MPFX64 Conduzir para a DP
+MPFX64 Conduzir
 MPFX65 Mire e aperte ~y~Buzina ~w~para abordar um ped
 MPFX66 Consultar RG
 MPFX67 Consultar placa
@@ -174,7 +174,7 @@ MPFX173 ~b~[Policial] ~w~Me de a sua CNH
 MPFX174 Dialogo
 MPFX175 ~b~[Policial] ~w~De onde voce ta vindo?
 MPFX176 Da minha casa
-MPFX177 Da casa da minha tia
+MPFX177 Da casa da minha familiar
 MPFX178 Da casa de um amigo
 MPFX179 Do trabalho
 MPFX180 ~b~[Policial] ~w~De quem e o veiculo?
@@ -186,3 +186,29 @@ MPFX185 ~b~[Policial] ~w~Tem passagem?
 MPFX186 Tenho nao, senhor
 MPFX187 Tenho so por ~1~
 MPFX188 Tenho por ~1~ e ~1~
+MPFX189 ~b~[Policial] ~w~Ja foi preso?
+MPFX190 Nunca, senhor
+MPFX191 Ja fui sim
+MPFX192 ##################################
+MPFX193 Parar de carregar
+MPFX194 Corzeus Dias
+MPFX195 Cleverson Ryan
+MPFX196 Skyler White
+MPFX197 Alfonso Waller
+MPFX198 Morris Franklin
+MPFX199 Clay Murray
+MPFX200 Wendell Castaneda
+MPFX201 Jackie Stevens
+MPFX202 Chris Shelton
+MPFX203 Orlando Hoyt
+MPFX204 Tamires pereira
+MPFX205 Janis Sheldon
+MPFX206 Dina Green
+MPFX207 Tracie Curry
+MPFX208 Gail Greenwood
+MPFX209 Maria Church
+MPFX210 Cheryl Douglas
+MPFX211 Josie Archer
+MPFX212 Marjorie Dorsey
+MPFX213 Toni Wall
+MPFX214 Freeze chase car

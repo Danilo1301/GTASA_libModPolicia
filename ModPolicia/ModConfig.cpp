@@ -152,6 +152,7 @@ std::string ModConfig::m_ConfigMainFolderName = "modPolicia";
 bool ModConfig::EnableTestMenu = false;
 bool ModConfig::CreateTestOptionsInRadioMenu = false;
 bool ModConfig::EnableModWhenGameStarts = false;
+bool ModConfig::StartGameWithRadio = false;
 
 void ModConfig::MakePaths()
 {
@@ -255,11 +256,13 @@ void ModConfig::SaveSettings()
     generalSection->AddLine("; Starts the game with mod enabled");
     generalSection->AddLine("; 0 = starts disabled | 1 = starts enabled");
     generalSection->AddIntFromBool("enable_mod_when_game_starts", ModConfig::EnableModWhenGameStarts);
+    generalSection->AddLine("");
 
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
     generalSection->AddInt("money_reward", PoliceDepartment::m_MoneyReward);
     generalSection->AddIntFromBool("enable_deep_log", Log::deepLogEnabled);
-    generalSection->AddIntFromBool("PULLOVER_PLAY_ANIMATION", Pullover::PULLOVER_PLAY_ANIMATION);
+    generalSection->AddIntFromBool("pullover_play_animation", Pullover::PULLOVER_PLAY_ANIMATION);
+    generalSection->AddIntFromBool("start_game_with_radio", ModConfig::StartGameWithRadio);
 
     //
 
@@ -415,7 +418,8 @@ void ModConfig::LoadSettings()
         generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
         generalSection->GetInt("money_reward", &PoliceDepartment::m_MoneyReward);
         generalSection->GetBoolFromInt("enable_deep_log", &Log::deepLogEnabled);
-        generalSection->GetBoolFromInt("PULLOVER_PLAY_ANIMATION", &Pullover::PULLOVER_PLAY_ANIMATION);  
+        generalSection->GetBoolFromInt("pullover_play_animation", &Pullover::PULLOVER_PLAY_ANIMATION);  
+        generalSection->GetBoolFromInt("start_game_with_radio", &ModConfig::StartGameWithRadio);  
     }
 
     //

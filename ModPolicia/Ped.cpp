@@ -12,6 +12,7 @@ float Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.2f;
 float Ped::CHANCE_PED_CONSUME_DRUGS = 0.4f;
 float Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE = 0.2f;
 float Ped::CHANCE_PED_BEEING_WANTED = 0.1f;
+float Ped::CHANCE_PED_RESISTING_PULLOVER = 0.08f;
 
 Ped::Ped(int hPed)
 {
@@ -41,6 +42,7 @@ Ped::Ped(int hPed)
 
     this->money = GetRandomNumber(0, 200);
 
+    //crimeCodes
     if(Mod::CalculateProbability(0.3))
     {
         std::vector<int> crimes = {157, 171, 147, 121};
@@ -55,6 +57,11 @@ Ped::Ped(int hPed)
             crimes.erase(crimes.begin() + rnd);
         }
     }
+
+    this->willResistPullover = Mod::CalculateProbability(CHANCE_PED_RESISTING_PULLOVER);
+
+    this->isMale = CleoFunctions::ACTOR_MALE(hPed);
+    this->name = Names::GetRandomName(isMale ? SkinGenre::SKIN_MALE : SkinGenre::SKIN_FEMALE);
 }
 
 Ped::~Ped()

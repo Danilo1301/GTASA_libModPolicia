@@ -9,6 +9,7 @@
 #include "Input.h"
 #include "Mod.h"
 #include "SoundSystem.h"
+#include "Callouts.h"
 
 #include "windows/WindowTest.h"
 #include "windows/WindowFrisk.h"
@@ -131,14 +132,6 @@ void Pullover::PullOverPed(int hPed)
         if(Peds::GetPedByHandle(hPed)->shouldHandsup) waitTime = 0;
     }
 
-    if(PULLOVER_PLAY_ANIMATION)
-    {
-        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && waitTime != 0)
-        {
-            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
-        }
-    }
-
     if(waitTime != 0)
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
@@ -148,13 +141,36 @@ void Pullover::PullOverPed(int hPed)
     m_PullingPed = Peds::TryCreatePed(hPed);
     m_PullingPed->UpdateInventory();
 
+    if(PULLOVER_PLAY_ANIMATION && !m_PullingPed->willResistPullover)
+    {
+        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && waitTime != 0)
+        {
+            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
+        }
+    }
+
+    if(m_PullingPed->willResistPullover)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "ped reacted to pullover" << std::endl;
+
+        m_PullingPed->willShootAtCops = true;
+
+        CleoFunctions::GIVE_ACTOR_WEAPON(m_PullingPed->hPed, 22, 10000);
+        CleoFunctions::KILL_ACTOR(m_PullingPed->hPed, playerActor);
+
+        Callouts::AddPedToCriminalList(m_PullingPed);
+
+        m_PullingPed = NULL;
+        return;
+    }
+
     m_PullingPed->AddBlip();
 
     m_PullingPed->shouldHandsup = true;
 
     if(m_PullingPed->hVehicleOwned > 0) m_PullingVehicle = Vehicles::GetVehicleByHandle(m_PullingPed->hVehicleOwned);
 
-    CleoFunctions::WAIT(waitTime, []() {
+    CleoFunctions::WAIT(waitTime, [playerActor]() {
         WindowPullover::CreatePullingPed();
     });
 }
@@ -174,7 +190,7 @@ void Pullover::TryPullOverCar()
     //for some people this opcode is returning no cars :(
     //int randomCar = CleoFunctions::GET_CAR_IN_SPHERE(x, y, z, 5.0f, -1);
 
-    int randomCar = Vehicles::GetRandomCarInSphere(CVector(x, y, z), 5.0f);
+    int randomCar = Vehicles::GetClosestCar(CVector(x, y, z), 5.0f);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "found random car in sphere: " << randomCar << std::endl;
 
@@ -388,7 +404,7 @@ void Pullover::MakePedWait()
 {
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX80", 0, 0, 0, 3000, 1); //aguarde no local
 
-    m_PullingPed->RemoveBlip();
+    //m_PullingPed->RemoveBlip();
     if(m_PullingPed->hVehicleOwned > 0) {
         m_PullingVehicle = NULL;
         Vehicles::GetVehicleByHandle(m_PullingPed->hVehicleOwned)->RemoveBlip();

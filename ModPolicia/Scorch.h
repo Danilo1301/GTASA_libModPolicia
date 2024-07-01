@@ -6,6 +6,8 @@
 #include "Vehicle.h"
 #include "Locations.h"
 
+#include "menu/Menu.h"
+
 struct ScorchPedData {
     Ped* ped = NULL;
     //Location toDp = {{0, 0, 0}, 0, CITY::LOS_SANTOS};
@@ -22,6 +24,8 @@ public:
     static Ped* m_CarryingPed;
     static int m_CarryObject;
 
+    static Window* m_CarryWindow;
+
     static void Update(int dt);
     static void UpdateTowTrucks(int dt);
     static void UpdateScorchingPeds(int dt);
@@ -37,4 +41,6 @@ public:
     static void CallTowTruckToVehicle(Vehicle* vehicle);
 
     static void CarryPed(Ped* ped);
+    static void StopCarringPed();
+    static void ToggleCarryWindow(bool enabled);
 };

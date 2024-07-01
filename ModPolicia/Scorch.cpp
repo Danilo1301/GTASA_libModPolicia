@@ -10,9 +10,13 @@
 #include "Callouts.h"
 #include "Trunk.h"
 
+#include "Input.h"
+
 std::vector<ScorchPedData*> Scorch::m_ScorchingPeds;
 
 std::vector<Vehicle*> Scorch::m_TowTrucks;
+
+Window* Scorch::m_CarryWindow = NULL;
 
 Ped* Scorch::m_CarryingPed = NULL;
 int Scorch::m_CarryObject = 0;
@@ -303,4 +307,40 @@ void Scorch::CarryPed(Ped* ped)
     auto angleLimit = 360.0f; //or 360.0f
     auto actorOffset = CVector(0, 1, 0);
     CleoFunctions::PUT_ACTOR_INTO_TURRET_ON_OBJECT(ped->hPed, object, actorOffset.x, actorOffset.y, actorOffset.z, 0, angleLimit, 0);
+}
+
+void Scorch::StopCarringPed()
+{
+    CleoFunctions::ENABLE_ACTOR_COLLISION_DETECTION(m_CarryingPed->hPed, true);
+
+    m_CarryingPed = NULL;   
+    
+    CleoFunctions::DESTROY_OBJECT(Scorch::m_CarryObject);
+    Scorch::m_CarryObject = 0;
+}
+
+void Scorch::ToggleCarryWindow(bool enabled)
+{
+    if(!enabled)
+    {
+        if(m_CarryWindow)
+        {
+            m_CarryWindow->RemoveThisWindow();
+            m_CarryWindow = NULL;
+        }
+        return;
+    }
+
+    auto window = m_CarryWindow = Menu::AddWindow(6);
+    window->showTitle = false;
+
+    auto screenSize = Input::GetGTAScreenSize();
+    float w = 200.0f;
+    float x = screenSize.x/2 - w/2;
+
+    auto stopCarry_button = window->AddFloatingButton(193, 0, 0, CVector2D(x, 80), CVector2D(200, 30));
+    stopCarry_button->onClick = []() {
+        StopCarringPed();
+        ToggleCarryWindow(false);
+    };
 }

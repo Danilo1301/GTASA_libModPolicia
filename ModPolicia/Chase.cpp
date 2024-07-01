@@ -243,6 +243,7 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
     ped->willShootAtCops = Mod::CalculateProbability(0.3f);
     //ped->willShootAtCops = Mod::CalculateProbability(0.0f);
     if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;
+    //ped->willShootAtCops = false; //CHANGE THIS
 
     //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX1", ped->willShootAtCops ? 1 : 0, 0, 0, 3000, 1);
 

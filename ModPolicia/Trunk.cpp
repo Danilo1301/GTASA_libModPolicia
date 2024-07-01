@@ -64,10 +64,8 @@ void Trunk::Update(int dt)
 
                 Callouts::RemovePedFromCriminalList(Scorch::m_CarryingPed);
 
-                Scorch::m_CarryingPed = NULL;
-
-                CleoFunctions::DESTROY_OBJECT(Scorch::m_CarryObject);
-                Scorch::m_CarryObject = 0;
+                Scorch::StopCarringPed();
+                Scorch::ToggleCarryWindow(false);
             }
         }
         

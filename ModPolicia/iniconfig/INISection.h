@@ -44,5 +44,5 @@ public:
     CRGBA GetCRGBA(std::string key, CRGBA defaultValue);
 	void AddCRGBA(std::string key, CRGBA value);
 
-    std::vector<int> GetIntVectorList(std::string key);
+    //std::vector<int> GetIntVectorList(std::string key);
 };
