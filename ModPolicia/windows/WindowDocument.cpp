@@ -118,7 +118,7 @@ void WindowDocument::Draw()
         Draw::DrawGxtText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //Nome
-        Draw::DrawGxtText(39, 0, 0, CVector2D(276, 200), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
+        Draw::DrawGxtText(m_Ped->name.gxtId, 0, 0, CVector2D(276, 200), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);
 
         //ID
         Draw::DrawGxtText(1, m_Ped->hPed, 0, CVector2D(412, 247), CRGBA(0, 0, 0), eTextAlign::ALIGN_LEFT);

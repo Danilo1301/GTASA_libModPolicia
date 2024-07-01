@@ -351,8 +351,24 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "backup " << ped->hPed << " is now walking to criminal" << std::endl;
 
                                 CleoFunctions::AS_ACTOR_RUN_TO_ACTOR(ped->hPed, criminal->hPed, 10000, 3.0f);
+                                CleoFunctions::AIM_AT_ACTOR(ped->hPed, criminal->hPed, 10000);
+                                
+                                //if hes in a car, make everyone leave
+                                if(CleoFunctions::IS_CHAR_IN_ANY_CAR(criminal->hPed))
+                                {
+                                    auto criminalVehicleHandle = CleoFunctions::ACTOR_USED_CAR(criminal->hPed);
+                                    auto criminalVehicle = Vehicles::GetVehicleByHandle(criminalVehicleHandle);
 
-                                criminal->shouldHandsup = true;
+                                    auto passengersHandle = criminalVehicle->GetDriverAndPassengers();
+                                    for(auto passengerHandle : passengersHandle)
+                                    {
+                                        Peds::GetPedByHandle(passengerHandle)->shouldHandsup = true;
+                                        CleoFunctions::CLEAR_ACTOR_TASK(passengerHandle);
+                                        CleoFunctions::EXIT_CAR_AS_ACTOR(passengerHandle);
+                                    }
+                                } else {
+                                    criminal->shouldHandsup = true;
+                                }
                             }
 
                             ped->goingToPed = criminal->hPed;

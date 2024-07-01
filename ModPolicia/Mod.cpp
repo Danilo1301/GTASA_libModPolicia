@@ -23,6 +23,7 @@
 #include "Debug.h"
 
 #include "systems/Skins.h"
+#include "systems/Camera.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -33,7 +34,7 @@ extern CVector2D *m_vecCachedPos;
 const char* Mod::m_Version = "1.6.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
-bool Mod::m_DevModeEnabled = true;
+bool Mod::m_DevModeEnabled = false;
 int Mod::m_TestWidgetId = 0;
 
 bool hasLoadedAnimations = false;
@@ -120,6 +121,8 @@ void Mod::Update(int dt)
 
     Debug::Draw();
 
+    Camera::Draw();
+
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "input" << std::endl;
 
     Input::Update(dt);
@@ -161,26 +164,6 @@ void Mod::Update(int dt)
 
             CleoInit();
         }
-
-
-        /*
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && test3dAudio == NULL)
-        {
-            auto carHandle = CleoFunctions::ACTOR_USED_CAR(playerActor);
-
-            auto car = Vehicles::TryCreateVehicle(carHandle);
-
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "Attach test audio" << std::endl;
-
-            std::string audiosPath = ModConfig::GetConfigFolder() + "/audios/";
-            test3dAudio = SoundSystem::LoadStream(audiosPath + "/siren3-mono.wav", true);
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "test3dAudio: " << test3dAudio << std::endl;
-            test3dAudio->Loop(true);
-            test3dAudio->Link(car->pVehicle);
-            test3dAudio->Play();
-        }
-        */
 
         if(!hasLoadedAnimations)
         {
@@ -236,36 +219,6 @@ void Mod::Update(int dt)
     {
         Menu::ShowCredits(6, 5000, 80 + 50 + 10);
     }
-
-    /*
-    if(Widgets::IsWidgetJustPressed(38)) //POWER
-    {
-        Log::file << "IS_WIDGET_PRESSED 38 is true!" << std::endl;
-
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-        float x = 0.0f, y = 0.0f, z = 0.0f;
-        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &x, &y, &z);
-
-        int intX = (int)x;
-        int intY = (int)y;
-        CleoFunctions::SHOW_TEXT_2NUMBERS_STYLED("MPFX2", intX, intY, 3000, 5);
-
-        int randomChar = CleoFunctions::GET_RANDOM_CHAR_IN_SPHERE(x, y, z, 2.0f, true, true, true);
-        
-        Log::file << "randomChar: " << randomChar << std::endl;
-
-        CleoFunctions::SHOW_TEXT_2NUMBERS_STYLED("MPFX1", randomChar, 0, 3000, 5);
-
-        if(randomChar > 0)
-        {
-            Log::file << "ADD_BLIP_FOR_CHAR: " << randomChar << std::endl;
-            CleoFunctions::ADD_BLIP_FOR_CHAR(randomChar);
-        }
-    }
-    */
-
-
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "end ---------" << std::endl;
 }

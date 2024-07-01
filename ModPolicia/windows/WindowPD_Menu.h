@@ -13,4 +13,5 @@ public:
 
 	static void CreatePartnerMenu();
 	static void CreateEditBarrier(BarrierModel* barrierModel);
+	static void CreateEditCamera();
 };

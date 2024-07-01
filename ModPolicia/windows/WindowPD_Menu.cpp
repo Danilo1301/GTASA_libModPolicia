@@ -5,6 +5,8 @@
 #include "PoliceDepartment.h"
 #include "CleoFunctions.h"
 
+#include "systems/Camera.h"
+
 Window* WindowPD_Menu::m_Window = NULL;
 
 void WindowPD_Menu::Create()
@@ -28,6 +30,10 @@ void WindowPD_Menu::Create()
         {
             Remove();
             Mod::ToggleMod(true);
+
+            //give radio
+            auto playerActor = Mod::GetPlayerActor();
+            if(!Ped::PedHasWeaponId(playerActor, 10)) CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
         };
     }
 
@@ -45,6 +51,13 @@ void WindowPD_Menu::Create()
     {
         Remove();
         CreateEditBarrier(&Chase::m_BarrierModels[1]);
+    };
+
+    auto button_editCamera = window->AddButton(215);
+    button_editCamera->onClick = []()
+    {
+        Remove();
+        CreateEditCamera();
     };
 
     auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
@@ -164,6 +177,32 @@ void WindowPD_Menu::CreateEditBarrier(BarrierModel* barrierModel)
 
         ModConfig::SaveDataSettings();
 
+        Create();
+    };
+}
+
+void WindowPD_Menu::CreateEditCamera()
+{
+    auto window = m_Window = Menu::AddWindow(6);
+    window->showPageControls = true;
+
+    window->AddCheckbox(216, &Camera::m_Enabled);
+
+    auto button_positionCamera = window->AddButton(9, 0, 0);
+    button_positionCamera->onClick = [window]() {
+        Menu::AddPosition2DWindow(window, &Camera::m_Position, -1000.0f, 1000.0f, 0.5f, []() {});
+    };
+
+    auto button_sizeCamera = window->AddButton(91, 0, 0);
+    button_sizeCamera->onClick = [window]() {
+        Menu::AddPosition2DWindow(window, &Camera::m_Size, -1000.0f, 1000.0f, 0.5f, []() {});
+    };
+
+    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    button_close->onClick = []()
+    {
+        Remove();
+        ModConfig::SaveSettings();
         Create();
     };
 }

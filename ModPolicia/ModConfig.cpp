@@ -26,6 +26,10 @@
 #include "Chase.h"
 #include "Pullover.h"
 
+#include "systems/Camera.h"
+
+#include "windows/WindowRadio.h"
+
 bool isDirExist(const std::string& path)
 {
     struct stat info;
@@ -263,6 +267,7 @@ void ModConfig::SaveSettings()
     generalSection->AddIntFromBool("enable_deep_log", Log::deepLogEnabled);
     generalSection->AddIntFromBool("pullover_play_animation", Pullover::PULLOVER_PLAY_ANIMATION);
     generalSection->AddIntFromBool("start_game_with_radio", ModConfig::StartGameWithRadio);
+    generalSection->AddIntFromBool("transparent_radio_buttons", WindowRadio::m_TransparentButtons);
 
     //
 
@@ -281,6 +286,14 @@ void ModConfig::SaveSettings()
     auto windowSection = file.AddSection("Window");
     windowSection->AddFloat("position_x", Window::m_DefaultWindowPosition.x);
     windowSection->AddFloat("position_y", Window::m_DefaultWindowPosition.y);
+
+    //
+
+    auto cameraSection = file.AddSection("Camera");
+    cameraSection->AddCVector2D("position", Camera::m_Position);
+    cameraSection->AddCVector2D("size", Camera::m_Size);
+
+    //
 
     file.Save(settingsFileDir);
     file.Destroy();
@@ -420,6 +433,7 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("enable_deep_log", &Log::deepLogEnabled);
         generalSection->GetBoolFromInt("pullover_play_animation", &Pullover::PULLOVER_PLAY_ANIMATION);  
         generalSection->GetBoolFromInt("start_game_with_radio", &ModConfig::StartGameWithRadio);  
+        generalSection->GetBoolFromInt("transparent_radio_buttons", &WindowRadio::m_TransparentButtons);
     }
 
     //
@@ -448,6 +462,15 @@ void ModConfig::LoadSettings()
 
         windowSection->GetFloat("position_x", &Window::m_DefaultWindowPosition.x);
         windowSection->GetFloat("position_y", &Window::m_DefaultWindowPosition.y);
+    }
+
+    auto cameraSections = file.GetSections("Camera");
+    if (cameraSections.size() > 0)
+    {
+        auto cameraSection = cameraSections[0];
+
+        cameraSection->GetCVector2D("position", &Camera::m_Position);
+        cameraSection->GetCVector2D("size", &Camera::m_Size);
     }
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Success reading settings.ini" << std::endl;

@@ -182,17 +182,18 @@ Fixing chase:
 [1.6.0]
 [X] FIX: crash when frisk vehicle/ped then it despawns
 [X] dialogue system
-[ ] ADD: more sound variations
+[X] ADD: more sound variations
 [X] ADD: carry ped to anywhere
 [X] ADD: ped resist to pullover and shoot player
 [X] ADD: name in RG
 [X] ADD: start game with radio
 [X] FIX: select closest car during pullover
+[X] ADD: make criminals leave car after cop arrives
+[X] ADD: axon camera
+[X] ADD: radio when enter duty
+[X] ADD: make radio buttons transparent
+
 [ ] ADD: customize button to accept callout
-[ ] ADD: make cops hijack cars
-
-
-
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect
 [ ] Check bug where gang suspect ignores the scorch car
@@ -203,15 +204,13 @@ Fixing chase:
 Notes:
 
 Explicar melhor oq cada pasta faz
-Adicionar uma nova pasta /ModPolicia/ dentro do .zip
 Colocar créditos do novo audio dispatch
 
+[X] chase: ped->willShootAtCops = false //CHANGE THIS
+[X] pullover: if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
 
-chase: ped->willShootAtCops = false //CHANGE THIS
-pullover: if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
-
-[ ] Changed chance of ped reacting to pullover
-[ ] Add callout_chase wav sound
+[x] Changed chance of ped reacting to pullover
+[ ] Add callout_chase wav sound (?)
 [X] Changed willShootAtCops chance and chance of vehicle having guns
 [X] Changed callout chances
 [X] Changed CALLOUT_DISTANCE

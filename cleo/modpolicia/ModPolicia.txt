@@ -117,6 +117,8 @@ end
 038F: load_texture "mptx22" as 122
 038F: load_texture "mptx23" as 123
 
+038F: load_texture "mptx_axon" as 124
+
 //01F7: set_player $PLAYER_CHAR ignored_by_cops 1 
 //01F0: set_max_wanted_level_to 0 
 //010D: set_player $PLAYER_CHAR wanted_level_to 0
@@ -1232,5 +1234,13 @@ end
 if VAR_GxtId == 214                   
 then
      VAR_STR_1 = "MPFX214"
+end
+if VAR_GxtId == 215                   
+then
+     VAR_STR_1 = "MPFX215"
+end
+if VAR_GxtId == 216                   
+then
+     VAR_STR_1 = "MPFX216"
 end
 return

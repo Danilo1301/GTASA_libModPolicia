@@ -63,3 +63,8 @@ static std::string CVectorToString(CVector vec)
 {
     return "(" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ", " + std::to_string(vec.z) + ")";
 }
+
+static std::string CVector2DToString(CVector2D vec)
+{
+    return "(" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ")";
+}

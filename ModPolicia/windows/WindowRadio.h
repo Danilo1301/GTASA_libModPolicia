@@ -17,6 +17,8 @@ public:
 	static Window* m_WindowMenu;
 	static bool m_Enabled;
 	static CVector2D m_Position;
+	static bool m_TransparentButtons;
+	static unsigned char m_TransparentButtonAlpha;
 
 	static Window* m_WindowRadio;
 	static Item* m_LeftButton;

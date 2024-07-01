@@ -34,7 +34,7 @@ Vehicle::~Vehicle()
 
 void Vehicle::Update(int dt)
 {
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Vehicle " << hVehicle << ": Update" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_DEEP_UPDATE) << "Vehicle " << hVehicle << ": Update" << std::endl;
 
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
 

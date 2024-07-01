@@ -136,12 +136,17 @@ void INISection::AddCVector(std::string key, CVector value)
     AddFloat(key + ".z", value.z);
 }
 
-CVector2D INISection::GetCVector2D(std::string key, CVector2D defaultValue)
+CVector2D INISection::GetCVector2DWithDefaultValue(std::string key, CVector2D defaultValue)
 {
     return CVector2D(
         GetFloatWithDefaultValue(key + ".x", defaultValue.x),
         GetFloatWithDefaultValue(key + ".y", defaultValue.y)
     );
+}
+
+void INISection::GetCVector2D(std::string key, CVector2D* pValue)
+{
+    *pValue = GetCVector2DWithDefaultValue(key, *pValue);
 }
 
 void INISection::AddCVector2D(std::string key, CVector2D value)

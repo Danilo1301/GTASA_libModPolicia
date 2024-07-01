@@ -16,9 +16,13 @@
 #include "Backup.h"
 #include "WindowBackup.h"
 
+#include "systems/Camera.h"
+
 Window* WindowRadio::m_WindowMenu = NULL;
 bool WindowRadio::m_Enabled = false;
 CVector2D WindowRadio::m_Position = CVector2D(280, 210);
+bool WindowRadio::m_TransparentButtons = false;
+unsigned char WindowRadio::m_TransparentButtonAlpha = 20;
 
 Window* WindowRadio::m_WindowRadio = NULL;
 Item* WindowRadio::m_LeftButton = NULL;
@@ -371,10 +375,13 @@ void WindowRadio::CreateTestOptions()
     auto testWidgetId = window->AddIntRange(23, &Mod::m_TestWidgetId, 0, 200, 1);
     testWidgetId->holdToChange = false;
 
-    auto button_position = window->AddButton(9, 1, 0);
+    /*
+    //RADIO POSITION
+    auto button_position = window->AddButton(9, 0, 0);
     button_position->onClick = [window]() {
         Menu::AddPosition2DWindow(window, &m_Position, -1000.0f, 1000.0f, 0.5f, []() {});
     };
+    */
 }
 
 void WindowRadio::ToggleRadio(bool enabled)
@@ -443,26 +450,36 @@ void WindowRadio::Update(int dt)
 {
     if(!m_Enabled) return;
 
+    unsigned char alpha = m_TransparentButtons ? m_TransparentButtonAlpha : 255;
+
     if(m_LeftButton)
     {
         m_LeftButton->position = CVector2D(m_Position.x - 50, m_Position.y + 160);
         m_LeftButton->visible = false;
+
+        m_LeftButton->box->color.a = alpha;
     }
 
     if(m_RightButton)
     {
         m_RightButton->position = CVector2D(m_Position.x + 110, m_Position.y + 160);
         m_RightButton->visible = false;
+
+        m_RightButton->box->color.a = alpha;
     }
 
     if(m_OkButton)
     {
         m_OkButton->position = CVector2D(m_Position.x + 200, m_Position.y + 160);
+
+        m_OkButton->box->color.a = alpha;
     }
 
     if(m_BackButton)
     {
         m_BackButton->position = CVector2D(m_Position.x + 260, m_Position.y + 160);
+
+        m_BackButton->box->color.a = alpha;
     }
 
     //

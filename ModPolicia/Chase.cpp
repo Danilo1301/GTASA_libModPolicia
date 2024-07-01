@@ -103,7 +103,7 @@ void Chase::UpdateChase(int dt)
         }
 
         //if criminal just left the car and wont shoot cops
-        if(criminal->justLeftTheCar && !criminal->willShootAtCops)
+        if(criminal->justLeftTheCar && !criminal->willShootAtCops && !criminal->shouldHandsup)
         {   
             int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
@@ -243,7 +243,6 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
     ped->willShootAtCops = Mod::CalculateProbability(0.3f);
     //ped->willShootAtCops = Mod::CalculateProbability(0.0f);
     if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;
-    //ped->willShootAtCops = false; //CHANGE THIS
 
     //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX1", ped->willShootAtCops ? 1 : 0, 0, 0, 3000, 1);
 
