@@ -187,7 +187,7 @@ Fixing chase:
 [X] ADD: ped resist to pullover and shoot player
 [X] ADD: name in RG
 [X] ADD: start game with radio
-[ ] FIX: select closest car during pullover
+[X] FIX: select closest car during pullover
 [ ] ADD: customize button to accept callout
 [ ] ADD: make cops hijack cars
 

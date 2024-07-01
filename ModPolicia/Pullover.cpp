@@ -135,7 +135,7 @@ void Pullover::PullOverPed(int hPed)
     if(waitTime != 0)
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
-        SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_PEDESTRIAN.wav", false);
+        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_STOP_PEDESTRIAN_", false);
     }
 
     m_PullingPed = Peds::TryCreatePed(hPed);
@@ -227,7 +227,7 @@ void Pullover::PullOverCar(int hVehicle)
     }
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
-    SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_STOP_VEHICLE.wav", false);
+    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_STOP_VEHICLE_", false);
 
     /*
     float carX = 0.0f, carY = 0.0f, carZ = 0.0f;
@@ -387,7 +387,7 @@ void Pullover::FreePed()
     //CleoFunctions::SET_PLAYER_CAN_MOVE(m_PullingPed->hPed, true);
 
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX55", 0, 0, 0, 3000, 1); //liberado
-    SoundSystem::PlayStreamFromAudiosFolder("voices/PULLOVER_FREE_PED.wav", false);
+    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/PULLOVER_FREE_PED_", false);
 
     m_PullingPed->RemoveBlip();
     m_PullingPed->shouldHandsup = false;

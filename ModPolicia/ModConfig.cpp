@@ -640,7 +640,11 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
             "SPIKES_DEPLOYED_3.wav",
             "SPIKES_DEPLOYED_4.wav",
             "SPIKES_DEPLOYED_5.wav",
-            "REQUEST_ROADBLOCK_1.wav"
+            "REQUEST_ROADBLOCK_1.wav",
+            "ASK_STOP_PEDESTRIAN.wav",
+            "ASK_STOP_VEHICLE.wav",
+            "ACCEPT_CALLOUT.wav",
+            "PULLOVER_FREE_PED.wav"
         };
         
         auto audiosPath = ModConfig::GetConfigFolder() + "/audios/";

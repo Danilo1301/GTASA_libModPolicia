@@ -1,437 +1,182 @@
-#####################################################################
-###### SUGESTÕES FEITAS #############################################
-#####################################################################
+(@Peralta MDZ)
+prisioneiro diretamente a cadeia/prisao
 
-[X] (GAMER NEWS) Se o NPC ficar encurralado ou capotar o carro, os policiais devem sair do veículo, apontar suas armas e o NPC deve levantar as mãos até ser abordado.
-1.2.0
-Os policiais só devem disparar se o NPC estiver armado com uma pistola ou se reagir de maneira violenta.
-Se o NPC estiver armado com um bastão ou faca, ele deve levantar as mãos.
-Adicionar uma chance aleatória de NPCs partirem para cima dos policiais, provocando um confronto armado.
+, add um arcenal na dp, da mt trabalho pelo cleo, alem disso deixa mais imersivo
 
-[X] (GAMER NEWS) Proposta: Quando um veículo não parar durante a perseguição, um dos NPCs passageiros deve receber automaticamente uma arma e começar a atirar nas viaturas policiais, iniciando um tiroteio.
-Situação: Se o carro pegar fogo ou os NPCs saírem do veículo, os policiais devem abrir fogo contra eles.
+(rai gameplay)
+adiciona opção pra agente está mandando os parceiros stives estár revistando os npcs
 
-[X] (GAMER NEWS) Reação a Carro Roubado:
-Proposta: Em casos de roubo de carro, aplicar as mesmas regras mencionadas anteriormente.
-Perseguição Automática: O roubo de carro deve iniciar automaticamente uma perseguição policial sem a necessidade de chamar reforços manualmente.
-Menu de Reforços: Manter o menu de chamar reforços disponível para que o jogador possa solicitar mais apoio policial conforme necessário.
+ levar o meliante até a sela
+ 
+ npc polícial vim buscar o npc na viatura quando você chegar na marcação vermelha
 
-[X] (GAMER NEWS) Requisito adicional: Aumentar o nível de vida dos criminosos para dificultar a vida dos policiais.
+adiciona opção pra agente está chamando guarnição pra levar os npcs políciais que ficarem a pé quando as viaturas explodem 
 
-[X] Aumenta o raio de distância que a polícia aparece 
-1.2.0
-(GAMER NEWS) Quando a gente chama eles 
-As vezes spawna perto demais ou na frente dos suspeito 
+(JT Gamer Player)
 
-[X] (GAMER NEWS) vida maior para os npcs criminosos
-1.2.0
+tenta fazer tipo uma ocorrência de da suporte abordagem
 
-[X] (GAMER NEWS) E daí se os bandidos atirar os polícias atiram também 
-1.2.0
+ ​​Ter como puxa a placa dos carros da viatura com o rádio 
+ 
+ e manda os carros ir para a direita mesmo eu estando na vtr
+ 
+ mais coloca no vestiário do uniforme para pegar o uniforme e aonde fica o negócio de pegar parceiro coloca para pegar a VTR também
+ 
+ No rádio copom colocar na opção da placa 2 opção nessa opção iremos pode atirar o radar de limite de velocidade
+ 
+(plucas)
+​​Na ocorrência de tiros disparados, não marca com aquela seta vermelha e temos que procurar o indivíduo
+ 
+ 
+ SA PMMODS
+mandar anim ped.ifp
 
-[X] (GAMER NEWS) holofotes a noite quando nas missões do mod
-1.4.0
+(apenaskayo)
+deitar no chao anim
 
-[X] (RAI gameplay) uma opção pra agente editar o tamanho e a posição do menu de abordagem
-0.6.0
+(Lukinha)
+faiz uma viatura da polícia civil com as ledes traseiras ficaria top
 
-[X] (by YoMom) I have a suggestion , for future update , can you make "Give a ticket" menu like in the picture ? And after giving ticket they can go
-0.6.0
+(Corzeus)
+taser
 
-[X] (pL) CHAMAR VIATURA PARA BUSCAR O PRESO
+mais multas: art 000, dirigindo embriagado"
 
-[X] Reforço na ocorrência de tiro / outras ocorrências
-(El Gatonw) tem como você pôr uma opção para chamar reforço naquela ocorrência de tiro? Ou em qualquer ocorrência que a gente aceitar?
 
-[X] (El Gatonw) Polícia - Desativar o mod, para que a função procurando volte a funcionar. Esse mod tbm pode resolver aquele caso em q os PMs mortos em ocorrências não somem
-(El Gatonw) Tem como você por uma opção para desativar o Mod para que o modo procurado volte a funcionar?
-0.7.0
+mod pra pc
 
-[X] (El Gatonw) Teria como também por um botão só para abordar veículo? assim teremos tempo de frear a vtr e não bater no carro da frente.
-0.6.0
+(SGT OLIVEIRA)
+​​Danilo, para quando for adicionar o taser. se vc quiser eu tenho um mod de taser que substitui a 9mm com silenciador.
 
-[X] Acionar guincho
-(El Gatonw) Polícia - Modo guincho, para rebocar veículos estacionado incorretamente, abandonados ou veículos envolvido em ocorrências como abordagem ou assaltos. ( Rebocar qualquer veículo inclusive motos ).  <Towtruck para carros e DFT30 para motos>.
-(pL) GUINCHO PARA CARRO E MOTO
-0.7.0
+séria na questão de escolher os policiais por exemplo eu quero que em uma determinada viatura tenha policial masculino e feminina.
+aí nessa opção mesmo tendo 4 policiais na equipe pelo menos um fosse uma policial feminina.
 
-[X] Levar suspeito no porta malas
-(El Gatonw) Polícia - Levar suspeito no porta malas
-1.4.0
+(STENIO MORAES)
+opção para o parceiro vigiar o npc quando faz revista no carro
 
-[X] Som no radio comunicador
-(El Gatonw) Polícia - Atender chamado via rádio se possível, ou quando aparecer a mensagem em baixo sobre a ocorrência, que o rádio da polícia dê um bip, tipo o som de radinho comunicador. 
-(brandonviljoen) Oky. Bro. Bro can u maybe. Do sound in. This police Mod
-1.0.0
+(Andre Silva)
+seu parceiro revistar o suspeito e vc ver oq ele achou
 
-[X] Roadblocks / barreiras
-(brandonviljoen)
-1.1.0
+(Maykexd)
+ocorrencia de H0mic1d10 ou achado de cadáver se for possível
 
-[X] (RAI gameplay) adiciona opção pra fazer o teste do bafômetro (álcool)
-(Raí gameplay) tenho uma sugestão pra próxima atualização adiciona opção de (teste do bafômetro) pra agente saber se o cara consumiu bebida alcoólica ou não adiciona também (teste de entorpecentes) pra saber se o cara e usuário de droga ou não
-1.1.0
+(SGT AUGUSTO)
+​​adiciona atender ocorrencia de assalto a banco
 
-[X] (RAI gameplay) há colocar resultado pra carteira do cidadão quando agente aborda e ver a carteira não tem nada nem dinheiro kkkk 
+(JT Gamer Player)
+Mudar botão para aceitar ocorrencias
+(mais tipo isso é só acontece para quem usa o mod do mini mapa do GTA v para quem não usa o botão é normal)
 
-[X] (Mayke) Seria dahora se desse pra adicionar opção de acionar ambulância pra quando os indivíduos fossem alvejados
-1.0.0
 
-[X] (@SGTMIke27) Adiciona opção de chamar o IML pra ficar mais completo.
-1.0.0
+tentar colocar a anim do radio no ombro
 
-[X] (Billy) Também ter como puxar a CNH se é vencida
+(佳宝)
+​​Can you add the sound effect of law enforcement recorder and the emergency call of police officers falling down?
 
-[X] (Zacarias7) Teste de bafômetro
-1.1.0
 
-[X] (@Lgsff) Fbi swat tem ? (apoio)
-1.1.0
+(Andre Silva)
+ocorrencia acidente com vítima helicóptero para resgatará viti.a
 
-[X] (@Lgsff) Tem sistema perseguição com troca de tiros  outros policiais também atira?
-1.2.0
 
-[X] (_Shelby) Não sei se alguém ja falou essa sugestão, mais seria bom poder chamar o paceiros para andar com você na vtr
-1.3.0
+(SA PMMODS)
+mais por uma opcao de nos mudar a propria skin [n lembro se ja tem ou se deram a sugestao
 
-[X] (El Gatonw) mano espero não pedir demais, mas tem como você por um áudio ao aceitar uma ocorrência? Tipo o COPOM fala, ocorrência de tiros disparados... Daí ao clicar no botão verde, a gente meio que responde que sim, vamos atender a ocorrência. Entendeu? Aí seria legal, meio que a gente daria a resposta ao Copom.
-1.1.0
+(Kauan ™ Ⓥ)
+luzes em volta do girolex (igual gta V)
 
-[X] (apenaskayo) TEVE UMA PESSOA QUE PEDIU UMA ANIMAÇÃO COMO SE A PESSOA LEVASSE O PRESO PRA VIATURA, NO MOD DYOS QUE É UM GRANDE CONJUNTO DE MODS TEM UMA PARTE QUE É TIPO ANCORAR OBJETOS A OUTROS, TIPO CONSEGUINDO DEIXAR UM NPC NO CAMBURAO DA VIATURAS E AINDA CONSEGUIR ANDAR COM A VIATURA COM O PRESO NO CAMBURAO, EU NÃO SEI SE É POSSÍVEL PORÉM PODERIA SE UTILIZA DESSE SCRIPIT PARA ANCORAR O SUJEITO DA ABORDAGEM AO SEU BONECO, QUE NEM NO GTA FIVEM DO GTA V QUE A PESSOA MEIO QUE SEGURA, ALGUNS PROBLEMAS, ACHO QUE SERÁ MUITO DIFICIL DE PROGRAMAR E OUTRA QUE O MOD DYOS É UM GRANDE CONJUNTO DE MODS IGUAL SEU MOD POLÍCIA QUE TEM VÁRIAS FUNÇÕES, OU SEJA PRA ENCONTRAR O SCRIPIT DESSA FUNÇÃO SERÁ BEM COMPLICADA EU ACHO.
-Mas na minha opinião esse trabalho todo não vale a pena, só acho melhor que envez do sujeito correr até a viatura, ele ande,pois a pessoa poderia simular que está conduzindo ele até a viatura
-1.4.0
 
-[X] (apenaskayo) EU JOGUEI ALGUMAS VEZES, E NÃO SEI SE É PORQUE SÓ TEM ESSE TIPO DE ENTORPERCENTE PORÉM PRA MIM SÓ APARECE ESSE QUE NO CASO É A MACONHA, GOATARIA QUE ADICIONASSE OUTROS TIPO DE DROGAS COMO CRACK,COICANA,K9 E ENTRE OUTRAS, POIS MACONHA É UMA DROGA MAIS "LEVE", E SE PUDESSEM COLOCAR O QUANTO DE GRAMAS OU KILOS DE DROGAS O SUJEITO ESTÁ PORTANTO, POIS PODERÍAMOS DIZER SE ELE É VENDEDOR OU USUÁRIO DE DROGAS
-1.1.0
 
-[X] (apenaskayo) •NOVAS OPÇÕES DE DROGAS COMO (CRACK,COCAINA,K9,METAFETAMINA,LANCA PERFUME E OUTRAS) INCLUINDO TAMBEM AS GRAMAS OU KILOS QUE O SUJEITO PODE ESTAR PORTANTO
-1.1.0
 
-[X] (TIM BRADFORD) Customizar as unidades no bloqueio
-O que seria bom também se tivesse naquela perseguição frenética e ter uma opção de fazer bloqueio com a SWAT seria top
-1.4.0
 
-[X] (@Ryanduarte.09) receber dinheiro quando levar o npc pra dp
-(@Ryanduarte.09) Ganhar dinheiro após deixar o pedestre na delegacia.
-(@Ryanduarte.09) Cada vez q prender alguém na delegacia, ganhar recompensas em dinheiro: 100$ ou 50$...
-1.4.0
 
-[X] (apenaskayo) Troca o nome "carro" por veículo, porque tem vez que a pessoa aborda motos aí fica estranho, é erro besta mas vai melhorar a experiência 
-1.2.0
 
-[X] (apenaskayo) •ESSA É UMA SUGESTAO QUE É MAIS DIFICIL DE SER FEITA, ENFIM, É IGUAL NO GIROFLEX QUE TEM COMO DEIXAR AS LUZES EM LOCAIS ESPECÍFICOS NO VEICULO, ASSIM PODENDO COLOCAR EM QUALQUER MOD DE VIATURA, ENFIM SERIA A MESMA COISA SO QUE COM UM PONTO QUE SERIA USADO PRA COLOCAR O SUSPEITO NO CAMBURÃO DA POLICIA, VOCE AJUSTARIA O PONTO QUE NEM SE FAZ COM AS LUZES DO GIROFLEX E COLOCAVA NO LOCAL DETERMINADO DA VIATURA, ASSIM IA TER A OPÇÃO DE COLOCAR NO CAMBURÃO DA VIATURA, COM ISSO O SUSPEITO IRIA TELEPORTA NO LOCAL DO PONTO QUE VOCE AJUSTOU
-1.4.0
 
-[X] (glorkc) Ocorrência de perseguição em andamento
-Que tal si en vez de nosotros generar las presentaciones nos lleguen las llamadas o las asistencias de una persecución en progreso 
-1.3.0
 
-[X] (Sam) Opa, queria dar uma sugestão pro seu mod polícia, adicionar uma opção pra chamar o guincho a qualquer momento fora de uma ocorrência, igual já tem a opção pra chamar o IML e a ambulância, isso ajudaria muito já que as vezes os npc bate e dps deixa os carros largado
-1.2.0
 
-[X] (El Gatonw) mn tem como vc fazer uma função pra abrir o menu em qualquer carro? E nele ter a opção de chamar um guincho pra levar ele embora?
-1.2.0
 
-[X] (Raí gameplay) e chamar o guincho quando não está abordando um npc
-(por exemplo quero multar um veículo que está estacionado errado ou guinchar ele)
-1.2.0
-
-[X] (apenaskayo) é uma sugestão porém ê bom fazer uma enquete porque vai mudar algo e não acrescentar,enfim é sobre envez da pessoa entrar no gta e o mod já ficar ativado, envez disso a pessoa tem que na delegacia de Los Santos e ativar o mod
-1.3.0
-
-[X] (『DOM Victor』) Chamar parceiro
-1.3.0
-
-[X] (brandonviljoen) Bro can u. Do.    The roadblock. And spikestrips.   The hit. Sound. Or     the breach.  And missed.   Road block or spikestrips
-1.4.0
-
-[X] (brandonviljoen) And.  The search. Ligth for helkoper.  Pls bro.   The. Search. Ligth is important.
-1.4.0
-
-[X] (El Gatonw) mano ainda não é possível pôr o holofote do helicóptero da polícia direcionado ao carro em fuga? Ou a um pedestre marcado com aquela "seta" vermelha durante as ocorrências? 
-1.4.0
-
-[X] Adicionar opção para o abordado seguir ou ir para um local (sair da rua)
-(apenaskayo) Fazer o veículo encostar no local determinado pela pessoa, ou pelo menos o seguir até o local que a pessoa quer, que nem acontece na primeira missão do GTA San Andreas que um carro dos ballas o segue e atira, mas claro tira a função de atira, só pra seguir mesmo
-1.4.0
-
-[X] (@mitakurukito6379) Colocar suspeito no porta malas
-1.4.0
-
-[X] (plucaswz) Colocar opção de spawnar parceiro no menu do carro
-1.4.0
-
-[X] (brandonviljoen) U can.  Choose.   Wich. Car can deploy. The spikestrips like explain. The coprang or copcorla
-1.4.0
 
 #####################################################################
 ###### SUGESTÕES MENOS POSSÍVEIS ####################################
 #####################################################################
 
-[ ] (GAMER NEWS) Opção de Controle: Adicionar uma opção no menu de reforço para mandar os policiais se retirarem da cena, permitindo ao jogador escolher se os policiais devem permanecer ou não.
 
-[ ] (GAMER NEWS) Adicionar eventos aleatórios de ambulância e bombeiros apenas quando estiver no veículo correto.
-Para ambulância (funciona apenas quando estiver dirigindo uma ambulância):
-Resgatar vítima com animação de salvamento, polícia dar apoio.
-Para bombeiros (funciona apenas quando estiver dirigindo um caminhão de bombeiros):
-Enfrentar incêndios em veículos ou casas, polícia dar apoio.
+
 
 #####################################################################
 ###### SUGESTÕES MAIS POSSÍVEIS #####################################
 #####################################################################
 
-[ ] (GAMER NEWS) Roubo de Carro e Tiroteios:
-Viatura de apoio para roubo de carro.
-Duas viaturas para tiroteios, sem policiais atirando no jogador.
 
-[ ] (GAMER NEWS)
-Bug: Veículos capotam e batem com frequência, se perdendo no caminho.
-Solução: Ajustar a velocidade da ambulância e IML para evitar colisões e melhorar a navegação.
 
-[ ] (GAMER NEWS) Bug: Polícias spawnem muito perto dos NPCs criminosos.
-Solução: Aumentar a distância de spawn para 1,5km dos bandidos.
-
-[ ] (GAMER NEWS) Muda a opção de chamar as vtrs
-Deixa só no rádio mesmo 
-E tira do botão verde
 
 -------------------
 
-Tu pode criar uma pasta que nem as do áudio e nós poder escolher os veículos que iram vir na chamada de ermegencia igualzinho as do áudios
 
-Exemplo 
-
-Cops 
-Vehicles.ini
-
-[IDS]
-
-1-596
-2-597
-3-598
-4-599
-
-No caso aqui nos escolhe os veículos que podemos spawnar na aba menu pelo código inserido 
-
-Aí lá na aba do menu 
-Irá aparecer desse jeito 
-
-1-596
-2-597
-3-598
-4-599
-
-Exemplo de armas que cada ped pode usar 
-Aleatóriamente na pasta cops
-
-Armas.ini
-
-[IDS]
-1-colt45
-2-python
-3-shotgun
-4-m4
-5-ak47
-6-mp5
-
-Colocar qualquer skin que possa ser usada no lugar dos policiais ou pedestres ou que também policiais 
-Skins.ini
-
-[IDS]
-1-289
-2-287
-3-288
 
 -------------------
 
-[ ] (GAMER NEWS) Também tirar o olho vermelho de carro roubado 
 
-[ ] (GAMER NEWS) Deixar a gente chamar a qualquer hora reforços 
-E que a missão deles é perseguir alvos de missões normais do game 
 
-[ ] (GAMER NEWS) atiradores no helicóptero
-quando um helicóptero for chamado tem que vir atiradores no helicóptero dando tiro nos criminosos ou fazer o helicóptero atirar que nem ele faz com nós.
 
-[ ] (GAMER NEWS) Se caso o jogador for dirigir o helicóptero da polícia, abrir um menu de spawnar atiradores ou botão de atirar do helicóptero, essa opção de atirar com helicóptero tem em dos helicópteros do game
 
-[ ] (pL) Nas ocorrências Aparecer um círculo No mapa indicando o local do chamado ai você tem que procurar a pessoa isso fica mais realista 
-[ ] (pL) OCORRÊNCIA DE MANDATO DE PRISÃO 
 
-by El Gatonw: (Discord)
-[ ] Polícia - modo comboio de viaturas, (carro ou moto) 2 ou + Viaturas com 4 polícias e 2 ou + motos com garupa. ( Tenho Anim do garupa com o fuzil pra cima tipo BPraio )
-[ ] Polícia - ocorrência de guerra de gangues. ( Aquelas q tem "ondas' e tals ou pôr mais peds se for possível ).
 
-[ ] Polícia - opção para q possamos levar o abordado ou q ele possa nos seguir durante uma abordagem. ( Fiz uma abordagem no meio da pista e para evitar acidentes e atrapalhar o mod, clico em uma função em que o pedestre possa me seguir até uma calçada para continuar com a abordagem ).
-[ ] Polícia - fazer com que seu companheiro faça a revista no pedestre ou no veículo enquanto você mantém a retaguarda.
-[ ] Polícia - ser chamado para evitar assalto a carro forte com perseguição. ( Os bandidos seguindo o carro-forte e a polícia acompanhando ).
-[ ] Modo PRF - para fazer bloqueios e apreensões. combinaria com o (modo guincho), Sujeito a perseguição tbm.
-[ ] Modo bombeiro - ser chamado para ocorrências de (incêndio "criminoso") e ter opção de chamar mais viaturas quando o incêndio for de grandes proporções.
-[ ] Modo SAMU - ser chamado para ocorrências de acidentes, vítimas de tiro etc... E tbm ter opção de chamar mais viaturas do SAMU para ocorrências grandes com mais de uma vítima.
-[ ] Modo carro-forte - ser chamado para fazer transporte valores em carro-forte com possibilidade de ser assaltado.
-[ ] Modo reboque - ser chamado para rebocar veículos até uma DP, ( sujeito a fugas, brigas e tiros, com opção de chamar polícia ).
-[ ] Futuramente virá modo comboio? 
 
-[ ] Colocar mão pra trás
-(El Gatonw) Polícia - Suspeito abordado colocando a mão para trás ao pedir q aguarde outra viatura
 
-[X] (El Gatonw) ao chamar apoio da "ROCAM" tem como você por dois policiais na moto? Com o garupa armado?
-0.7.0
 
-[ ] (Gabriel Oliveira) Quando realizar a prisão e solicitar uma viatura, colocar para o policial da VTR sair da viatura ir até o preso e conduzir o preso até a viatura.
 
-[ ] (• BravoMike - Oliveira) O que você acha de fazer um mod de BOMBEIROS e SAMU também?
 
-[ ] (RAI gameplay) teste de entorpecentes
 
-[ ] (Gabriel Oliveira)
-Mas na minha opinião séria interessante ter uma ocorrência de incêndio para a polícia.
-EXEMPLO: uma casa pegando fogo 🔥 aí o player vai até o local nisso o player solicita o apoio dos bombeiros.
-Ah mas o que o player como policial vai fazer em uma QRU de incêndio❓
-Evitar que passe pedestres e veículos na quele local.
 
-[ ] @GabrielPmmods190
-Cara vc podia fazer um mod de rádio copom tipo vc ativa no botao do cll do cj ai tem la chama samu apoio aguia etc
 
-[ ] (Mayke) e acionar bombeiro tbm pra quando o carro pegar fogo
 
-[ ] (Billy) 1° colocar pra algemar o indivíduo 
-[ ] (Billy) 2° colocar mais ocorrências tipo assalto a loja, banco, etc
-[ ] (Billy) 3° colocar o indivíduo na porta de trás quando escolher levar ao dp
 
-[ ] (Gabriel Oliveira) Para quem grava com o batalhão ambiental por exemplo.
-Seria interessante ter ocorrências de crimes ambientais.
-(Tipo fogo em floresta?)
 
-[ ] (Billy) Se possível no mod colocar pra escolher a unidade exemplo: Escolher modo Polícia, ou bombeiro, ou médico etc. Daí a unidade q vc escolher aparece as ocorrências tipo escolhi bombeiro, daí vai aparecer ocorrência de incêndios etc
 
-(Gabriel Oliveira)
-Uma outra sugestão de ocorrência que eu tava pensando.
-Não sei se alguém chegou a falar.
-Caso seja possível.
-Ter uma ocorrência de um possível artefato explosivo 🧨 
-Em algum local.
-Nisso que o Copom jogasse na rede a ocorrência.
-O player ia até o local para verificar se procede a informação.
-Se constatar que realmente tem bomba no local aí ter a opção de chamar o esquadrão de bombas.
-Aí a viatura usada seria o Enforcer aí iria vim três policiais da SWAT e o 4° policial poderia ser o DSHER  por exemplo.
-Aí esse 4° homem seria o policial que estaria com o traje específico.
-E nisso no local o esquadrão de bombas ele é desarmar a bomba no local remover a bomba lá do local e levar para uma área isolada. 
-E aí nessa área isolada esse artefato explosivo seria detonado.
-Traje específico que eu falei.
-Uma coisa que eu esqueci de falar aí o 4° homem com traje especial ele que iria fazer todo o procedimento desarmar e dps detonar o explosivo.
 
-[ ] (@Lgsff) Colocar assalto
 
-[ ] (@WilliamPSP) indentidade falsa ou passaporte falso essas coisas
 
-[ ] (HARD) Tem como colocar no mod polícia pra conseguir controlar o carro do npc quando abordar pq toda vez q aborda o carro do npc fica parado no meio da pista 
 
-[ ] (Gabriel Oliveira)
-Tem a ver com hierarquia militar.
-SD, CB, 3°, 2°, 1°  SGT........
-SERIA UMA OPÇÃO ONDE O PLAYER ESCOLHERIA SE ELE vai ser o motorista da VTR ou se ele vai fica como o comandante de equipe ou 3°, 4° homem.
-Seria basicamente o que já tem o mod.
-A única diferença seria esse citada acima.
-Aí quando o Copom jogasse na rede uma QRU aceitava o ocorrência e automaticamente o motorista ( NPC ) se deslocaria pra o local.
-Quando for abordar veículo da o sinal de parada normal igual já tem e automaticamente o motorista pararia a VTR.
-Aí o player faz o procedimento e tals.
-Em caso de fuga o motorista da iria atrás.
-Aí para ficar mais realista.
-O comandante de equipe ( player ) 
-Controlaria o GIROFLEX e a SIRENE.
-se for possível fazer isso ficaria muito top mesmo o mod.
-Aí quando fosse selecionado se o player vai ser o motorista ou não.
-Aí quando a equipe embarcar na viatura aí iniciava o patrulhamento normal.
-E o motorista dirigir na mão certa da rua. 
 
-[ ] (apenaskayo) junto com o mod de chamar o iml e a ambulância, tem como colocar pra chamar bombeiros
 
-[ ] (PEDRO_ GUILHERME 157) TIPO NESSA VERSÃO DO MOD POLÍCIA TEM CHAMA BOMBEIRO NÃO?
-TIPO FICARIA TOPP TAMBÉM TLG BEM TOPP
-A PRA TER OCORRÊNCIA ASIMILADAS AOS BOMBEIROS SERIA OCORRÊNCIA DE INCÊNDIO CRIMINOSO TLG O QUE ACHA
 
-[ ] (@marceloff913) Seria bom ele colocar pra pedi reforço em abordagens normais, sem ser ocorrências.
 
-[ ] (apenaskayo) Além de que junto com isso adicionasse outras falas pro sujeito, como no caso do RG que o sujeito pode falar "deixei em casa senhor" poderia colocar falas como "sou usuário senhor" ou "é de meu consumo senhor"
 
-[ ] (apenaskayo) •ADICIONA O MOD DE CHAMAR OS BOMBEIROS
-[ ] (apenaskayo) •QUANDO REVISTAR O VEICULO AS PORTAS DO VEICULO ABRIR.
-[ ] (apenaskayo) •ENVEZ DO SUJEITO CORRER ATE A VIATURA, ELE CAMINHE.
 
-[ ] (Raí gameplay) tenho uma sugestão seria dahora se quando agente fosse revistar um veículo as portas e o porta- malas abrisem 
 
-[ ] (Raí gameplay) adiciona ocorrência de assalto a banco
 
-[ ] (@Ryanduarte.09) checar se estão armados e levar para a delegacia.
- 
-[ ] (@Ryanduarte.09) Vestir uniforme de policial: Ir até o guarda-roupa na delegacia para pegar a roupa de PM.
 
-[ ] (@Ryanduarte.09) Escolha de armas: Selecionar armas dentro da delegacia.
 
-[ ] (@Ryanduarte.09) Escolha de veículos de polícia: Selecionar e utilizar carros de polícia na garagem da delegacia.
 
----------- Sugestões de: Toddynho off Games ---------
-(Novas Ocorrências)
-Ocorrência de roubo a carro forte 
 
-Ocorrência de assalto ao banco 
 
-Ocorrência de assalto ao caixa 
 
-Ocorrência de assalto ao mercadinho 
 
-Ocorrência de roubo 
 
-Ocorrência briga de trânsito 
 
-Ocorrência agressão doméstica 
 
-Ocorrência de um indivíduo roubaram o carro e quando o carro dele quebrar ele descer do carro ele ter a possibilidade de escolher de se render ou atacar os policiais com arma 
 
-(Animação)
-Quando o jogador chamar ambulância IML e bombeiro ele colocar a mão no ombro esquerdo também para ser usado quando for consultar a placa checar o RG entre outras opções que solicite o Copom 
 
-Quando o jogador estiver sendo abordado levanta as mãos para cima 
 
-E quando ele for levado para DP colocar a mão para trás
 
-(Revista) 
-Também nas revistas dos carros se possível achar armas e na revista do pedestre também se possível achar armas 
 
-(Adicionais) 
-Colocar IPVA de veículos para saber se está ou não está atrasado 
 
-Adicionar pedir apoio de bombeiro
 
----------
 
-[ ] (apenaskayo) Ocorrência de tentativa de homicídio e suspeito ao redor da área, na vítima ferida dava pra utilizar uma animação que já tem no jogo, que é a do "crckidle1"(esse é o nome da animacao no mod dyos), quando chegasse ao local da tentativa de homicídio você encontraria a vítima ferida, e se possível após chegar iria aparecer no mapa a localização do suspeito, não pode ser perto mas também não muito longe
-Detalhe: não deixar a marcação no ped, e sim perto
 
-[ ] (Mayke) Sugestão: ocorrência de homicídio
 
-[ ] (Mayke) Outra sugestão: achado de cadáver
-Vê se consegue por alguns NPCS em volta do corpo tbm seria mais realista
 
-[ ] (apenaskayo) •MOSTRAR COMO O SUJEITO ABORDADO ESTA SE SENTINDO, EXEMPLO, SE ELE ESTAR CALMO, COM MEDO, COM RAIVA E TALS(ACHO BOM PRA IMERSÃO)
-[ ] (apenaskayo) •QUANDO O SUJEITO ESTIVER PORTANDO ARMAS, QUE DE PRA SABER SE A ARMA É LEGAL OU ILEGAL E SE O SUSPEITO TEM PORTE DE ARMAS
-[ ] (apenaskayo) •O SUJEITO NAO QUERER SAIR DO VEICULO, ASSIM A PESSOA PODE MANDAR ELE SAIR NOVAMENTE MAIS 2 VEZES E SE NAO SAI VOCE TIRAR ELE DO VEICULO A FORÇA
-[ ] (apenaskayo) •NOVAS OPCOES DE COISAS QUE PODEM ESTAR NO VEICULO E NA SUJEITO, COMO (CIGARRO,REVISTA,JORNAL, CARREGADOR E ENTRE OUTRAS COISAS) 
 
-[ ] (glorkc) Ocorrência de acidentes ou coisas do tipo
-Bueno como digo puede ser una buena sugerencia para que tu mod de policía sea un poco más realista al igual que lleguen llamadas de accidentes o cosas así 
 
-[ ] (brandonviljoen) Oky.   Bro.     And dat licence plate. Scanner. Bro.    When Wil u start. With it
 
-[ ] (TGZIN) Taser (substitir pela silenciada, um mod a parte)
 
-[ ] (Raí gameplay) adiciona opção pra multar veículos (qualquer veículo)
-e consultar emplacamento também coloca isso também
 
-[ ] (brandonviljoen) Detectar quando o suspeito bate na barreira + som
-Ou quando os espinhos furam o pneu do suspeito
 
-[ ] (apenaskayo) na próxima atualização coloca pro suspeito seguir vc, porque fica mais massa pra imersão a pessoa conseguir levar ele pro canto da parede pra abordar
+
+
+
+
+
 
 [ ] (HARD) colocar pra dialogar com o npc tipo quando abordar um NPC de carro pergunta pra ele de ond tá vindo etc
 

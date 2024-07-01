@@ -4,6 +4,7 @@
 #include "ModConfig.h"
 #include "CleoFunctions.h"
 #include "PoliceDepartment.h"
+#include "Debug.h"
 
 #include "windows/WindowBackup.h"
 #include "windows/WindowTrunk.h"
@@ -75,6 +76,11 @@ void WindowCarMenu::Create(Vehicle* vehicle)
 
         CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 31, 10000);
         CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 22, 10000);
+        if(!Ped::PedHasWeaponId(playerActor, 10))
+        {
+            Debug::AddLine(1, 10);
+            CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
+        }
         CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);
     };
 

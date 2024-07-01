@@ -3,6 +3,7 @@
 #include "ModConfig.h"
 #include "Mod.h"
 #include "audiosystem.h"
+#include "Debug.h"
 
 extern IBASS* BASS;
 extern CSoundSystem* soundsys;
@@ -75,6 +76,11 @@ CAudioStream* SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation(std::st
     int numVariations = i - 1;
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Found " << numVariations << " variations" << std::endl;
+
+    if(numVariations == 0)
+    {
+        Debug::AddLine(1, -1, CRGBA(255, 0, 0));
+    }
 
     auto newSrc = audiosPath + src + std::to_string(GetRandomNumber(1, numVariations)) + ".wav";
 

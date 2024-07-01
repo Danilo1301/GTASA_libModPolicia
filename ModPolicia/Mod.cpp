@@ -285,6 +285,7 @@ void Mod::CleoInit()
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Cleo init" << std::endl;
 
+    Debug::AddLine(1, 0);
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     //models
@@ -312,15 +313,26 @@ void Mod::CleoInit()
 
         //WindowRadio::ToggleRadio(true);
 
-        if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+        int modelId = 597;
+        auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
+        auto vehicles = Vehicles::GetAllCarsInSphere(spawnPosition, 20.0f);
+        bool hasVehicle = false;
+        for(auto vehicle : vehicles)
         {
-            auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
-            auto carHandle = CleoFunctions::CREATE_CAR_AT(598, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+            if(vehicle->modelId == modelId)
+            {
+                hasVehicle = true;
+                break;
+            }
+        }
+        if(!hasVehicle)
+        {
+            auto carHandle = CleoFunctions::CREATE_CAR_AT(modelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
             CleoFunctions::SET_CAR_DOOR_STATUS(carHandle, 1);
-            //CleoFunctions::ENABLE_CAR_SIREN(carHandle, true); //annying
+            CleoFunctions::ENABLE_CAR_SIREN(carHandle, true); //annying
         }
 
-        CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 282);
+        CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);
 
         ModConfig::CreateTestOptionsInRadioMenu = true;
     }

@@ -117,7 +117,7 @@ void Callouts::Update(int dt)
                 m_WaitingToPlayAcceptCalloutAudio = false;
 
                 CleoFunctions::WAIT(500, []() {
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/ACCEPT_CALLOUT.wav", false);
+                    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ACCEPT_CALLOUT_", false);
                 });
             }
         }
