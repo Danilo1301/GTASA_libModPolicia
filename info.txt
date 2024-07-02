@@ -193,6 +193,10 @@ Fixing chase:
 [X] ADD: radio when enter duty
 [X] ADD: make radio buttons transparent
 
+[1.7.0]
+[X] FIX: remove weapon from hand when pullover
+[ ] ADD: make ambulance sometimes cant save ped
+
 [ ] ADD: customize button to accept callout
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect

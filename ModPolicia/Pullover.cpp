@@ -172,6 +172,7 @@ void Pullover::PullOverPed(int hPed)
 
     CleoFunctions::WAIT(waitTime, [playerActor]() {
         WindowPullover::CreatePullingPed();
+        CleoFunctions::SET_ACTOR_ARMED_WEAPON(playerActor, 0);
     });
 }
 
@@ -471,6 +472,9 @@ void Pullover::AskPedsToLeaveCar(Vehicle* vehicle)
 
     CleoFunctions::WAIT(2000, []() {
         WindowPullover::CreatePullingPed();
+
+        auto playerActor = Mod::GetPlayerActor();
+        CleoFunctions::SET_ACTOR_ARMED_WEAPON(playerActor, 0);
     });
 }
 

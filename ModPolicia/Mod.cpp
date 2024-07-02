@@ -34,7 +34,7 @@ extern CVector2D *m_vecCachedPos;
 const char* Mod::m_Version = "1.6.0";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
-bool Mod::m_DevModeEnabled = false;
+bool Mod::m_DevModeEnabled = true;
 int Mod::m_TestWidgetId = 0;
 
 bool hasLoadedAnimations = false;
@@ -119,7 +119,8 @@ void Mod::Update(int dt)
     
     Menu::Draw();
 
-    Debug::Draw();
+    if(m_DevModeEnabled)
+        Debug::Draw();
 
     Camera::Draw();
 

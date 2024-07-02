@@ -102,7 +102,15 @@ npc dirigir por você
 (Eriic)
 bota uma coisa para pega fardamento e viatura sem precisar do cleo
 
+(FelipeGamer BR)
+cara coloque assim voce mora aonde no dialogo claro quando for sair pra pc
 
+(JãoZer4)
+Danilo, tu acha que um dia seu mod possa ter um menuzinho de seleção de luzes no pc? Igual aquele mod emergency lights v1 que vc liga e desliga as luzes no G, J, N, O e etc...
+​​Tem no canal do BOT10 esse mod
+https://www.youtube.com/watch?v=PYnjjhRLSl8
+
+semacidentes.csa crasha com o mod? na DP
 
 #####################################################################
 ###### SUGESTÕES MENOS POSSÍVEIS ####################################
