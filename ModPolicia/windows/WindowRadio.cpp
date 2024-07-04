@@ -15,6 +15,7 @@
 #include "Widgets.h"
 #include "Backup.h"
 #include "WindowBackup.h"
+#include "Debug.h"
 
 #include "systems/Camera.h"
 
@@ -44,6 +45,8 @@ int WindowRadio::m_CurrentFrequency = 0;
 bool WindowRadio::m_ChangingChannels = true;
 
 int radioObject = 0;
+int imlCar = 0;
+int imlPed = 0;
 
 #include "isautils.h"
 extern ISAUtils* sautils;
@@ -53,6 +56,8 @@ static DEFOPCODE(01F5, GET_PLAYER_ACTOR, iv); //01F5: $PLAYER_ACTOR = get_player
 static DEFOPCODE(00A0, GET_CHAR_COORDINATES, ivvv);
 static DEFOPCODE(036D, SHOW_TEXT_2NUMBERS_STYLED, siiii);
 static DEFOPCODE(0256, IS_PLAYER_PLAYING, i); //0256:  player $PLAYER_CHAR defined 
+
+int testStep = 0;
 
 void WindowRadio::Create()
 {
@@ -67,65 +72,6 @@ void WindowRadio::Create()
         Remove();
         Callouts::AbortCallout();
     };
-
-    /*
-    auto button_ambulance = window->AddButton(117, 0, 0);
-    button_ambulance->onClick = []()
-    {
-        Remove();
-
-        SoundSystem::PlayHTAudio();
-        SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_AMBULANCE.wav", false);
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
-
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto playerPosition = Mod::GetPedPosition(playerActor);
-
-        Ambulance::CallAmbulance(playerPosition);
-    };
-    */
-
-    /*
-    auto button_IML = window->AddButton(118, 0, 0);
-    button_IML->onClick = []()
-    {
-        Remove();
-
-        SoundSystem::PlayHTAudio();
-        SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_IML.wav", false);
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX121", 0, 0, 0, 3000, 1); //apoio IML
-
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-        auto playerPosition = Mod::GetPedPosition(playerActor);
-
-        Ambulance::CallIML(playerPosition);
-    };
-    */
-
-    /*
-    auto button_guincho = window->AddButton(109, 0, 0);
-    button_guincho->onClick = []()
-    {
-        Remove();
-
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto playerPosition = Mod::GetPedPosition(playerActor);
-
-        auto vehicleHandle = Vehicles::GetRandomCarInSphere(playerPosition, 8.0f);
-        auto vehicle = vehicleHandle > 0 ? Vehicles::GetVehicleByHandle(vehicleHandle) : NULL;
-
-        if(vehicle)
-        {
-            SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
-
-            vehicle->AddBlip();
-            Scorch::CallTowTruckToVehicle(vehicle);
-        }
-    };
-    */
 
     auto button_config = window->AddButton(107);
     button_config->onClick = [window]()
@@ -197,6 +143,50 @@ void WindowRadio::CreateTestOptions()
             auto vehicle = Vehicles::GetVehicleByHandle(chasingPed->hVehicleOwned);
             vehicle->freezeCarPosition = !vehicle->freezeCarPosition;
         }
+    };
+
+    auto button_test10 = window->AddButton(23, 10, 0);
+    button_test10->onClick = []()
+    {
+        Remove();
+
+        Debug::AddLine(1, testStep);
+
+        if(testStep == 0)
+        {
+            auto playerActor = Mod::GetPlayerActor();
+            auto spawnPosition = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
+
+            imlCar = CleoFunctions::CREATE_CAR_AT(442, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        }
+
+        if(testStep == 1)
+        {
+            auto playerActor = Mod::GetPlayerActor();
+            auto spawnPosition = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
+            
+            imlPed = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, 70, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        }
+
+        if(testStep == 2)
+        {
+            //CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(imlPed, imlCar, 10000);
+
+            auto ped = Peds::TryCreatePed(imlPed);
+            //ped->SetGoToVehicle(imlCar, 0, true);
+
+            //auto carPosition = Mod::GetCarPosition(imlCar);
+
+            //CleoFunctions::ACTOR_GOTO_POINT(imlPed, carPosition.x, carPosition.y, carPosition.z, 6, -1);
+        }
+
+        if(testStep == 3)
+        {
+            testStep = 0;
+            return;
+        }
+
+        testStep++;
     };
 
     auto button_test9 = window->AddButton(23, 9, 0);
@@ -724,7 +714,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         {
         case 1:
             SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_AMBULANCE.wav", false);
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_AMBULANCE_", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
 
             Ambulance::CallAmbulance(playerPosition);
@@ -733,7 +723,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
             break;
         case 2:
             SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_IML.wav", false);
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_IML_", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX121", 0, 0, 0, 3000, 1); //apoio IML
 
             Ambulance::CallIML(playerPosition);
@@ -744,7 +734,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
             if(closestVehicle)
             {
                 SoundSystem::PlayHTAudio();
-                SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
+                SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_TOW_TRUCK_", false);
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
 
                 closestVehicle->AddBlip();
@@ -813,22 +803,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
 
         if(closestVehicle)
         {
-            SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_VEHICLE_PLATE.wav", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
-
-            CleoFunctions::WAIT(4000, [closestVehicle]() {
-                if(closestVehicle->isStolen)
-                {
-                    SoundSystem::PlayHTAudio();
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_STOLEN.wav", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
-                } else {
-                    SoundSystem::PlayHTAudio();
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_OK.wav", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
-                }
-            });
+            Pullover::CheckVehiclePlate(closestVehicle->hVehicle, [] () {});
 
             ToggleRadioOff(true);
         } else {

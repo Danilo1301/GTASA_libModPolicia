@@ -106,24 +106,7 @@ void WindowPullover::CreatePullingPed()
         {
             Remove();
 
-            SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_VEHICLE_PLATE.wav", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
-
-            CleoFunctions::WAIT(4000, [ped]() {
-                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
-
-                if(vehicle->isStolen)
-                {
-                    SoundSystem::PlayHTAudio();
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_STOLEN.wav", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
-                } else {
-                    SoundSystem::PlayHTAudio();
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/VEHICLE_PLATE_OK.wav", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
-                }
-
+            Pullover::CheckVehiclePlate(ped->hVehicleOwned, [] () {
                 CleoFunctions::WAIT(1000, []() {
                     CreatePullingPed();
                 });
@@ -201,7 +184,7 @@ void WindowPullover::CreatePullingPed()
     button_rg->onClick = [ped]()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX35", 0, 0, 0, 3000, 1); //me ve o RG
-        SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_FOR_ID.wav", false);
+        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_FOR_ID_", false);
 
         Remove();
 
@@ -225,7 +208,7 @@ void WindowPullover::CreatePullingPed()
     button_cnh->onClick = [ped]()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX173", 0, 0, 0, 3000, 1); //me ve a CNH
-        SoundSystem::PlayStreamFromAudiosFolder("voices/ASK_FOR_DRIVERS_LICENSE.wav", false);
+        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_FOR_DRIVERS_LICENSE_", false);
 
         Remove();
 

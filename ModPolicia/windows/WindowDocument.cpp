@@ -37,7 +37,7 @@ void WindowDocument::Create()
             Remove();
 
             SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/CHECK_ID.wav", false);
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/CHECK_ID_", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX71", 0, 0, 0, 3000, 1); //consultar rg
 
             CleoFunctions::WAIT(4000, []() {
@@ -45,11 +45,11 @@ void WindowDocument::Create()
                 if(ped->isWanted)
                 {
                     SoundSystem::PlayHTAudio();
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/ID_WITH_ARREST_WARRANT.wav", false);
+                    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ID_WITH_ARREST_WARRANT_", false);
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX73", 0, 0, 0, 3000, 1); //com mandado
                 } else {
                     SoundSystem::PlayHTAudio();
-                    SoundSystem::PlayStreamFromAudiosFolder("voices/ID_OK.wav", false);
+                    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ID_OK_", false);
                     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX72", 0, 0, 0, 3000, 1); //sem queixas
                 }
 

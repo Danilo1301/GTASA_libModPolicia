@@ -48,4 +48,6 @@ public:
 
     static double GetDistanceBetweenPedAndCar(int hChar, int hVehicle);
     static double GetDistanceBetweenPeds(int hChar, int hChar2);
+
+    static void CheckVehiclePlate(int hVehicle, std::function<void()> callback);
 };

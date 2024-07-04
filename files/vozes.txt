@@ -25,8 +25,8 @@ Nada consta no IMEI
 (VEHICLE_PLATE_STOLEN) Veiculo cadastrado como produto de roubo
 (ID_OK) Individuo sem queixas
 (ID_WITH_ARREST_WARRANT) O individuo esta com um mandado de prisao em aberto
-(CALLOUT_ASSAULT) Solicito uma viatura para atender ocorrencia de desentendimento
-Solicito uma viatura para atender ocorrencia de tiros disparados
+X (CALLOUT_ASSAULT) Solicito uma viatura para atender ocorrencia de desentendimento
+X (CALLOUT_GANG_SHOTS_FIRED) Solicito uma viatura para atender ocorrencia de tiros disparados
 Um veiculo roubado foi identificado pelas cameras do olho vivo
 Recebemos uma denuncia de invasao domiciliar
 Uma viatura solicita apoio para uma perseguicao em andamento
@@ -38,3 +38,19 @@ Preset: RADIO
 
 Effect > Amplify
 Ampl: 20
+
+---------------------
+
+Evenlabs:
+https://elevenlabs.io/app/speech-synthesis
+
+Voz: Vagner De souza (COPOM)
+Voz: Bia - Brazilian (COPOM)
+
+Effect > Filter curve EQ
+Preset: RADIO
+
+Effect > Amplify
+Ampl: 10
+
+Alterar o tom de calmo

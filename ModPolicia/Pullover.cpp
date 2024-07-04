@@ -10,6 +10,7 @@
 #include "Mod.h"
 #include "SoundSystem.h"
 #include "Callouts.h"
+#include "Debug.h"
 
 #include "windows/WindowTest.h"
 #include "windows/WindowFrisk.h"
@@ -126,10 +127,12 @@ void Pullover::PullOverPed(int hPed)
 
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
+    bool isDoingHandsup = CleoFunctions::ACTOR_PERFORMING_ANIMATION(hPed, "handsup");
+
     int waitTime = 1000;
-    if(Peds::HasPedHandle(hPed))
+    if(isDoingHandsup)
     {
-        if(Peds::GetPedByHandle(hPed)->shouldHandsup) waitTime = 0;
+        waitTime = 0;
     }
 
     if(waitTime != 0)
@@ -141,7 +144,9 @@ void Pullover::PullOverPed(int hPed)
     m_PullingPed = Peds::TryCreatePed(hPed);
     m_PullingPed->UpdateInventory();
 
-    if(PULLOVER_PLAY_ANIMATION && !m_PullingPed->willResistPullover)
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "ped " << hPed << " will resist: " << m_PullingPed->willShootAtCops << std::endl;
+
+    if(PULLOVER_PLAY_ANIMATION && !isDoingHandsup)
     {
         if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor) && waitTime != 0)
         {
@@ -149,11 +154,15 @@ void Pullover::PullOverPed(int hPed)
         }
     }
 
-    if(m_PullingPed->willResistPullover)
+    if(m_PullingPed->willShootAtCops)
     {
+        m_PullingPed->shouldHandsup = false;
+
         Log::Level(LOG_LEVEL::LOG_BOTH) << "ped reacted to pullover" << std::endl;
 
-        m_PullingPed->willShootAtCops = true;
+        Debug::AddLine(1, 1, 0, CRGBA(0, 255, 0));
+
+        //m_PullingPed->willShootAtCops = true;
 
         CleoFunctions::GIVE_ACTOR_WEAPON(m_PullingPed->hPed, 22, 10000);
         CleoFunctions::KILL_ACTOR(m_PullingPed->hPed, playerActor);
@@ -162,6 +171,8 @@ void Pullover::PullOverPed(int hPed)
 
         m_PullingPed = NULL;
         return;
+    } else {
+        Debug::AddLine(1, 0, 0, CRGBA(255, 0, 0));
     }
 
     m_PullingPed->AddBlip();
@@ -255,7 +266,8 @@ void Pullover::PullOverCar(int hVehicle)
         passenger->AddBlip();
     }
 
-    if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
+    if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
+    //if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
 
@@ -418,7 +430,7 @@ void Pullover::MakePedWait()
 void Pullover::FreeVehicle()
 {
     CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX55", 0, 0, 0, 3000, 1); //liberado
-    SoundSystem::PlayStreamFromAudiosFolder("voices/PULLOVER_FREE_PED.wav", false);
+    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/PULLOVER_FREE_PED_", false);
     
     m_PullingPed->driveAfterEnterCar = true;
     m_PullingPed->shouldHandsup = false;
@@ -518,4 +530,28 @@ double Pullover::GetDistanceBetweenPeds(int hChar, int hChar2)
 
     auto distance = DistanceBetweenPoints(CVector(x1, y1, z1), CVector(x2, y2, z2));
     return distance;
+}
+
+void Pullover::CheckVehiclePlate(int hVehicle, std::function<void()> callback)
+{
+    SoundSystem::PlayHTAudio();
+    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/CHECK_VEHICLE_PLATE_", false);
+    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
+
+    CleoFunctions::WAIT(4000, [hVehicle, callback]() {
+        auto vehicle = Vehicles::GetVehicleByHandle(hVehicle);
+
+        if(vehicle->isStolen)
+        {
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/VEHICLE_PLATE_STOLEN_", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
+        } else {
+            SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/VEHICLE_PLATE_OK_", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
+        }
+
+        callback();
+    });
 }

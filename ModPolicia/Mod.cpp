@@ -267,7 +267,7 @@ void Mod::CleoInit()
 
         //WindowRadio::ToggleRadio(true);
 
-        int modelId = 597;
+        int modelId = 598;
         auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 4.0f, 0));
         auto vehicles = Vehicles::GetAllCarsInSphere(spawnPosition, 20.0f);
         bool hasVehicle = false;
@@ -283,7 +283,7 @@ void Mod::CleoInit()
         {
             auto carHandle = CleoFunctions::CREATE_CAR_AT(modelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
             CleoFunctions::SET_CAR_DOOR_STATUS(carHandle, 1);
-            CleoFunctions::ENABLE_CAR_SIREN(carHandle, true); //annying
+            //CleoFunctions::ENABLE_CAR_SIREN(carHandle, true); //annoying
         }
 
         CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);

@@ -82,8 +82,6 @@ public:
 
     std::vector<int> crimeCodes;
 
-    bool willResistPullover = false;
-
     Name name;
     bool isMale = false;
     

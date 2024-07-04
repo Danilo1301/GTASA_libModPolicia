@@ -58,7 +58,7 @@ Ped::Ped(int hPed)
         }
     }
 
-    this->willResistPullover = Mod::CalculateProbability(CHANCE_PED_RESISTING_PULLOVER);
+    this->willShootAtCops = Mod::CalculateProbability(CHANCE_PED_RESISTING_PULLOVER);
 
     this->isMale = CleoFunctions::ACTOR_MALE(hPed);
     this->name = Names::GetRandomName(isMale ? SkinGenre::SKIN_MALE : SkinGenre::SKIN_FEMALE);
@@ -263,6 +263,8 @@ void Ped::CopyFrom(Ped* fromPed)
     this->money = fromPed->money;
 
     this->inventory->CopyFrom(fromPed->inventory);
+
+    this->willShootAtCops = fromPed->willShootAtCops;
 }
 
 void Ped::AddDrugs(bool drugDealer)

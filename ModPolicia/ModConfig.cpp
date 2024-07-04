@@ -98,6 +98,14 @@ void VersionControl::AddPatch(std::string version, std::function<void()> patch)
     info->patches.push_back(patch);
 }
 
+void VersionControl::AddPatch(std::function<void()> patch)
+{
+    for(auto info : m_Versions)
+    {
+        info->patches.push_back(patch);
+    }
+}
+
 void VersionControl::ApplyPatches()
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "VersionControl: ApplyPatches" << std::endl;
@@ -630,8 +638,8 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [PRE] Updating from " << prevVersion << " to " << currentVersion << std::endl;
 
 
-    VersionControl::AddPatch("1.5.0", [] () {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.5.0 PRE" << std::endl;
+    VersionControl::AddPatch( [] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch (Audios) PRE" << std::endl;
 
         std::vector<std::string> oldAudios = {
             "HELI_APPROACHING_DISPATCH_1.wav",
@@ -667,7 +675,20 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
             "ASK_STOP_PEDESTRIAN.wav",
             "ASK_STOP_VEHICLE.wav",
             "ACCEPT_CALLOUT.wav",
-            "PULLOVER_FREE_PED.wav"
+            "PULLOVER_FREE_PED.wav",
+
+            "ASK_FOR_DRIVERS_LICENSE.wav", //edited
+            "ASK_FOR_ID.wav", //edited
+            "CHECK_ID.wav", //edited
+            "CHECK_VEHICLE_PLATE.wav", //editado
+            "ID_OK.wav", //edited
+            "ID_WITH_ARREST_WARRANT.wav", //edited
+            "REQUEST_AMBULANCE.wav", //edited
+            "REQUEST_CAR_TO_TRANSPORT_SUSPECT.wav", //edited
+            "REQUEST_IML.wav", //edited
+            "REQUEST_TOW_TRUCK.wav", //edited
+            "VEHICLE_PLATE_OK.wav", //edited
+            "VEHICLE_PLATE_STOLEN.wav" //edited
         };
         
         auto audiosPath = ModConfig::GetConfigFolder() + "/audios/";

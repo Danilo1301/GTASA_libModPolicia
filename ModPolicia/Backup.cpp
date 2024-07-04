@@ -9,6 +9,7 @@
 #include "Vehicles.h"
 #include "Peds.h"
 #include "SoundSystem.h"
+#include "Debug.h"
 
 #include "windows/WindowBackup.h"
 
@@ -344,10 +345,14 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                         {
                            if(criminal->willShootAtCops)
                             {
+                                Debug::AddLine(1, 1);
+
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "backup " << ped->hPed << " is now killing criminal" << std::endl;
 
                                 CleoFunctions::KILL_ACTOR(ped->hPed, criminal->hPed);
                             } else {
+                                Debug::AddLine(1, 0);
+
                                 Log::Level(LOG_LEVEL::LOG_BOTH) << "backup " << ped->hPed << " is now walking to criminal" << std::endl;
 
                                 CleoFunctions::AS_ACTOR_RUN_TO_ACTOR(ped->hPed, criminal->hPed, 10000, 3.0f);

@@ -20,6 +20,7 @@ public:
 	static VersionInfo* GetVersionInfo(std::string version);
 
 	static void AddPatch(std::string version, std::function<void()> patch);
+	static void AddPatch(std::function<void()> patch);
 	static void ApplyPatches();
 };
 
