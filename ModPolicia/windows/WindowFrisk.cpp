@@ -69,12 +69,20 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         button_imei->onClick = [item]()
         {   
             SoundSystem::PlayHTAudio();
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/CHECK_IMEI_", false);
+            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX217", 0, 0, 0, 3000, 1); //consultar imei
 
-            if(item->isStolen) {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX53", 0, 0, 0, 3000, 1); //furto
-            } else {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX54", 0, 0, 0, 3000, 1); //nada consta
-            }
+            CleoFunctions::WAIT(4000, [item]() {
+                if(item->isStolen) {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/IMEI_STOLEN_", false);
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX53", 0, 0, 0, 3000, 1); //furto
+                } else {
+                    SoundSystem::PlayHTAudio();
+                    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/IMEI_OK_", false);
+                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX54", 0, 0, 0, 3000, 1); //nada consta
+                }
+            });
         };
     }
 

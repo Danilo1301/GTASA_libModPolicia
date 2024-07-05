@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Mod Policia v1.6.0 (by ~y~Danilo1301~w~)
+MPFX6 Mod Policia v1.6.1 (by ~y~Danilo1301~w~)
 MPFX7 Fechar
 MPFX8 Voltar
 MPFX9 Editar posicao
@@ -174,7 +174,7 @@ MPFX173 ~b~[Policial] ~w~Me de a sua CNH
 MPFX174 Dialogo
 MPFX175 ~b~[Policial] ~w~De onde voce ta vindo?
 MPFX176 Da minha casa
-MPFX177 Da casa da minha familiar
+MPFX177 Da casa da minha familia
 MPFX178 Da casa de um amigo
 MPFX179 Do trabalho
 MPFX180 ~b~[Policial] ~w~De quem e o veiculo?
@@ -214,3 +214,7 @@ MPFX213 Toni Wall
 MPFX214 Freeze chase car
 MPFX215 Camera
 MPFX216 Ativar
+MPFX217 ~b~[Policial] ~w~COPOM, consulta de IMEI...
+MPFX218 ~b~[Policial] ~w~Ta com algo de errado no carro?
+MPFX219 Nao tem nada nao
+MPFX220 Tem umas coisas so

@@ -250,7 +250,7 @@ void WindowPullover::CreatePullingPed()
             }
 
             SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_TOW_TRUCK.wav", false);
+            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_TOW_TRUCK_", false);
             CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
 
             Remove();
@@ -337,12 +337,14 @@ void WindowPullover::CreateScorchWindow()
         Scorch::ToggleCarryWindow(true);
     };
 
+    /*
     auto button_conduzirPortaMalas = window->AddButton(164, 0, 0);
     button_conduzirPortaMalas->onClick = [ped]()
     {
         Remove();
         Scorch::CarryPed(ped);
     };
+    */
 
     auto button_teleport = window->AddButton(84, 0, 0);
     button_teleport->onClick = [ped]()
@@ -371,7 +373,14 @@ void WindowPullover::CreateDialogWindow()
         int num1 = 0;
         int num2 = 0;
 
-        if(id == eDialogId::DIALOG_VEHICLE_OWNER && !vehicle) continue;
+        if(id == eDialogId::DIALOG_VEHICLE_OWNER)
+        {
+            if(!vehicle) continue;
+
+            response = GetRandomNumber(0, 1);
+
+            if(vehicle->isStolen) response = GetRandomNumber(0, 2);
+        }
         if(id == eDialogId::DIALOG_CRIMES)
         {
             response = 0;
@@ -387,16 +396,31 @@ void WindowPullover::CreateDialogWindow()
                 num2 = ped->crimeCodes[1];
             }
         }
+        if(id == eDialogId::DIALOG_ARRESTED)
+        {
+            if(ped->crimeCodes.size() > 0)
+            {
+                response = 1; //yes
+            } else {
+                response = 0; //no
+            }
+        }
+        if(id == eDialogId::DIALOG_ILLEGAL_STUFF_IN_CAR)
+        {
+            if(!vehicle) continue;
+
+            if(vehicle->HasIlegalStuff())
+            {
+                response = 1; //yes
+            } else {
+                response = 0; //no
+            }
+        }
 
         if(response == -1)
         {
             switch (id)
             {
-            case eDialogId::DIALOG_VEHICLE_OWNER:
-                response = GetRandomNumber(0, 1);
-
-                if(vehicle->isStolen) response = GetRandomNumber(0, 2);
-                break;
             case eDialogId::DIALOG_CRIMES:
                 break;
             default:

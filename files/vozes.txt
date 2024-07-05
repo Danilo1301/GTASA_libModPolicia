@@ -6,6 +6,7 @@ Policial:
 (PULLOVER_FREE_PED) Voce esta liberado!
 (CHECK_VEHICLE_PLATE) COPOM, consulta de emplacamento...
 (CHECK_ID) COPOM, consulta de individuo...
+(CHECK_IMEI) COPOM, consulta de IMEI...
 COPOM, solicito apoio acompanhamento
 COPOM, solicito apoio da ROCAM
 COPOM, solicito uma viatura para transportar um suspeito
@@ -16,20 +17,24 @@ COPOM, solicito apoio da ambulancia
 COPOM, solicito apoio do IML
 COPOM, solicito unidade de bloqueio na pista
 COPOM, solicito unidade com espinhos na pista
-
+(ACCEPT_CALLOUT) QSL COPOM, viatura se deslocando para o local
+(REQUEST_AMBULANCE) COPOM, solicito apoio da ambulancia
+(REQUEST_CAR_TO_TRANSPORT_SUSPECT) COPOM, solicito uma viatura para transportar um suspeito
+(REQUEST_IML) COPOM, solicito apoio do IML
+(REQUEST_TOW_TRUCK) COPOM, solicito apoio de um guincho
 
 COPOM:
-IMEI registrado como produto de furto
-Nada consta no IMEI
-(VEHICLE_PLATE_OK) Veiculo sem queixas
+(IMEI_STOLEN) IMEI registrado como produto de furto
+(IMEI_OK) Nada consta no IMEI
+(VEHICLE_PLATE_OK) Veiculo sem novidades
 (VEHICLE_PLATE_STOLEN) Veiculo cadastrado como produto de roubo
-(ID_OK) Individuo sem queixas
+(ID_OK) Individuo sem novidades
 (ID_WITH_ARREST_WARRANT) O individuo esta com um mandado de prisao em aberto
-X (CALLOUT_ASSAULT) Solicito uma viatura para atender ocorrencia de desentendimento
-X (CALLOUT_GANG_SHOTS_FIRED) Solicito uma viatura para atender ocorrencia de tiros disparados
-Um veiculo roubado foi identificado pelas cameras do olho vivo
-Recebemos uma denuncia de invasao domiciliar
-Uma viatura solicita apoio para uma perseguicao em andamento
+(CALLOUT_ASSAULT) Solicito uma viatura para atender ocorrencia de desentendimento
+(CALLOUT_GANG_SHOTS_FIRED) Solicito uma viatura para atender ocorrencia de tiros disparados
+(CALLOUT_STOLEN_VEHICLE) Um veiculo roubado foi identificado pelas cameras do olho vivo
+(CALLOUT_HOUSE_INVASION) Recebemos uma denuncia de invasao domiciliar
+(CALLOUT_CHASE) Uma viatura solicita apoio para uma perseguicao em andamento
 
 Change Pitch: -10
 
@@ -44,8 +49,10 @@ Ampl: 20
 Evenlabs:
 https://elevenlabs.io/app/speech-synthesis
 
-Voz: Vagner De souza (COPOM)
+Voz: Vagner De souza (COPOM ou POLICIAL?)
 Voz: Bia - Brazilian (COPOM)
+Voz: Victor Jose (tem sotaque)
+Voz: Otto de La Luna (POLICIAL)
 
 Effect > Filter curve EQ
 Preset: RADIO

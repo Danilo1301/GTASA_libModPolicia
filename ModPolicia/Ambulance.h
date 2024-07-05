@@ -27,6 +27,7 @@ class Ambulance {
 public:
     static EmergencyVehicleSystem* m_AmbulanceSystem;
     static EmergencyVehicleSystem* m_IMLSystem;
+    static float SPAWN_EMERGENCY_VEHICLES_DISTANCE;
 
     static void Init();
 

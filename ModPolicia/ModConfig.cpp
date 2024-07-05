@@ -25,6 +25,7 @@
 #include "Stats.h"
 #include "Chase.h"
 #include "Pullover.h"
+#include "Ambulance.h"
 
 #include "systems/Camera.h"
 
@@ -277,6 +278,11 @@ void ModConfig::SaveSettings()
     generalSection->AddIntFromBool("start_game_with_radio", ModConfig::StartGameWithRadio);
     generalSection->AddIntFromBool("transparent_radio_buttons", WindowRadio::m_TransparentButtons);
 
+    generalSection->AddLine("");
+    generalSection->AddLine("; Distance that Ambulance and IML will spawn");
+    generalSection->AddFloat("spawn_emergency_vehicles_distance", Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
+    generalSection->AddLine("");
+
     //
 
     auto chancesSection = file.AddSection("Chances");
@@ -442,6 +448,7 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("pullover_play_animation", &Pullover::PULLOVER_PLAY_ANIMATION);  
         generalSection->GetBoolFromInt("start_game_with_radio", &ModConfig::StartGameWithRadio);  
         generalSection->GetBoolFromInt("transparent_radio_buttons", &WindowRadio::m_TransparentButtons);
+        generalSection->GetFloat("spawn_emergency_vehicles_distance", &Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
     }
 
     //
@@ -626,6 +633,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.4.1");
     VersionControl::AddVersion("1.5.0");
     VersionControl::AddVersion("1.6.0");
+    VersionControl::AddVersion("1.6.1");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }
@@ -747,6 +755,13 @@ void ModConfig::ProcessVersionChanges_PostConfigLoad()
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.4.1 POST" << std::endl;
 
         Stats::TimePlayed = 0;
+    });
+
+    VersionControl::AddPatch("1.6.0", [] () {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch 1.6.0 POST" << std::endl;
+
+        Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.1f;
+        Ped::CHANCE_PED_CONSUME_DRUGS = 0.2f;
     });
 
     VersionControl::ApplyPatches();

@@ -266,8 +266,8 @@ void Pullover::PullOverCar(int hVehicle)
         passenger->AddBlip();
     }
 
-    if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
-    //if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
+    //if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
+    if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
 

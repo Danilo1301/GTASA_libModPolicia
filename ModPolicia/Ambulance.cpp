@@ -261,7 +261,7 @@ void EmergencyVehicleSystem::CallVehicle(CVector location)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call vehicle at " << CVectorToString(location) << std::endl;
 
     float spawnX = 0, spawnY = 0, spawnZ = 0;
-    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(location.x + 100.0f, location.y + 100.0f, location.z, 2, &spawnX, &spawnY, &spawnZ);
+    CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(location.x + Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE, location.y + Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE, location.z, 2, &spawnX, &spawnY, &spawnZ);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "spawn vehicle at " << CVectorToString(CVector(spawnX, spawnY, spawnZ)) << std::endl;
 
@@ -297,7 +297,7 @@ void EmergencyVehicleSystem::CallVehicle(CVector location)
     }
 
     CleoFunctions::ENABLE_CAR_SIREN(ambulance, true);
-    CleoFunctions::SET_CAR_MAX_SPEED(ambulance, 50.0f);
+    CleoFunctions::SET_CAR_MAX_SPEED(ambulance, 30.0f);
     //0423: set_car 6@ improved_handling_to 1.5
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(ambulance, 2);
     
@@ -318,6 +318,7 @@ void EmergencyVehicleSystem::CallVehicle(CVector location)
 
 EmergencyVehicleSystem* Ambulance::m_AmbulanceSystem = new EmergencyVehicleSystem(416, 274, true);
 EmergencyVehicleSystem* Ambulance::m_IMLSystem = new EmergencyVehicleSystem(442, 70, false);
+float Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE = 75.0;
 
 void Ambulance::Init()
 {

@@ -1,7 +1,0 @@
-[PT-BR]
-Está pasta contêm as vozes do radio/COPOM em português, com vozes IA (em Text-To-Speech)
-Instalação é opcional
-
-[EN]
-This folder has the voices of the radio in portuguese, with AI voices (in Text-To-Speech)
-Installation is optional

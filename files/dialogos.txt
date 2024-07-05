@@ -24,3 +24,9 @@ Tenho por ~1~ e ~1~
 ~b~[Policial] ~w~Ja foi preso?
 Nunca, senhor
 Ja fui sim
+
+~b~[Policial] ~w~Correu por que?
+
+~b~[Policial] ~w~Ta com algo de errado no carro?
+Nao tem nada nao
+Tem umas coisas so

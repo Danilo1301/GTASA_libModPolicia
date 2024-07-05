@@ -35,3 +35,23 @@ https://www.lcpdfr.com/downloads/gta5mods/audio/36345-nfs-mw-police-chatter-repl
 
 BetterDispatchAudio 2.2
 https://www.lcpdfr.com/downloads/gta5mods/audio/13350-betterdispatchaudio/
+
+Ped type
+https://gtag.sannybuilder.com/forums/index.php?showtopic=111
+Pedtype 0 = Player1
+Pedtype 1 = Player2
+Pedtype 2 = Player_NETWORK
+Pedtype 3 = Player_UNUSED
+Pedtype 4 = CIVMALE (Default)
+Pedtype 5 = CIVFEMALE
+Pedtype 6 = Cop
+Pedtype 7 = Gang1 (Ballas)
+Pedtype 8 = Gang2 (Grove Street)
+Pedtype 9 = Gang3 (LS Vagos)
+Pedtype 10 = Gang4 (SF Rifa)
+Pedtype 11 = Gang5 (Da Nang Boys)
+Pedtype 12 = Gang6 (Mafia)
+Pedtype 13 = Gang7 (Mountain Cloud)
+Pedtype 14 = Gang8 (Varrio Los Aztecas)
+Pedtype 15 = Gang9 (Unused)
+Pedtype 16 = Gang10 (Unused)

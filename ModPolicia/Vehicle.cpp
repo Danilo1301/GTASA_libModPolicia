@@ -6,6 +6,7 @@
 #include "Widgets.h"
 #include "Peds.h"
 #include "SoundSystem.h"
+#include "Debug.h"
 
 #include "windows/WindowCarMenu.h"
 
@@ -65,16 +66,25 @@ void Vehicle::Update(int dt)
 
     if(!CleoFunctions::CAR_DEFINED(hVehicle)) return;
 
-    UpdateLeaveScene();
+    UpdateLeaveScene(dt);
 }
 
-void Vehicle::UpdateLeaveScene()
+void Vehicle::UpdateLeaveScene(int dt)
 {
     if(actionStatus == ACTION_STATUS::WAITING_FOR_PEDS_TO_ENTER_CAR_AND_LEAVE)
     {   
         auto isPedsOnCar = IsAllDriverAndPassengersInsideCar();
-
+        
         if(isPedsOnCar)
+        {
+            timeOnCar += dt;
+        } else {
+            timeOnCar = 0;
+        }
+
+        Debug::AddLine(1, timeOnCar);
+
+        if(isPedsOnCar && timeOnCar > 1000)
         {
             int amountOfPeds = GetDriverAndPassengers().size();
 

@@ -196,8 +196,17 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                     Log::Level(LOG_LEVEL::LOG_BOTH) << "vehicle status is NONE" << std::endl;
 
                     auto allPassengersInSeat = vehicle->IsAllDriverAndPassengersInsideCar();
-
+                    
                     if(allPassengersInSeat)
+                    {
+                        vehicle->timeOnCar += dt;
+                    } else {
+                        vehicle->timeOnCar = 0;
+                    }
+
+                    Debug::AddLine(1, vehicle->timeOnCar);
+
+                    if(allPassengersInSeat && vehicle->timeOnCar > 1000)
                     {
                         Log::Level(LOG_LEVEL::LOG_BOTH) << "vehicle status was NONE, but is now driving to criminal" << std::endl;
 
@@ -549,12 +558,7 @@ void Backup::SpawnBackupCar(BackupVehicle* backupVehicle, CVector position)
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "creating driver model: " << backupVehicle->pedModelId << std::endl;
 
-    //23 = special
-    //6 = cop
-    //4 = civ male
-    //to fix a issue
-    int type = 4;
-    //if(backupVehicle->pedModelId == 284) type = 23;
+    int type = 8;
 
     int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, type, backupVehicle->pedModelId);
     auto pedDriver = Peds::TryCreatePed(driver);

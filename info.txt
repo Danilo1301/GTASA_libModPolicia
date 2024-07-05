@@ -194,16 +194,21 @@ Fixing chase:
 [X] ADD: make radio buttons transparent
 
 [1.6.1]
-[ ] FIX: npcs shooting each other
-[ ] FIX: paramedics dont go to the vehicle if they are too far
-[ ] FIX: remove weapon from hand when pullover
-[ ] ADD: audio variation (not for dialogues yet)
-[ ] CHANGE: check vehicle plate
+[X] FIX: remove weapon from hand when pullover
+[X] ADD: audio variation (not for dialogues yet)
+[X] CHANGE: check vehicle plate
+[?] FIX: npcs shooting each other
+[X] CHANGE: make ped face front when carrying
+[X] ADD: ini to change ambulance spawn distance
+[X] CHANGE: reduce chance to spawn with drugs
+[X] CHANGE: changed the way he checks imei
+[X] CHANGE: new voices
+[X] FIX: dialogue arrested / crimes
+
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
+[ ] FIX: paramedics dont go to the vehicle if they are too far
 
-* Danilo faz um sistema pra quando o Cj pegar o npc o npc ficar sempre de costas pro Cj sem virar
 
-* ambulancia spawnar mais perto (configurar no ini)
 
 * bug dos paramédicos e IML não consiguir voltar pro carro se for reanimar corpo muito longe
 
@@ -211,13 +216,10 @@ Fixing chase:
 
 * quando você customiza o tamanho do menu menu não salva caso eu feche o jogo e entre de novo
 
-* diminuir os npc com entorpecentes
-
 (CL•)
 * add para ambulância não ficar batendo pow
 
 [ ] ADD: make ambulance sometimes cant save ped
-
 [ ] ADD: customize button to accept callout
 [ ] ADD: audio when helicopter looses the suspect
 [ ] Check bug where scorch car just ignores the suspect
@@ -228,22 +230,21 @@ Fixing chase:
 --------------------------
 Notes:
 
-Explicar melhor oq cada pasta faz
-Colocar créditos do novo audio dispatch
-
-[ ] chase: ped->willShootAtCops = false //CHANGE THIS
-[ ] pullover: if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
-[ ] ped: this->willShootAtCops = true;
+[X] chase: ped->willShootAtCops = false //CHANGE THIS
+[X] pullover: if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
+[X] ped: this->willShootAtCops = true;
 
 [x] Changed chance of ped reacting to pullover
-[ ] Add callout_chase wav sound (?)
 [X] Changed willShootAtCops chance and chance of vehicle having guns
-[ ] Changed callout chances (Callouts::m_Callouts)
+[X] Changed callout chances (Callouts::m_Callouts)
 [X] Changed CALLOUT_DISTANCE
 [X] Mention the radio sounds credits
 [X] Remove test audios
 [X] Changed Item_Type::BEER chance
 [X] Changed chances: CHANCE_PED_CONSUME_DRUGS & CHANCE_PED_BEEING_DRUG_DEALER
+
+Explicar melhor oq cada pasta faz
+Colocar créditos do novo audio dispatch
 
 ---------------------------
 Sugestoes:

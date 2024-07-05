@@ -240,9 +240,8 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "MakeCarStartRunning" << std::endl;
 
-    //ped->willShootAtCops = Mod::CalculateProbability(0.3f);
     if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;
-    ped->willShootAtCops = false;
+    //ped->willShootAtCops = false;
 
     //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX1", ped->willShootAtCops ? 1 : 0, 0, 0, 3000, 1);
 
@@ -266,15 +265,15 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
     00A8: set_car 3@ to_psycho_driver
     */
 
-    auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
-    auto vehicleAngle = CleoFunctions::GET_CAR_Z_ANGLE(vehicle->hVehicle);
+    //auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+    //auto vehicleAngle = CleoFunctions::GET_CAR_Z_ANGLE(vehicle->hVehicle);
 
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->hVehicle, 2);
     CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
     CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicle->hVehicle);
 
-    CleoFunctions::PUT_CAR_AT(vehicle->hVehicle, vehiclePosition.x, vehiclePosition.y, vehiclePosition.z);
-    CleoFunctions::SET_CAR_Z_ANGLE(vehicle->hVehicle, vehicleAngle);
+    //CleoFunctions::PUT_CAR_AT(vehicle->hVehicle, vehiclePosition.x, vehiclePosition.y, vehiclePosition.z);
+    //CleoFunctions::SET_CAR_Z_ANGLE(vehicle->hVehicle, vehicleAngle);
 
     m_ChasingPed = ped;
 
@@ -340,11 +339,13 @@ Barrier* Chase::AddBarrier(CVector position, int objectId, int carModelId, int p
 
     CleoFunctions::SET_OBJECT_Z_ANGLE(object, angle);
     
+    int pedType = 8;
+
     CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(car, 2.7, 2.2, 0, &x, &y, &z);
-    auto ped1 = barrier->ped1 = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, pedModelId, x, y, z);
+    auto ped1 = barrier->ped1 = CleoFunctions::CREATE_ACTOR_PEDTYPE(pedType, pedModelId, x, y, z);
 
     CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(car, 2.7, -2.2, 0, &x, &y, &z);
-    auto ped2 = barrier->ped2 = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, pedModelId, x, y, z);
+    auto ped2 = barrier->ped2 = CleoFunctions::CREATE_ACTOR_PEDTYPE(pedType, pedModelId, x, y, z);
 
     auto marker = barrier->marker = CleoFunctions::CREATE_MARKER_AT(x, y, z, 2, 3);
 

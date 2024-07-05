@@ -70,11 +70,13 @@ public:
 
     bool freezeCarPosition = false;
 
+    unsigned int timeOnCar = 0;
+
     Vehicle(int hVehicle);
 	~Vehicle();
 
     void Update(int dt);
-    void UpdateLeaveScene();
+    void UpdateLeaveScene(int dt);
     void UpdateCarMenuWidget();
 
     void UpdateInventory();

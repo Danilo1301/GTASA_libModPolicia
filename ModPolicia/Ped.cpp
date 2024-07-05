@@ -8,8 +8,8 @@
 extern void* (*GetPedFromRef)(int);
 
 float Ped::CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME = 0.1f;
-float Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.2f;
-float Ped::CHANCE_PED_CONSUME_DRUGS = 0.4f;
+float Ped::CHANCE_PED_BEEING_DRUG_DEALER = 0.1f;
+float Ped::CHANCE_PED_CONSUME_DRUGS = 0.2f;
 float Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE = 0.2f;
 float Ped::CHANCE_PED_BEEING_WANTED = 0.1f;
 float Ped::CHANCE_PED_RESISTING_PULLOVER = 0.08f;
@@ -117,6 +117,7 @@ void Ped::Update(int dt)
         if(!CleoFunctions::ACTOR_PERFORMING_ANIMATION(hPed, "handsup"))
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Performing animation: handsup" << std::endl;
+            CleoFunctions::CLEAR_ACTOR_TASK(hPed);
             CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
         }
     }

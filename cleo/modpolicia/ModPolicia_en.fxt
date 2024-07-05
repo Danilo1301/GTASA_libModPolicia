@@ -3,7 +3,7 @@ MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
 MPFX4 <
 MPFX5 >
-MPFX6 Police Mod v1.6.0 (by Danilo1301)
+MPFX6 Police Mod v1.6.1 (by Danilo1301)
 MPFX7 Close
 MPFX8 Back
 MPFX9 Edit position
@@ -214,6 +214,10 @@ MPFX213 Toni Wall
 MPFX214 Freeze chase car
 MPFX215 Camera
 MPFX216 Enable
+MPFX217 ~b~[Officer] ~w~Dispatch, I need to check a IMEI...
+MPFX218 ~b~[Officer] ~w~Is there something illegal in the car?
+MPFX219 No, there's nothing
+MPFX220 There are some stuff
 
 //Translated by CHAT-GPT & me (xd)
 //Translation might be VERY wrong, but I did my best :v

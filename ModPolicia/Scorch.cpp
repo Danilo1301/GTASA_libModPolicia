@@ -304,7 +304,7 @@ void Scorch::CarryPed(Ped* ped)
 
     CleoFunctions::ENABLE_ACTOR_COLLISION_DETECTION(ped->hPed, false);
 
-    auto angleLimit = 360.0f; //or 360.0f
+    auto angleLimit = 0.0f; //or 360.0f
     auto actorOffset = CVector(0, 1, 0);
     CleoFunctions::PUT_ACTOR_INTO_TURRET_ON_OBJECT(ped->hPed, object, actorOffset.x, actorOffset.y, actorOffset.z, 0, angleLimit, 0);
 }

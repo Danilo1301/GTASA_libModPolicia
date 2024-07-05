@@ -18,11 +18,11 @@ float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT,             81, 0.0f, "callouts/CALLOUT_ASSAULT.wav"},
-    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED,    89, 0.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
-    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE,      97, 0.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
+    {CALLOUT_TYPE::CALLOUT_ASSAULT,             81, 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
+    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED,    89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
+    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE,      97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
     {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION,      114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"},
-    {CALLOUT_TYPE::CALLOUT_CHASE,               160, 0.0f, "callouts/CALLOUT_CHASE.wav"}
+    {CALLOUT_TYPE::CALLOUT_CHASE,               160, 1.0f, "callouts/CALLOUT_CHASE.wav"}
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
