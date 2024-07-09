@@ -283,6 +283,8 @@ void ModConfig::SaveSettings()
     generalSection->AddFloat("spawn_emergency_vehicles_distance", Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
     generalSection->AddLine("");
 
+    generalSection->AddFloat("chase_vehicle_max_speed", Chase::CHASE_VEHICLE_MAX_SPEED);
+
     //
 
     auto chancesSection = file.AddSection("Chances");
@@ -449,6 +451,7 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("start_game_with_radio", &ModConfig::StartGameWithRadio);  
         generalSection->GetBoolFromInt("transparent_radio_buttons", &WindowRadio::m_TransparentButtons);
         generalSection->GetFloat("spawn_emergency_vehicles_distance", &Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
+        generalSection->GetFloat("chase_vehicle_max_speed", &Chase::CHASE_VEHICLE_MAX_SPEED);
     }
 
     //
@@ -634,6 +637,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.5.0");
     VersionControl::AddVersion("1.6.0");
     VersionControl::AddVersion("1.6.1");
+    VersionControl::AddVersion("1.6.2");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }

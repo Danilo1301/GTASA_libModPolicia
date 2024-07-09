@@ -47,6 +47,9 @@ void* (*GetVehicleFromRef)(int);
 int (*GetPedRef)(int);
 void* (*GetPedFromRef)(int);
 
+RpClump* (*RpClumpForAllAtomics)(RpClump* clump, RpAtomicCallBack callback, void* pData);
+RpGeometry* (*RpGeometryForAllMaterials)(RpGeometry* geometry, RpMaterialCallBack fpCallBack, void* pData);
+
 CCamera* camera;
 bool* userPaused;
 bool* codePaused;
@@ -246,7 +249,12 @@ extern "C" void OnModLoad()
     SET_TO(GetVehicleFromRef, aml->GetSym(hGTASA, "_ZN6CPools10GetVehicleEi"));
     SET_TO(GetPedRef, aml->GetSym(hGTASA, "_ZN6CPools9GetPedRefEP4CPed"));
     SET_TO(GetPedFromRef, aml->GetSym(hGTASA, "_ZN6CPools6GetPedEi"));
+
+    SET_TO(RpClumpForAllAtomics, aml->GetSym(hGTASA, "_Z20RpClumpForAllAtomicsP7RpClumpPFP8RpAtomicS2_PvES3_"));
+    SET_TO(RpGeometryForAllMaterials, aml->GetSym(hGTASA, "_Z25RpGeometryForAllMaterialsP10RpGeometryPFP10RpMaterialS2_PvES3_"));
     
+    
+
     HOOKPLT(UpdateGameLogic, gameAddr + 0x66FE58);
 
     //

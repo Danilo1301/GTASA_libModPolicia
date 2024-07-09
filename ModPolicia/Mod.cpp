@@ -31,6 +31,9 @@
 
 extern CVector2D *m_vecCachedPos;
 
+extern RpClump* (*RpClumpForAllAtomics)(RpClump* clump, RpAtomicCallBack callback, void* pData);
+extern RpGeometry* (*RpGeometryForAllMaterials)(RpGeometry* geometry, RpMaterialCallBack fpCallBack, void* pData);
+
 const char* Mod::m_Version = "1.6.1";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
@@ -45,6 +48,8 @@ CAudioStream* test3dAudio = NULL;
 
 std::vector<int> modelsToLoad;
 //std::vector<int> loadedModels;
+
+bool appliedTest = false;
 
 void Mod::Update(int dt)
 {
@@ -159,6 +164,8 @@ void Mod::Update(int dt)
 
     if(CleoFunctions::PLAYER_DEFINED(0))
     {
+
+
         if(!hasCleoInitialized)
         {
             hasCleoInitialized = true;
@@ -564,3 +571,49 @@ void Mod::ShowCredits()
 {
     CleoFunctions::SHOW_TEXT_BOX("MPFX140"); //mod policia credits
 }
+
+/*
+if(CleoFunctions::IS_CHAR_IN_ANY_CAR(GetPlayerActor()) && !appliedTest)
+{
+    appliedTest = true;
+
+    auto carHandle = CleoFunctions::ACTOR_USED_CAR(GetPlayerActor());
+
+    auto vehicle = Vehicles::GetVehicleByHandle(carHandle);
+    auto pVehicle = vehicle->pVehicle;
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "placement: " << CVectorToString(pVehicle->GetPlacement()->pos) << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "matrix: " << CVectorToString(pVehicle->GetMatrix()->at) << std::endl;
+
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "pos: " << CVectorToString(pVehicle->m_placement.pos) << std::endl;
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "at: " << CVectorToString(pVehicle->m_matrix->at) << std::endl;
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "m_pRwClump: " << pVehicle->m_pRwClump << std::endl;
+
+    auto clump = pVehicle->m_pRwClump;
+
+    RpClumpForAllAtomics(clump, [](RpAtomic* atomic, void* data) {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "atomic: " << atomic << std::endl;
+
+        if (atomic->geometry)
+        {
+            auto geometry = atomic->geometry;
+
+            
+            RpGeometryForAllMaterials(geometry, [](RpMaterial* material, void* data) {
+                
+                Log::Level(LOG_LEVEL::LOG_BOTH) << "material: " << material << std::endl;
+
+                material->color = { 255, 0, 0, 255 };
+
+                return material;
+            }, 0);
+            
+        }
+
+        return atomic;
+    }, (void*)((uint32_t)(0)));
+}
+*/

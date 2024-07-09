@@ -28,6 +28,8 @@ struct Barrier {
 
 class Chase {
 public:
+    static float CHASE_VEHICLE_MAX_SPEED;
+
     static Ped* m_ChasingPed;
     static std::vector<Barrier*> m_Barriers;
     static std::vector<BarrierModel> m_BarrierModels;

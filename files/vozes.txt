@@ -7,16 +7,25 @@ Policial:
 (CHECK_VEHICLE_PLATE) COPOM, consulta de emplacamento...
 (CHECK_ID) COPOM, consulta de individuo...
 (CHECK_IMEI) COPOM, consulta de IMEI...
-COPOM, solicito apoio acompanhamento
-COPOM, solicito apoio da ROCAM
-COPOM, solicito uma viatura para transportar um suspeito
-COPOM, solicito apoio do Aguia
-COPOM, solicito apoio de uma viatura especial
-COPOM, solicito apoio de um guincho
-COPOM, solicito apoio da ambulancia
-COPOM, solicito apoio do IML
-COPOM, solicito unidade de bloqueio na pista
-COPOM, solicito unidade com espinhos na pista
+
+(REQUEST_BACKUP_LS) COPOM, solicito apoio [viatura LS]
+(REQUEST_BACKUP_BIKE) COPOM, solicito apoio [copbike]
+(REQUEST_BACKUP_FBI) COPOM, solicito apoio [fbi]
+(REQUEST_BACKUP_SF) COPOM, solicito apoio [viatura SF]
+(REQUEST_BACKUP_LV) COPOM, solicito apoio [viatura LV]
+(REQUEST_BACKUP_RANGER) COPOM, solicito apoio [ranger]
+(REQUEST_BACKUP_HELI) COPOM, solicito apoio [heli]
+(REQUEST_BACKUP_SWAT) COPOM, solicito apoio [swat]
+(UNIT_RESPONDING_DISPATCH) *apoio diznendo que está chegando*
+(HELI_APPROACHING_DISPATCH) *helicoptero dizendo que está chegando*
+
+(REQUEST_ROADBLOCK) Pedir barreira
+(REQUEST_SPIKES) Pedir espinhos
+
+(ROADBLOCK_BREACHED) Barreira comprometida
+(ROADBLOCK_HIT) Suspeito bateu na barreira
+(SPIKES_DEPLOYED) Espinhos colocados no chão
+
 (ACCEPT_CALLOUT) QSL COPOM, viatura se deslocando para o local
 (REQUEST_AMBULANCE) COPOM, solicito apoio da ambulancia
 (REQUEST_CAR_TO_TRANSPORT_SUSPECT) COPOM, solicito uma viatura para transportar um suspeito
@@ -49,10 +58,10 @@ Ampl: 20
 Evenlabs:
 https://elevenlabs.io/app/speech-synthesis
 
-Voz: Vagner De souza (COPOM ou POLICIAL?)
+Voz: Vagner De souza (COPOM)
 Voz: Bia - Brazilian (COPOM)
-Voz: Victor Jose (tem sotaque)
 Voz: Otto de La Luna (POLICIAL)
+Voz: Victor Jose (tem sotaque)
 
 Effect > Filter curve EQ
 Preset: RADIO

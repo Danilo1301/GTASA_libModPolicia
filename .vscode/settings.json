@@ -72,6 +72,7 @@
         "set": "cpp",
         "stack": "cpp",
         "stop_token": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "*.def": "cpp"
     }
 }

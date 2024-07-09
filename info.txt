@@ -205,6 +205,9 @@ Fixing chase:
 [X] CHANGE: new voices
 [X] FIX: dialogue arrested / crimes
 
+[1.6.2]
+[X] ADD: max speed to chasing vehicle (to .ini)
+
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far
 

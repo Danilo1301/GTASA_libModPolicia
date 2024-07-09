@@ -15,6 +15,8 @@
 const int BARRIER_MODEL = 1459;
 const int SPIKES_MODEL = 2899;
 
+float Chase::CHASE_VEHICLE_MAX_SPEED = 30.0f;
+
 Ped* Chase::m_ChasingPed = NULL;
 std::vector<Barrier*> Chase::m_Barriers;
 std::vector<BarrierModel> Chase::m_BarrierModels = {
@@ -269,7 +271,7 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
     //auto vehicleAngle = CleoFunctions::GET_CAR_Z_ANGLE(vehicle->hVehicle);
 
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->hVehicle, 2);
-    CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, 30.0f);
+    CleoFunctions::SET_CAR_MAX_SPEED(vehicle->hVehicle, CHASE_VEHICLE_MAX_SPEED);
     CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicle->hVehicle);
 
     //CleoFunctions::PUT_CAR_AT(vehicle->hVehicle, vehiclePosition.x, vehiclePosition.y, vehiclePosition.z);
