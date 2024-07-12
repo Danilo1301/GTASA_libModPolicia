@@ -24,11 +24,10 @@ SprintFixByYuna.csa
 ( exemplo: para /Android/data/ro.samp_mobile.game/mods )<br>
 
 1. Baixe o **ModPolicia-0.0.0__pt-br.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
-2. Abra a pasta "1. libs necessárias" e copie a pasta "mods" para dentro da sua pasta "mods" (em com.rockstargames.gtasa/mods)
-3. Abra a pasta "2. dentro da pasta do jogo", copie as pastas "mods" e "configs" e cole na pasta raiz do jogo (em com.rockstargames.gtasa)
-4. Abra a pasta "3. dentro da CLEO" e copie o "ModPolicia.csa" e o "ModPolicia.fxt" para a pasta raiz do seu jogo (em com.rockstargames.gtasa)
-5. OPCIONAL: Para ouvir os sons, abra a pasta "lib opcional (para tocar sons)" e copie a pasta "mods" para a sua pasta "mods" (em com.rockstargames.gtasa/mods)
-6. Coloque as texturas do mod no seu 'txd.txt' usando o 'TXD Tool' (Tutoriais abaixo)
+2. Abra a pasta "1. libs necessárias" e copie a pasta "mods" para dentro da pasta raíz do jogo (em com.rockstargames.gtasa)
+3. Abra a pasta "2. dentro da pasta do jogo", copie a pasta "com.rockstargames.gtasa" e cole na pasta onde fica a sua data (ex: em Android/data)
+4. OPCIONAL: Para ouvir os sons, abra a pasta "lib opcional (para tocar sons)" e copie a pasta "mods" para a sua pasta "mods" (em com.rockstargames.gtasa/mods)
+5. Coloque as texturas do mod no seu 'txd.txt' usando o 'TXD Tool' (Tutoriais abaixo)
 
 <h1>Como usar</h1>
 
