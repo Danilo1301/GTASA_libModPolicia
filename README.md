@@ -14,7 +14,7 @@ SprintFixByYuna.csa
 
 <h1>Instalação</h1>
 
-* Libs necessárias:
+## Libs necessárias
   * AML (https://github.com/RusJJ/AndroidModLoader)
   * SAUtils (https://github.com/AndroidModLoader/SAUtils)
   * CLEO Mod (https://github.com/AndroidModLoader/GTA_CLEOMod)
@@ -23,6 +23,14 @@ SprintFixByYuna.csa
 ( as libs já vem dentro do .zip, em 'libs necessárias', basta apenas jogar os arquivos .so dentro da sua pasta /mods )<br>
 ( exemplo: para /Android/data/ro.samp_mobile.game/mods )<br>
 
+## APK
+Baixe e instale o APK mais recente do Discord do AML
+
+Link do Discord do AML: https://discord.com/invite/aml-android-mod-loader-877187821511794730
+
+O APK se encontra no canal '⭐official-apk-plugins', depois em 'APK+INFO'
+
+## Como instalar
 1. Baixe o **ModPolicia-0.0.0__pt-br.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
 2. Abra a pasta "1. libs necessárias" e copie a pasta "mods" para dentro da pasta raíz do jogo (em com.rockstargames.gtasa)
 3. Abra a pasta "2. dentro da pasta do jogo", copie a pasta "com.rockstargames.gtasa" e cole na pasta onde fica a sua data (ex: em Android/data)
