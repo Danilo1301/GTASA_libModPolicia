@@ -73,6 +73,7 @@
         "stack": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "*.def": "cpp"
+        "*.def": "cpp",
+        "coroutine": "cpp"
     }
 }

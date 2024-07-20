@@ -7,12 +7,15 @@
 #include "Vehicles.h"
 #include "Trunk.h"
 #include "Scorch.h"
+#include "ModConfig.h"
+
+#include "Log.h"
+
+#include "iniconfig/INIFile.h"
 
 #include "windows/WindowPD_Menu.h"
 
-Pickup* PoliceDepartment::m_PickupMenu = new Pickup(CVector(253.4084, 68.5503, 1003.6406), 1210);
-Pickup* PoliceDepartment::m_PickupEquipment = new Pickup(CVector(253.7876, 76.5393, 1003.6406), 1242);
-Pickup* PoliceDepartment::m_PickupPartner = new Pickup(CVector(1541.6024, -1657.0557, 13.5595), 1314);
+std::vector<Base*> PoliceDepartment::m_Bases;
 
 int PoliceDepartment::m_PartnerWeaponIndex = 0;
 int PoliceDepartment::m_PartnerSkinIndex = 0;
@@ -55,33 +58,47 @@ int PoliceDepartment::m_MoneyReward = 350;
 
 CVector PoliceDepartment::m_SpawnParterAtPosition = CVector(0, 0, 0);
 
+int PoliceDepartment::m_PickupDutyId = 1210;
+int PoliceDepartment::m_PickupPartnerId = 1314;
+int PoliceDepartment::m_PickupEquipmentId = 1242;
+
 void PoliceDepartment::Init()
 {
-    
+    /*
+    TEST BASES:
+
+    //base ls
+    Base* base = new Base();
+    base->m_PickupDuty->position = CVector(253.4084, 68.5503, 1003.6406);
+    m_Bases.push_back(base);
+
+    //base pmesp
+    Base* base2 = new Base();
+    base2->m_PickupDuty->position = CVector(2550.25, -1791.64, 13.69);
+    m_Bases.push_back(base2);
+    */
 }
 
 void PoliceDepartment::Update(int dt)
 {
     UpdateTrunkScorch(dt);
 
-    m_PickupMenu->Update(dt);
-    //m_PickupEquipment->Update(dt);
-    m_PickupPartner->Update(dt);
-
-    if(m_PickupMenu->playerJustPickedPickup)
+    for(auto base : m_Bases)
     {
-        WindowPD_Menu::Create();
-    }
+        base->m_PickupDuty->Update(dt);
+        base->m_PickupEquipment->Update(dt);
+        base->m_PickupPartner->Update(dt);
 
-    if(m_PickupEquipment->playerJustPickedPickup)
-    {
-        
-    }
+        if(base->m_PickupDuty->playerJustPickedPickup)
+        {
+            WindowPD_Menu::Create();
+        }
 
-    if(m_PickupPartner->playerJustPickedPickup)
-    {
-        m_SpawnParterAtPosition = m_PickupPartner->position;
-        WindowPD_Menu::CreatePartnerMenu();
+        if(base->m_PickupPartner->playerJustPickedPickup)
+        {
+            m_SpawnParterAtPosition = base->m_PickupPartner->position;
+            WindowPD_Menu::CreatePartnerMenu();
+        }
     }
 }
 
@@ -91,8 +108,9 @@ void PoliceDepartment::UpdateTrunkScorch(int dt)
     auto playerPosition = Mod::GetPedPosition(playerActor);
 
     auto prevPDPosition = m_SphereAndMarkerPosition;
-    auto closestPD = Locations::GetClosestPoliceDepartment();
-    auto distanceFromPD = DistanceBetweenPoints(playerPosition, closestPD.position);
+    auto closestBase = GetClosestBase();
+    auto basePosition = closestBase->scorchSuspectPosition;
+    auto distanceFromPD = DistanceBetweenPoints(playerPosition, basePosition);
 
     auto carryingPeds = false;
     auto vehicleHandle = Mod::GetVehiclePedIsUsing(playerActor);
@@ -127,9 +145,9 @@ void PoliceDepartment::UpdateTrunkScorch(int dt)
     }
     
     //reset if closest dp changes
-    if(DistanceBetweenPoints(prevPDPosition, closestPD.position) > 1.0f)
+    if(DistanceBetweenPoints(prevPDPosition, basePosition) > 1.0f)
     {
-        m_SphereAndMarkerPosition = closestPD.position;
+        m_SphereAndMarkerPosition = basePosition;
 
         if(m_PDSphere != 0)
         {
@@ -149,7 +167,7 @@ void PoliceDepartment::UpdateTrunkScorch(int dt)
     {
         if(m_PDSphere == 0)
         {
-            m_PDSphere = CleoFunctions::CREATE_SPHERE(closestPD.position.x, closestPD.position.y, closestPD.position.z, 2.0f);
+            m_PDSphere = CleoFunctions::CREATE_SPHERE(basePosition.x, basePosition.y, basePosition.z, 2.0f);
         }
     }
 
@@ -167,7 +185,7 @@ void PoliceDepartment::UpdateTrunkScorch(int dt)
     {
         if(m_PDMarker == 0)
         {
-            m_PDMarker = CleoFunctions::CreateMarker(closestPD.position.x, closestPD.position.y, closestPD.position.z, 0, 3, 3);
+            m_PDMarker = CleoFunctions::CreateMarker(basePosition.x, basePosition.y,basePosition.z, 0, 3, 3);
         }
     } else {
         if(m_PDMarker != 0)
@@ -212,4 +230,91 @@ void PoliceDepartment::RemoveAllPartners()
         CleoFunctions::DESTROY_ACTOR(partner->hPed);
     }
     m_Partners.clear();
+}
+
+void PoliceDepartment::LoadBases()
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "PoliceDepartment: LoadBases" << std::endl;
+
+    auto basesPath = ModConfig::GetConfigFolder() + "/data/bases/";
+
+    auto files = ModConfig::GetFilesName(basesPath);
+    for(auto file : files)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading base: " << file << std::endl;
+
+        auto filePath = basesPath + "/" + file;
+
+        Base* base = new Base();
+
+        base->m_PickupPartner->pickupModelId = m_PickupPartnerId;
+        base->m_PickupDuty->pickupModelId = m_PickupDutyId;
+        base->m_PickupEquipment->pickupModelId = m_PickupEquipmentId;
+
+        INIFile iniFile;
+        if (iniFile.Read(filePath))
+        {   
+            if(auto section = iniFile.GetFirstSection("BASE"))
+            {
+                base->name = section->GetString("name");
+            }
+            
+            if(auto section = iniFile.GetFirstSection("PICKUP_DUTY"))
+            {
+                section->GetCVector("position", &base->m_PickupDuty->position);
+            }
+
+            if(auto section = iniFile.GetFirstSection("PICKUP_EQUIPMENT"))
+            {
+                section->GetCVector("position", &base->m_PickupEquipment->position);
+            }
+
+            if(auto section = iniFile.GetFirstSection("PICKUP_PARTNER"))
+            {
+                section->GetCVector("position", &base->m_PickupPartner->position);
+            }
+
+            if(auto section = iniFile.GetFirstSection("SPAWN_VEHICLE"))
+            {
+                section->GetCVector("position", &base->spawnVehiclePosition);
+                section->GetFloat("angle", &base->spawnVehicleAngle);
+            }
+
+            if(auto section = iniFile.GetFirstSection("SCORCH_CRIMINAL"))
+            {
+                section->GetCVector("position", &base->scorchSuspectPosition);
+            }
+
+        } else {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading " << file << std::endl;
+        }
+
+        m_Bases.push_back(base);
+    }
+}
+
+Base* PoliceDepartment::GetClosestBase()
+{
+    Base* closest = m_Bases[0];
+    double closestDistance = INFINITY;
+
+    for(size_t i = 0; i < m_Bases.size(); i++)
+    {
+        auto base = m_Bases[i];
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+        float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
+        CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
+
+        auto distance = DistanceBetweenPoints(base->scorchSuspectPosition, CVector(playerX, playerY, playerZ));
+
+        if(distance < closestDistance)
+        {
+            closestDistance = distance;
+            closest = base;
+        }
+    }
+
+    return closest;
 }

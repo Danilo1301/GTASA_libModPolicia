@@ -49,7 +49,7 @@ bool file_exists(const std::string& name) {
 std::vector<std::string> get_directories_name(const std::string& s)
 {
     std::vector<std::string> r;
-    for (auto& p : std::filesystem::recursive_directory_iterator(s))
+    for (auto& p : std::filesystem::directory_iterator(s))
         if (p.is_directory())
             r.push_back(p.path().filename().string());
     return r;
@@ -58,7 +58,7 @@ std::vector<std::string> get_directories_name(const std::string& s)
 std::vector<std::string> get_files_name(const std::string& s)
 {
     std::vector<std::string> r;
-    for (auto& p : std::filesystem::recursive_directory_iterator(s))
+    for (auto& p : std::filesystem::directory_iterator(s))
         if (!p.is_directory())
             r.push_back(p.path().filename().string());
     return r;
@@ -185,6 +185,11 @@ bool ModConfig::FileExists(std::string path)
 std::vector<std::string> ModConfig::GetDirectoriesName(std::string path)
 {
     return get_directories_name(path);
+}
+
+std::vector<std::string> ModConfig::GetFilesName(std::string path)
+{
+    return get_files_name(path);
 }
 
 void ModConfig::ConfigDelete(std::string path)
@@ -359,9 +364,9 @@ void ModConfig::SaveDataSettings()
     INIFile pickupsFile;
 
     auto pickupsSection = pickupsFile.AddSection("PICKUPS");
-    pickupsSection->AddInt("pickup_equipment_model_id", PoliceDepartment::m_PickupEquipment->pickupModelId);
-    pickupsSection->AddInt("pickup_menu_model_id", PoliceDepartment::m_PickupMenu->pickupModelId);
-    pickupsSection->AddInt("pickup_partner_model_id", PoliceDepartment::m_PickupPartner->pickupModelId);
+    pickupsSection->AddInt("pickup_equipment_model_id", PoliceDepartment::m_PickupEquipmentId);
+    pickupsSection->AddInt("pickup_duty_id", PoliceDepartment::m_PickupDutyId);
+    pickupsSection->AddInt("pickup_partner_model_id", PoliceDepartment::m_PickupPartnerId);
 
     pickupsFile.Save(dataDir + "pickups.ini");
     pickupsFile.Destroy();
@@ -403,6 +408,8 @@ void ModConfig::Load()
 
     LoadSettings();
     LoadStats();
+
+    PoliceDepartment::LoadBases();
 }
 
 void ModConfig::LoadSettings()
@@ -553,9 +560,9 @@ void ModConfig::LoadDataSettings()
         auto sections = pickupFile.GetSections("PICKUPS");
         auto section = sections[0];
 
-        section->GetInt("pickup_equipment_model_id", &PoliceDepartment::m_PickupEquipment->pickupModelId);
-        section->GetInt("pickup_menu_model_id", &PoliceDepartment::m_PickupMenu->pickupModelId);
-        section->GetInt("pickup_partner_model_id", &PoliceDepartment::m_PickupPartner->pickupModelId);
+        section->GetInt("pickup_equipment_model_id", &PoliceDepartment::m_PickupEquipmentId);
+        section->GetInt("pickup_duty_id", &PoliceDepartment::m_PickupDutyId);
+        section->GetInt("pickup_partner_model_id", &PoliceDepartment::m_PickupPartnerId);
     } else {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading pickups.ini (Not found)" << std::endl;
     }

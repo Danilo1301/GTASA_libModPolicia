@@ -379,9 +379,9 @@ void WindowRadio::ToggleRadio(bool enabled)
     if(enabled == m_Enabled) return;
 
     m_Enabled = enabled;
-    m_CurrentChannel = 0;
-    m_CurrentFrequency = 0;
-    m_ChangingChannels = true;
+    //m_CurrentChannel = 0;
+    //m_CurrentFrequency = 0;
+    //m_ChangingChannels = true;
 
     if(enabled)
     {

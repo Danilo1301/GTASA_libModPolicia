@@ -158,3 +158,18 @@ std::vector<INISection*> INIFile::GetSections(std::string name)
 
 	return result;
 }
+
+INISection* INIFile::GetFirstSection(std::string name)
+{
+	auto sections = GetSections(name);
+
+	if(sections.size() == 0) return NULL;
+
+	return sections[0];
+}
+
+bool INIFile::HasSection(std::string name)
+{	
+	auto sections = GetSections(name);
+	return sections.size() > 0;
+}

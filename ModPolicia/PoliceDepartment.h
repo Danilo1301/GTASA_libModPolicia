@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-#include "Pickup.h"
+#include "systems/Base.h"
 #include "Ped.h"
 
 struct Weapon {
@@ -18,9 +18,7 @@ struct PartnerSkin {
 
 class PoliceDepartment {
 public:
-    static Pickup* m_PickupMenu;
-    static Pickup* m_PickupEquipment;
-    static Pickup* m_PickupPartner;
+    static std::vector<Base*> m_Bases;
 
     static int m_PartnerWeaponIndex;
     static int m_PartnerSkinIndex;
@@ -38,10 +36,17 @@ public:
     
 	static CVector m_SpawnParterAtPosition;
 
+    static int m_PickupDutyId;
+    static int m_PickupPartnerId;
+    static int m_PickupEquipmentId;
+
     static void Init();
     static void Update(int dt);
     static void UpdateTrunkScorch(int dt);
 
     static Ped* SpawnPartner();
     static void RemoveAllPartners();
+
+    static void LoadBases();
+    static Base* GetClosestBase();
 };

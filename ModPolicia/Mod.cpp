@@ -34,7 +34,7 @@ extern CVector2D *m_vecCachedPos;
 extern RpClump* (*RpClumpForAllAtomics)(RpClump* clump, RpAtomicCallBack callback, void* pData);
 extern RpGeometry* (*RpGeometryForAllMaterials)(RpGeometry* geometry, RpMaterialCallBack fpCallBack, void* pData);
 
-const char* Mod::m_Version = "1.6.1";
+const char* Mod::m_Version = "1.6.2";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 bool Mod::m_DevModeEnabled = false;
@@ -399,9 +399,12 @@ void Mod::RequestModelsToLoad()
     //AddModelToLoad(1242); //Body armour
     //AddModelToLoad(1314); //Two-player (crashes for Leonardo Alves)
 
-    AddModelToLoad(PoliceDepartment::m_PickupEquipment->pickupModelId);
-    AddModelToLoad(PoliceDepartment::m_PickupMenu->pickupModelId);
-    AddModelToLoad(PoliceDepartment::m_PickupPartner->pickupModelId);
+    for(auto base : PoliceDepartment::m_Bases)
+    {
+        AddModelToLoad(base->m_PickupDuty->pickupModelId);
+        AddModelToLoad(base->m_PickupEquipment->pickupModelId);
+        AddModelToLoad(base->m_PickupPartner->pickupModelId);
+    }
     
     LoadRequestedModels([] () {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Models loaded!" << std::endl;

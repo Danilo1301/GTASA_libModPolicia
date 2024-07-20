@@ -207,6 +207,8 @@ Fixing chase:
 
 [1.6.2]
 [X] ADD: max speed to chasing vehicle (to .ini)
+[X] ADD: support for more bases (LS, LV, SF and custom ones!)
+[X] EDIT: edit radio to keep chanel after selecting
 
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far

@@ -12,7 +12,9 @@ Added GetBoolFromInt and AddIntFromBool to INISection
 Now it recognizes empty lines
 It recognizes lines starting with ; as a comment
 Updated GetCVectorWithDefaultValue and GetCVector
-Added 
+
+[1.2.0] 20/07/24
+Added GetFirstSection, HasSection
 */
 
 
@@ -27,4 +29,6 @@ public:
 	bool Read(std::string path);
 
 	std::vector<INISection*> GetSections(std::string name);
+	INISection* GetFirstSection(std::string name);
+	bool HasSection(std::string name);
 };
