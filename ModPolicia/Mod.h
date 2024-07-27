@@ -9,6 +9,7 @@ public:
     static bool m_Enabled;
     static bool m_DevModeEnabled;
     static int m_TestWidgetId;
+    static bool m_DrawTest;
 
     static void Update(int dt);
     static void Init();

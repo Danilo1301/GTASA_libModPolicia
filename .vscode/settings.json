@@ -74,6 +74,16 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "*.def": "cpp",
-        "coroutine": "cpp"
-    }
+        "coroutine": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "cstdarg": "cpp",
+        "future": "cpp",
+        "queue": "cpp",
+        "random": "cpp",
+        "regex": "cpp",
+        "__locale": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

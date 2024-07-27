@@ -25,6 +25,7 @@
 
 #include "systems/Skins.h"
 #include "systems/Camera.h"
+#include "systems/SocketServer.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -43,6 +44,7 @@ unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 bool Mod::m_DevModeEnabled = false;
 int Mod::m_TestWidgetId = 0;
+bool Mod::m_DrawTest = true;
 
 bool hasLoadedAnimations = false;
 //bool hasLoadedModels = false;
@@ -239,6 +241,8 @@ void Mod::Init()
     //stats
     Stats::TimesOpenedGame += 1;
     ModConfig::SaveStats();
+
+    SocketServer::Init();
 }
 
 CSprite2d testSprite;
@@ -248,44 +252,47 @@ void Mod::Draw()
     for(auto base : PoliceDepartment::m_Bases)
     {
         auto position = base->m_PickupPartner->position;
-        auto text = "~r~BASE";
+        auto text = "~r~[~w~BASE~r~]";
 
         menuVSL->DrawWorldText(text, position, CRGBA(255, 255, 255), eFontAlignment::ALIGN_CENTER);
     }
 
-    if(!testSprite.m_pTexture)
+    if(m_DrawTest)
     {
-        char path[512];
-
-        sprintf(path, "%s/test.png", ModConfig::GetConfigFolder().c_str());
-        testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
-    }
-
-    for(auto p : Peds::m_Peds)
-    {
-        auto ped = p.second;
-
-        if(!CleoFunctions::ACTOR_DEFINED(ped->hPed)) continue;
-
-        if(ped->hPed == GetPlayerActor()) continue;
-
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto playerPosition = GetPedPosition(playerActor);
-        auto pedPosition = GetPedPosition(ped->hPed);
-
-        auto distance = DistanceFromPed(ped->hPed, playerPosition);
-
-        if(distance < 20.0f)
+        if(!testSprite.m_pTexture)
         {
-            std::string text = "NPC_Ped (" + std::to_string(ped->id) + ")";
-            auto position = pedPosition + CVector(0, 0, 1.2f);
-            auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
-            imagePos.x -= 25.0f;
-            imagePos.y -= 50.0f;
+            char path[512];
 
-            menuVSL->DrawWorldText(text, position, ped->color, eFontAlignment::ALIGN_CENTER);
+            sprintf(path, "%s/test.png", ModConfig::GetConfigFolder().c_str());
+            testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
+        }
 
-            menuVSL->DrawSprite(&testSprite, imagePos, CVector2D(50, 50));
+        for(auto p : Peds::m_Peds)
+        {
+            auto ped = p.second;
+
+            if(!CleoFunctions::ACTOR_DEFINED(ped->hPed)) continue;
+
+            if(ped->hPed == GetPlayerActor()) continue;
+
+            auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+            auto playerPosition = GetPedPosition(playerActor);
+            auto pedPosition = GetPedPosition(ped->hPed);
+
+            auto distance = DistanceFromPed(ped->hPed, playerPosition);
+
+            if(distance < 20.0f)
+            {
+                std::string text = "NPC (" + std::to_string(ped->hPed) + ")";
+                auto position = pedPosition + CVector(0, 0, 1.2f);
+                auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
+                imagePos.x -= 25.0f;
+                imagePos.y -= 50.0f;
+
+                menuVSL->DrawWorldText(text, position, ped->color, eFontAlignment::ALIGN_CENTER);
+
+                menuVSL->DrawSprite(&testSprite, imagePos, CVector2D(50, 50));
+            }
         }
     }
 }

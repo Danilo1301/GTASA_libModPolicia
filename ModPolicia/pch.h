@@ -6,8 +6,10 @@
 #include <iostream>
 #include <algorithm>
 #include <filesystem>
+#include <dlfcn.h>
 //#include <windows.h>
 #include <sys/stat.h>
+#include <ctype.h>
 
 #include "SimpleGTA.h"
 
@@ -48,14 +50,14 @@ static double DistanceBetweenPoints(CVector point1, CVector point2)
 static std::string to_upper(std::string data) {
     std::for_each(data.begin(), data.end(), [](char& c) {
         c = ::toupper(c);
-        });
+    });
     return data;
 }
 
 static std::string to_lower(std::string data) {
     std::for_each(data.begin(), data.end(), [](char& c) {
         c = ::tolower(c);
-        });
+    });
     return data;
 }
 
