@@ -443,7 +443,7 @@ void Callouts::StartChaseCallout()
 
         Chase::MakeCarStartRunning(vehicle, driver);
 
-        auto spawnBackupPosition = Mod::GetCarPositionWithOffset(carHandle, CVector(0, -5.0f, 0));
+        auto spawnBackupPosition = GetCarPositionWithOffset(carHandle, CVector(0, -5.0f, 0));
 
         Backup::SpawnBackupCar(&Backup::m_DataBackupVehicles[0], spawnBackupPosition);
     });
@@ -549,7 +549,7 @@ Ped* Callouts::GetClosestCriminal(CVector fromPosition)
 
     for(auto criminal : m_Criminals)
     {
-        auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+        auto criminalPosition = GetPedPosition(criminal->hPed);
         auto distance = DistanceBetweenPoints(fromPosition, criminalPosition);
 
         if(distance < closestDistance)

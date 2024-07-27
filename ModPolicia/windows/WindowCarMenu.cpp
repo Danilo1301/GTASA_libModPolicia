@@ -105,7 +105,7 @@ void WindowCarMenu::Create(Vehicle* vehicle)
     {
         Remove();
 
-        PoliceDepartment::m_SpawnParterAtPosition = Mod::GetCarPositionWithOffset(vehicle->hVehicle, CVector(-3.0f, 0, 0));
+        PoliceDepartment::m_SpawnParterAtPosition = GetCarPositionWithOffset(vehicle->hVehicle, CVector(-3.0f, 0, 0));
         WindowPD_Menu::CreatePartnerMenu();
     };
 

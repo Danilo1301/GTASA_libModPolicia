@@ -62,6 +62,10 @@ Ped::Ped(int hPed)
 
     this->isMale = CleoFunctions::ACTOR_MALE(hPed);
     this->name = Names::GetRandomName(isMale ? SkinGenre::SKIN_MALE : SkinGenre::SKIN_FEMALE);
+
+    //test
+    this->id = GetRandomNumber(0, 200);
+    this->color = CRGBA(GetRandomNumber(0, 255), GetRandomNumber(0, 255), GetRandomNumber(0, 255));
 }
 
 Ped::~Ped()

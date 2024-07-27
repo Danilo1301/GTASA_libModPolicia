@@ -32,7 +32,7 @@ void WindowPD_Menu::Create()
             Mod::ToggleMod(true);
 
             //give radio
-            auto playerActor = Mod::GetPlayerActor();
+            auto playerActor = GetPlayerActor();
             if(!Ped::PedHasWeaponId(playerActor, 10)) CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
         };
     }

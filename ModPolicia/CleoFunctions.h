@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pch.h"
+
 #include <functional>
 
 enum WAIT_FN_STATE {
@@ -162,3 +164,58 @@ public:
 
     static int CreateMarker(float x, float y, float z, int color, int display, int size);
 };
+
+static CVector GetCarPositionWithOffset(int hVehicle, CVector offset)
+{
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, offset.x, offset.y, offset.z, &x, &y, &z);
+
+    return CVector(x, y, z);
+}
+
+static CVector GetCarPosition(int hVehicle)
+{
+    return GetCarPositionWithOffset(hVehicle, CVector(0, 0, 0));
+}
+
+static CVector GetPedPositionWithOffset(int hPed, CVector offset)
+{
+    float x = 0, y = 0, z = 0;
+    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, offset.x, offset.y, offset.z, &x, &y, &z);
+
+    return CVector(x, y, z);
+}
+
+static CVector GetPedPosition(int hPed)
+{
+    return GetPedPositionWithOffset(hPed, CVector(0, 0, 0));
+}
+
+static int GetPlayerActor()
+{
+    return CleoFunctions::GET_PLAYER_ACTOR(0);
+}
+
+static CVector GetPlayerPosition()
+{
+    return GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 0, 0));
+}
+
+static double DistanceFromPed(int hPed, CVector position)
+{
+    auto pedPosition = GetPedPosition(hPed);
+    auto distance = DistanceBetweenPoints(pedPosition, position);
+    return distance;
+}
+
+static bool IsActorAliveAndDefined(int hPed)
+{
+    return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);
+}
+
+static int GetVehiclePedIsUsing(int hPed)
+{
+    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed)) return 0;
+
+    return CleoFunctions::ACTOR_USED_CAR(hPed);
+}

@@ -50,12 +50,12 @@ CVector Locations::GetRandomHouse()
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     std::sort(locations.begin(), locations.end(), [playerActor](Location a, Location b) {
-        return Mod::DistanceFromPed(playerActor, b.position) > Mod::DistanceFromPed(playerActor, a.position);
+        return DistanceFromPed(playerActor, b.position) > DistanceFromPed(playerActor, a.position);
     });
 
     for(auto location : locations)
     {
-        auto distance = Mod::DistanceFromPed(playerActor, location.position);
+        auto distance = DistanceFromPed(playerActor, location.position);
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Location distance: " << distance << std::endl;
     }
 

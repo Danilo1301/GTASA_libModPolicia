@@ -52,7 +52,7 @@ void WindowBackup::Create()
         SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_ROADBLOCK_", false);
 
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
+        auto position = GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
 
         Chase::AddRoadBlocks(position);
     };
@@ -67,7 +67,7 @@ void WindowBackup::Create()
         SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/SPIKES_DEPLOYED_", false);
 
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
+        auto position = GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
 
         Chase::AddSpikestrips(position);
     };

@@ -12,12 +12,10 @@ public:
 
     static void Update(int dt);
     static void Init();
+    static void Draw();
     static void CleoInit();
 
-    static void RequestModelsToLoad();
-    static void LoadRequestedModels(std::function<void()> callback);
-    static void AddModelToLoad(int modelId);
-    static bool CheckModelsLoaded();
+    static void AddModelsToLoad();
 
     /**
       *   \brief Calculate probability
@@ -30,15 +28,6 @@ public:
     static bool CalculateProbability(float chance);
 
     static void ProcessMenuButtons(int dt);
-    
-    static CVector GetCarPositionWithOffset(int hVehicle, CVector offset);
-    static CVector GetCarPosition(int hVehicle);
-    static CVector GetPedPositionWithOffset(int hPed, CVector offset);
-    static CVector GetPedPosition(int hPed);
-    static int GetPlayerActor();
-    static double DistanceFromPed(int hPed, CVector position);
-    static bool IsActorAliveAndDefined(int hPed);
-    static int GetVehiclePedIsUsing(int hPed);
 
     static void ToggleMod(bool enabled);
     static void ShowCredits();

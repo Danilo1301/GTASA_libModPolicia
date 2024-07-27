@@ -24,7 +24,7 @@ void EmergencyVehicleSystem::Update(int dt)
         if(vehicle->actionStatus == ACTION_STATUS::MEDIC_GOING_TO_LOCATION)
         {
             auto targetPosition = vehicle->drivingTo;
-            auto distance = DistanceBetweenPoints(Mod::GetCarPosition(vehicle->hVehicle), targetPosition);
+            auto distance = DistanceBetweenPoints(GetCarPosition(vehicle->hVehicle), targetPosition);
 
             if(distance < 20)
             {
@@ -101,7 +101,7 @@ void EmergencyVehicleSystem::Update(int dt)
                         continue;
                     }
 
-                    auto distance = DistanceBetweenPoints(Mod::GetPedPosition(medic->hPed), Mod::GetPedPosition(medic->goingToPed));
+                    auto distance = DistanceBetweenPoints(GetPedPosition(medic->hPed), GetPedPosition(medic->goingToPed));
 
                     if(distance < 1.5f)
                     {
@@ -115,7 +115,7 @@ void EmergencyVehicleSystem::Update(int dt)
 
                             Log::Level(LOG_LEVEL::LOG_BOTH) << "medic taking picures" << std::endl;
                             
-                            auto pedPosition = Mod::GetPedPosition(medic->goingToPed);
+                            auto pedPosition = GetPedPosition(medic->goingToPed);
 
                             CleoFunctions::ROTATE_AND_SHOOT(medic->hPed, pedPosition.x, pedPosition.y, pedPosition.z, 6000);
 
@@ -136,7 +136,7 @@ void EmergencyVehicleSystem::Update(int dt)
             int totalMedics = 0;
             for(auto medic : medics)
             {
-                if(Mod::IsActorAliveAndDefined(medic->hPed))
+                if(IsActorAliveAndDefined(medic->hPed))
                 {
                     totalMedics++;
                 }
@@ -165,7 +165,7 @@ void EmergencyVehicleSystem::Update(int dt)
     //update peds
     for(auto medic : m_Peds)
     {
-        if(!Mod::IsActorAliveAndDefined(medic->hPed))
+        if(!IsActorAliveAndDefined(medic->hPed))
         {
             pedsToRemove.push_back(medic);
         }
@@ -203,7 +203,7 @@ void EmergencyVehicleSystem::TakeBody(Ped* medic, bool ressurect)
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "ressurect" << std::endl;
 
                 auto pedBody = Peds::TryCreatePed(medic->goingToPed);
-                auto pedPosition = Mod::GetPedPosition(medic->goingToPed);
+                auto pedPosition = GetPedPosition(medic->goingToPed);
 
                 int modelId = CleoFunctions::GET_ACTOR_MODEL(medic->goingToPed);
 
@@ -345,7 +345,7 @@ Ped* Ambulance::GetDeadPedThatIsFree(Ped* medic)
 {
     std::vector<Ped*> availablePeds;
 
-    auto deadPeds = Peds::GetDeadPeds(Mod::GetPedPosition(medic->hPed), 50.0f);
+    auto deadPeds = Peds::GetDeadPeds(GetPedPosition(medic->hPed), 50.0f);
     for(auto ped : deadPeds)
     {
         if(!IsAnyMedicGoingToPed(ped))

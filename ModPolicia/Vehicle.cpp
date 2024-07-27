@@ -55,7 +55,7 @@ void Vehicle::Update(int dt)
 
     if(freezeCarPosition)
     {
-        auto position = Mod::GetCarPosition(hVehicle);
+        auto position = GetCarPosition(hVehicle);
 
         CleoFunctions::PUT_CAR_AT(hVehicle, position.x, position.y, position.z);
     }
@@ -108,7 +108,7 @@ void Vehicle::UpdateLeaveScene(int dt)
                     CleoFunctions::AS_ACTOR_DRIVE_CAR_TO(hDriverOwner, hVehicle, findX, findY, findZ, 15.0f, 0, 0, 2);
                 }
 
-                fromPos = Mod::GetCarPosition(hVehicle);
+                fromPos = GetCarPosition(hVehicle);
             } else {
                 actionStatus = ACTION_STATUS::ACTION_NONE;
 
@@ -144,7 +144,7 @@ void Vehicle::UpdateLeaveScene(int dt)
 
     if(actionStatus == ACTION_STATUS::LEAVING_SCENE)
     {
-        auto distance = DistanceBetweenPoints(fromPos, Mod::GetCarPosition(hVehicle));
+        auto distance = DistanceBetweenPoints(fromPos, GetCarPosition(hVehicle));
 
         if(distance > 120)
         {
@@ -152,11 +152,11 @@ void Vehicle::UpdateLeaveScene(int dt)
 
             Log::Level(LOG_LEVEL::LOG_BOTH) << "destroying vehicle " << hVehicle << " and passengers" << std::endl;
 
-            if(Mod::IsActorAliveAndDefined(hDriverOwner)) CleoFunctions::DESTROY_ACTOR(hDriverOwner);
+            if(IsActorAliveAndDefined(hDriverOwner)) CleoFunctions::DESTROY_ACTOR(hDriverOwner);
 
             for(auto passenger : hPassengersOwner)
             {
-                if(Mod::IsActorAliveAndDefined(passenger)) CleoFunctions::DESTROY_ACTOR(passenger);
+                if(IsActorAliveAndDefined(passenger)) CleoFunctions::DESTROY_ACTOR(passenger);
             }
                 
             CleoFunctions::DESTROY_CAR(hVehicle);
@@ -181,7 +181,7 @@ void Vehicle::UpdateCarMenuWidget()
 
     if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
     
-    auto distance = DistanceBetweenPoints(Mod::GetCarPosition(hVehicle), Mod::GetPedPosition(playerActor));
+    auto distance = DistanceBetweenPoints(GetCarPosition(hVehicle), GetPedPosition(playerActor));
 
     if(distance < 2.0f)
     {
@@ -311,7 +311,7 @@ void Vehicle::MakePedsEnterVehicle()
         return;
     }
 
-    if(Mod::IsActorAliveAndDefined(hDriverOwner))
+    if(IsActorAliveAndDefined(hDriverOwner))
     {
         if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hDriverOwner))
         {
@@ -324,7 +324,7 @@ void Vehicle::MakePedsEnterVehicle()
     int seatId = 0;
     for(auto passenger : hPassengersOwner)
     {
-        if(Mod::IsActorAliveAndDefined(passenger))
+        if(IsActorAliveAndDefined(passenger))
         {
             if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(passenger))
             {
@@ -362,7 +362,7 @@ void Vehicle::CheckDriverAndPassengersAreAlive()
 
     for(auto passengerHandle : hPassengersOwner)
     {
-        if(!Mod::IsActorAliveAndDefined(passengerHandle))
+        if(!IsActorAliveAndDefined(passengerHandle))
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "The passenger owner " << passengerHandle << " died" << std::endl;
             passengersToRemove.push_back(passengerHandle);
@@ -391,7 +391,7 @@ void Vehicle::CheckDriverAndPassengersAreAlive()
     //check driver
     if(hDriverOwner > 0)
     {
-        if(!Mod::IsActorAliveAndDefined(hDriverOwner))
+        if(!IsActorAliveAndDefined(hDriverOwner))
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Driver " << hDriverOwner << " died" << std::endl;
 
@@ -414,7 +414,7 @@ void Vehicle::ReplaceDriverByAnyPassenger()
 
     for(auto passenger : hPassengersOwner)
     {
-        if(Mod::IsActorAliveAndDefined(passenger))
+        if(IsActorAliveAndDefined(passenger))
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Passenger " << passenger << " is able to be driver" << std::endl;
 
@@ -541,7 +541,7 @@ bool Vehicle::IsAllDriverAndPassengersInsideCar()
     int requiredPeds = 0;
     int pedsOnCar = 0;
     
-    if(Mod::IsActorAliveAndDefined(hDriverOwner))
+    if(IsActorAliveAndDefined(hDriverOwner))
     {
         requiredPeds++;
 
@@ -551,7 +551,7 @@ bool Vehicle::IsAllDriverAndPassengersInsideCar()
     int seatId = 0;
     for(auto passenger : hPassengersOwner)
     {
-        if(Mod::IsActorAliveAndDefined(passenger))
+        if(IsActorAliveAndDefined(passenger))
         {
             requiredPeds++;
 
@@ -580,14 +580,14 @@ bool Vehicle::IsAllDriverAndPassengersOutsideCar()
 {
     int pedsOnCar = 0;
 
-    if(Mod::IsActorAliveAndDefined(hDriverOwner))
+    if(IsActorAliveAndDefined(hDriverOwner))
     {
         if(CleoFunctions::IS_CHAR_IN_ANY_CAR(hDriverOwner)) pedsOnCar++;
     }
 
     for(auto passengerHandle : hPassengersOwner)
     {
-        if(Mod::IsActorAliveAndDefined(passengerHandle))
+        if(IsActorAliveAndDefined(passengerHandle))
         {
             if(CleoFunctions::IS_CHAR_IN_ANY_CAR(passengerHandle)) pedsOnCar++;
         }

@@ -4,24 +4,24 @@
 
 #include <functional>
 
-enum eItemType {
-	ITEM_TEXT,
-	ITEM_BUTTON,
-	ITEM_OPTIONS,
-	ITEM_INT_RANGE,
-	ITEM_FLOAT_RANGE,
-	CHECKBOX
+enum eItemType_old {
+	ITEM_TEXT_old,
+	ITEM_BUTTON_old,
+	ITEM_OPTIONS_old,
+	ITEM_INT_RANGE_old,
+	ITEM_FLOAT_RANGE_old,
+	CHECKBOX_old
 };
 
 
-struct Option
+struct Option_old
 {
 	int gxtId = 1;
 	int num1 = 3;
 	int num2 = 4;
 };
 
-struct ColorIndicator
+struct ColorIndicator_old
 {
 	CRGBA* color;
 };
@@ -52,9 +52,9 @@ public:
 	Item* btnLeft = NULL;
 	Item* btnRight = NULL;
 
-	std::vector<Option> options;
+	std::vector<Option_old> options;
 
-	std::vector<ColorIndicator> colorIndicators;
+	std::vector<ColorIndicator_old> colorIndicators;
 
 	std::vector<DrawItem*> extraTexts;
 
@@ -80,7 +80,7 @@ public:
 
 	bool useFullWidth = false;
 
-	eItemType type;
+	eItemType_old type;
 
 	bool isPressed = false;
 	bool isPointerOver = false;
@@ -102,7 +102,7 @@ public:
 
 	bool visible = true;
 
-	Item(eItemType type);
+	Item(eItemType_old type);
 
 	void AddColorIndicator(CRGBA* color);
 

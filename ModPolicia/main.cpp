@@ -11,6 +11,8 @@
 
 #include "opcodes.h"
 
+#include "utils.h"
+
 // ---------------------------------------
 
 MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.2, Danilo1301)
@@ -31,6 +33,10 @@ IBASS* BASS = NULL;
 #include "audiosystem.h"
 static CSoundSystem soundsysLocal;
 CSoundSystem* soundsys = &soundsysLocal;
+
+// MenuVSL
+#include "menu/IMenuVSL.h"
+IMenuVSL* menuVSL = NULL;
 
 #include "ModPolicia.h"
 
@@ -144,34 +150,21 @@ extern "C" void OnModLoad()
     cfg->Bind("GitHub", "", "About")->SetString("https://github.com/Danilo1301/GTASA_libModPolicia"); cfg->ClearLast();
     cfg->Save();
 
-    //CLEO
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading CLEO..." << std::endl;
-    cleo = (cleo_ifs_t*)GetInterface("CLEO");
-    if (cleo)
+    //Interfaces
+
+    LoadInterface(&cleo, "CLEO");
+    LoadInterface(&sautils, "SAUtils");
+    LoadInterface(&BASS, "BASS");
+    LoadInterface(&menuVSL, "MenuVSL");
+
+    if(!menuVSL)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "CLEO loaded" << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "You don't have the lib MenuVSL" << std::endl;
+        return;
     }
 
-    //SAUtils
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading SAUtils..." << std::endl;
-    if (!(sautils = (ISAUtils*)GetInterface("SAUtils")))
+    if(BASS)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils was not loaded" << std::endl;
-    }
-    else {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils loaded" << std::endl;
-
-        //sautils->AddClickableItem(eTypeOfSettings::SetType_Mods, "Mod Policia - Test", 0, 0, sizeofA(optionsTest) - 1, optionsTest, TestChanged);
-    }
-
-    //BASS
-    //https://github.com/AndroidModLoader/GTASA_CLEO_AudioStreams
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading BASS..." << std::endl;
-    if (!(BASS = (IBASS*)GetInterface("BASS")))
-    {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS was not loaded" << std::endl;
-    }
-    else {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS loaded: " << BASS << std::endl;
 
         soundsys->Init();
@@ -281,6 +274,8 @@ extern "C" void OnModLoad()
     ModConfig::Save();
 
     Mod::Init();
+
+    menuVSL->AddOnRender(Mod::Draw);
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Load() END" << std::endl;
 }

@@ -41,15 +41,15 @@ void Trunk::Update(int dt)
     {
         if(!vehicle->trunk->HasModelData()) continue;
 
-        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
-        auto playerActor = Mod::GetPlayerActor();
-        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
+        auto playerActor = GetPlayerActor();
+        auto playerPosition = GetPedPosition(playerActor);
         
         auto distanceFromVehicle = DistanceBetweenPoints(playerPosition, vehiclePosition);
 
         if(distanceFromVehicle < 20.0f && Scorch::m_CarryingPed)
         {
-            auto spherePosition = Mod::GetCarPositionWithOffset(vehicle->hVehicle, CVector(0, -4.0f, 0));
+            auto spherePosition = GetCarPositionWithOffset(vehicle->hVehicle, CVector(0, -4.0f, 0));
 
             if(vehicle->trunk->checkpoint == 0)
             {
@@ -86,8 +86,8 @@ void Trunk::CreatePreviewPeds(Vehicle* vehicle)
 
     m_PreviewVehicle = vehicle;
 
-    auto playerActor = Mod::GetPlayerActor();
-    auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
+    auto playerActor = GetPlayerActor();
+    auto position = GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
 
     auto ped1Handle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
     

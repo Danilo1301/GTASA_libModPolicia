@@ -17,19 +17,19 @@ void Draw::DrawBox(CVector2D pos, CVector2D size, CRGBA color)
 	m_DrawItems.push_back(item);
 }
 
-void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector2D boxSize, CRGBA boxColor, CRGBA textColor, eTextAlign align)
+void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector2D boxSize, CRGBA boxColor, CRGBA textColor, eTextAlign_old align)
 {
 	Draw::DrawBox(pos, boxSize, boxColor);
 
 	CVector2D textPos = pos;
 	textPos.y += boxSize.y / 2;
 
-	if (align == eTextAlign::ALIGN_CENTER)
+	if (align == eTextAlign_old::ALIGN_CENTER_old)
 	{
 		textPos.x += boxSize.x / 2;
 	}
 
-	if (align == eTextAlign::ALIGN_RIGHT)
+	if (align == eTextAlign_old::ALIGN_RIGHT_old)
 	{
 		textPos.x += boxSize.x;
 		
@@ -40,10 +40,10 @@ void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector
 
 void Draw::DrawBoxWithText(int gxtId, int num1, int num2, CVector2D pos, CVector2D boxSize, CRGBA boxColor, CRGBA textColor)
 {
-	Draw::DrawBoxWithText(gxtId, num1, num2, pos, boxSize, boxColor, textColor, eTextAlign::ALIGN_CENTER);
+	Draw::DrawBoxWithText(gxtId, num1, num2, pos, boxSize, boxColor, textColor, eTextAlign_old::ALIGN_CENTER_old);
 }
 
-void Draw::DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, eTextAlign align)
+void Draw::DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color, eTextAlign_old align)
 {
 	DrawItem* item = new DrawItem(eDrawType::TEXT);
 	//item->type = eDrawType::TEXT;
@@ -61,7 +61,7 @@ void Draw::DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color
 
 void Draw::DrawGxtText(int gxtId, int num1, int num2, CVector2D pos, CRGBA color)
 {
-	DrawGxtText(gxtId, num1, num2, pos, color, eTextAlign::ALIGN_CENTER);
+	DrawGxtText(gxtId, num1, num2, pos, color, eTextAlign_old::ALIGN_CENTER_old);
 }
 
 void Draw::DrawSprite(int spriteId, CVector2D pos, CVector2D size, CRGBA color)
@@ -78,19 +78,19 @@ void Draw::DrawSprite(int spriteId, CVector2D pos, CVector2D size, CRGBA color)
 	m_DrawItems.push_back(item);
 }
 
-void Draw::DrawSpriteWithText(int spriteId, int gxtId, int num1, int num2, CVector2D pos, CVector2D size, CRGBA spriteColor, CRGBA textColor, eTextAlign align)
+void Draw::DrawSpriteWithText(int spriteId, int gxtId, int num1, int num2, CVector2D pos, CVector2D size, CRGBA spriteColor, CRGBA textColor, eTextAlign_old align)
 {
 	Draw::DrawSprite(spriteId, pos, size, spriteColor);
 
 	CVector2D textPos = pos;
 	textPos.y += size.y / 2;
 
-	if (align == eTextAlign::ALIGN_CENTER)
+	if (align == eTextAlign_old::ALIGN_CENTER_old)
 	{
 		textPos.x += size.x / 2;
 	}
 
-	if (align == eTextAlign::ALIGN_RIGHT)
+	if (align == eTextAlign_old::ALIGN_RIGHT_old)
 	{
 		textPos.x += size.x;
 

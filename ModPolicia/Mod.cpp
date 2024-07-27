@@ -21,6 +21,7 @@
 #include "Trunk.h"
 #include "Stats.h"
 #include "Debug.h"
+#include "Load.h"
 
 #include "systems/Skins.h"
 #include "systems/Camera.h"
@@ -28,6 +29,9 @@
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
 #include "windows/WindowRadio.h"
+
+#include "menu/IMenuVSL.h"
+extern IMenuVSL* menuVSL;
 
 extern CVector2D *m_vecCachedPos;
 
@@ -45,9 +49,6 @@ bool hasLoadedAnimations = false;
 bool hasCleoInitialized = false;
 
 CAudioStream* test3dAudio = NULL;
-
-std::vector<int> modelsToLoad;
-//std::vector<int> loadedModels;
 
 bool appliedTest = false;
 
@@ -164,8 +165,6 @@ void Mod::Update(int dt)
 
     if(CleoFunctions::PLAYER_DEFINED(0))
     {
-
-
         if(!hasCleoInitialized)
         {
             hasCleoInitialized = true;
@@ -199,7 +198,7 @@ void Mod::Update(int dt)
     if(m_Enabled)
     {
         auto hasRadio = false;
-        auto playerActor = Mod::GetPlayerActor();
+        auto playerActor = GetPlayerActor();
 
         if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
         {
@@ -242,6 +241,55 @@ void Mod::Init()
     ModConfig::SaveStats();
 }
 
+CSprite2d testSprite;
+
+void Mod::Draw()
+{
+    for(auto base : PoliceDepartment::m_Bases)
+    {
+        auto position = base->m_PickupPartner->position;
+        auto text = "~r~BASE";
+
+        menuVSL->DrawWorldText(text, position, CRGBA(255, 255, 255), eFontAlignment::ALIGN_CENTER);
+    }
+
+    if(!testSprite.m_pTexture)
+    {
+        char path[512];
+
+        sprintf(path, "%s/test.png", ModConfig::GetConfigFolder().c_str());
+        testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
+    }
+
+    for(auto p : Peds::m_Peds)
+    {
+        auto ped = p.second;
+
+        if(!CleoFunctions::ACTOR_DEFINED(ped->hPed)) continue;
+
+        if(ped->hPed == GetPlayerActor()) continue;
+
+        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+        auto playerPosition = GetPedPosition(playerActor);
+        auto pedPosition = GetPedPosition(ped->hPed);
+
+        auto distance = DistanceFromPed(ped->hPed, playerPosition);
+
+        if(distance < 20.0f)
+        {
+            std::string text = "NPC_Ped (" + std::to_string(ped->id) + ")";
+            auto position = pedPosition + CVector(0, 0, 1.2f);
+            auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
+            imagePos.x -= 25.0f;
+            imagePos.y -= 50.0f;
+
+            menuVSL->DrawWorldText(text, position, ped->color, eFontAlignment::ALIGN_CENTER);
+
+            menuVSL->DrawSprite(&testSprite, imagePos, CVector2D(50, 50));
+        }
+    }
+}
+
 void Mod::CleoInit()
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Cleo init" << std::endl;
@@ -253,7 +301,7 @@ void Mod::CleoInit()
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Loading models..." << std::endl;
 
-    RequestModelsToLoad();
+    AddModelsToLoad();
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Showing credits" << std::endl;
 
@@ -320,153 +368,95 @@ void Mod::CleoInit()
     */
 }
 
-void Mod::RequestModelsToLoad()
+void Mod::AddModelsToLoad()
 {
-    AddModelToLoad(596); //copcarla
-    AddModelToLoad(280); //ls
+    Load::AddModelToLoad(596); //copcarla
+    Load::AddModelToLoad(280); //ls
 
-    AddModelToLoad(597); //copcarsf
-    AddModelToLoad(281); //sf
+    Load::AddModelToLoad(597); //copcarsf
+    Load::AddModelToLoad(281); //sf
 
-    AddModelToLoad(598); //copcarvg
-    AddModelToLoad(282); //lv
+    Load::AddModelToLoad(598); //copcarvg
+    Load::AddModelToLoad(282); //lv
 
-    AddModelToLoad(599); //ranger
-    AddModelToLoad(283); //csher
+    Load::AddModelToLoad(599); //ranger
+    Load::AddModelToLoad(283); //csher
 
-    AddModelToLoad(523); //copbike
-    AddModelToLoad(284); //lapdm1
+    Load::AddModelToLoad(523); //copbike
+    Load::AddModelToLoad(284); //lapdm1
 
-    AddModelToLoad(490); //fbiranch
-    AddModelToLoad(286); //fbi
+    Load::AddModelToLoad(490); //fbiranch
+    Load::AddModelToLoad(286); //fbi
 
-    AddModelToLoad(497); //police maverick
+    Load::AddModelToLoad(497); //police maverick
 
-    AddModelToLoad(525); //towtruck
-    AddModelToLoad(50); //wmymech
+    Load::AddModelToLoad(525); //towtruck
+    Load::AddModelToLoad(50); //wmymech
 
-    AddModelToLoad(416); //ambulance
-    AddModelToLoad(274); //laemt1
+    Load::AddModelToLoad(416); //ambulance
+    Load::AddModelToLoad(274); //laemt1
 
-    AddModelToLoad(442); //romero
-    AddModelToLoad(70); //laemt1
+    Load::AddModelToLoad(442); //romero
+    Load::AddModelToLoad(70); //laemt1
 
-    AddModelToLoad(528); //fbitruck
-    AddModelToLoad(288); //dsher
+    Load::AddModelToLoad(528); //fbitruck
+    Load::AddModelToLoad(288); //dsher
 
-    AddModelToLoad(601); //swat
-    AddModelToLoad(285); //swatvan
+    Load::AddModelToLoad(601); //swat
+    Load::AddModelToLoad(285); //swatvan
 
     //skins
     for(auto skin : Skins::m_Skins)
     {
-        AddModelToLoad(skin.modelId);
+        Load::AddModelToLoad(skin.modelId);
     }
 
     for(auto skin : PoliceDepartment::m_PartnerSkins)
     {
-        AddModelToLoad(skin.pedModelId);
+        Load::AddModelToLoad(skin.pedModelId);
     }
 
     //stolen vehicles
     for(auto id : Callouts::m_StolenVehicleIds)
     {
-        AddModelToLoad(id);
+        Load::AddModelToLoad(id);
     }
     for(auto id : Callouts::m_StolenTruckIds)
     {
-        AddModelToLoad(id);
+        Load::AddModelToLoad(id);
     }
 
     //weapons
-    AddModelToLoad(335); //knife
-    AddModelToLoad(367); //camera
+    Load::AddModelToLoad(335); //knife
+    Load::AddModelToLoad(367); //camera
 
     for(auto weapon : PoliceDepartment::m_Weapons)
     {
-        AddModelToLoad(weapon.weaponModelId);
+        Load::AddModelToLoad(weapon.weaponModelId);
     }
 
     //objects
-    AddModelToLoad(1459); //barrier
-    AddModelToLoad(2899); //spikes
-    AddModelToLoad(2328); //small box
+    Load::AddModelToLoad(1459); //barrier
+    Load::AddModelToLoad(2899); //spikes
+    Load::AddModelToLoad(2328); //small box
 
     //pickups
     //https://www.open.mp/docs/scripting/resources/pickupids
-    //AddModelToLoad(1210); //Briefcase
-    //AddModelToLoad(1239); //Information
-    //AddModelToLoad(1242); //Body armour
-    //AddModelToLoad(1314); //Two-player (crashes for Leonardo Alves)
+    //Load::AddModelToLoad(1210); //Briefcase
+    //Load::AddModelToLoad(1239); //Information
+    //Load::AddModelToLoad(1242); //Body armour
+    //Load::AddModelToLoad(1314); //Two-player (crashes for Leonardo Alves)
 
     for(auto base : PoliceDepartment::m_Bases)
     {
-        AddModelToLoad(base->m_PickupDuty->pickupModelId);
-        AddModelToLoad(base->m_PickupEquipment->pickupModelId);
-        AddModelToLoad(base->m_PickupPartner->pickupModelId);
+        Load::AddModelToLoad(base->m_PickupDuty->pickupModelId);
+        Load::AddModelToLoad(base->m_PickupEquipment->pickupModelId);
+        Load::AddModelToLoad(base->m_PickupPartner->pickupModelId);
     }
     
-    LoadRequestedModels([] () {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Models loaded!" << std::endl;
+    Load::LoadAll([]() {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: All models loaded!" << std::endl;
     });
-}
-
-void Mod::LoadRequestedModels(std::function<void()> callback)
-{
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: load requested models" << std::endl;
-
-    CleoFunctions::LOAD_REQUESTED_MODELS();
-
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "AddWaitForFunction" << std::endl;
-
-    CleoFunctions::AddWaitForFunction([] () {
-        return CheckModelsLoaded();
-    }, [callback] () {
-        callback();
-    });
-}
-
-void Mod::AddModelToLoad(int modelId)
-{
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: loading model " << modelId << std::endl;
-
-    modelsToLoad.push_back(modelId);
-
-    CleoFunctions::LOAD_MODEL(modelId);
-
-    /*
-    CleoFunctions::AddWaitForFunction([modelId] () {
-        return CleoFunctions::MODEL_AVAILABLE(modelId);
-    }, [modelId] () {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Model " << modelId << " loaded!" << std::endl;
-    });
-    */
-}
-
-bool Mod::CheckModelsLoaded()
-{
-    if(modelsToLoad.size() == 0) return true;
-
-    std::vector<int> newLoadedModels;
-    for(auto modelId : modelsToLoad)
-    {
-        if(CleoFunctions::MODEL_AVAILABLE(modelId))
-        {
-            newLoadedModels.push_back(modelId);
-            
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "Model " << modelId << " has been loaded" << std::endl;
-        }
-    }
-
-    for(auto modelId : newLoadedModels)
-    {
-        auto it = std::find(modelsToLoad.begin(), modelsToLoad.end(), modelId);
-        modelsToLoad.erase(it);
-
-        //loadedModels.push_back(modelId);
-    }
-
-    return false;
 }
 
 bool Mod::CalculateProbability(float chance)
@@ -497,56 +487,6 @@ void Mod::ProcessMenuButtons(int dt)
             
         }
     }
-}
-
-CVector Mod::GetCarPositionWithOffset(int hVehicle, CVector offset)
-{
-    float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, offset.x, offset.y, offset.z, &x, &y, &z);
-
-    return CVector(x, y, z);
-}
-
-CVector Mod::GetCarPosition(int hVehicle)
-{
-    return GetCarPositionWithOffset(hVehicle, CVector(0, 0, 0));
-}
-
-CVector Mod::GetPedPositionWithOffset(int hPed, CVector offset)
-{
-    float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, offset.x, offset.y, offset.z, &x, &y, &z);
-
-    return CVector(x, y, z);
-}
-
-CVector Mod::GetPedPosition(int hPed)
-{
-    return GetPedPositionWithOffset(hPed, CVector(0, 0, 0));
-}
-
-int Mod::GetPlayerActor()
-{
-    return CleoFunctions::GET_PLAYER_ACTOR(0);
-}
-
-double Mod::DistanceFromPed(int hPed, CVector position)
-{
-    auto pedPosition = GetPedPosition(hPed);
-    auto distance = DistanceBetweenPoints(pedPosition, position);
-    return distance;
-}
-
-bool Mod::IsActorAliveAndDefined(int hPed)
-{
-    return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);
-}
-
-int Mod::GetVehiclePedIsUsing(int hPed)
-{
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed)) return 0;
-
-    return CleoFunctions::ACTOR_USED_CAR(hPed);
 }
 
 void Mod::ToggleMod(bool enabled)

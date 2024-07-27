@@ -349,7 +349,7 @@ int Pullover::FindAimingPed()
 void Pullover::CreateTestPullOverPed()
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-    auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
+    auto position = GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
 
     auto pedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
     auto ped = Peds::TryCreatePed(pedHandle);
@@ -360,7 +360,7 @@ void Pullover::CreateTestPullOverPed()
 void Pullover::CreateTestPullOverVehicle()
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-    auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
+    auto position = GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
 
     auto carHandle = CleoFunctions::CREATE_CAR_AT(479, position.x, position.y, position.z);
 
@@ -485,14 +485,14 @@ void Pullover::AskPedsToLeaveCar(Vehicle* vehicle)
     CleoFunctions::WAIT(2000, []() {
         WindowPullover::CreatePullingPed();
 
-        auto playerActor = Mod::GetPlayerActor();
+        auto playerActor = GetPlayerActor();
         CleoFunctions::SET_ACTOR_ARMED_WEAPON(playerActor, 0);
     });
 }
 
 void Pullover::AskPedToStopCarOnRight(Vehicle* vehicle)
 {
-    auto stopPosition = Mod::GetCarPositionWithOffset(vehicle->hVehicle, CVector(5.0f, 7.0f, 0));
+    auto stopPosition = GetCarPositionWithOffset(vehicle->hVehicle, CVector(5.0f, 7.0f, 0));
     
     auto sphere = CleoFunctions::CREATE_SPHERE(stopPosition.x, stopPosition.y, stopPosition.z, 1.0f);
 

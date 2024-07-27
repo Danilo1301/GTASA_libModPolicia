@@ -3,23 +3,23 @@
 #include "../Log.h"
 #include "../Input.h"
 
-Item::Item(eItemType type)
+Item::Item(eItemType_old type)
 {
 	this->type = type;
 
-	if (type == eItemType::ITEM_BUTTON)
+	if (type == eItemType_old::ITEM_BUTTON_old)
 	{
 		drawLabel = false;
 	}
 
-	if (type == eItemType::ITEM_OPTIONS || type == eItemType::ITEM_INT_RANGE || type == eItemType::ITEM_FLOAT_RANGE)
+	if (type == eItemType_old::ITEM_OPTIONS_old || type == eItemType_old::ITEM_INT_RANGE_old || type == eItemType_old::ITEM_FLOAT_RANGE_old)
 	{
-		btnLeft = new Item(eItemType::ITEM_BUTTON);
+		btnLeft = new Item(eItemType_old::ITEM_BUTTON_old);
 
-		btnRight = new Item(eItemType::ITEM_BUTTON);
+		btnRight = new Item(eItemType_old::ITEM_BUTTON_old);
 	}
 
-	if (type == eItemType::CHECKBOX)
+	if (type == eItemType_old::CHECKBOX_old)
 	{
 		auto self = this;
 
@@ -33,7 +33,7 @@ Item::Item(eItemType type)
 
 void Item::AddColorIndicator(CRGBA* color)
 {
-	ColorIndicator colorIndicator = { color };
+	ColorIndicator_old colorIndicator = { color };
 	colorIndicators.push_back(colorIndicator);
 }
 
@@ -56,7 +56,7 @@ void Item::AddOptionBy(int addBy)
 
 void Item::AddOption(int gxtId, int num1, int num2)
 {
-	Option option = { gxtId, num1, num2 };
+	Option_old option = { gxtId, num1, num2 };
 	options.push_back(option);
 }
 
@@ -70,10 +70,10 @@ void Item::Update()
 
 	if (isPointerOver)
 	{
-		//if (Input::hasTouchBeenPressedThisFrame && onClick && type == eItemType::ITEM_BUTTON) onClick();
+		//if (Input::hasTouchBeenPressedThisFrame && onClick && type == eItemType_old::ITEM_BUTTON_old) onClick();
 		if (Input::hasTouchBeenReleasedThisFrame && !waitingForTouchRelease)
 		{
-			if (type == eItemType::ITEM_BUTTON || type == eItemType::CHECKBOX)
+			if (type == eItemType_old::ITEM_BUTTON_old || type == eItemType_old::CHECKBOX_old)
 			{	
 				hasPressedThisFrame = true;
 
@@ -99,9 +99,9 @@ void Item::Update()
 	
 	//
 
-	if (type == eItemType::ITEM_OPTIONS || type == eItemType::ITEM_INT_RANGE)
+	if (type == eItemType_old::ITEM_OPTIONS_old || type == eItemType_old::ITEM_INT_RANGE_old)
 	{
-		if (type == eItemType::ITEM_OPTIONS)
+		if (type == eItemType_old::ITEM_OPTIONS_old)
 		{
 			intValueRange.min = 0;
 			intValueRange.max = options.size() - 1;
@@ -135,7 +135,7 @@ void Item::Update()
 		{
 			if (onValueChange)
 			{
-				if (type == eItemType::ITEM_OPTIONS)
+				if (type == eItemType_old::ITEM_OPTIONS_old)
 				{
 					Log::Level(LOG_LEVEL::LOG_BOTH) << "Option changed from " << prevVal << " to " << *intValueRange.value << " - " << intValueRange.min << " / " << intValueRange.max << std::endl;
 				}
@@ -147,7 +147,7 @@ void Item::Update()
 
 	//
 
-	if (type == eItemType::ITEM_FLOAT_RANGE)
+	if (type == eItemType_old::ITEM_FLOAT_RANGE_old)
 	{
 		float prevVal = *floatValueRange.value;
 
@@ -186,7 +186,7 @@ void Item::Draw()
 {
 	if(!visible) return;
 	
-	if (type == eItemType::ITEM_BUTTON)
+	if (type == eItemType_old::ITEM_BUTTON_old)
 	{
 		CRGBA boxColor = box->color;
 
@@ -200,7 +200,7 @@ void Item::Draw()
 		Draw::DrawBoxWithText(text->gxtId, text->num1, text->num2, position, box->size, boxColor, text->color);
 	}
 
-	if (type == eItemType::ITEM_TEXT)
+	if (type == eItemType_old::ITEM_TEXT_old)
 	{
 		CVector2D textPos = position;
 		textPos.x += box->size.x / 2.0f;
@@ -209,22 +209,22 @@ void Item::Draw()
 		Draw::DrawGxtText(text->gxtId, text->num1, text->num2, textPos, text->color);
 	}
 
-	if (type == eItemType::ITEM_OPTIONS || type == eItemType::ITEM_INT_RANGE || type == eItemType::ITEM_FLOAT_RANGE)
+	if (type == eItemType_old::ITEM_OPTIONS_old || type == eItemType_old::ITEM_INT_RANGE_old || type == eItemType_old::ITEM_FLOAT_RANGE_old)
 	{
 		text->gxtId = 1;
 		text->color = CRGBA(0, 0, 0);
 
-		if (type == eItemType::ITEM_FLOAT_RANGE && floatValueRange.value != NULL)
+		if (type == eItemType_old::ITEM_FLOAT_RANGE_old && floatValueRange.value != NULL)
 		{
 			text->num1 = (int)floor((*floatValueRange.value) * 100.0f);
 		}
 
-		if (type == eItemType::ITEM_INT_RANGE && intValueRange.value != NULL)
+		if (type == eItemType_old::ITEM_INT_RANGE_old && intValueRange.value != NULL)
 		{
 			text->num1 = *intValueRange.value;
 		}
 
-		if ((type == eItemType::ITEM_OPTIONS) && intValueRange.value != NULL)
+		if ((type == eItemType_old::ITEM_OPTIONS_old) && intValueRange.value != NULL)
 		{
 			if (options.size() > 0)
 			{
@@ -292,12 +292,12 @@ void Item::Draw()
 		textPos.x += text->pos.x;
 		textPos.y += text->pos.y;
 
-		Draw::DrawGxtText(text->gxtId, text->num1, text->num2, textPos, CRGBA(255, 255, 255), eTextAlign::ALIGN_RIGHT);
+		Draw::DrawGxtText(text->gxtId, text->num1, text->num2, textPos, CRGBA(255, 255, 255), eTextAlign_old::ALIGN_RIGHT_old);
 	}
 
 	//
 
-	if (type == eItemType::CHECKBOX)
+	if (type == eItemType_old::CHECKBOX_old)
 	{
 		Draw::DrawBox(pos, CVector2D(w, h), CRGBA(0, 0, 0));
 

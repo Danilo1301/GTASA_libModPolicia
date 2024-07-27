@@ -136,7 +136,7 @@ std::vector<Ped*> Peds::GetDeadPeds(CVector position, float radius)
         
         if(!CleoFunctions::ACTOR_DEAD(ped->hPed)) continue;
 
-        auto pedPosition = Mod::GetPedPosition(ped->hPed);
+        auto pedPosition = GetPedPosition(ped->hPed);
         auto distance = DistanceBetweenPoints(pedPosition, position);
 
         if(distance < radius)

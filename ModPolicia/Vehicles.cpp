@@ -99,7 +99,7 @@ std::vector<Vehicle*> Vehicles::GetAllCarsInSphere(CVector position, float radiu
 
     for(auto vehicle : allVehicles)
     {
-        auto vehiclePos = Mod::GetCarPosition(vehicle->hVehicle);
+        auto vehiclePos = GetCarPosition(vehicle->hVehicle);
         auto distance = DistanceBetweenPoints(position, vehiclePos);
 
         if(distance <= radius)
@@ -135,7 +135,7 @@ int Vehicles::GetClosestCar(CVector position, float radius)
     for(size_t i = 0; i < vehicles.size(); i++)
     {
         auto vehicle = vehicles[i];
-        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
         
         auto distance = DistanceBetweenPoints(vehiclePosition, CVector(playerX, playerY, playerZ));
 

@@ -78,7 +78,7 @@ void Chase::UpdateChase(int dt)
             
             if(!isDriver)
             {
-                auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+                auto criminalPosition = GetPedPosition(criminal->hPed);
                 auto closestCop = Backup::FindClosestCop(criminalPosition, 30.0f, true);
 
                 if(closestCop > 0)
@@ -117,7 +117,7 @@ void Chase::UpdateChase(int dt)
         //if criminal is on foot and will shot at cops
         if(!isCriminalInCar && criminal->willShootAtCops)
         {
-            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+            auto criminalPosition = GetPedPosition(criminal->hPed);
             auto closestCop = Backup::FindClosestCop(criminalPosition, 30.0f, true);
 
             if(closestCop > 0)
@@ -176,7 +176,7 @@ void Chase::UpdateBarriers(int dt)
 
                 if(vehicle)
                 {
-                    auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+                    auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
                     auto distanceFromBarrier = DistanceBetweenPoints(vehiclePosition, barrier->objectPosition);
 
                     if(distanceFromBarrier < 10.0f)
@@ -215,8 +215,8 @@ void Chase::UpdateBarriers(int dt)
         }
 
         //delete if too far away
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto playerActor = GetPlayerActor();
+        auto playerPosition = GetPedPosition(playerActor);
         auto distance = DistanceBetweenPoints(barrier->objectPosition, playerPosition);
         if(distance > 200.0f)
         {

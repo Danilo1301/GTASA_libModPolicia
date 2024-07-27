@@ -12,7 +12,7 @@ Pickup::Pickup(CVector position, int pickupModelId)
 void Pickup::Update(int dt)
 {
     auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-    auto playerPosition = Mod::GetPedPosition(playerActor);
+    auto playerPosition = GetPedPosition(playerActor);
     auto distanceFromPlayer = DistanceBetweenPoints(playerPosition, position);
 
     if(distanceFromPlayer < 100.0f)

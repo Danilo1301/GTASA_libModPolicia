@@ -97,7 +97,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     for(auto ped : m_BackupPeds)
     {
-        if(!Mod::IsActorAliveAndDefined(ped->hPed))
+        if(!IsActorAliveAndDefined(ped->hPed))
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "backup ped is not defined/alived anymore, removing blip" << std::endl;
 
@@ -111,8 +111,8 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         if(Callouts::GetCriminals().size() == 0)
         {
             auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-            auto playerPosition = Mod::GetPedPosition(playerActor);
-            auto pedPosition = Mod::GetPedPosition(ped->hPed);
+            auto playerPosition = GetPedPosition(playerActor);
+            auto pedPosition = GetPedPosition(ped->hPed);
             auto distanceFromPlayer = DistanceBetweenPoints(pedPosition, playerPosition);
 
             if(distanceFromPlayer > 200.0f)
@@ -153,8 +153,8 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         if(Callouts::GetCriminals().size() == 0)
         {
             auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-            auto playerPosition = Mod::GetPedPosition(playerActor);
-            auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+            auto playerPosition = GetPedPosition(playerActor);
+            auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
             auto distanceFromPlayer = DistanceBetweenPoints(vehiclePosition, playerPosition);
 
             if(distanceFromPlayer > 200.0f)
@@ -180,12 +180,12 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     for(auto vehicle : m_BackupVehicles)
     {
-        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
         auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
 
         if(criminal)
         {
-            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+            auto criminalPosition = GetPedPosition(criminal->hPed);
             auto distanceFromCriminal = DistanceBetweenPoints(vehiclePosition, criminalPosition);
 
             //if criminal is 30m far away from ped
@@ -308,7 +308,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
             int criminalHandle = vehicle->goingToPed;
             if(criminalHandle > 0)
             {
-                if(!Mod::IsActorAliveAndDefined(criminalHandle))
+                if(!IsActorAliveAndDefined(criminalHandle))
                 {
                     vehicle->actionStatus = ACTION_STATUS::ACTION_NONE;
                     vehicle->goingToPed = 0;
@@ -324,7 +324,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
     for(auto ped : m_BackupPeds)
     {
         auto isCopInCar = CleoFunctions::IS_CHAR_IN_ANY_CAR(ped->hPed);
-        auto pedPosition = Mod::GetPedPosition(ped->hPed);
+        auto pedPosition = GetPedPosition(ped->hPed);
         
         bool enteringCarOrExiting = false;
         auto vehicle = GetCarThatCopBelongs(ped);
@@ -348,7 +348,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
                     if(criminal)
                     {
-                        auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+                        auto criminalPosition = GetPedPosition(criminal->hPed);
 
                         if(DistanceBetweenPoints(pedPosition, criminalPosition) < distanceEnterCar)
                         {
@@ -391,7 +391,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                         }
                     }
                 } else {
-                    auto criminalIsAlive = Mod::IsActorAliveAndDefined(ped->goingToPed);
+                    auto criminalIsAlive = IsActorAliveAndDefined(ped->goingToPed);
 
                     if(!criminalIsAlive)
                     {
@@ -408,13 +408,13 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     for(auto vehicle : m_BackupVehicles)
     {
-        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
         auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
         
         //if criminal is too far away from car, make peds enter vehicle
         if(criminal)
         {
-            auto criminalPosition = Mod::GetPedPosition(criminal->hPed);
+            auto criminalPosition = GetPedPosition(criminal->hPed);
 
             if(DistanceBetweenPoints(vehiclePosition, criminalPosition) > distanceEnterCar)
             {
@@ -428,7 +428,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                     auto owners = vehicle->GetOwners();
                     for(auto owner : owners)
                     {
-                        if(Mod::IsActorAliveAndDefined(owner)) Peds::GetPedByHandle(owner)->goingToPed = 0;
+                        if(IsActorAliveAndDefined(owner)) Peds::GetPedByHandle(owner)->goingToPed = 0;
                     }
                 }
             }
@@ -439,7 +439,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
         for(auto passengerHandle : passengersHandle)
         {
             auto passenger = Peds::GetPedByHandle(passengerHandle);
-            auto passengerPos = Mod::GetPedPosition(passengerHandle);
+            auto passengerPos = GetPedPosition(passengerHandle);
             
             auto closestCriminal = Callouts::GetClosestCriminal(passengerPos);
 
@@ -466,7 +466,7 @@ void Backup::UpdateBackupPedsAndCars(int dt)
 
     for(auto vehicle : m_BackupVehicles)
     {
-        auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+        auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
         auto criminal = Callouts::GetClosestCriminal(vehiclePosition);
 
         if(!criminal)
@@ -601,7 +601,7 @@ void Backup::SpawnBackupCar(BackupVehicle* backupVehicle, CVector position)
             Log::Level(LOG_LEVEL::LOG_BOTH) << "make car drive to closest criminal" << std::endl;
             
             auto criminal = Callouts::GetClosestCriminal(CVector(spawnX, spawnY, spawnZ));
-            auto position = Mod::GetPedPosition(criminal->hPed);
+            auto position = GetPedPosition(criminal->hPed);
 
             CleoFunctions::CAR_DRIVE_TO(car, position.x, position.y, position.z);
 
@@ -714,7 +714,7 @@ int Backup::FindClosestCop(CVector position, float radius, bool includePlayer)
     std::vector<int> cops;
     for(auto ped : m_BackupPeds)
     {
-        auto copPosition = Mod::GetPedPosition(ped->hPed);
+        auto copPosition = GetPedPosition(ped->hPed);
         auto distance = DistanceBetweenPoints(position, copPosition);
 
         if(distance > radius) continue;
@@ -737,7 +737,7 @@ int Backup::FindClosestCop(CVector position, float radius, bool includePlayer)
     {
         auto copHandle = cops[0];
         
-        auto copPosition = Mod::GetPedPosition(copHandle);
+        auto copPosition = GetPedPosition(copHandle);
 
         auto distance = DistanceBetweenPoints(position, copPosition);
 

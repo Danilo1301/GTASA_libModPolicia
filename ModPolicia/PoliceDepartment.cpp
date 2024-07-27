@@ -104,8 +104,8 @@ void PoliceDepartment::Update(int dt)
 
 void PoliceDepartment::UpdateTrunkScorch(int dt)
 {
-    auto playerActor = Mod::GetPlayerActor();
-    auto playerPosition = Mod::GetPedPosition(playerActor);
+    auto playerActor = GetPlayerActor();
+    auto playerPosition = GetPedPosition(playerActor);
 
     auto prevPDPosition = m_SphereAndMarkerPosition;
     auto closestBase = GetClosestBase();
@@ -113,7 +113,7 @@ void PoliceDepartment::UpdateTrunkScorch(int dt)
     auto distanceFromPD = DistanceBetweenPoints(playerPosition, basePosition);
 
     auto carryingPeds = false;
-    auto vehicleHandle = Mod::GetVehiclePedIsUsing(playerActor);
+    auto vehicleHandle = GetVehiclePedIsUsing(playerActor);
     if(Vehicles::HasVehicleHandle(vehicleHandle))
     {
         auto vehicle = Vehicles::GetVehicleByHandle(vehicleHandle);

@@ -33,7 +33,7 @@ void Scorch::UpdateScorchingPeds(int dt)
 
     for(auto scorchData : m_ScorchingPeds)
     {
-        if(!Mod::IsActorAliveAndDefined(scorchData->ped->hPed))
+        if(!IsActorAliveAndDefined(scorchData->ped->hPed))
         {
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Scorching ped became undefined or is now dead" << std::endl;
 
@@ -45,7 +45,7 @@ void Scorch::UpdateScorchingPeds(int dt)
         //not beeing scorched by player
         auto vehicle = scorchData->vehicle;
         auto ped = scorchData->ped;
-        if(!Mod::IsActorAliveAndDefined(ped->hPed))
+        if(!IsActorAliveAndDefined(ped->hPed))
         {
             if(vehicle->actionStatus == ACTION_STATUS::SCORCH_GOING_TO_PED || vehicle->actionStatus == ACTION_STATUS::SCORCH_WAITING_FOR_PED_TO_ENTER)
             {
@@ -59,7 +59,7 @@ void Scorch::UpdateScorchingPeds(int dt)
 
         if(vehicle->actionStatus == ACTION_STATUS::SCORCH_GOING_TO_PED)
         {
-            auto carPos = Mod::GetCarPosition(vehicle->hVehicle);
+            auto carPos = GetCarPosition(vehicle->hVehicle);
             auto distance = DistanceBetweenPoints(carPos, vehicle->drivingTo);
 
             if(distance <= 8)
@@ -110,7 +110,7 @@ void Scorch::UpdateTowTrucks(int dt)
     {
         if(towTruck->actionStatus == ACTION_STATUS::TOWING_GOING_TO_CAR)
         {
-            auto towTruckPosition = Mod::GetCarPosition(towTruck->hVehicle);
+            auto towTruckPosition = GetCarPosition(towTruck->hVehicle);
             auto destination = towTruck->drivingTo;
             auto distance = DistanceBetweenPoints(towTruckPosition, destination);
 
@@ -269,7 +269,7 @@ void Scorch::CallTowTruckToVehicle(Vehicle* vehicle)
 
     towtruckVehicle->SetDriverAndPassengersOwners();
 
-    auto vehiclePosition = Mod::GetCarPosition(vehicle->hVehicle);
+    auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
 
     float driveToX = 0, driveToY = 0, driveToZ = 0;
     CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(vehiclePosition.x, vehiclePosition.y, vehiclePosition.z, 2, &driveToX, &driveToY, &driveToZ);
@@ -291,13 +291,13 @@ void Scorch::CarryPed(Ped* ped)
 
     ped->shouldHandsup = false;
     
-    auto objectSpawnPosition = Mod::GetPedPositionWithOffset(ped->hPed, CVector(0, 0, 0));
+    auto objectSpawnPosition = GetPedPositionWithOffset(ped->hPed, CVector(0, 0, 0));
 
     auto object = m_CarryObject = CleoFunctions::CREATE_OBJECT(2328, objectSpawnPosition.x, objectSpawnPosition.y, objectSpawnPosition.z);
     CleoFunctions::SET_OBJECT_VISIBILITY(object, false);
     CleoFunctions::SET_OBJECT_COLLISION_DETECTION(object, false);
 
-    auto playerActor = Mod::GetPlayerActor();
+    auto playerActor = GetPlayerActor();
     auto objectOffset = CVector(0, 0, 0);
 
     CleoFunctions::ATTACH_OBJECT_TO_ACTOR(object, playerActor, objectOffset.x, objectOffset.y, objectOffset.z, 0, 0, 0);

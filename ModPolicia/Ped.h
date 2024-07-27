@@ -84,6 +84,10 @@ public:
 
     Name name;
     bool isMale = false;
+
+    //test
+    int id = 0;
+    CRGBA color = CRGBA(255, 255, 255);
     
     Ped(int hPed);
 	~Ped();

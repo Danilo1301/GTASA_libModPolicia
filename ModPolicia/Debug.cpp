@@ -11,7 +11,7 @@ void Debug::Draw()
 
     for(auto line : m_Lines)
     {
-       Draw::DrawGxtText(line.gxtId, line.num1, line.num2, CVector2D(x, y), line.color, eTextAlign::ALIGN_LEFT);
+       Draw::DrawGxtText(line.gxtId, line.num1, line.num2, CVector2D(x, y), line.color, eTextAlign_old::ALIGN_LEFT_old);
 
        y += 20;
     }

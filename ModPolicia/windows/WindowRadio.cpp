@@ -154,16 +154,16 @@ void WindowRadio::CreateTestOptions()
 
         if(testStep == 0)
         {
-            auto playerActor = Mod::GetPlayerActor();
-            auto spawnPosition = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
+            auto playerActor = GetPlayerActor();
+            auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
 
             imlCar = CleoFunctions::CREATE_CAR_AT(442, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         }
 
         if(testStep == 1)
         {
-            auto playerActor = Mod::GetPlayerActor();
-            auto spawnPosition = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
+            auto playerActor = GetPlayerActor();
+            auto spawnPosition = GetPedPositionWithOffset(playerActor, CVector(0, 5, 0));
             
             imlPed = CleoFunctions::CREATE_ACTOR_PEDTYPE(23, 70, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         }
@@ -212,7 +212,7 @@ void WindowRadio::CreateTestOptions()
         Remove();
 
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
+        auto position = GetPedPositionWithOffset(playerActor, CVector(0, 2, 0));
 
         auto pedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, 19, position.x, position.y, position.z);
         auto ped = Peds::TryCreatePed(pedHandle);
@@ -240,7 +240,7 @@ void WindowRadio::CreateTestOptions()
 
         for(auto ped : peds)
         {
-            auto pedPosition = Mod::GetPedPosition(ped->hPed);
+            auto pedPosition = GetPedPosition(ped->hPed);
 
             auto sphere = CleoFunctions::CREATE_SPHERE(pedPosition.x, pedPosition.y, pedPosition.z, 3.0);
         }
@@ -579,7 +579,7 @@ void WindowRadio::Draw()
 
     Draw::DrawSprite(textureId, CVector2D(m_Position.x, m_Position.y), CVector2D(150, 300), CRGBA(255, 255, 255));
 
-    Draw::DrawGxtText(172, 0, 0, CVector2D(m_Position.x + 110, m_Position.y + 220), CRGBA(255, 255, 255), eTextAlign::ALIGN_LEFT);
+    Draw::DrawGxtText(172, 0, 0, CVector2D(m_Position.x + 110, m_Position.y + 220), CRGBA(255, 255, 255), eTextAlign_old::ALIGN_LEFT_old);
 }
 
 void WindowRadio::SelectFrequency(int channelId, int frequencyId)
@@ -632,7 +632,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
     if(channelId == 2)
     {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto position = Mod::GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
+        auto position = GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
         
         switch (frequencyId)
         {
@@ -706,7 +706,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
     if(channelId == 4)
     {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto playerPosition = GetPedPosition(playerActor);
         auto closestVehicleHandle = Vehicles::GetClosestCar(playerPosition, 8.0f);
         auto closestVehicle = closestVehicleHandle > 0 ? Vehicles::GetVehicleByHandle(closestVehicleHandle) : NULL;
 
@@ -797,7 +797,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
     if(channelId == 6)
     {
         auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto playerPosition = Mod::GetPedPosition(playerActor);
+        auto playerPosition = GetPedPosition(playerActor);
         auto closestVehicleHandle = Vehicles::GetClosestCar(playerPosition, 8.0f);
         auto closestVehicle = closestVehicleHandle > 0 ? Vehicles::GetVehicleByHandle(closestVehicleHandle) : NULL;
 
