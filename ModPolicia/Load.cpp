@@ -15,7 +15,7 @@ void Load::AddModelToLoad(int modelId)
 
 void Load::AddAnimationToLoad(std::string anim)
 {
-    
+    // TODO
 }
 
 void Load::LoadAll(std::function<void()> callback)

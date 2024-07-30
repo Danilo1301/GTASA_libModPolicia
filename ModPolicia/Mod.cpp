@@ -39,7 +39,7 @@ extern CVector2D *m_vecCachedPos;
 extern RpClump* (*RpClumpForAllAtomics)(RpClump* clump, RpAtomicCallBack callback, void* pData);
 extern RpGeometry* (*RpGeometryForAllMaterials)(RpGeometry* geometry, RpMaterialCallBack fpCallBack, void* pData);
 
-const char* Mod::m_Version = "1.6.2";
+const char* Mod::m_Version = "1.6.3";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 bool Mod::m_DevModeEnabled = false;
@@ -56,7 +56,7 @@ bool appliedTest = false;
 
 void Mod::Update(int dt)
 {
-    //Log::file << "Mod::Update" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update" << std::endl;
 
     if(dt > 60)
     {
@@ -75,39 +75,39 @@ void Mod::Update(int dt)
 
     //    
     
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "peds ------------------" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "peds & vehicles" << std::endl;
 
     Peds::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "vehicles" << std::endl;
-
     Vehicles::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofunctions" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "part1" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "cleofunctions" << std::endl;
 
     CleoFunctions::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "chase" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "chase" << std::endl;
 
     Chase::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "backup" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "backup" << std::endl;
 
     Backup::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "pullover" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "part2" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "pullover" << std::endl;
 
     Pullover::Update(dt);
    
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "scorch" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "scorch" << std::endl;
 
     Scorch::Update(dt);
    
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "callouts" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "callouts" << std::endl;
    
     Callouts::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "ambulance" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "ambulance" << std::endl;
    
     Ambulance::Update(dt);
 
@@ -117,22 +117,25 @@ void Mod::Update(int dt)
 
     PoliceDepartment::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "trunk" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "part3" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "trunk" << std::endl;
 
     Trunk::Update(dt);
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "menu" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "menu" << std::endl;
 
     Menu::Update(dt);
     
     Menu::Draw();
 
+    /*
     if(m_DevModeEnabled)
         Debug::Draw();
+    */
 
     Camera::Draw();
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "input" << std::endl;
+    //Log::Level(LOG_LEVEL::LOG_UPDATE) << "input" << std::endl;
 
     Input::Update(dt);
 
@@ -229,7 +232,7 @@ void Mod::Update(int dt)
         Menu::ShowCredits(6, 5000, 80 + 50 + 10);
     }
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "end ---------" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update end" << std::endl;
 }
 
 void Mod::Init()
@@ -249,12 +252,21 @@ CSprite2d testSprite;
 
 void Mod::Draw()
 {
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Draw" << std::endl;
+
+    if(!hasCleoInitialized) return;
+
     for(auto base : PoliceDepartment::m_Bases)
     {
         auto position = base->m_PickupPartner->position;
         auto text = "~r~[~w~BASE~r~]";
 
-        menuVSL->DrawWorldText(text, position, CRGBA(255, 255, 255), eFontAlignment::ALIGN_CENTER);
+        auto playerPosition = GetPlayerPosition();
+
+        if(DistanceBetweenPoints(playerPosition, position) < 50.0f)
+        {
+            menuVSL->DrawWorldText(text, position, CRGBA(255, 255, 255), eFontAlignment::ALIGN_CENTER);
+        }
     }
 
     if(m_DrawTest)
@@ -263,7 +275,7 @@ void Mod::Draw()
         {
             char path[512];
 
-            sprintf(path, "%s/test.png", ModConfig::GetConfigFolder().c_str());
+            sprintf(path, "%s/assets/button_info.png", ModConfig::GetConfigFolder().c_str());
             testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
         }
 
@@ -280,21 +292,69 @@ void Mod::Draw()
             auto pedPosition = GetPedPosition(ped->hPed);
 
             auto distance = DistanceFromPed(ped->hPed, playerPosition);
+            
+            auto isPedInCar = GetVehiclePedIsUsing(ped->hPed) > 0;
 
-            if(distance < 20.0f)
+            if(distance < 2.0f && !isPedInCar)
             {
-                std::string text = "NPC (" + std::to_string(ped->hPed) + ")";
+                std::string name = "NPC";
+                CRGBA color = ped->color;
+
+                if(Callouts::IsPedOnCriminalList(ped))
+                {
+                    name = "Criminal";
+                    color = CRGBA(255, 0, 0);
+                }
+                if(PoliceDepartment::IsPedAPartner(ped) || Backup::IsPedACop(ped))
+                {
+                    name = "Officer";
+                    color = CRGBA(0, 150, 255);
+                }
+
+                std::string text = name + " (" + std::to_string(ped->hPed) + ")";
+                
                 auto position = pedPosition + CVector(0, 0, 1.2f);
-                auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
-                imagePos.x -= 25.0f;
-                imagePos.y -= 50.0f;
+                
+                menuVSL->DrawWorldText(text, position, color, eFontAlignment::ALIGN_CENTER);
 
-                menuVSL->DrawWorldText(text, position, ped->color, eFontAlignment::ALIGN_CENTER);
+                bool drawImage = false;
+                if(drawImage)
+                {
+                    auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
+                    auto buttonSize = CVector2D(50, 50);
+                    imagePos.x -= buttonSize.x/2;
+                    imagePos.y -= buttonSize.y;
 
-                menuVSL->DrawSprite(&testSprite, imagePos, CVector2D(50, 50));
+                    menuVSL->DrawSprite(&testSprite, imagePos, buttonSize);
+                }
+
+                bool drawHealthbar = true;
+                if(drawHealthbar)
+                {
+                    auto barPos = menuVSL->ConvertWorldPositionToScreenPosition(position);
+                    CRGBA red = CRGBA(255, 0, 0);
+                    CRGBA darkRed = CRGBA(100, 0, 0);
+
+                    auto health = CleoFunctions::ACTOR_HEALTH(ped->hPed);
+
+                    if(health > 100) health = 100;
+
+                    CVector2D barSize = CVector2D(120, 10);
+                    CVector2D hBarSize = CVector2D(barSize.x * (health / 100.0f), barSize.y);
+
+                    barPos.x -= barSize.x/2;
+                    barPos.y += 40.0f; // TODO: change this to the font size
+
+                    menuVSL->DrawRect(barPos, barSize, darkRed);
+                    menuVSL->DrawRect(barPos, hBarSize, red);
+                }
+
+                //
             }
         }
     }
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Draw end" << std::endl;
 }
 
 void Mod::CleoInit()

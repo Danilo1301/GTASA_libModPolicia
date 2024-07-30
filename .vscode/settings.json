@@ -83,7 +83,20 @@
         "queue": "cpp",
         "random": "cpp",
         "regex": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "bitset": "cpp",
+        "cwctype": "cpp",
+        "execution": "cpp",
+        "variant": "cpp",
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "__node_handle": "cpp",
+        "__split_buffer": "cpp",
+        "__threading_support": "cpp",
+        "__tree": "cpp",
+        "__verbose_abort": "cpp",
+        "print": "cpp",
+        "string_view": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

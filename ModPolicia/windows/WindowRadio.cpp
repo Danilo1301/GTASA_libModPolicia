@@ -19,7 +19,9 @@
 
 #include "systems/Camera.h"
 
-Window* WindowRadio::m_WindowMenu = NULL;
+extern IMenuVSL* menuVSL;
+
+IWindow* WindowRadio::m_WindowMenu = NULL;
 bool WindowRadio::m_Enabled = false;
 CVector2D WindowRadio::m_Position = CVector2D(280, 210);
 bool WindowRadio::m_TransparentButtons = false;
@@ -63,28 +65,30 @@ void WindowRadio::Create()
 {
 	if (m_WindowMenu) return;
 
-    auto window = m_WindowMenu = Menu::AddWindow(6);
-    window->showPageControls = true;
+    auto window = m_WindowMenu = menuVSL->AddWindow();
+    window->m_Title = "Radio";
 
-    auto button_abortCallout = window->AddButton(119, 0, 0);
-    button_abortCallout->onClick = []()
+    auto abortCallout = window->AddButton("Abort callout", CRGBA(255, 255, 255));
+    abortCallout->onClick = []()
     {
         Remove();
         Callouts::AbortCallout();
     };
 
-    auto button_config = window->AddButton(107);
-    button_config->onClick = [window]()
+    /*
+    auto config = window->AddButton("Config backup", CRGBA(255, 255, 255));
+    config->onClick = [window]()
     {
-        WindowBackup::CreateBackupConfig(window);
+        WindowBackup::CreateBackupConfig(NULL);
     };
+    */
 
     if(ModConfig::CreateTestOptionsInRadioMenu)
     {
         CreateTestOptions();
     }
 
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    auto button_close = window->AddButton("~r~Close", CRGBA(255, 255, 255));
     button_close->onClick = []()
     {
         Remove();
@@ -93,29 +97,29 @@ void WindowRadio::Create()
 
 void WindowRadio::Remove()
 {
-    m_WindowMenu->RemoveThisWindow();
+    m_WindowMenu->SetToBeRemoved();
     m_WindowMenu = NULL;
 }
 
 void WindowRadio::CreateTestOptions()
 {
     auto window = m_WindowMenu;
-    
-    auto button_pedPullover = window->AddButton(127, 0, 0);
+
+    auto button_pedPullover = window->AddButton("Create pullover ped", CRGBA(255, 255, 255));
     button_pedPullover->onClick = []()
     {
         Remove();
         Pullover::CreateTestPullOverPed();
     };
 
-    auto button_carPullover = window->AddButton(128, 0, 0);
+    auto button_carPullover = window->AddButton("Create pullover car", CRGBA(255, 255, 255));
     button_carPullover->onClick = []()
     {
         Remove();
         Pullover::CreateTestPullOverVehicle();
     };
 
-    auto button_chaseEnd = window->AddButton(129, 0, 0);
+    auto button_chaseEnd = window->AddButton("End chase", CRGBA(255, 255, 255));
     button_chaseEnd->onClick = []()
     {
         Remove();
@@ -132,7 +136,7 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
-    auto button_freezeCarChase = window->AddButton(214, 9, 0);
+    auto button_freezeCarChase = window->AddButton("Freeze car", CRGBA(255, 255, 255));
     button_freezeCarChase->onClick = []()
     {
         Remove();
@@ -145,7 +149,15 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
-    auto button_test10 = window->AddButton(23, 10, 0);
+    auto button_test11 = window->AddButton("Chase closest car", CRGBA(255, 255, 255));
+    button_test11->onClick = []()
+    {
+        Remove();
+
+        Pullover::TestChaseClosestVehicle();
+    };
+
+    auto button_test10 = window->AddButton("Test IML", CRGBA(255, 255, 255));
     button_test10->onClick = []()
     {
         Remove();
@@ -189,24 +201,7 @@ void WindowRadio::CreateTestOptions()
         testStep++;
     };
 
-    auto button_test9 = window->AddButton(23, 9, 0);
-    button_test9->onClick = []()
-    {
-        Remove();
-
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-        float x = 0, y = 0, z = 0;
-        CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 10, 0, &x, &y, &z);
-
-        auto car = CleoFunctions::CREATE_CAR_AT(596, x, y, z);
-
-        CleoFunctions::ENABLE_CAR_SIREN(car, true);
-
-        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 4, 284);
-    };
-
-    auto button_test7 = window->AddButton(23, 7, 0);
+    auto button_test7 = window->AddButton("Create criminal", CRGBA(255, 255, 255));
     button_test7->onClick = []()
     {
         Remove();
@@ -221,7 +216,7 @@ void WindowRadio::CreateTestOptions()
         Callouts::AddPedToCriminalList(ped);
     };
 
-    auto button_test8 = window->AddButton(23, 8, 0);
+    auto button_test8 = window->AddButton("Deflate tires (chase)", CRGBA(255, 255, 255));
     button_test8->onClick = []()
     {
         Remove();
@@ -231,7 +226,7 @@ void WindowRadio::CreateTestOptions()
         if(chasingPed) Chase::DeflateCarTires(chasingPed->hVehicleOwned);
     };
     
-    auto button_test6 = window->AddButton(23, 6, 0);
+    auto button_test6 = window->AddButton("Mark dead peds", CRGBA(255, 255, 255));
     button_test6->onClick = []()
     {
         Remove();
@@ -248,7 +243,7 @@ void WindowRadio::CreateTestOptions()
         Log::Level(LOG_LEVEL::LOG_BOTH) << peds.size() << " dead peds found" << std::endl;
     };
 
-    auto button_test1 = window->AddButton(23, 1, 0);
+    auto button_test1 = window->AddButton("Test opcodes", CRGBA(255, 255, 255));
     button_test1->onClick = []()
     {
         Remove();
@@ -306,7 +301,7 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
-    auto button_test2 = window->AddButton(23, 2, 0);
+    auto button_test2 = window->AddButton("Test messages", CRGBA(255, 255, 255));
     button_test2->onClick = []()
     {
         Remove();
@@ -334,36 +329,7 @@ void WindowRadio::CreateTestOptions()
         }
     };
     
-    auto button_test4 = window->AddButton(23, 4, 0);
-    button_test4->onClick = []()
-    {
-        Remove();
-
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-        float x = 0, y = 0, z = 0;
-        CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 3.0f, 0, &x, &y, &z);
-
-        CleoFunctions::CREATE_ACTOR_PEDTYPE(20, 284, x, y, z);
-    };
-
-    auto button_test5 = window->AddButton(23, 5, 0);
-    button_test5->onClick = []()
-    {
-        Remove();
-
-        int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-        float x = 0, y = 0, z = 0;
-        CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0, 10, 0, &x, &y, &z);
-
-        auto car = CleoFunctions::CREATE_CAR_AT(523, x, y, z);
-
-        int driver = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(car, 4, 284);
-    };
-
-    auto testWidgetId = window->AddIntRange(23, &Mod::m_TestWidgetId, 0, 200, 1);
-    testWidgetId->holdToChange = false;
+    auto testWidgetId = window->AddIntRange("Test Widget ID", &Mod::m_TestWidgetId, 0, 200, 1);
 
     /*
     //RADIO POSITION

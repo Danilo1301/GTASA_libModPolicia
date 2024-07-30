@@ -54,6 +54,7 @@ public:
     static void PlayRequestBackupAudio(BackupVehicle* backupVehicle);
 
     static int FindClosestCop(CVector position, float radius, bool includePlayer);
+    static bool IsPedACop(Ped* ped);
 
     static Vehicle* GetCarThatCopBelongs(Ped* cop);
 };

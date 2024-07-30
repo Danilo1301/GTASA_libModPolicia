@@ -232,6 +232,12 @@ void PoliceDepartment::RemoveAllPartners()
     m_Partners.clear();
 }
 
+bool PoliceDepartment::IsPedAPartner(Ped* ped)
+{
+    auto it = std::find(m_Partners.begin(), m_Partners.end(), ped);
+    return it != m_Partners.end();
+}
+
 void PoliceDepartment::LoadBases()
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "PoliceDepartment: LoadBases" << std::endl;

@@ -2,6 +2,8 @@
 
 #include "../menu/Menu.h"
 
+#include "menu/IMenuVSL.h"
+
 struct RadioFrequency
 {
 	int textureId;
@@ -14,7 +16,7 @@ struct RadioChannel {
 
 class WindowRadio {
 public:
-	static Window* m_WindowMenu;
+	static IWindow* m_WindowMenu;
 	static bool m_Enabled;
 	static CVector2D m_Position;
 	static bool m_TransparentButtons;

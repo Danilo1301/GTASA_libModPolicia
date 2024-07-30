@@ -46,6 +46,7 @@ public:
 
     static Ped* SpawnPartner();
     static void RemoveAllPartners();
+    static bool IsPedAPartner(Ped* ped);
 
     static void LoadBases();
     static Base* GetClosestBase();

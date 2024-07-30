@@ -371,6 +371,30 @@ void Pullover::CreateTestPullOverVehicle()
     PullOverCar(carHandle);
 }
 
+void Pullover::TestChaseClosestVehicle()
+{
+    auto playerPosition = GetPlayerPosition();
+
+    auto vehicles = Vehicles::GetAllCarsInSphere(playerPosition, 20.0f);
+
+    int vehicleHandle = 0;
+
+    for(auto vehicle : vehicles)
+    {
+        if(vehicle->GetDriver() == GetPlayerActor()) continue;
+
+        vehicleHandle = vehicle->hVehicle;
+        break;
+    }
+
+    if(!vehicleHandle) return;
+
+    auto vehicle = Vehicles::GetVehicleByHandle(vehicleHandle);
+    vehicle->isStolen = true;
+
+    PullOverCar(vehicleHandle);
+}
+
 void Pullover::FriskPed()
 {
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);

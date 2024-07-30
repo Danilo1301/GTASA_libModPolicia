@@ -242,6 +242,19 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 {
     Log::Level(LOG_LEVEL::LOG_BOTH) << "MakeCarStartRunning" << std::endl;
 
+    auto oldPed = ped;
+    auto modelId = CleoFunctions::GET_ACTOR_MODEL(ped->hPed);
+
+    CleoFunctions::DESTROY_ACTOR(ped->hPed);
+
+    auto newPedHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicle->hVehicle, 4, modelId);
+    ped = Peds::TryCreatePed(newPedHandle);
+    ped->CopyFrom(oldPed);
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Copied ped info" << std::endl;
+
+    vehicle->SetDriverAndPassengersOwners();
+
     if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;
     //ped->willShootAtCops = false;
 

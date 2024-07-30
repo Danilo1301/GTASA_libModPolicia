@@ -35,6 +35,7 @@ public:
 
     static void CreateTestPullOverPed();
     static void CreateTestPullOverVehicle();
+    static void TestChaseClosestVehicle();
 
     static void FriskPed();
     static void FriskVehicle();

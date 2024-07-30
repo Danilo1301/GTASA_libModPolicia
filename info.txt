@@ -210,7 +210,11 @@ Fixing chase:
 [X] ADD: support for more bases (LS, LV, SF and custom ones!)
 [X] EDIT: edit radio to keep chanel after selecting
 
-[ ] UPDATE: loading system
+[1.6.3]
+[X] UPDATE: loading system (almost done)
+[X] FIX: chasing ped obeys the siren
+[X] ADD: nametags (so cool :P)
+[X] ADD: cool health bars
 
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far

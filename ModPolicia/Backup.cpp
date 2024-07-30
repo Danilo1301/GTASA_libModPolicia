@@ -751,6 +751,12 @@ int Backup::FindClosestCop(CVector position, float radius, bool includePlayer)
     return cops[closestCopIndex];
 }
 
+bool Backup::IsPedACop(Ped* ped)
+{
+    auto it = std::find(m_BackupPeds.begin(), m_BackupPeds.end(), ped);
+    return it != m_BackupPeds.end();
+}
+
 Vehicle* Backup::GetCarThatCopBelongs(Ped* cop)
 {
     auto copHandle = cop->hPed;
