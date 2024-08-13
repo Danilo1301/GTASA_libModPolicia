@@ -12,12 +12,7 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE",
-                "BOOST_DATE_TIME_NO_LIB",
-                "BOOST_REGEX_NO_LIB",
-                "ASIO_STANDALONE",
-                "_WEBSOCKETPP_CPP11_STL_",
-                "_WEBSOCKETPP_CPP11_FUNCTIONAL_"
+                "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.22621.0",
             "compilerPath": "cl.exe",

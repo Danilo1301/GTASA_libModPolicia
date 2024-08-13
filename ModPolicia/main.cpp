@@ -15,7 +15,7 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.3, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.4, Danilo1301)
 
 // ---------------------------------------
 
@@ -157,12 +157,6 @@ extern "C" void OnModLoad()
     LoadInterface(&BASS, "BASS");
     LoadInterface(&menuVSL, "MenuVSL");
 
-    if(!menuVSL)
-    {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "You don't have the lib MenuVSL" << std::endl;
-        return;
-    }
-
     if(BASS)
     {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "BASS loaded: " << BASS << std::endl;
@@ -207,6 +201,20 @@ extern "C" void OnModLoad()
     Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils version: " << sautilsVersion << " (recommended 1.3.1)" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "AML version: " << amlVersion << " (recommended 1.2.2)" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
+
+    //
+    
+    if(!cleo)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "You don't have the lib CLEO" << std::endl;
+        return;
+    }
+
+    if(!menuVSL)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "You don't have the lib MenuVSL" << std::endl;
+        return;
+    }
 
     //
     

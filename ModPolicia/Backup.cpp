@@ -284,8 +284,8 @@ void Backup::UpdateBackupPedsAndCars(int dt)
                         {
                             Log::Level(LOG_LEVEL::LOG_BOTH) << "set heli follow criminal" << std::endl;
 
-                            //CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
-                            CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
+                            CleoFunctions::HELI_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
+                            //CleoFunctions::SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(vehicle->hVehicle, criminal->hPed, -1, 20.0f);
                         } else {
                             Log::Level(LOG_LEVEL::LOG_BOTH) << "set car drive to criminal position" << std::endl;
 

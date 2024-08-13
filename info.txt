@@ -212,9 +212,13 @@ Fixing chase:
 
 [1.6.3]
 [X] UPDATE: loading system (almost done)
-[X] FIX: chasing ped obeys the siren
+[X] FIX: chasing ped ob eys the siren
 [X] ADD: nametags (so cool :P)
 [X] ADD: cool health bars
+
+[1.6.4]
+[X] FIX: helicopter shooting cj
+[X] CHANGE: change the way it loads the libs (and add a log message if they are not loaded)
 
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far
