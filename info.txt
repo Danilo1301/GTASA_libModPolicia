@@ -219,6 +219,8 @@ Fixing chase:
 [1.6.4]
 [X] FIX: helicopter shooting cj
 [X] CHANGE: change the way it loads the libs (and add a log message if they are not loaded)
+[X] FIX: issues when trying to open game without configs
+
 
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far

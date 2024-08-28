@@ -170,6 +170,10 @@ bool ModConfig::StartGameWithRadio = false;
 void ModConfig::MakePaths()
 {
     CreateFolder(GetConfigFolder());
+    CreateFolder(GetConfigFolder() + "/data");
+    CreateFolder(GetConfigFolder() + "/data/bases");
+    CreateFolder(GetConfigFolder() + "/assets");
+    CreateFolder(GetConfigFolder() + "/audios");
 }
 
 bool ModConfig::DirExists(std::string path)
