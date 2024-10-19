@@ -265,7 +265,9 @@ void Mod::Draw()
 
         if(DistanceBetweenPoints(playerPosition, position) < 50.0f)
         {
+            menuVSL->SetDrawWithFixedScale(false);
             menuVSL->DrawWorldText(text, position, CRGBA(255, 255, 255), eFontAlignment::ALIGN_CENTER);
+            menuVSL->SetDrawWithFixedScale(true);
         }
     }
 
@@ -315,9 +317,11 @@ void Mod::Draw()
                 
                 auto position = pedPosition + CVector(0, 0, 1.2f);
                 
+                menuVSL->SetDrawWithFixedScale(false);
+
                 menuVSL->DrawWorldText(text, position, color, eFontAlignment::ALIGN_CENTER);
 
-                bool drawImage = false;
+                bool drawImage = true;
                 if(drawImage)
                 {
                     auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
@@ -348,6 +352,8 @@ void Mod::Draw()
                     menuVSL->DrawRect(barPos, barSize, darkRed);
                     menuVSL->DrawRect(barPos, hBarSize, red);
                 }
+
+                menuVSL->SetDrawWithFixedScale(true);
 
                 //
             }

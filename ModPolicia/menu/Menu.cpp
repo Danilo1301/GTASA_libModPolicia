@@ -5,6 +5,8 @@
 
 #include "pch.h"
 
+#include "menu/MenuStructs.h"
+
 std::string Menu::m_Version = "1.3.2";
 
 CVector2D Menu::m_MenuOffset = CVector2D(0, 0);

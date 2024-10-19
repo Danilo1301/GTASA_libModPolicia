@@ -14,6 +14,7 @@ public:
     std::string m_Title = "Window";
     float m_Width = 500.0f;
     CRGBA m_TitleBackgroundColor = CRGBA(0, 100, 200);
+    CRGBA m_SubTitleBackgroundColor = CRGBA(0, 0, 0);
 	CRGBA m_ItemBackgroundColor = CRGBA(0, 0, 0, 100);
     int m_Page = 0;
     int m_MaxItemsPerPage = 7;
