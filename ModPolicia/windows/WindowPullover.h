@@ -3,10 +3,11 @@
 #include "../pch.h"
 
 #include "../menu/Menu.h"
+#include "menu/IMenuVSL.h"
 
 class WindowPullover {
 public:
-    static Window* m_Window;
+    static IWindow* m_Window;
     
 	static void CreatePullingPed();
 	static void CreatePullingCar();

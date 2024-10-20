@@ -15,7 +15,7 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.4, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.5, Danilo1301)
 
 // ---------------------------------------
 

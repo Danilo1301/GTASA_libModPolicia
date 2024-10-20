@@ -26,6 +26,7 @@ public:
     virtual void SetPosition(CVector2D position) = 0;
     virtual IItem* AddText(std::string text, CRGBA color) = 0;
     virtual IItem* AddButton(std::string text, CRGBA color) = 0;
+    virtual IItem* AddButton(std::string text) = 0;
     virtual IItem* AddCheckbox(std::string text, bool* value) = 0;
     virtual IItem* AddIntRange(std::string text, int* value, int min, int max, int addBy) = 0;
     virtual IItem* AddFloatRange(std::string text, float* value, float min, float max, float addBy) = 0;

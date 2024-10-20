@@ -12,44 +12,38 @@
 #include "../SoundSystem.h"
 #include "systems/Dialog.h"
 
-Window* WindowPullover::m_Window = NULL;
+IWindow* WindowPullover::m_Window = NULL;
+
+extern IMenuVSL* menuVSL;
 
 void WindowPullover::CreatePullingPed()
 {
     auto ped = Pullover::m_PullingPed;
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
-    
-    auto text_id = window->AddText(27);
-    text_id->text->num1 = ped->hPed;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Abordagem";
 
-    /*
-    auto floating_button_1 = window->AddFloatingButton(23, 3, 0, CVector2D(0, 380), CVector2D(170, 40));
-    floating_button_1->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MODPMV1", 1, 2, 3, 3000, 1);
-    };
-    */
+    window->AddText("Ped ID: " + std::to_string(ped->hPed), CRGBA(255, 255, 255));
 
-    auto button_pediraguardar = window->AddButton(79);
+    auto button_pediraguardar = window->AddButton("Pedir para aguardar");
     button_pediraguardar->onClick = []()
     {
         Remove();
         Pullover::MakePedWait();
     };
 
-    auto button_dialog = window->AddButton(174, 0, 0);
-    button_dialog->onClick = [ped]()
+    auto button_dialog = window->AddButton("Dialogos");
+    button_dialog->onClick = []()
     {
         Remove();
         CreateDialogWindow();
     };
 
+
     if(ped->hVehicleOwned > 0)
     {
-        auto button_revistarcarro = window->AddButton(59);
+        auto button_revistarcarro = window->AddButton("Revistar carro");
         button_revistarcarro->onClick = [ped]()
         {
             Remove();
@@ -101,7 +95,7 @@ void WindowPullover::CreatePullingPed()
     
     if(ped->hVehicleOwned > 0)
     {
-        auto button_consultarplaca = window->AddButton(67);
+        auto button_consultarplaca = window->AddButton("Consultar placa");
         button_consultarplaca->onClick = [ped]()
         {
             Remove();
@@ -114,7 +108,7 @@ void WindowPullover::CreatePullingPed()
         };
     }
 
-    auto button_revistar = window->AddButton(33, 1, 0);
+    auto button_revistar = window->AddButton("Revistar");
     button_revistar->onClick = [playerActor, ped]()
     {   
         Remove();
@@ -161,7 +155,7 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_bafometro = window->AddButton(126, 0, 0);
+        auto button_bafometro = window->AddButton("Bafometro");
         button_bafometro->onClick = [ped]()
         {
             Remove();
@@ -180,7 +174,7 @@ void WindowPullover::CreatePullingPed()
         };
     }
 
-    auto button_rg = window->AddButton(34, 0, 0);
+    auto button_rg = window->AddButton("Pedir RG");
     button_rg->onClick = [ped]()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX35", 0, 0, 0, 3000, 1); //me ve o RG
@@ -204,7 +198,7 @@ void WindowPullover::CreatePullingPed()
         });
     };
 
-    auto button_cnh = window->AddButton(44, 0, 0);
+    auto button_cnh = window->AddButton("Pedir CNH");
     button_cnh->onClick = [ped]()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX173", 0, 0, 0, 3000, 1); //me ve a CNH
@@ -230,7 +224,7 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_ticket = window->AddButton(99, 0, 0);
+        auto button_ticket = window->AddButton("Aplicar multa");
         button_ticket->onClick = [ped]()
         {
             Remove();
@@ -240,7 +234,7 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_guincho = window->AddButton(109, 0, 0);
+        auto button_guincho = window->AddButton("Chamar guincho");
         button_guincho->onClick = [ped]()
         {
             if(!CleoFunctions::CAR_DEFINED(ped->hVehicleOwned))
@@ -258,30 +252,25 @@ void WindowPullover::CreatePullingPed()
         };
     }
 
-    auto button_conduzir = window->AddButton(64, 0, 0);
+    auto button_conduzir = window->AddButton("Conduzir");
     button_conduzir->onClick = []()
     {
         Remove();
         CreateScorchWindow();
     };
 
-    if(ped->hVehicleOwned > 0)
-    {   
-        auto button_liberar = window->AddButton(57, CRGBA(170, 70, 70));
-        button_liberar->onClick = []()
+    auto button_close = window->AddButton("~r~Liberar");
+    button_close->onClick = [ped]()
+    {
+        if(ped->hVehicleOwned > 0)
         {
             Remove();
             Pullover::FreeVehicle();
-        };
-    } else {
-        auto button_close = window->AddButton(57, CRGBA(170, 70, 70));
-        button_close->onClick = []()
-        {
+        } else {
             Remove();
             Pullover::FreePed();
-        };
-    }
-    
+        }
+    };
 }
 
 void WindowPullover::CreatePullingCar()
@@ -289,24 +278,24 @@ void WindowPullover::CreatePullingCar()
     auto vehicle = Pullover::m_PullingVehicle;
     auto ped = Pullover::m_PullingPed;
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Abordagem";
     
-    auto button_sairdocarro = window->AddButton(58);
+    auto button_sairdocarro = window->AddButton("Pedir para sair do carro");
     button_sairdocarro->onClick = [vehicle]()
     {
         Remove();
         Pullover::AskPedsToLeaveCar(vehicle);
     };
     
-    auto button_stopOnRight = window->AddButton(161);
+    auto button_stopOnRight = window->AddButton("Encostar na direita");
     button_stopOnRight->onClick = [vehicle]()
     {
         Remove();
         Pullover::AskPedToStopCarOnRight(vehicle);
     };
 
-    auto button_close = window->AddButton(57, CRGBA(170, 70, 70));
+    auto button_close = window->AddButton("~r~Liberar");
     button_close->onClick = []()
     {
         Remove();
@@ -319,17 +308,17 @@ void WindowPullover::CreateScorchWindow()
     auto ped = Pullover::m_PullingPed;
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Abordagem";
 
-    auto button_callVehicle = window->AddButton(83, 0, 0);
+    auto button_callVehicle = window->AddButton("Chamar viatura");
     button_callVehicle->onClick = [ped]()
     {
         Remove();
         Scorch::CallVehicleToScorchPed(ped);
     };
 
-    auto button_conduzir = window->AddButton(64, 0, 0);
+    auto button_conduzir = window->AddButton("Conduzir");
     button_conduzir->onClick = [ped]()
     {
         Remove();
@@ -337,16 +326,7 @@ void WindowPullover::CreateScorchWindow()
         Scorch::ToggleCarryWindow(true);
     };
 
-    /*
-    auto button_conduzirPortaMalas = window->AddButton(164, 0, 0);
-    button_conduzirPortaMalas->onClick = [ped]()
-    {
-        Remove();
-        Scorch::CarryPed(ped);
-    };
-    */
-
-    auto button_teleport = window->AddButton(84, 0, 0);
+    auto button_teleport = window->AddButton("Teleportar");
     button_teleport->onClick = [ped]()
     {
         Remove();
@@ -359,10 +339,9 @@ void WindowPullover::CreateDialogWindow()
     auto vehicle = Pullover::m_PullingVehicle;
     auto ped = Pullover::m_PullingPed;
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(150, 200);
-    window->showPageControls = true;
-    window->width = 400.0f;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Dialogo";
+    window->m_Width = 500.0f;
     
     for(auto pair : Dialogs::m_Dialogs)
     {
@@ -431,12 +410,12 @@ void WindowPullover::CreateDialogWindow()
             ped->dialogResponses[id] = response;
         }
 
-        auto button_question = window->AddButton(dialog->gxtId);
+        auto button_question = window->AddButton(dialog->question);
         button_question->onClick = [dialog, response, num1, num2]()
         {
             Remove();
 
-            CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->gxtId, 0, 0, 0, 3000, 1);
+            CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->questionGxt, 0, 0, 0, 3000, 1);
 
             CleoFunctions::WAIT(3000, [dialog, response, num1, num2] () {
 
@@ -449,8 +428,8 @@ void WindowPullover::CreateDialogWindow()
         };
     }
 
-    auto button_close = window->AddButton(8, CRGBA(170, 70, 70));
-    button_close->onClick = []()
+    auto button_back = window->AddButton("~r~Voltar");
+    button_back->onClick = [ped]()
     {
         Remove();
         CreatePullingPed();
@@ -459,6 +438,6 @@ void WindowPullover::CreateDialogWindow()
 
 void WindowPullover::Remove()
 {
-    m_Window->RemoveThisWindow();
+    m_Window->SetToBeRemoved();
     m_Window = NULL;
 }

@@ -651,6 +651,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.6.2");
     VersionControl::AddVersion("1.6.3");
     VersionControl::AddVersion("1.6.4");
+    VersionControl::AddVersion("1.6.5");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }

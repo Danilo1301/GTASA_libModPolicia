@@ -11,7 +11,8 @@ enum eDialogId {
 };
 
 struct Dialog {
-    int gxtId;
+    std::string question;
+    int questionGxt;
     std::vector<int> responses;
 };
 

@@ -66,4 +66,7 @@ public:
     // default value for drawWithFixedScale is true
     // using false is usefull with ConvertWorldPositionToScreenPosition
     virtual void SetDrawWithFixedScale(bool enabled) = 0;
+
+    virtual IWindow* AddVector2Window(IWindow* parent, CVector2D* vec, float min, float max, float addBy) = 0;
+    virtual IWindow* AddVectorWindow(IWindow* parent, CVector* vec, float min, float max, float addBy) = 0;
 };

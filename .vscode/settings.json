@@ -96,7 +96,8 @@
         "__tree": "cpp",
         "__verbose_abort": "cpp",
         "print": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "numeric": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
