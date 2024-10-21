@@ -33,6 +33,7 @@ InventoryItem* Inventory::AddItemToInventory(Item_Type type)
     {
         if(itemInfo.type != type) continue;
 
+        item->name = itemInfo.name;
         item->itemNameGxtId = itemInfo.itemNameGxtId;
         item->type = itemInfo.type;
         item->amount = GetRandomNumber(itemInfo.amountMin, itemInfo.amountMax);

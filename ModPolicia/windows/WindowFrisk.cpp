@@ -7,20 +7,25 @@
 #include "CleoFunctions.h"
 #include "SoundSystem.h"
 
-Window* WindowFrisk::m_Window = NULL;
-Window* WindowFrisk::m_WindowItemActions = NULL;
+IWindow* WindowFrisk::m_Window = NULL;
+IWindow* WindowFrisk::m_WindowItemActions = NULL;
+
+extern IMenuVSL* menuVSL;
 
 void WindowFrisk::Create()
 {
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Criando revista pessoal" << std::endl;
+    
     auto ped = Pullover::m_PullingPed;
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Revista pessoal";
     
     for(auto item : ped->inventory->items)
     {
-        auto button = window->AddButton(item->itemNameGxtId, 0, 0);
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->name << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
+
+        auto button = window->AddButton(item->name);
         button->onClick = [item]()
         {
             Remove();
@@ -29,10 +34,10 @@ void WindowFrisk::Create()
             });
         };
         
-        button->AddExtraText(InventoryItems::GetMeasureGxtId(item->measure), item->amount, 0, CVector2D(-5.0f, 0));
+        button->m_StringAtRight = InventoryItems::FormatItemAmount(item);
     }
 
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    auto button_close = window->AddButton("~r~Finalizar revista");
     button_close->onClick = []()
     {
         Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
@@ -43,7 +48,7 @@ void WindowFrisk::Create()
 
 void WindowFrisk::Remove()
 {
-    m_Window->RemoveThisWindow();
+    m_Window->SetToBeRemoved();
     m_Window = NULL;
 }
 
@@ -52,20 +57,21 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     auto ped = Pullover::m_PullingPed;
     auto vehicle = Pullover::m_PullingVehicle;
 
-    auto window = m_WindowItemActions = Menu::AddWindow(6);
-    window->position = CVector2D(200, 200); //80, 200
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Revista (Item)";
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->itemNameGxtId << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->name << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
     
     if(item->type == Item_Type::DOCUMENTS)
     {
-        window->AddText(113, ped->money, 0, CRGBA(255, 255, 255));
+        std::string moneyText = "Dinheiro: " + std::to_string(ped->money) + "$";
+
+        window->AddText(moneyText, CRGBA(255, 255, 255));
     }
 
     if(item->type == Item_Type::CELLPHONE)
     {
-        auto button_imei = window->AddButton(50);
+        auto button_imei = window->AddButton("Consultar IMEI");
         button_imei->onClick = [item]()
         {   
             SoundSystem::PlayHTAudio();
@@ -88,7 +94,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
 
     if(item->canBeAprehended)
     {
-        auto button_apreender = window->AddButton(51);
+        auto button_apreender = window->AddButton("Apreender");
         button_apreender->onClick = [ped, vehicle, item, onClose]()
         {
             if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
@@ -101,7 +107,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
 
     if(item->type == Item_Type::WEED)
     {
-        auto button_fumar = window->AddButton(52);
+        auto button_fumar = window->AddButton("Fumar");
         button_fumar->onClick = [ped, vehicle, item, onClose]()
         {
             if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
@@ -113,7 +119,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         };
     }
 
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    auto button_close = window->AddButton("~r~Voltar");
     button_close->onClick = [onClose]()
     {
         RemoveItemActions();
@@ -124,7 +130,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
 
 void WindowFrisk::RemoveItemActions()
 {
-    m_WindowItemActions->RemoveThisWindow();
+    m_WindowItemActions->SetToBeRemoved();
     m_WindowItemActions = NULL;
 }
 
@@ -132,12 +138,12 @@ void WindowFrisk::CreateFriskCar()
 {
     auto vehicle = Pullover::m_PullingVehicle;
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "Revista veicular";
 
     for(auto item : vehicle->inventory->items)
     {
-        auto button = window->AddButton(item->itemNameGxtId, 0, 0);
+        auto button = window->AddButton(item->name);
         button->onClick = [item]()
         {
             Remove();
@@ -146,10 +152,10 @@ void WindowFrisk::CreateFriskCar()
             });
         };
         
-        button->AddExtraText(InventoryItems::GetMeasureGxtId(item->measure), item->amount, 0, CVector2D(-5.0f, 0));
+        button->m_StringAtRight = InventoryItems::FormatItemAmount(item);
     }
 
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+     auto button_close = window->AddButton("~r~Finalizar revista");
     button_close->onClick = []()
     {
         Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;

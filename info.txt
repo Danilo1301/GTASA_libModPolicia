@@ -222,9 +222,7 @@ Fixing chase:
 [X] FIX: issues when trying to open game without configs
 
 [1.6.5]
-[-] alterar os menus
-
-
+[X] alterar os menus
 
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far

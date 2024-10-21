@@ -25,6 +25,7 @@ enum ITEM_MEASURE {
 };
 
 /*
+std::string name;
 int itemNameGxtId
 Item_Type type
 int amount
@@ -35,6 +36,7 @@ bool isStolen
 bool canBeAprehended
 */
 struct InventoryItem {
+    std::string name;
     int itemNameGxtId;
 
     Item_Type type;
@@ -56,4 +58,5 @@ public:
     static void Init();
 
     static int GetMeasureGxtId(ITEM_MEASURE measureType);
+    static std::string FormatItemAmount(InventoryItem* item);
 };
