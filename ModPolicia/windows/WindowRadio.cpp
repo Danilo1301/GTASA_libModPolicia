@@ -354,15 +354,15 @@ void WindowRadio::ToggleRadio(bool enabled)
         auto window = m_WindowRadio = Menu::AddWindow(6);
         window->position = CVector2D(0, 0);
         
-        auto left_button = m_LeftButton = window->AddFloatingButton(4, 0, 0, CVector2D(0, 0), CVector2D(50, 50));
+        auto left_button = m_LeftButton = window->AddFloatingButton(1, 0, 0, CVector2D(0, 0), CVector2D(50, 50));
         left_button->visible = false;
 
-        auto right_button = m_RightButton = window->AddFloatingButton(5, 0, 0, CVector2D(0, 0), CVector2D(50, 50));
+        auto right_button = m_RightButton = window->AddFloatingButton(2, 0, 0, CVector2D(0, 0), CVector2D(50, 50));
         right_button->visible = false;
 
-        auto ok_button = m_OkButton = window->AddFloatingButton(20, 0, 0, CVector2D(0, 0), CVector2D(50, 50), CRGBA(0, 180, 20));
+        auto ok_button = m_OkButton = window->AddFloatingButton(3, 0, 0, CVector2D(0, 0), CVector2D(50, 50), CRGBA(0, 180, 20));
 
-        auto back_button = m_BackButton = window->AddFloatingButton(10, 0, 0, CVector2D(0, 0), CVector2D(50, 50), CRGBA(240, 90, 90));
+        auto back_button = m_BackButton = window->AddFloatingButton(5, 0, 0, CVector2D(0, 0), CVector2D(50, 50), CRGBA(240, 90, 90));
     } else {
         m_WindowRadio->RemoveThisWindow();
         m_WindowRadio = NULL;
@@ -545,7 +545,7 @@ void WindowRadio::Draw()
 
     Draw::DrawSprite(textureId, CVector2D(m_Position.x, m_Position.y), CVector2D(150, 300), CRGBA(255, 255, 255));
 
-    Draw::DrawGxtText(172, 0, 0, CVector2D(m_Position.x + 110, m_Position.y + 220), CRGBA(255, 255, 255), eTextAlign_old::ALIGN_LEFT_old);
+    Draw::DrawGxtText(4, 0, 0, CVector2D(m_Position.x + 110, m_Position.y + 220), CRGBA(255, 255, 255), eTextAlign_old::ALIGN_LEFT_old);
 }
 
 void WindowRadio::SelectFrequency(int channelId, int frequencyId)

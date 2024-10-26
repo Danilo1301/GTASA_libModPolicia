@@ -75,6 +75,8 @@
 	"backup_swat": "SWAT",
 	
 	"check_id": "Consultar RG",
+
+	"stop_carry": "Parar de carregar",
 	
 	"dialog_officer": "~b~Policial:",
 	"dialog_ped": "~y~Suspeito:",
@@ -107,6 +109,7 @@
 	"voice_pullover_notfound": "Nao foi possivel encontrar ninguem para abordar",
 	"suspect_ran_away": "~r~O individuo apreendeu fuga!",
 	"voice_ask_for_id": "~b~[Policial] ~w~Me de seu RG",
+	"voice_ask_for_drivers_license": "~b~[Policial] ~w~Me de sua CNH",
 	"here_it_is": "Aqui esta!",
 	"i_forgot_home": "Eu esqueci em casa",
 	"voice_check_imei": "~b~[Policial] ~w~COPOM, consulta de IMEI...",

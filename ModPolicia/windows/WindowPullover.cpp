@@ -202,7 +202,7 @@ void WindowPullover::CreatePullingPed()
     auto button_cnh = window->AddButton(GetLanguageLine("ask_for_drivers_license"));
     button_cnh->onClick = [ped]()
     {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX173", 0, 0, 0, 3000, 1); //me ve a CNH
+        menuVSL->ShowMessage(GetLanguageLine("voice_ask_for_drivers_license"), 3000);
         SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_FOR_DRIVERS_LICENSE_", false);
 
         Remove();
@@ -210,14 +210,14 @@ void WindowPullover::CreatePullingPed()
         CleoFunctions::WAIT(3000, [ped]() {
             if(ped->HasDocuments())
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+                menuVSL->ShowMessage(GetLanguageLine("here_it_is"), 3000);
 
                 WindowDocument::ToggleDocuments(DOC_TYPE::CNH, ped);
                 WindowDocument::m_OnClose = []() {
                     CreatePullingPed();
                 };
             } else {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
+                menuVSL->ShowMessage(GetLanguageLine("i_forgot_home"), 3000);
                 CreatePullingPed();
             }
         });
@@ -246,7 +246,7 @@ void WindowPullover::CreatePullingPed()
 
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_TOW_TRUCK_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
+            menuVSL->ShowMessage(GetLanguageLine("request_tow_truck"), 3000);
 
             Remove();
             Scorch::CallTowTruckToVehicle(Vehicles::GetVehicleByHandle(ped->hVehicleOwned));

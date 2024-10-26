@@ -479,6 +479,9 @@ void Mod::AddModelsToLoad()
     Load::AddModelToLoad(601); //swat
     Load::AddModelToLoad(285); //swatvan
 
+    Load::AddModelToLoad(470); //patriot
+    Load::AddModelToLoad(287); //army
+    
     //skins
     for(auto skin : Skins::m_Skins)
     {
@@ -586,7 +589,7 @@ void Mod::ToggleMod(bool enabled)
 
 void Mod::ShowCredits()
 {
-    CleoFunctions::SHOW_TEXT_BOX("MPFX140"); //mod policia credits
+    CleoFunctions::SHOW_TEXT_BOX("MPFX6"); //mod policia credits
 }
 
 /*

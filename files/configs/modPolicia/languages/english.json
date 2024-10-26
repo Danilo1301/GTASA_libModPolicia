@@ -75,6 +75,8 @@
 	"backup_swat": "SWAT",
 	
 	"check_id": "Check RG",
+
+	"stop_carry": "Stop carry",
 	
 	"dialog_officer": "~b~Officer:",
 	"dialog_ped": "~y~Suspect:",
@@ -83,12 +85,12 @@
 	"DIALOG_COMING_FROM my_house": "From my house",
 	"DIALOG_COMING_FROM family_house": "From my family's house",
 	"DIALOG_COMING_FROM friend_house": "From a friend's house",
-	"DIALOG_COMING_FROM work": "From work"
+	"DIALOG_COMING_FROM work": "From work",
 	
 	"DIALOG_VEHICLE_OWNER": "Whose vehicle is it?",
 	"DIALOG_VEHICLE_OWNER mine": "It's mine",
 	"DIALOG_VEHICLE_OWNER dad": "It's my dad's",
-	"DIALOG_VEHICLE_OWNER unknown": "I don't know"
+	"DIALOG_VEHICLE_OWNER unknown": "I don't know",
 	
 	"DIALOG_CRIMES": "Any record?",
 	"DIALOG_CRIMES no": "No, sir",
@@ -96,10 +98,10 @@
 
 	"DIALOG_ARRESTED": "Have you been arrested?",
 	"DIALOG_ARRESTED no": "I've never been arrested, sir",
-	"DIALOG_ARRESTED yes": "Yes, I have, sir"
+	"DIALOG_ARRESTED yes": "Yes, I have, sir",
 	
 	"DIALOG_ILLEGAL_STUFF_IN_CAR": "Is there anything illegal in the car?",
-	"DIALOG_ILLEGAL_STUFF_IN_CAR no": "There’s nothing, no",
+	"DIALOG_ILLEGAL_STUFF_IN_CAR no": "There's nothing, no",
 	"DIALOG_ILLEGAL_STUFF_IN_CAR yes": "There are just a few things",
 
 	"voice_pullover_ped": "~b~[Officer] ~w~Stop, this is the police!",
@@ -107,6 +109,7 @@
 	"voice_pullover_notfound": "No one was found to approach",
 	"suspect_ran_away": "~r~The suspect fled!",
 	"voice_ask_for_id": "~b~[Officer] ~w~Give me your ID",
+	"voice_ask_for_drivers_license": "~b~[Policial] ~w~Me de sua CNH",
 	"here_it_is": "Here it is!",
 	"i_forgot_home": "I forgot it at home",
 	"voice_check_imei": "~b~[Officer] ~w~Central, checking IMEI...",

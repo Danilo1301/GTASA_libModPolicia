@@ -75,6 +75,8 @@
 	"backup_swat": "SWAT",
 	
 	"check_id": "Verificar ID",
+
+	"stop_carry": "Parar de carregar",
 	
 	"dialog_officer": "~b~Oficial:",
 	"dialog_ped": "~y~Sospechoso:",
@@ -107,6 +109,7 @@
 	"voice_pullover_notfound": "No se encontro a nadie para detener",
 	"suspect_ran_away": "~r~¡El sospechoso huyo!",
 	"voice_ask_for_id": "~b~[Oficial] ~w~Dame tu ID",
+	"voice_ask_for_drivers_license": "~b~[Policial] ~w~Me de sua CNH",
 	"here_it_is": "¡Aqui tienes!",
 	"i_forgot_home": "Lo olvide en casa",
 	"voice_check_imei": "~b~[Oficial] ~w~Central, verificando IMEI...",
