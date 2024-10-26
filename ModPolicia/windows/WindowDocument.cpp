@@ -125,7 +125,7 @@ void WindowDocument::Draw()
         m_CNH_sprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "cnh", true);
     }
 
-    CRGBA textColor = CRGBA(200, 200, 200);
+    CRGBA textColor = CRGBA(230, 230, 230);
 
     if(m_DocumentType == DOC_TYPE::RG)
     {

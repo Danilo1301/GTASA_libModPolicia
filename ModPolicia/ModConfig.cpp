@@ -639,6 +639,8 @@ std::string ModConfig::ReadVersionFile()
 
 void ModConfig::DefineVersions()
 {
+    if(VersionControl::m_Versions.size() > 0) return;
+
     VersionControl::AddVersion("0.1.0");
     VersionControl::AddVersion("0.2.0");
     VersionControl::AddVersion("0.3.0");
@@ -663,15 +665,15 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.6.3");
     VersionControl::AddVersion("1.6.4");
     VersionControl::AddVersion("1.6.5");
-    VersionControl::AddVersion("1.6.6");
+    VersionControl::AddVersion("1.7.0");
 
-    VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
+    VersionControl::SetVersion(ReadVersionFile(), GetModVersion());
 }
 
 void ModConfig::ProcessVersionChanges_PreConfigLoad()
 {
     std::string prevVersion = ReadVersionFile();
-    std::string currentVersion = Mod::m_Version;
+    std::string currentVersion = GetModVersion();
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [PRE] Updating from " << prevVersion << " to " << currentVersion << std::endl;
 
@@ -765,7 +767,7 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
 void ModConfig::ProcessVersionChanges_PostConfigLoad()
 {
     std::string prevVersion = ReadVersionFile();
-    std::string currentVersion = Mod::m_Version;
+    std::string currentVersion = GetModVersion();
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [POST] Updating from " << prevVersion << " to " << currentVersion << std::endl;
     

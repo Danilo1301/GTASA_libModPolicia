@@ -76,3 +76,14 @@ static std::string CVector2DToString(CVector2D vec)
 {
     return "(" + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ")";
 }
+
+static std::string joinString(const std::vector<std::string>& strings) {
+    std::string resultado;
+    for (size_t i = 0; i < strings.size(); ++i) {
+        resultado += strings[i];
+        if (i < strings.size() - 1) {
+            resultado += ", ";
+        }
+    }
+    return resultado;
+}

@@ -15,7 +15,7 @@
 
 // ---------------------------------------
 
-MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.6.5, Danilo1301)
+MYMODCFG(net.danilo1301.modPolicia, ModPolicia, 1.7.0, Danilo1301)
 
 // ---------------------------------------
 
@@ -195,8 +195,7 @@ extern "C" void OnModLoad()
     );
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "----------------------------" << std::endl;
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod Policia: v" << Mod::m_Version << std::endl;
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Menu: v" << Menu::m_Version << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod Policia: v" << ModConfig::GetModVersion()<< std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "CLEO version: " << cleoVersion << " (recommended 2.0.1.3)" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "SAUtils version: " << sautilsVersion << " (recommended 1.3.1)" << std::endl;
     Log::Level(LOG_LEVEL::LOG_BOTH) << "AML version: " << amlVersion << " (recommended 1.2.2)" << std::endl;

@@ -39,7 +39,6 @@ extern CVector2D *m_vecCachedPos;
 extern RpClump* (*RpClumpForAllAtomics)(RpClump* clump, RpAtomicCallBack callback, void* pData);
 extern RpGeometry* (*RpGeometryForAllMaterials)(RpGeometry* geometry, RpMaterialCallBack fpCallBack, void* pData);
 
-const char* Mod::m_Version = "1.6.5";
 unsigned int Mod::m_TimePassed = 0;
 bool Mod::m_Enabled = false;
 bool Mod::m_DevModeEnabled = false;

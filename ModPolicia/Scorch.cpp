@@ -144,7 +144,7 @@ void Scorch::CallVehicleToScorchPed(Ped* ped)
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Call vehicle to scorch ped" << std::endl;
 
     SoundSystem::PlayHTAudio();
-    SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_CAR_TO_TRANSPORT_SUSPECT.wav", false);
+    SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_CAR_TO_TRANSPORT_SUSPECT_", false);
 
     menuVSL->ShowMessage(GetLanguageLine("voice_request_scorch_policecar"), 3000);
 

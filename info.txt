@@ -2,12 +2,9 @@
 To release
 
 Check logs
-Check Mod::m_Version
 Check MYMODCFG version in main.cpp
 Add version to ModConfig::DefineVersions
 Set Mod::m_DevModeEnabled to false
-Check EN and PT .fxt
-Check .fxt mod version (EN and PT)
 Check game more than once to make sure
 Check if config is saving
 Check chances on settings.ini
@@ -223,12 +220,17 @@ Fixing chase:
 [X] FIX: issues when trying to open game without configs
 
 [1.6.5]
-[X] alterar os menus
+[X] preview of GTA V Menu
+
+[1.7.0]
+[X] ADD: GTA V Menu
+[X] ADD: support to multi languages
+
+
+
 
 [ ] FIX: issue where you cant pullover a ped that has handsup and will shoot cops
 [ ] FIX: paramedics dont go to the vehicle if they are too far
-
-
 
 * bug dos paramédicos e IML não consiguir voltar pro carro se for reanimar corpo muito longe
 

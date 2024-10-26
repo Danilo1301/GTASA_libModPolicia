@@ -367,7 +367,10 @@ void WindowPullover::CreateDialogWindow()
             {
                 responseId = 1;
 
-                extraText = "000, 111, 222";
+                std::vector<std::string> strs;
+                for(auto code : ped->crimeCodes) strs.push_back(std::to_string(code));
+
+                extraText = joinString(strs);
             } else {
                 responseId = 0;
             }
