@@ -23,7 +23,7 @@ std::string audio;
 struct Callout
 {
     CALLOUT_TYPE type;
-    int gxtId;
+    std::string text;
     float chance;
     std::string audio;
 };

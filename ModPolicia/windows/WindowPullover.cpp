@@ -12,9 +12,9 @@
 #include "../SoundSystem.h"
 #include "systems/Dialog.h"
 
-IWindow* WindowPullover::m_Window = NULL;
-
 extern IMenuVSL* menuVSL;
+
+IWindow* WindowPullover::m_Window = NULL;
 
 void WindowPullover::CreatePullingPed()
 {
@@ -22,18 +22,18 @@ void WindowPullover::CreatePullingPed()
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Abordagem";
+    window->m_Title = GetLanguageLine("pullover");
 
-    window->AddText("Ped ID: " + std::to_string(ped->hPed), CRGBA(255, 255, 255));
+    window->AddText("- Ped ID: " + std::to_string(ped->hPed), CRGBA(255, 255, 255));
 
-    auto button_pediraguardar = window->AddButton("Pedir para aguardar");
+    auto button_pediraguardar = window->AddButton(GetLanguageLine("ask_ped_to_wait"));
     button_pediraguardar->onClick = []()
     {
         Remove();
         Pullover::MakePedWait();
     };
 
-    auto button_dialog = window->AddButton("Dialogos");
+    auto button_dialog = window->AddButton(GetLanguageLine("dialogs"));
     button_dialog->onClick = []()
     {
         Remove();
@@ -43,12 +43,12 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_revistarcarro = window->AddButton("Revistar carro");
+        auto button_revistarcarro = window->AddButton(GetLanguageLine("frisk_car"));
         button_revistarcarro->onClick = [ped]()
         {
             Remove();
 
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
+            menuVSL->ShowMessage(GetLanguageLine("get_closer"), 3000);
 
             CleoFunctions::AddCondition([ped] (std::function<void()> complete, std::function<void()> cancel) {
                 if(!CleoFunctions::ACTOR_DEFINED(ped->hPed))
@@ -73,7 +73,9 @@ void WindowPullover::CreatePullingPed()
                 if(distance > Pullover::PULLOVER_MAX_DISTANCE)
                 {
                     Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away!" << std::endl;
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+
+                    menuVSL->ShowMessage(GetLanguageLine("warning_too_far"), 3000);
+
                     cancel();
                     return;
                 }
@@ -95,7 +97,7 @@ void WindowPullover::CreatePullingPed()
     
     if(ped->hVehicleOwned > 0)
     {
-        auto button_consultarplaca = window->AddButton("Consultar placa");
+        auto button_consultarplaca = window->AddButton(GetLanguageLine("check_plate"));
         button_consultarplaca->onClick = [ped]()
         {
             Remove();
@@ -108,12 +110,12 @@ void WindowPullover::CreatePullingPed()
         };
     }
 
-    auto button_revistar = window->AddButton("Revistar");
+    auto button_revistar = window->AddButton(GetLanguageLine("frisk"));
     button_revistar->onClick = [playerActor, ped]()
     {   
         Remove();
 
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
+        menuVSL->ShowMessage(GetLanguageLine("get_closer"), 3000);
         
         Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting to get closer to the ped" << std::endl;
 
@@ -134,7 +136,7 @@ void WindowPullover::CreatePullingPed()
             if(distance > Pullover::PULLOVER_MAX_DISTANCE)
             {
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is too far away!" << std::endl;
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+                menuVSL->ShowMessage(GetLanguageLine("warning_too_far"), 3000);
                 cancel();
                 return;
             }
@@ -155,29 +157,27 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_bafometro = window->AddButton("Bafometro");
+        auto button_bafometro = window->AddButton(GetLanguageLine("breathalyzer"));
         button_bafometro->onClick = [ped]()
         {
             Remove();
 
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX130", 0, 0, 0, 2500, 1); //vou realizar teste
+            menuVSL->ShowMessage(GetLanguageLine("voice_begin_breathalyzer"), 2800);
 
             ped->UpdateBreathalyzer();
 
             CleoFunctions::WAIT(2500, [ped] () {
-                int value = (int)(ped->breathalyzerValue * 100.0f);
-
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX131", value, 0, 0, 4000, 1); //resultado
+                menuVSL->ShowMessage(GetLanguageLine("breathalyzer_result", ped->breathalyzerValue), 4000);
 
                 CreatePullingPed();
             });
         };
     }
 
-    auto button_rg = window->AddButton("Pedir RG");
+    auto button_rg = window->AddButton(GetLanguageLine("ask_for_id"));
     button_rg->onClick = [ped]()
     {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX35", 0, 0, 0, 3000, 1); //me ve o RG
+        menuVSL->ShowMessage(GetLanguageLine("voice_ask_for_id"), 3000);
         SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_FOR_ID_", false);
 
         Remove();
@@ -185,20 +185,21 @@ void WindowPullover::CreatePullingPed()
         CleoFunctions::WAIT(3000, [ped]() {
             if(ped->HasDocuments())
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX37", 0, 0, 0, 3000, 1); //aqui esta
+                menuVSL->ShowMessage(GetLanguageLine("here_it_is"), 3000);
 
                 WindowDocument::ToggleDocuments(DOC_TYPE::RG, ped);
                 WindowDocument::m_OnClose = []() {
                     CreatePullingPed();
                 };
             } else {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX36", 0, 0, 0, 3000, 1); //esqueci em casa
+                menuVSL->ShowMessage(GetLanguageLine("i_forgot_home"), 3000);
+
                 CreatePullingPed();
             }
         });
     };
 
-    auto button_cnh = window->AddButton("Pedir CNH");
+    auto button_cnh = window->AddButton(GetLanguageLine("ask_for_drivers_license"));
     button_cnh->onClick = [ped]()
     {
         CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX173", 0, 0, 0, 3000, 1); //me ve a CNH
@@ -224,7 +225,7 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_ticket = window->AddButton("Aplicar multa");
+        auto button_ticket = window->AddButton(GetLanguageLine("issue_ticket"));
         button_ticket->onClick = [ped]()
         {
             Remove();
@@ -234,7 +235,7 @@ void WindowPullover::CreatePullingPed()
 
     if(ped->hVehicleOwned > 0)
     {
-        auto button_guincho = window->AddButton("Chamar guincho");
+        auto button_guincho = window->AddButton(GetLanguageLine("call_tow_truck"));
         button_guincho->onClick = [ped]()
         {
             if(!CleoFunctions::CAR_DEFINED(ped->hVehicleOwned))
@@ -252,14 +253,14 @@ void WindowPullover::CreatePullingPed()
         };
     }
 
-    auto button_conduzir = window->AddButton("Conduzir");
+    auto button_conduzir = window->AddButton(GetLanguageLine("scorch_criminal"));
     button_conduzir->onClick = []()
     {
         Remove();
         CreateScorchWindow();
     };
 
-    auto button_close = window->AddButton("~r~Liberar");
+    auto button_close = window->AddButton(GetLanguageLine("free_from_pullover"));
     button_close->onClick = [ped]()
     {
         if(ped->hVehicleOwned > 0)
@@ -279,23 +280,23 @@ void WindowPullover::CreatePullingCar()
     auto ped = Pullover::m_PullingPed;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Abordagem";
+    window->m_Title = GetLanguageLine("pullover");
     
-    auto button_sairdocarro = window->AddButton("Pedir para sair do carro");
+    auto button_sairdocarro = window->AddButton(GetLanguageLine("ask_to_leave_car"));
     button_sairdocarro->onClick = [vehicle]()
     {
         Remove();
         Pullover::AskPedsToLeaveCar(vehicle);
     };
     
-    auto button_stopOnRight = window->AddButton("Encostar na direita");
+    auto button_stopOnRight = window->AddButton(GetLanguageLine("ask_to_park_right"));
     button_stopOnRight->onClick = [vehicle]()
     {
         Remove();
         Pullover::AskPedToStopCarOnRight(vehicle);
     };
 
-    auto button_close = window->AddButton("~r~Liberar");
+    auto button_close = window->AddButton(GetLanguageLine("free_from_pullover"));
     button_close->onClick = []()
     {
         Remove();
@@ -309,16 +310,16 @@ void WindowPullover::CreateScorchWindow()
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Abordagem";
+    window->m_Title = GetLanguageLine("scorch_criminal");
 
-    auto button_callVehicle = window->AddButton("Chamar viatura");
+    auto button_callVehicle = window->AddButton(GetLanguageLine("call_a_police_car"));
     button_callVehicle->onClick = [ped]()
     {
         Remove();
         Scorch::CallVehicleToScorchPed(ped);
     };
 
-    auto button_conduzir = window->AddButton("Conduzir");
+    auto button_conduzir = window->AddButton(GetLanguageLine("scorch_by_yourself"));
     button_conduzir->onClick = [ped]()
     {
         Remove();
@@ -326,7 +327,7 @@ void WindowPullover::CreateScorchWindow()
         Scorch::ToggleCarryWindow(true);
     };
 
-    auto button_teleport = window->AddButton("Teleportar");
+    auto button_teleport = window->AddButton(GetLanguageLine("teleport"));
     button_teleport->onClick = [ped]()
     {
         Remove();
@@ -340,7 +341,7 @@ void WindowPullover::CreateDialogWindow()
     auto ped = Pullover::m_PullingPed;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Dialogo";
+    window->m_Title = GetLanguageLine("dialog");
     window->m_Width = 500.0f;
     
     for(auto pair : Dialogs::m_Dialogs)
@@ -348,40 +349,36 @@ void WindowPullover::CreateDialogWindow()
         auto id = pair.first;
         auto dialog = &Dialogs::m_Dialogs[id];
 
-        int response = ped->GetDialogResponse(id);
-        int num1 = 0;
-        int num2 = 0;
+        int responseId = ped->GetDialogResponse(id);
+
+        std::string extraText = "";
 
         if(id == eDialogId::DIALOG_VEHICLE_OWNER)
         {
             if(!vehicle) continue;
 
-            response = GetRandomNumber(0, 1);
+            responseId = GetRandomNumber(0, 1);
 
-            if(vehicle->isStolen) response = GetRandomNumber(0, 2);
+            if(vehicle->isStolen) responseId = GetRandomNumber(0, 2);
         }
         if(id == eDialogId::DIALOG_CRIMES)
         {
-            response = 0;
-            if(ped->crimeCodes.size() == 1)
+            if(ped->crimeCodes.size() > 0)
             {
-                response = 1;
-                num1 = ped->crimeCodes[0];
-            }
-            if(ped->crimeCodes.size() == 2)
-            {
-                response = 2;
-                num1 = ped->crimeCodes[0];
-                num2 = ped->crimeCodes[1];
+                responseId = 1;
+
+                extraText = "000, 111, 222";
+            } else {
+                responseId = 0;
             }
         }
         if(id == eDialogId::DIALOG_ARRESTED)
         {
             if(ped->crimeCodes.size() > 0)
             {
-                response = 1; //yes
+                responseId = 1; //yes
             } else {
-                response = 0; //no
+                responseId = 0; //no
             }
         }
         if(id == eDialogId::DIALOG_ILLEGAL_STUFF_IN_CAR)
@@ -390,36 +387,49 @@ void WindowPullover::CreateDialogWindow()
 
             if(vehicle->HasIlegalStuff())
             {
-                response = 1; //yes
+                responseId = 1; //yes
             } else {
-                response = 0; //no
+                responseId = 0; //no
             }
         }
 
-        if(response == -1)
+        if(responseId == -1)
         {
             switch (id)
             {
             case eDialogId::DIALOG_CRIMES:
                 break;
             default:
-                response = GetRandomNumber(0, dialog->responses.size() - 1);
+                responseId = GetRandomNumber(0, dialog->responses.size() - 1);
                 break;
             }  
 
-            ped->dialogResponses[id] = response;
+            ped->dialogResponses[id] = responseId;
         }
 
-        auto button_question = window->AddButton(dialog->question);
-        button_question->onClick = [dialog, response, num1, num2]()
+        // response
+
+        std::string response = GetLanguageLine(dialog->responses[responseId]);
+
+        if(extraText.size() > 0)
+        {
+            response = GetLanguageLine(dialog->responses[responseId], extraText.c_str());
+        }
+
+        //
+
+        auto button_question = window->AddButton(GetLanguageLine(dialog->question));
+        button_question->onClick = [dialog, response]()
         {
             Remove();
 
-            CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->questionGxt, 0, 0, 0, 3000, 1);
+            menuVSL->ShowMessage(GetLanguageLine("dialog_officer") + " ~w~" + GetLanguageLine(dialog->question), 3000);
+            //CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->questionGxt, 0, 0, 0, 3000, 1);
 
-            CleoFunctions::WAIT(3000, [dialog, response, num1, num2] () {
-
-                CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->responses[response], num1, num2, 0, 3000, 1);
+            CleoFunctions::WAIT(3000, [dialog, response] () {
+                
+                menuVSL->ShowMessage(GetLanguageLine("dialog_ped") + " ~w~" + response, 3000);
+                //CleoFunctions::SHOW_TEXT_3NUMBERS(dialog->responses[response], num1, num2, 0, 3000, 1);
 
                 CleoFunctions::WAIT(3000, [] () {
                     CreateDialogWindow();
@@ -428,7 +438,7 @@ void WindowPullover::CreateDialogWindow()
         };
     }
 
-    auto button_back = window->AddButton("~r~Voltar");
+    auto button_back = window->AddButton(GetLanguageLine("back"));
     button_back->onClick = [ped]()
     {
         Remove();

@@ -4,20 +4,36 @@
 #include "CleoFunctions.h"
 #include "Pullover.h"
 #include "SoundSystem.h"
+#include "ModConfig.h"
 
-Window* WindowDocument::m_Window = NULL;
+extern IMenuVSL* menuVSL;
+
+IWindow* WindowDocument::m_Window = NULL;
 DOC_TYPE WindowDocument::m_DocumentType = DOC_TYPE::RG;
 Ped* WindowDocument::m_Ped = NULL;
 std::function<void()> WindowDocument::m_OnClose;
 
 CVector2D WindowDocument::m_TestPosition = CVector2D(548, 404);
 
+CSprite2d WindowDocument::m_RG_sprite;
+CSprite2d WindowDocument::m_CNH_sprite;
+
 void WindowDocument::Create()
 {
-    auto window = m_Window = Menu::AddWindow(6);
-    window->position = CVector2D(0, 0);
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = "";
+    window->m_Position = CVector2D(0, 0);
+
+    auto editPos = window->AddButton("Edit position");
+    editPos->onClick = [window]() {
+        auto poswindow = menuVSL->AddVector2Window(window, &m_TestPosition, 0.0f, 10000.0f, 0.5f);
+        poswindow->m_Position = CVector2D(1000, 500);
+    };
     
-    auto confirm_button = window->AddFloatingButton(7, 0,0, CVector2D(660, 120), CVector2D(100, 30));
+    auto confirm_button = window->AddButton(GetLanguageLine("confirm"), CRGBA(0, 155, 255));
+    confirm_button->m_FitInWindow = false;
+    confirm_button->m_Position = CVector2D(1100, 350);
+    confirm_button->m_Size = CVector2D(200, 50);
     confirm_button->onClick = []()
     {
         Remove();
@@ -31,14 +47,18 @@ void WindowDocument::Create()
 
     if(m_DocumentType == DOC_TYPE::RG)
     {
-        auto confirm_consultarrg = window->AddFloatingButton(66, 0,0, CVector2D(660, 160), CVector2D(100, 30));
+        auto confirm_consultarrg = window->AddButton(GetLanguageLine("check_id"), CRGBA(0, 155, 255));
+        confirm_consultarrg->m_FitInWindow = false;
+        confirm_consultarrg->m_Position = CVector2D(1100, 420);
+        confirm_consultarrg->m_Size = CVector2D(200, 50);
         confirm_consultarrg->onClick = []()
         {
             Remove();
 
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/CHECK_ID_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX71", 0, 0, 0, 3000, 1); //consultar rg
+
+            menuVSL->ShowMessage(GetLanguageLine("voice_check_id"), 3000);
 
             CleoFunctions::WAIT(4000, []() {
                 auto ped = m_Ped;
@@ -46,11 +66,13 @@ void WindowDocument::Create()
                 {
                     SoundSystem::PlayHTAudio();
                     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ID_WITH_ARREST_WARRANT_", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX73", 0, 0, 0, 3000, 1); //com mandado
+
+                    menuVSL->ShowMessage(GetLanguageLine("voice_id_warrant"), 3000);
                 } else {
                     SoundSystem::PlayHTAudio();
                     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ID_OK_", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX72", 0, 0, 0, 3000, 1); //sem queixas
+
+                    menuVSL->ShowMessage(GetLanguageLine("voice_id_ok"), 3000);
                 }
 
                 CleoFunctions::WAIT(1000, []() {
@@ -63,7 +85,7 @@ void WindowDocument::Create()
 
 void WindowDocument::Remove()
 {
-    m_Window->RemoveThisWindow();
+    m_Window->SetToBeRemoved();
     m_Window = NULL;
 }
 
@@ -87,47 +109,64 @@ void WindowDocument::Draw()
 
     if(!m_Ped) return;
 
+    auto ped = m_Ped;
+
+    if(!m_RG_sprite.m_pTexture)
+    {
+        char path[512];
+        sprintf(path, "%s/assets/rg.png", ModConfig::GetConfigFolder().c_str());
+        m_RG_sprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "rg", true);
+    }
+
+    if(!m_CNH_sprite.m_pTexture)
+    {
+        char path[512];
+        sprintf(path, "%s/assets/cnh.png", ModConfig::GetConfigFolder().c_str());
+        m_CNH_sprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "cnh", true);
+    }
+
+    CRGBA textColor = CRGBA(200, 200, 200);
+
     if(m_DocumentType == DOC_TYPE::RG)
     {
-        //Fundo RG
-        Draw::DrawSprite(101, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
+        // Fundo RG
+        menuVSL->DrawSprite(&m_RG_sprite, CVector2D(180, 180), CVector2D(816, 522));
 
-        //TEST text
-        Draw::DrawGxtText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
+        // RG
+        menuVSL->DrawString(ped->rg, CVector2D(345, 228), textColor, eFontAlignment::ALIGN_LEFT);
 
-        //Registro Geral
-        Draw::DrawGxtText(40, m_Ped->rg[0], m_Ped->rg[1], CVector2D(284, 152), CRGBA(110, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
+        // ID
+        menuVSL->DrawString(std::to_string(ped->hPed), CVector2D(731, 232), textColor, eFontAlignment::ALIGN_LEFT);
 
-        //ID
-        Draw::DrawGxtText(27, m_Ped->hPed, 0, CVector2D(491, 155), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
+        // Nome
+        menuVSL->DrawString(ped->name.name, CVector2D(488, 395), textColor, eFontAlignment::ALIGN_LEFT);
         
-        //Nome
-        Draw::DrawGxtText(m_Ped->name.gxtId, 0, 0, CVector2D(365, 241), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
+        // Data de nascimento
+        
+        std::string date = FormatDate(ped->birthDay, ped->birthMonth, ped->birthYear);
+        menuVSL->DrawString(date, CVector2D(488, 483), textColor, eFontAlignment::ALIGN_LEFT);
 
-        //Data de nascimento
-        Draw::DrawGxtText(42, m_Ped->birthDay, m_Ped->birthMonth, CVector2D(365, 288), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-        Draw::DrawGxtText(43, m_Ped->birthYear, 0, CVector2D(420, 288), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-
-        //CPF
-        Draw::DrawGxtText(41, m_Ped->cpf[0], m_Ped->cpf[1], CVector2D(365, 336), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-    } else {
-        //Fundo CNH
-        Draw::DrawSprite(102, CVector2D(200, 120), CVector2D(430, 275), CRGBA(150, 150, 150));
-
-        //TEST text
-        Draw::DrawGxtText(2, 999, 999, m_TestPosition, CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-
-        //Nome
-        Draw::DrawGxtText(m_Ped->name.gxtId, 0, 0, CVector2D(276, 200), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-
-        //ID
-        Draw::DrawGxtText(1, m_Ped->hPed, 0, CVector2D(412, 247), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-
-        //Nº de Registro
-        Draw::DrawGxtText(1, m_Ped->cnhRegisterNum, 0, CVector2D(279, 367), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-
-        //Validade
-        Draw::DrawGxtText(42, m_Ped->cnhValidDay, m_Ped->cnhValidMonth, CVector2D(426, 367), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
-        Draw::DrawGxtText(43, m_Ped->cnhValidYear, 0, CVector2D(480, 367), CRGBA(0, 0, 0), eTextAlign_old::ALIGN_LEFT_old);
+        // CPF
+        menuVSL->DrawString(ped->cpf, CVector2D(491, 574), textColor, eFontAlignment::ALIGN_LEFT);
     }
+    if(m_DocumentType == DOC_TYPE::CNH)
+    {
+        // Fundo CNH
+        menuVSL->DrawSprite(&m_CNH_sprite, CVector2D(180, 180), CVector2D(816, 522));
+
+        // Nome
+        menuVSL->DrawString(ped->name.name, CVector2D(322, 318), textColor, eFontAlignment::ALIGN_LEFT);
+
+        // ID
+        menuVSL->DrawString(std::to_string(ped->hPed), CVector2D(580, 405), textColor, eFontAlignment::ALIGN_LEFT);
+
+        // Nº Registro
+        menuVSL->DrawString(std::to_string(ped->cnhRegisterNum), CVector2D(327, 633), textColor, eFontAlignment::ALIGN_LEFT);
+
+        // Validade
+        std::string validDate = FormatDate(ped->cnhValidDay, ped->cnhValidMonth, ped->cnhValidYear);
+        menuVSL->DrawString(validDate, CVector2D(604, 633), textColor, eFontAlignment::ALIGN_LEFT);
+    }
+
+    //menuVSL->DrawString("This is a ~r~string", m_TestPosition, CRGBA(0, 0, 0), eFontAlignment::ALIGN_LEFT);
 }

@@ -27,9 +27,12 @@
 #include "Pullover.h"
 #include "Ambulance.h"
 
+#include "systems/Names.h"
 #include "systems/Camera.h"
 
 #include "windows/WindowRadio.h"
+
+extern IMenuVSL* menuVSL;
 
 bool isDirExist(const std::string& path)
 {
@@ -166,6 +169,7 @@ bool ModConfig::EnableTestMenu = false;
 bool ModConfig::CreateTestOptionsInRadioMenu = false;
 bool ModConfig::EnableModWhenGameStarts = false;
 bool ModConfig::StartGameWithRadio = false;
+bool ModConfig::DrawInfoAbovePed = true;
 
 void ModConfig::MakePaths()
 {
@@ -285,6 +289,7 @@ void ModConfig::SaveSettings()
     generalSection->AddIntFromBool("enable_deep_log", Log::deepLogEnabled);
     generalSection->AddIntFromBool("pullover_play_animation", Pullover::PULLOVER_PLAY_ANIMATION);
     generalSection->AddIntFromBool("start_game_with_radio", ModConfig::StartGameWithRadio);
+    generalSection->AddIntFromBool("draw_info_above_ped", ModConfig::DrawInfoAbovePed);
     generalSection->AddIntFromBool("transparent_radio_buttons", WindowRadio::m_TransparentButtons);
 
     generalSection->AddLine("");
@@ -414,6 +419,11 @@ void ModConfig::Load()
     LoadStats();
 
     PoliceDepartment::LoadBases();
+
+    auto languagesFolder = GetConfigFolder() + "/languages/";
+    menuVSL->LoadLanguagesFolder(languagesFolder);
+
+    Names::Load();
 }
 
 void ModConfig::LoadSettings()
@@ -460,6 +470,7 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("enable_deep_log", &Log::deepLogEnabled);
         generalSection->GetBoolFromInt("pullover_play_animation", &Pullover::PULLOVER_PLAY_ANIMATION);  
         generalSection->GetBoolFromInt("start_game_with_radio", &ModConfig::StartGameWithRadio);  
+        generalSection->GetBoolFromInt("draw_info_above_ped", &ModConfig::DrawInfoAbovePed);  
         generalSection->GetBoolFromInt("transparent_radio_buttons", &WindowRadio::m_TransparentButtons);
         generalSection->GetFloat("spawn_emergency_vehicles_distance", &Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
         generalSection->GetFloat("chase_vehicle_max_speed", &Chase::CHASE_VEHICLE_MAX_SPEED);
@@ -652,6 +663,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.6.3");
     VersionControl::AddVersion("1.6.4");
     VersionControl::AddVersion("1.6.5");
+    VersionControl::AddVersion("1.6.6");
 
     VersionControl::SetVersion(ReadVersionFile(), Mod::m_Version);
 }
@@ -662,7 +674,6 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
     std::string currentVersion = Mod::m_Version;
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: [PRE] Updating from " << prevVersion << " to " << currentVersion << std::endl;
-
 
     VersionControl::AddPatch( [] () {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Patch (Audios) PRE" << std::endl;
@@ -748,8 +759,6 @@ void ModConfig::ProcessVersionChanges_PreConfigLoad()
         }
     });
 
-
-
     VersionControl::ApplyPatches();
 }
 
@@ -794,4 +803,10 @@ void ModConfig::ProcessVersionChanges_PostConfigLoad()
     file.open(path, std::fstream::out);
     file << currentVersion;
     file.close();
+}
+
+std::string ModConfig::GetModVersion()
+{
+    DefineVersions();
+    return VersionControl::m_Versions[VersionControl::m_Versions.size() - 1]->version;
 }

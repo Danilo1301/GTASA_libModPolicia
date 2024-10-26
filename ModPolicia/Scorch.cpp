@@ -9,14 +9,16 @@
 #include "Locations.h"
 #include "Callouts.h"
 #include "Trunk.h"
-
 #include "Input.h"
+#include "menu/IMenuVSL.h"
+
+extern IMenuVSL* menuVSL;
 
 std::vector<ScorchPedData*> Scorch::m_ScorchingPeds;
 
 std::vector<Vehicle*> Scorch::m_TowTrucks;
 
-Window* Scorch::m_CarryWindow = NULL;
+IWindow* Scorch::m_CarryWindow = NULL;
 
 Ped* Scorch::m_CarryingPed = NULL;
 int Scorch::m_CarryObject = 0;
@@ -143,7 +145,8 @@ void Scorch::CallVehicleToScorchPed(Ped* ped)
 
     SoundSystem::PlayHTAudio();
     SoundSystem::PlayStreamFromAudiosFolder("voices/REQUEST_CAR_TO_TRANSPORT_SUSPECT.wav", false);
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX85", 0, 0, 0, 2000, 1); //solicito viatura
+
+    menuVSL->ShowMessage(GetLanguageLine("voice_request_scorch_policecar"), 3000);
 
     Pullover::m_PullingPed = NULL;
     Pullover::m_PullingVehicle = NULL;
@@ -325,20 +328,25 @@ void Scorch::ToggleCarryWindow(bool enabled)
     {
         if(m_CarryWindow)
         {
-            m_CarryWindow->RemoveThisWindow();
+            m_CarryWindow->SetToBeRemoved();
             m_CarryWindow = NULL;
         }
         return;
     }
 
-    auto window = m_CarryWindow = Menu::AddWindow(6);
-    window->showTitle = false;
+    auto window = m_CarryWindow = menuVSL->AddWindow();
+    window->m_Title = "";
+    window->m_Position = CVector2D(0, 0);
 
-    auto screenSize = Input::GetGTAScreenSize();
+    auto screenSize = Input::GetScreenSize();
     float w = 200.0f;
     float x = screenSize.x/2 - w/2;
+    float y = 80;
 
-    auto stopCarry_button = window->AddFloatingButton(193, 0, 0, CVector2D(x, 80), CVector2D(200, 30));
+    auto stopCarry_button = window->AddButton(GetLanguageLine("stop_carry"), CRGBA(60, 130, 180));
+    stopCarry_button->m_FitInWindow = false;
+    stopCarry_button->m_Position = CVector2D(x, y);
+    stopCarry_button->m_Size = CVector2D(200, 50);
     stopCarry_button->onClick = []() {
         StopCarringPed();
         ToggleCarryWindow(false);

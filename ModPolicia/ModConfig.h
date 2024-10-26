@@ -31,6 +31,7 @@ public:
     static bool CreateTestOptionsInRadioMenu;
     static bool EnableModWhenGameStarts;
     static bool StartGameWithRadio;
+    static bool DrawInfoAbovePed;
 
 	static void MakePaths();
 	static bool DirExists(std::string path);
@@ -59,4 +60,6 @@ public:
 	static void DefineVersions();
 	static void ProcessVersionChanges_PreConfigLoad();
 	static void ProcessVersionChanges_PostConfigLoad();
+
+	static std::string GetModVersion();
 };

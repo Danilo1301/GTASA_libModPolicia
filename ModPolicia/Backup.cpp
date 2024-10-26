@@ -17,14 +17,15 @@ std::vector<Vehicle*> Backup::m_BackupVehicles;
 std::vector<Ped*> Backup::m_BackupPeds;
 BACKUP_TYPE Backup::m_BackupType = BACKUP_TYPE::BACKUP_CHASE;
 std::vector<BackupVehicle> Backup::m_DataBackupVehicles = {
-    {596, 280, 2, 4, 22, "backup/REQUEST_BACKUP_LS_", "backup/UNIT_RESPONDING_DISPATCH_"}, //LS
-    {523, 284, 1, 2, 22, "backup/REQUEST_BACKUP_BIKE_", "backup/UNIT_RESPONDING_DISPATCH_"}, //Bike
-    {490, 286, 4, 4, 31, "backup/REQUEST_BACKUP_FBI_", "backup/UNIT_RESPONDING_DISPATCH_"}, //FBI
-    {597, 281, 2, 4, 22, "backup/REQUEST_BACKUP_SF_", "backup/UNIT_RESPONDING_DISPATCH_"}, //SF
-    {598, 282, 2, 4, 22, "backup/REQUEST_BACKUP_LV_", "backup/UNIT_RESPONDING_DISPATCH_"}, //LV
-    {599, 283, 2, 4, 22, "backup/REQUEST_BACKUP_RANGER_", "backup/UNIT_RESPONDING_DISPATCH_"}, //Ranger
-    {497, 280, 1, 1, 22, "backup/REQUEST_BACKUP_HELI_", "backup/HELI_APPROACHING_DISPATCH_"}, //Polmav
-    {601, 285, 2, 4, 31, "backup/REQUEST_BACKUP_SWAT_", "backup/UNIT_RESPONDING_DISPATCH_"} //SWAT
+    {"backup_ls", 596, 280, 2, 4, 22, "backup/REQUEST_BACKUP_LS_", "backup/UNIT_RESPONDING_DISPATCH_"}, //LS
+    {"backup_bike", 523, 284, 1, 2, 22, "backup/REQUEST_BACKUP_BIKE_", "backup/UNIT_RESPONDING_DISPATCH_"}, //Bike
+    {"backup_fbi", 490, 286, 4, 4, 31, "backup/REQUEST_BACKUP_FBI_", "backup/UNIT_RESPONDING_DISPATCH_"}, //FBI
+    {"backup_sf", 597, 281, 2, 4, 22, "backup/REQUEST_BACKUP_SF_", "backup/UNIT_RESPONDING_DISPATCH_"}, //SF
+    {"backup_lv", 598, 282, 2, 4, 22, "backup/REQUEST_BACKUP_LV_", "backup/UNIT_RESPONDING_DISPATCH_"}, //LV
+    {"backup_ranger", 599, 283, 2, 4, 22, "backup/REQUEST_BACKUP_RANGER_", "backup/UNIT_RESPONDING_DISPATCH_"}, //Ranger
+    {"backup_helicopter", 497, 280, 1, 1, 22, "backup/REQUEST_BACKUP_HELI_", "backup/HELI_APPROACHING_DISPATCH_"}, //Polmav
+    {"backup_swat", 601, 285, 2, 4, 31, "backup/REQUEST_BACKUP_SWAT_", "backup/UNIT_RESPONDING_DISPATCH_"}, //SWAT
+    {"backup_army", 470, 287, 2, 4, 31, "backup/REQUEST_BACKUP_SWAT_", "backup/UNIT_RESPONDING_DISPATCH_"} //ARMY
 };
 std::vector<int> Backup::m_DataBackupWeapons = {22, 31, 24, 25};
 
@@ -684,7 +685,8 @@ void Backup::CallBackupHeli()
     */
 
     CleoFunctions::WAIT(3000, []() {
-        CleoFunctions::SHOW_TEXT_BOX("MPFX86");
+        // o aguia esta se deslocando a caminho
+        //CleoFunctions::SHOW_TEXT_BOX("MPFX86");
     });
 }
 

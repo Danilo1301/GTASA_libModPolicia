@@ -1,220 +1,220 @@
-MPFX1 ~1~
+MPFX1 ##### VAZIO #####
 MPFX2 ~1~, ~1~
 MPFX3 ~1~, ~1~, ~1~
-MPFX4 <
-MPFX5 >
-MPFX6 Mod Policia v1.6.5 (by ~y~Danilo1301~w~)
-MPFX7 Fechar
-MPFX8 Voltar
-MPFX9 Editar posicao
-MPFX10 X
-MPFX11 Y
-MPFX12 Z
-MPFX13 Editar cor
-MPFX14 R
-MPFX15 G
-MPFX16 B
-MPFX17 A
-MPFX18 X
-MPFX19 -
-MPFX20 +
-MPFX21 X
+MPFX4 ##### VAZIO #####
+MPFX5 ##### VAZIO #####
+MPFX6 ##### VAZIO #####
+MPFX7 ##### VAZIO #####
+MPFX8 ##### VAZIO #####
+MPFX9 ##### VAZIO #####
+MPFX10 ##### VAZIO #####
+MPFX11 ##### VAZIO #####
+MPFX12 ##### VAZIO #####
+MPFX13 ##### VAZIO #####
+MPFX14 ##### VAZIO #####
+MPFX15 ##### VAZIO #####
+MPFX16 ##### VAZIO #####
+MPFX17 ##### VAZIO #####
+MPFX18 ##### VAZIO #####
+MPFX19 ##### VAZIO #####
+MPFX20 ##### VAZIO #####
+MPFX21 ##### VAZIO #####
 MPFX22 Info
-MPFX23 Test ~1~
-MPFX24 Sim
-MPFX25 Nao
-MPFX26 <  ( Coloque no CENTRO )  >
-MPFX27 ID ~1~
-MPFX28 ###############VAZIO###############
-MPFX29 ShowDebug
+MPFX23 ##### VAZIO #####
+MPFX24 ##### VAZIO #####
+MPFX25 ##### VAZIO #####
+MPFX26 ##### VAZIO #####
+MPFX27 ##### VAZIO #####
+MPFX28 ##### VAZIO #####
+MPFX29 ##### VAZIO #####
 MPFX30 Short description of something
-MPFX31 ~b~[Policial] ~w~Parado, aqui e a policia!
-MPFX32 Nao foi possivel encontrar ninguem para abordar
-MPFX33 Revistar
-MPFX34 Pedir RG
-MPFX35 ~b~[Policial] ~w~Me de seu RG
-MPFX36 Eu esqueci em casa, senhor
-MPFX37 Aqui esta!
+MPFX31 ##### VAZIO #####
+MPFX32 ##### VAZIO #####
+MPFX33 ##### VAZIO #####
+MPFX34 ##### VAZIO #####
+MPFX35 ##### VAZIO #####
+MPFX36 ##### VAZIO #####
+MPFX37 ##### VAZIO #####
 MPFX38 ~1~.~1~
-MPFX39 WWWWWWWWW WWWWWWWW
+MPFX39 ##### VAZIO #####
 MPFX40 ~1~.~1~.484-6
 MPFX41 ~1~.~1~.705-93
 MPFX42 ~1~/~1~
 MPFX43 /~1~
-MPFX44 Pedir CNH
-MPFX45 Celular
-MPFX46 Carteira
-MPFX47 Cigarro
-MPFX48 Maconha
-MPFX49 x~1~
-MPFX50 Consultar IMEI
-MPFX51 Apreender
-MPFX52 Fumar
-MPFX53 ~g~[COPOM] ~w~IMEI registrado como produto de furto
-MPFX54 ~g~[COPOM] ~w~Nada consta no IMEI
-MPFX55 ~b~[Policial] ~w~Voce esta liberado!
-MPFX56 ~y~[Aviso] ~w~Voce esta muito longe!
-MPFX57 Liberar
-MPFX58 Pedir para sair do veiculo
-MPFX59 Revistar veiculo
-MPFX60 Cerveja
-MPFX61 Revolver 38
-MPFX62 Pistola
-MPFX63 Chegue mais perto!
-MPFX64 Conduzir
-MPFX65 Mire e aperte ~y~Buzina ~w~para abordar um ped
-MPFX66 Consultar RG
-MPFX67 Consultar placa
-MPFX68 ~b~[Policial] ~w~COPOM, consulta de placa...
-MPFX69 ~g~[COPOM] ~w~Veiculo sem queixas
-MPFX70 ~g~[COPOM] ~w~Veiculo cadastrado como produto de roubo
-MPFX71 ~b~[Policial] ~w~COPOM, consulta de individuo...
-MPFX72 ~g~[COPOM] ~w~Individuo sem queixas
-MPFX73 ~g~[COPOM] ~w~O individuo esta com um mandado de prisao em aberto
-MPFX74 ~r~O individuo apreendeu fuga!
-MPFX75 Chamar reforco
-MPFX76 Chamar reforco (ROCAM)
-MPFX77 ~b~[Policial] ~w~COPOM, solicito apoio acompanhamento
-MPFX78 ~b~[Policial] ~w~COPOM, solicito apoio da ROCAM
-MPFX79 Pedir para aguardar
-MPFX80 ~b~[Policial] ~w~Aguarde aqui no local
-MPFX81 ~g~[COPOM] ~w~Solicito uma viatura para atender ocorrencia de desentendimento
-MPFX82 Dirija-se ate o ~y~local
-MPFX83 Chamar viatura
-MPFX84 Teleportar
-MPFX85 ~b~[Policial] ~w~COPOM, solicito uma viatura para transportar um suspeito
-MPFX86 O Aguia esta se deslocando a caminho!
-MPFX87 Chamar reforco (AGUIA)
-MPFX88 ~b~[Policial] ~w~COPOM, solicito apoio do Aguia
-MPFX89 ~g~[COPOM] ~w~Solicito uma viatura para atender ocorrencia de tiros disparados
-MPFX90 Ocorrencia ~g~finalizada~w~!
-MPFX91 Editar tamanho
-MPFX92 Equipar
-MPFX93 Chamar reforco (FBI)
-MPFX94 ~b~[Policial] ~w~COPOM, solicito apoio de uma viatura especial
-MPFX95 Chamar reforco (SF)
-MPFX96 Chamar reforco (LV)
-MPFX97 ~g~[COPOM] ~w~Um veiculo roubado foi identificado pelas cameras do olho vivo
-MPFX98 Chamar reforco (RANGER)
-MPFX99 Aplicar multa
-MPFX100 Direcao perigosa
-MPFX101 Ignorando sinais de transito
-MPFX102 Usando celular no volante
-MPFX103 Dirigir sem capacete
-MPFX104 Multa aplicada!
-MPFX105 Arma ~1~
-MPFX106 Numero de peds
-MPFX107 Configurar reforco
-MPFX108 Arma
-MPFX109 Chamar guincho
-MPFX110 ~b~[Policial] ~w~COPOM, solicito apoio de um guincho
-MPFX111 Ativar mod
-MPFX112 Desativar mod
-MPFX113 Dinheiro: ~1~$
-MPFX114 ~g~[COPOM] ~w~Recebemos uma denuncia de invasao domiciliar
-MPFX115 Relogio roubado
-MPFX116 Carteira roubada
-MPFX117 Chamar ambulancia
-MPFX118 Chamar IML
-MPFX119 Cancelar ocorrencia
-MPFX120 ~b~[Policial] ~w~COPOM, solicito apoio da ambulancia
-MPFX121 ~b~[Policial] ~w~COPOM, solicito apoio do IML
-MPFX122 Acionar bloqueio
-MPFX123 Acionar espinhos
-MPFX124 ~b~[Policial] ~w~COPOM, solicito unidade de bloqueio na pista
-MPFX125 ~b~[Policial] ~w~COPOM, solicito unidade com espinhos na pista
-MPFX126 Teste de bafometro
-MPFX127 Create ped
-MPFX128 Create vehicle
-MPFX129 Cancel chase
-MPFX130 ~b~[Policial] ~w~Vou realizar o teste de bafometro
-MPFX131 Resultado do bafometro: ~y~0,~1~ ~w~mg/l
-MPFX132 ~1~g
-MPFX133 Crack
-MPFX134 Cocaina
-MPFX135 K9
-MPFX136 Metanfetamina
-MPFX137 Lanca perfume
-MPFX138 Chamar reforco (SWAT)
-MPFX139 Mostrar opcoes teste
-MPFX140 Mod Policia~n~(por ~y~Danilo1301~w~)
-MPFX141 Entrar em servico
-MPFX142 Sair do servico
-MPFX143 9mm
-MPFX144 Desert Eagle
-MPFX145 Shotgun
-MPFX146 MP5
-MPFX147 M4
-MPFX148 Spawnar
-MPFX149 Remover parceiros
-MPFX150 LAPD
-MPFX151 SFPD
-MPFX152 LVPD
-MPFX153 Country Sheriff
-MPFX154 Motorbike
-MPFX155 SWAT
-MPFX156 FBI
-MPFX157 Army
-MPFX158 Desert Sheriff
-MPFX159 Skin
-MPFX160 ~g~[COPOM] ~w~Uma viatura solicita apoio para uma perseguicao em andamento
-MPFX161 Encostar na direita
-MPFX162 Encostar em outro local
-MPFX163 Pedir para seguir
-MPFX164 Levar para o porta-malas
-MPFX165 Editar porta-malas
-MPFX166 Editar porta-malas ~1~
-MPFX167 Spawnar parceiros
-MPFX168 Voce recebeu uma recompensa de ~g~$~1~
-MPFX169 Editar barreiras
-MPFX170 Editar espinhos
-MPFX171 Veiculo
+MPFX44 ##### VAZIO #####
+MPFX45 ##### VAZIO #####
+MPFX46 ##### VAZIO #####
+MPFX47 ##### VAZIO #####
+MPFX48 ##### VAZIO #####
+MPFX49 ##### VAZIO #####
+MPFX50 ##### VAZIO #####
+MPFX51 ##### VAZIO #####
+MPFX52 ##### VAZIO #####
+MPFX53 ##### VAZIO #####
+MPFX54 ##### VAZIO #####
+MPFX55 ##### VAZIO #####
+MPFX56 ##### VAZIO #####
+MPFX57 ##### VAZIO #####
+MPFX58 ##### VAZIO #####
+MPFX59 ##### VAZIO #####
+MPFX60 ##### VAZIO #####
+MPFX61 ##### VAZIO #####
+MPFX62 ##### VAZIO #####
+MPFX63 ##### VAZIO #####
+MPFX64 ##### VAZIO #####
+MPFX65 ##### VAZIO #####
+MPFX66 ##### VAZIO #####
+MPFX67 ##### VAZIO #####
+MPFX68 ##### VAZIO #####
+MPFX69 ##### VAZIO #####
+MPFX70 ##### VAZIO #####
+MPFX71 ##### VAZIO #####
+MPFX72 ##### VAZIO #####
+MPFX73 ##### VAZIO #####
+MPFX74 ##### VAZIO #####
+MPFX75 ##### VAZIO #####
+MPFX76 ##### VAZIO #####
+MPFX77 ##### VAZIO #####
+MPFX78 ##### VAZIO #####
+MPFX79 ##### VAZIO #####
+MPFX80 ##### VAZIO #####
+MPFX81 ##### VAZIO #####
+MPFX82 ##### VAZIO #####
+MPFX83 ##### VAZIO #####
+MPFX84 ##### VAZIO #####
+MPFX85 ##### VAZIO #####
+MPFX86 ##### VAZIO #####
+MPFX87 ##### VAZIO #####
+MPFX88 ##### VAZIO #####
+MPFX89 ##### VAZIO #####
+MPFX90 ##### VAZIO #####
+MPFX91 ##### VAZIO #####
+MPFX92 ##### VAZIO #####
+MPFX93 ##### VAZIO #####
+MPFX94 ##### VAZIO #####
+MPFX95 ##### VAZIO #####
+MPFX96 ##### VAZIO #####
+MPFX97 ##### VAZIO #####
+MPFX98 ##### VAZIO #####
+MPFX99 ##### VAZIO #####
+MPFX100 ##### VAZIO #####
+MPFX101 ##### VAZIO #####
+MPFX102 ##### VAZIO #####
+MPFX103 ##### VAZIO #####
+MPFX104 ##### VAZIO #####
+MPFX105 ##### VAZIO #####
+MPFX106 ##### VAZIO #####
+MPFX107 ##### VAZIO #####
+MPFX108 ##### VAZIO #####
+MPFX109 ##### VAZIO #####
+MPFX110 ##### VAZIO #####
+MPFX111 ##### VAZIO #####
+MPFX112 ##### VAZIO #####
+MPFX113 ##### VAZIO #####
+MPFX114 ##### VAZIO #####
+MPFX115 ##### VAZIO #####
+MPFX116 ##### VAZIO #####
+MPFX117 ##### VAZIO #####
+MPFX118 ##### VAZIO #####
+MPFX119 ##### VAZIO #####
+MPFX120 ##### VAZIO #####
+MPFX121 ##### VAZIO #####
+MPFX122 ##### VAZIO #####
+MPFX123 ##### VAZIO #####
+MPFX124 ##### VAZIO #####
+MPFX125 ##### VAZIO #####
+MPFX126 ##### VAZIO #####
+MPFX127 ##### VAZIO #####
+MPFX128 ##### VAZIO #####
+MPFX129 ##### VAZIO #####
+MPFX130 ##### VAZIO #####
+MPFX131 ##### VAZIO #####
+MPFX132 ##### VAZIO #####
+MPFX133 ##### VAZIO #####
+MPFX134 ##### VAZIO #####
+MPFX135 ##### VAZIO #####
+MPFX136 ##### VAZIO #####
+MPFX137 ##### VAZIO #####
+MPFX138 ##### VAZIO #####
+MPFX139 ##### VAZIO #####
+MPFX140 Mod Policia~n~(by ~y~Danilo1301~w~)
+MPFX141 ##### VAZIO #####
+MPFX142 ##### VAZIO #####
+MPFX143 ##### VAZIO #####
+MPFX144 ##### VAZIO #####
+MPFX145 ##### VAZIO #####
+MPFX146 ##### VAZIO #####
+MPFX147 ##### VAZIO #####
+MPFX148 ##### VAZIO #####
+MPFX149 ##### VAZIO #####
+MPFX150 ##### VAZIO #####
+MPFX151 ##### VAZIO #####
+MPFX152 ##### VAZIO #####
+MPFX153 ##### VAZIO #####
+MPFX154 ##### VAZIO #####
+MPFX155 ##### VAZIO #####
+MPFX156 ##### VAZIO #####
+MPFX157 ##### VAZIO #####
+MPFX158 ##### VAZIO #####
+MPFX159 ##### VAZIO #####
+MPFX160 ##### VAZIO #####
+MPFX161 ##### VAZIO #####
+MPFX162 ##### VAZIO #####
+MPFX163 ##### VAZIO #####
+MPFX164 ##### VAZIO #####
+MPFX165 ##### VAZIO #####
+MPFX166 ##### VAZIO #####
+MPFX167 ##### VAZIO #####
+MPFX168 ##### VAZIO #####
+MPFX169 ##### VAZIO #####
+MPFX170 ##### VAZIO #####
+MPFX171 ##### VAZIO #####
 MPFX172 Radio by ~y~Strange Mods ~w~& ~y~LCG
-MPFX173 ~b~[Policial] ~w~Me de a sua CNH
-MPFX174 Dialogo
-MPFX175 ~b~[Policial] ~w~De onde voce ta vindo?
-MPFX176 Da minha casa
-MPFX177 Da casa da minha familia
-MPFX178 Da casa de um amigo
-MPFX179 Do trabalho
-MPFX180 ~b~[Policial] ~w~De quem e o veiculo?
-MPFX181 Ele e meu
-MPFX182 E do meu pai
-MPFX183 Nao sei
-MPFX184 ~g~DEV mode
-MPFX185 ~b~[Policial] ~w~Tem passagem?
-MPFX186 Tenho nao, senhor
-MPFX187 Tenho so por ~1~
-MPFX188 Tenho por ~1~ e ~1~
-MPFX189 ~b~[Policial] ~w~Ja foi preso?
-MPFX190 Nunca, senhor
-MPFX191 Ja fui sim
-MPFX192 ##################################
-MPFX193 Parar de carregar
-MPFX194 Corzeus Dias
-MPFX195 Cleverson Ryan
-MPFX196 Skyler White
-MPFX197 Alfonso Waller
-MPFX198 Morris Franklin
-MPFX199 Clay Murray
-MPFX200 Wendell Castaneda
-MPFX201 Jackie Stevens
-MPFX202 Chris Shelton
-MPFX203 Orlando Hoyt
-MPFX204 Tamires pereira
-MPFX205 Janis Sheldon
-MPFX206 Dina Green
-MPFX207 Tracie Curry
-MPFX208 Gail Greenwood
-MPFX209 Maria Church
-MPFX210 Cheryl Douglas
-MPFX211 Josie Archer
-MPFX212 Marjorie Dorsey
-MPFX213 Toni Wall
-MPFX214 Freeze chase car
-MPFX215 Camera
-MPFX216 Ativar
-MPFX217 ~b~[Policial] ~w~COPOM, consulta de IMEI...
-MPFX218 ~b~[Policial] ~w~Ta com algo de errado no carro?
-MPFX219 Nao tem nada nao
-MPFX220 Tem umas coisas so
+MPFX173 ##### VAZIO #####
+MPFX174 ##### VAZIO #####
+MPFX175 ##### VAZIO #####
+MPFX176 ##### VAZIO #####
+MPFX177 ##### VAZIO #####
+MPFX178 ##### VAZIO #####
+MPFX179 ##### VAZIO #####
+MPFX180 ##### VAZIO #####
+MPFX181 ##### VAZIO #####
+MPFX182 ##### VAZIO #####
+MPFX183 ##### VAZIO #####
+MPFX184 ##### VAZIO #####
+MPFX185 ##### VAZIO #####
+MPFX186 ##### VAZIO #####
+MPFX187 ##### VAZIO #####
+MPFX188 ##### VAZIO #####
+MPFX189 ##### VAZIO #####
+MPFX190 ##### VAZIO #####
+MPFX191 ##### VAZIO #####
+MPFX192 ##### VAZIO #####
+MPFX193 ##### VAZIO #####
+MPFX194 ##### VAZIO #####
+MPFX195 ##### VAZIO #####
+MPFX196 ##### VAZIO #####
+MPFX197 ##### VAZIO #####
+MPFX198 ##### VAZIO #####
+MPFX199 ##### VAZIO #####
+MPFX200 ##### VAZIO #####
+MPFX201 ##### VAZIO #####
+MPFX202 ##### VAZIO #####
+MPFX203 ##### VAZIO #####
+MPFX204 ##### VAZIO #####
+MPFX205 ##### VAZIO #####
+MPFX206 ##### VAZIO #####
+MPFX207 ##### VAZIO #####
+MPFX208 ##### VAZIO #####
+MPFX209 ##### VAZIO #####
+MPFX210 ##### VAZIO #####
+MPFX211 ##### VAZIO #####
+MPFX212 ##### VAZIO #####
+MPFX213 ##### VAZIO #####
+MPFX214 ##### VAZIO #####
+MPFX215 ##### VAZIO #####
+MPFX216 ##### VAZIO #####
+MPFX217 ##### VAZIO #####
+MPFX218 ##### VAZIO #####
+MPFX219 ##### VAZIO #####
+MPFX220 ##### VAZIO #####

@@ -15,7 +15,6 @@ std::vector<Window*> Menu::m_Windows;
 Window* Menu::m_MainWindow = new Window();
 
 MenuPopup* Menu::m_PopUp = new MenuPopup();
-MenuCredits* Menu::m_Credits = new MenuCredits();
 
 bool Menu::m_DrawCursor = false;
 
@@ -197,31 +196,11 @@ void Menu::ShowPopup(int gfxId, int val1, int val2, int time, float width)
     m_PopUp->width = width;
 }
 
-void Menu::ShowCredits(int gfxId, int time, int height)
-{
-    m_Credits->gfxId = gfxId;
-    m_Credits->time = time;
-    m_Credits->timeElapsed = 0;
-    m_Credits->hasShownCredits = true;
-    m_Credits->height = height;
-}
-
 void Menu::Update(int dt)
 {
     //popup
     m_PopUp->timeLeft -= dt;
     if (m_PopUp->timeLeft < 0) m_PopUp->timeLeft = 0;
-
-    //credits
-    if(m_Credits->time > 0) {
-        m_Credits->timeElapsed += dt;
-        if(m_Credits->timeElapsed >= m_Credits->time)
-        {
-            m_Credits->timeElapsed = 0;
-            m_Credits->time = 0;
-        }
-    }
-    
 
     m_MainWindow->Update();
 
@@ -270,38 +249,6 @@ void Menu::Draw()
         Draw::DrawBoxWithText(22, 100, 200, { x, y }, { w, titleH }, { 0, 77, 132, 255 }, white);
         y += 20;
         Draw::DrawBoxWithText(m_PopUp->gfxId, m_PopUp->val1, m_PopUp->val2, { x, y }, { w, hoxH }, { 0, 119, 204, 255 }, white);
-    }
-
-    if (m_Credits->time > 0)
-    {
-        auto screenSize = Input::GetGTAScreenSize();
-
-        float boxW = 300;
-        float hoxH = 50;
-
-        float x = screenSize.x/2 - boxW/2;
-        float y = m_Credits->height;
-
-        unsigned char alpha = 255;
-
-        if(m_Credits->timeElapsed >= 0 && m_Credits->timeElapsed < m_Credits->fadeTime)
-        {
-            float in = ((float)m_Credits->fadeTime - (float)m_Credits->timeElapsed) / (float)m_Credits->fadeTime;
-            alpha = 255 - ucharIntensity(255, in);
-            //Log::Level(LOG_LEVEL::LOG_BOTH) << "in: " << in << std::endl;
-        }
-        if(m_Credits->timeElapsed >= m_Credits->time - m_Credits->fadeTime && m_Credits->timeElapsed <= m_Credits->time)
-        {
-            float out = ((float)m_Credits->time - (float)m_Credits->timeElapsed) / (float)m_Credits->fadeTime;
-            alpha = ucharIntensity(255, out);
-            //Log::Level(LOG_LEVEL::LOG_BOTH) << "out: " << out << std::endl;
-        }
-
-        CRGBA textColor = { 255, 255, 255, alpha };
-        auto boxColor = GetStyle()->COLOR_BACKGROUND;
-        boxColor.a = alpha;
-
-        Draw::DrawBoxWithText(m_Credits->gfxId, 0, 0, { x, y }, { boxW, hoxH }, boxColor, textColor);
     }
     
     //cursor

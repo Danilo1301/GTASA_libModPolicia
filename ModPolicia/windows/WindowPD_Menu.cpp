@@ -16,11 +16,11 @@ void WindowPD_Menu::Create()
 	if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Servico";
+    window->m_Title = GetLanguageLine("duty");
 
     if(!Mod::m_Enabled)
     {
-        auto button_enterDuty = window->AddButton("Entrar em servico");
+        auto button_enterDuty = window->AddButton(GetLanguageLine("enter_duty"));
         button_enterDuty->onClick = []()
         {
             Remove();
@@ -31,7 +31,7 @@ void WindowPD_Menu::Create()
             if(!Ped::PedHasWeaponId(playerActor, 10)) CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
         };
     } else {
-        auto button_leaveDuty = window->AddButton("Sair do servico");
+        auto button_leaveDuty = window->AddButton(GetLanguageLine("leave_duty"));
         button_leaveDuty->onClick = []()
         {
             Remove();
@@ -39,30 +39,37 @@ void WindowPD_Menu::Create()
         };
     }
 
-    window->AddCheckbox("Ativar opcoes teste", &ModConfig::CreateTestOptionsInRadioMenu);
-
-    auto button_editRoadblocks = window->AddButton("Editar barreiras");
+    auto button_editRoadblocks = window->AddButton(GetLanguageLine("edit_barriers"));
     button_editRoadblocks->onClick = []()
     {
         Remove();
         CreateEditBarrier(&Chase::m_BarrierModels[0]);
     };
     
-    auto button_editSpikes = window->AddButton("Editar espinhos");
+    auto button_editSpikes = window->AddButton(GetLanguageLine("edit_spikes"));
     button_editSpikes->onClick = []()
     {
         Remove();
         CreateEditBarrier(&Chase::m_BarrierModels[1]);
     };
 
-    auto button_editCamera = window->AddButton("Editar camera");
+    auto button_editCamera = window->AddButton(GetLanguageLine("edit_bodycam"));
     button_editCamera->onClick = []()
     {
         Remove();
         CreateEditCamera();
     };
 
-    auto button_close = window->AddButton("~r~Fechar");
+    auto button_language = window->AddButton("Change language");
+    button_language->onClick = []()
+    {
+        Remove();
+        menuVSL->ShowSelectLanguageWindow();
+    };
+
+    window->AddCheckbox(GetLanguageLine("enable_test_options"), &ModConfig::CreateTestOptionsInRadioMenu);
+
+    auto button_close = window->AddButton(GetLanguageLine("close"));
     button_close->onClick = []()
     {
         Remove();
@@ -80,12 +87,12 @@ void WindowPD_Menu::CreatePartnerMenu()
     if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Parceiro";
+    window->m_Title = GetLanguageLine("partner");
 
-    auto weaponOptions = window->AddOptions("ID da arma");
+    auto weaponOptions = window->AddOptions(GetLanguageLine("partner_weapon"));
     for(auto weapon : PoliceDepartment::m_Weapons)
     {
-        std::string weaponName = std::to_string(weapon.weaponId);
+        std::string weaponName = Names::GetWeaponName(weapon.weaponId);
 
         weaponOptions->AddOption(weapon.weaponId, weaponName);
     }
@@ -95,10 +102,10 @@ void WindowPD_Menu::CreatePartnerMenu()
         PoliceDepartment::m_PartnerWeaponIndex = weaponOptions->m_OptionsSelectedIndex;
     };
 
-    auto skinOptions = window->AddOptions("ID da skin");
+    auto skinOptions = window->AddOptions(GetLanguageLine("partner_skin"));
     for(auto skin : PoliceDepartment::m_PartnerSkins)
     {
-        std::string skinName = std::to_string(skin.pedModelId);
+        std::string skinName = Names::GetSkinName(skin.pedModelId);
 
         skinOptions->AddOption(skin.pedModelId, skinName);
     }
@@ -108,7 +115,7 @@ void WindowPD_Menu::CreatePartnerMenu()
         PoliceDepartment::m_PartnerSkinIndex = skinOptions->m_OptionsSelectedIndex;
     };
 
-    auto button_spawnPed = window->AddButton("Spawnar parceiro");
+    auto button_spawnPed = window->AddButton(GetLanguageLine("spawn_partner"));
     button_spawnPed->onClick = []()
     {
         Remove();
@@ -116,7 +123,7 @@ void WindowPD_Menu::CreatePartnerMenu()
         PoliceDepartment::SpawnPartner();
     };
 
-    auto button_removeParterns = window->AddButton("Remover parceiros");
+    auto button_removeParterns = window->AddButton(GetLanguageLine("remove_partners"));
     button_removeParterns->onClick = []()
     {
         Remove();
@@ -124,7 +131,7 @@ void WindowPD_Menu::CreatePartnerMenu()
         PoliceDepartment::RemoveAllPartners();
     };
 
-    auto button_close = window->AddButton("~r~Fechar");
+    auto button_close = window->AddButton(GetLanguageLine("close"));
     button_close->onClick = []()
     {
         Remove();
@@ -158,11 +165,11 @@ void WindowPD_Menu::CreateEditBarrier(BarrierModel* barrierModel)
     if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Barreiras";
+    window->m_Title = GetLanguageLine("barriers");
 
     // skin options
 
-    auto skinOptions = window->AddOptions("Skin");
+    auto skinOptions = window->AddOptions(GetLanguageLine("barrier_skin"));
     for(auto skin : PoliceDepartment::m_PartnerSkins)
     {
         std::string skinName = std::to_string(skin.pedModelId);
@@ -178,7 +185,7 @@ void WindowPD_Menu::CreateEditBarrier(BarrierModel* barrierModel)
 
     // vehicle options
 
-    auto vehicleOptions = window->AddOptions("Veiculo");
+    auto vehicleOptions = window->AddOptions(GetLanguageLine("barrier_vehicle"));
 
     for(auto vehicleId : PoliceDepartment::m_VehicleIds)
     {
@@ -191,7 +198,7 @@ void WindowPD_Menu::CreateEditBarrier(BarrierModel* barrierModel)
         barrierModel->vehicleModelId = vehicleOptions->GetCurrentOption().value;
     };
 
-    auto button_close = window->AddButton("~r~Fechar");
+    auto button_close = window->AddButton(GetLanguageLine("close"));
     button_close->onClick = []()
     {
         Remove();
@@ -210,39 +217,19 @@ void WindowPD_Menu::CreateEditCamera()
     auto window = m_Window = menuVSL->AddWindow();
     window->m_Title = "Bodycam";
 
-    // window->AddCheckbox(216, &Camera::m_Enabled);
+    window->AddCheckbox("Enable bodycam", &Camera::m_Enabled);
 
-    window->AddCheckbox("Ativar bodycam", &Camera::m_Enabled);
-
-    // auto button_positionCamera = window->AddButton(9, 0, 0);
-    // button_positionCamera->onClick = [window]() {
-    //     Menu::AddPosition2DWindow(window, &Camera::m_Position, -1000.0f, 1000.0f, 0.5f, []() {});
-    // };
-
-    auto button_positionCamera = window->AddButton("Posicao", CRGBA(255, 255, 255));
+    auto button_positionCamera = window->AddButton("Position");
     button_positionCamera->onClick = [window]() {
         menuVSL->AddVector2Window(window, &Camera::m_Position, -1000.0f, 1000.0f, 0.5f);
     };
 
-    // auto button_sizeCamera = window->AddButton(91, 0, 0);
-    // button_sizeCamera->onClick = [window]() {
-    //     Menu::AddPosition2DWindow(window, &Camera::m_Size, -1000.0f, 1000.0f, 0.5f, []() {});
-    // };
-
-    auto button_sizeCamera = window->AddButton("Tamanho", CRGBA(255, 255, 255));
+    auto button_sizeCamera = window->AddButton("Size");
     button_sizeCamera->onClick = [window]() {
         menuVSL->AddVector2Window(window, &Camera::m_Size, -1000.0f, 1000.0f, 0.5f);
     };
 
-    // auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
-    // button_close->onClick = []()
-    // {
-    //     Remove();
-    //     ModConfig::SaveSettings();
-    //     Create();
-    // };
-
-    auto button_close = window->AddButton("~r~Fechar");
+    auto button_close = window->AddButton(GetLanguageLine("close"));
     button_close->onClick = []()
     {
         Remove();

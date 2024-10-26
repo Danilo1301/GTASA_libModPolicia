@@ -6,15 +6,15 @@
 
 #include "../Backup.h"
 
+#include "menu/IMenuVSL.h"
+
 class WindowBackup {
 public:
-    static Window* m_Window;
-    //static Window* m_BackupConfigWindow;
-	static bool m_CloseToBackupWindow;
+    static IWindow* m_Window;
     
 	static void Create();
 	static void Remove();
 
-	static void CreateBackupConfig(Window* parent);
-	static void CreateBackupConfigForBackup(Window* parent, BackupVehicle* backupVehicle);
+	static void CreateBackupConfig(IWindow* parent);
+	static void CreateBackupConfigForBackup(IWindow* parent, BackupVehicle* backupVehicle);
 };

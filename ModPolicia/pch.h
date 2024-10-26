@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <filesystem>
 #include <dlfcn.h>
@@ -26,6 +27,16 @@ static int GetRandomNumber(int min, int max)
         x = rand();
     }while (x >= RAND_MAX - remainder);
     return min + x % n;
+}
+
+static std::string FormatDate(int day, int month, int year)
+{
+    std::stringstream date;
+    date << std::setw(2) << std::setfill('0') << day << "/"
+         << std::setw(2) << std::setfill('0') << month << "/"
+         << year;
+
+    return date.str();
 }
 
 static double distanceBetweenTwoPoints(double x, double y, double a, double b)

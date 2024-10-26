@@ -4,38 +4,25 @@
 
 #include "../CleoFunctions.h"
 
-Window* WindowTicket::m_Window = NULL;
+extern IMenuVSL* menuVSL;
+
+IWindow* WindowTicket::m_Window = NULL;
 
 void WindowTicket::Create()
 {
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = GetLanguageLine("window_ticket");
 
-    auto ticket1 = window->AddButton(100);
-    ticket1->onClick = []()
+    for(int i = 1; i <= 4; i++)
     {
-        IssueTicket(0);
-    };
+        auto button = window->AddButton(GetLanguageLine("ticket" + std::to_string(i)));
+        button->onClick = []()
+        {
+            IssueTicket(0);
+        };
+    }
 
-    auto ticket2 = window->AddButton(101);
-    ticket2->onClick = []()
-    {
-        IssueTicket(0);
-    };
-
-    auto ticket3 = window->AddButton(102);
-    ticket3->onClick = []()
-    {
-        IssueTicket(0);
-    };
-
-    auto ticket4 = window->AddButton(103);
-    ticket4->onClick = []()
-    {
-        IssueTicket(0);
-    };
-
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    auto button_close = window->AddButton(GetLanguageLine("back"));
     button_close->onClick = []()
     {
         Remove();
@@ -45,7 +32,7 @@ void WindowTicket::Create()
 
 void WindowTicket::Remove()
 {
-    m_Window->RemoveThisWindow();
+    m_Window->SetToBeRemoved();
     m_Window = NULL;
 }
 
@@ -53,5 +40,6 @@ void WindowTicket::IssueTicket(int price)
 {
     Remove();
     WindowPullover::CreatePullingPed();
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX104", 0, 0, 0, 3000, 1); //multa aplicada
+
+    menuVSL->ShowMessage(GetLanguageLine("ticket_issued"), 3000);
 }

@@ -11,6 +11,7 @@
 #include "IDebug.h"
 
 #define _debug menuVSL->debug
+#define GetLanguageLine menuVSL->GetLanguageLineFormatted
 
 class IMenuVSL {
 public:
@@ -69,4 +70,15 @@ public:
 
     virtual IWindow* AddVector2Window(IWindow* parent, CVector2D* vec, float min, float max, float addBy) = 0;
     virtual IWindow* AddVectorWindow(IWindow* parent, CVector* vec, float min, float max, float addBy) = 0;
+
+    /* 1.4.0 */
+
+    virtual IWindow* ShowSelectLanguageWindow(IWindow* parent = NULL) = 0;
+    virtual void LoadLanguagesFolder(std::string folder) = 0;
+
+    virtual std::string GetLanguageLineFormatted(std::string key, ...) = 0;
+
+    virtual void ShowMessage(std::string key, int time) = 0;
+
+    virtual void AddModCredits(std::string key) = 0;
 };

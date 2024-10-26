@@ -6,13 +6,11 @@
 #include "Ped.h"
 
 struct Weapon {
-    int gxtId;
     int weaponId;
     int weaponModelId;
 };
 
 struct PartnerSkin {
-    int gxtId;
     int pedModelId;
 };
 

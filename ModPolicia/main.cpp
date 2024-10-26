@@ -285,5 +285,7 @@ extern "C" void OnModLoad()
 
     menuVSL->AddOnRender(Mod::Draw);
 
+    menuVSL->AddModCredits("~w~Mod Policia v" + ModConfig::GetModVersion() + " (by ~y~Danilo1301~w~)");
+
     Log::Level(LOG_LEVEL::LOG_BOTH) << "Load() END" << std::endl;
 }

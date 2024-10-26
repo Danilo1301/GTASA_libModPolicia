@@ -10,8 +10,10 @@
 #include "windows/WindowTrunk.h"
 #include "windows/WindowPD_Menu.h"
 
-Window* WindowCarMenu::m_Window = NULL;
+IWindow* WindowCarMenu::m_Window = NULL;
 Vehicle* WindowCarMenu::m_Vehicle = NULL;
+
+extern IMenuVSL* menuVSL;
 
 void WindowCarMenu::Create(Vehicle* vehicle)
 {
@@ -19,19 +21,19 @@ void WindowCarMenu::Create(Vehicle* vehicle)
 
     m_Vehicle = vehicle;
 
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
+    auto window = m_Window = menuVSL->AddWindow();
+    window->m_Title = GetLanguageLine("car_menu");
 
     if(Mod::m_Enabled)
     {
-        auto button_disableMod = window->AddButton(112);
+        auto button_disableMod = window->AddButton(GetLanguageLine("disable_mod"));
         button_disableMod->onClick = []()
         {
             Remove();
             Mod::ToggleMod(false);
         };
     } else {
-        auto button_enableMod = window->AddButton(111);
+        auto button_enableMod = window->AddButton(GetLanguageLine("enable_mod"));
         button_enableMod->onClick = []()
         {
             Remove();
@@ -39,35 +41,35 @@ void WindowCarMenu::Create(Vehicle* vehicle)
         };
     }
 
-    auto button_position = window->AddButton(9, 1, 0);
-    button_position->onClick = [window]() {
-        Remove();
+    // auto button_position = window->AddButton(GetLanguageLine("edit_position"));
+    // button_position->onClick = [window]() {
+    //     Remove();
 
-        auto testWindow = Menu::AddWindow(6);
-        testWindow->AddText(30);
-        testWindow->AddText(30);
-        testWindow->AddText(30);
-        testWindow->AddText(30);
+    //     auto testWindow = Menu::AddWindow(6);
+    //     testWindow->AddText(30);
+    //     testWindow->AddText(30);
+    //     testWindow->AddText(30);
+    //     testWindow->AddText(30);
 
-        auto positionWindow = Menu::AddPosition2DWindow(NULL, &testWindow->position, -1000.0f, 1000.0f, 0.5f, [testWindow]() {
-            Window::m_DefaultWindowPosition = testWindow->position;
-        });
+    //     auto positionWindow = Menu::AddPosition2DWindow(NULL, &testWindow->position, -1000.0f, 1000.0f, 0.5f, [testWindow]() {
+    //         Window::m_DefaultWindowPosition = testWindow->position;
+    //     });
 
-        auto closeButton = positionWindow->AddFloatingButton(7, 0, 0, CVector2D(100, 300), CVector2D(100, 30));
-        closeButton->onClick = [positionWindow, testWindow]() {
-            positionWindow->RemoveThisWindow();
-            testWindow->RemoveThisWindow();
+    //     auto closeButton = positionWindow->AddFloatingButton(7, 0, 0, CVector2D(100, 300), CVector2D(100, 30));
+    //     closeButton->onClick = [positionWindow, testWindow]() {
+    //         positionWindow->RemoveThisWindow();
+    //         testWindow->RemoveThisWindow();
 
-            Create(m_Vehicle);
-        };
-    };
+    //         Create(m_Vehicle);
+    //     };
+    // };
 
-    auto menuWidth = window->AddFloatRange(91, &window->width, 0.0f, 1000.0f, 0.5f);
-    menuWidth->onValueChange = [window]() {
-        Window::m_DefaultWindowWidth = window->width;
-    };
+    // auto menuWidth = window->AddFloatRange(91, &window->width, 0.0f, 1000.0f, 0.5f);
+    // menuWidth->onValueChange = [window]() {
+    //     Window::m_DefaultWindowWidth = window->width;
+    // };
 
-    auto equip = window->AddButton(92);
+    auto equip = window->AddButton(GetLanguageLine("equip"));
     equip->onClick = []()
     {
         Remove();
@@ -86,7 +88,7 @@ void WindowCarMenu::Create(Vehicle* vehicle)
 
     if(vehicle->trunk->HasModelData())
     {
-        auto button_configTrunk = window->AddButton(165);
+        auto button_configTrunk = window->AddButton(GetLanguageLine("edit_trunk"));
         button_configTrunk->onClick = []()
         {
             Remove();
@@ -94,13 +96,13 @@ void WindowCarMenu::Create(Vehicle* vehicle)
         };
     }
 
-    auto button_configBackup = window->AddButton(107);
+    auto button_configBackup = window->AddButton(GetLanguageLine("config_backup"));
     button_configBackup->onClick = [window]()
     {
         WindowBackup::CreateBackupConfig(window);
     };
 
-    auto button_spawnPartner = window->AddButton(167);
+    auto button_spawnPartner = window->AddButton(GetLanguageLine("spawn_partner"));
     button_spawnPartner->onClick = [vehicle]()
     {
         Remove();
@@ -109,7 +111,7 @@ void WindowCarMenu::Create(Vehicle* vehicle)
         WindowPD_Menu::CreatePartnerMenu();
     };
 
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
+    auto button_close = window->AddButton(GetLanguageLine("close"));
     button_close->onClick = []()
     {
         Remove();
@@ -119,6 +121,6 @@ void WindowCarMenu::Create(Vehicle* vehicle)
 
 void WindowCarMenu::Remove()
 {
-    m_Window->RemoveThisWindow();
+    m_Window->SetToBeRemoved();
     m_Window = NULL;
 }

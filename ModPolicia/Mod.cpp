@@ -111,7 +111,6 @@ void Mod::Update(int dt)
    
     Ambulance::Update(dt);
 
-    WindowDocument::Draw();
     WindowRadio::Update(dt);
     WindowRadio::Draw();
 
@@ -227,10 +226,10 @@ void Mod::Update(int dt)
         Widgets::IsWidgetJustPressed(m_TestWidgetId);
     }
 
-    if(!Menu::m_Credits->hasShownCredits)
-    {
-        Menu::ShowCredits(6, 5000, 80 + 50 + 10);
-    }
+    // if(!Menu::m_Credits->hasShownCredits)
+    // {
+    //     Menu::ShowCredits(6, 5000, 80 + 50 + 10);
+    // }
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update end" << std::endl;
 }
@@ -276,7 +275,6 @@ void Mod::Draw()
         if(!testSprite.m_pTexture)
         {
             char path[512];
-
             sprintf(path, "%s/assets/button_info.png", ModConfig::GetConfigFolder().c_str());
             testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
         }
@@ -288,6 +286,8 @@ void Mod::Draw()
             if(!CleoFunctions::ACTOR_DEFINED(ped->hPed)) continue;
 
             if(ped->hPed == GetPlayerActor()) continue;
+
+            if(!ModConfig::DrawInfoAbovePed) continue;
 
             auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
             auto playerPosition = GetPedPosition(playerActor);
@@ -321,7 +321,7 @@ void Mod::Draw()
 
                 menuVSL->DrawWorldText(text, position, color, eFontAlignment::ALIGN_CENTER);
 
-                bool drawImage = true;
+                bool drawImage = false;
                 if(drawImage)
                 {
                     auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(position);
@@ -359,6 +359,8 @@ void Mod::Draw()
             }
         }
     }
+
+    WindowDocument::Draw();
 
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "Draw end" << std::endl;
 }

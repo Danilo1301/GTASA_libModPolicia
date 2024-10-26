@@ -19,7 +19,7 @@ void WindowFrisk::Create()
     auto ped = Pullover::m_PullingPed;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Revista pessoal";
+    window->m_Title = GetLanguageLine("frisk_ped");
     
     for(auto item : ped->inventory->items)
     {
@@ -37,7 +37,7 @@ void WindowFrisk::Create()
         button->m_StringAtRight = InventoryItems::FormatItemAmount(item);
     }
 
-    auto button_close = window->AddButton("~r~Finalizar revista");
+    auto button_close = window->AddButton(GetLanguageLine("finish_frisk"));
     button_close->onClick = []()
     {
         Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
@@ -57,36 +57,39 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     auto ped = Pullover::m_PullingPed;
     auto vehicle = Pullover::m_PullingVehicle;
 
-    auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Revista (Item)";
+    auto window = m_WindowItemActions = menuVSL->AddWindow();
+    window->m_Title = GetLanguageLine("frisk_item");
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->name << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
     
     if(item->type == Item_Type::DOCUMENTS)
     {
-        std::string moneyText = "Dinheiro: " + std::to_string(ped->money) + "$";
+        std::string moneyText = GetLanguageLine("wallet_money", ped->money);
 
         window->AddText(moneyText, CRGBA(255, 255, 255));
     }
 
     if(item->type == Item_Type::CELLPHONE)
     {
-        auto button_imei = window->AddButton("Consultar IMEI");
+        auto button_imei = window->AddButton(GetLanguageLine("check_imei"));
         button_imei->onClick = [item]()
         {   
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/CHECK_IMEI_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX217", 0, 0, 0, 3000, 1); //consultar imei
+
+            menuVSL->ShowMessage(GetLanguageLine("voice_check_imei"), 3000);
 
             CleoFunctions::WAIT(4000, [item]() {
                 if(item->isStolen) {
                     SoundSystem::PlayHTAudio();
                     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/IMEI_STOLEN_", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX53", 0, 0, 0, 3000, 1); //furto
+                    
+                    menuVSL->ShowMessage(GetLanguageLine("voice_imei_stolen"), 3000);
                 } else {
                     SoundSystem::PlayHTAudio();
                     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/IMEI_OK_", false);
-                    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX54", 0, 0, 0, 3000, 1); //nada consta
+                    
+                    menuVSL->ShowMessage(GetLanguageLine("voice_imei_ok"), 3000);
                 }
             });
         };
@@ -94,32 +97,40 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
 
     if(item->canBeAprehended)
     {
-        auto button_apreender = window->AddButton("Apreender");
+        auto button_apreender = window->AddButton(GetLanguageLine("seize"));
         button_apreender->onClick = [ped, vehicle, item, onClose]()
         {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Apreender" << std::endl;
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Remover " << item << " do inventario " << std::endl;
+
             if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
             else vehicle->inventory->RemoveItemFromInventory(item);
 
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "RemoveItemActions()" << std::endl;
+
             RemoveItemActions();
+
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "onClose()" << std::endl;
+
             onClose();
         };
     }
 
     if(item->type == Item_Type::WEED)
     {
-        auto button_fumar = window->AddButton("Fumar");
+        auto button_fumar = window->AddButton(GetLanguageLine("smoke"));
         button_fumar->onClick = [ped, vehicle, item, onClose]()
         {
             if(Pullover::m_FriskType == FRISK_TYPE::FRISK_PED) ped->inventory->RemoveItemFromInventory(item);
             else vehicle->inventory->RemoveItemFromInventory(item);
 
-            ped->inventory->RemoveItemFromInventory(item);
             RemoveItemActions();
             onClose();
         };
     }
 
-    auto button_close = window->AddButton("~r~Voltar");
+    auto button_close = window->AddButton(GetLanguageLine("back"));
     button_close->onClick = [onClose]()
     {
         RemoveItemActions();
@@ -139,7 +150,7 @@ void WindowFrisk::CreateFriskCar()
     auto vehicle = Pullover::m_PullingVehicle;
 
     auto window = m_Window = menuVSL->AddWindow();
-    window->m_Title = "Revista veicular";
+    window->m_Title = GetLanguageLine("frisk_vehicle");
 
     for(auto item : vehicle->inventory->items)
     {
@@ -147,7 +158,7 @@ void WindowFrisk::CreateFriskCar()
         button->onClick = [item]()
         {
             Remove();
-            WindowFrisk::CreateItemActions(item, []() {
+            CreateItemActions(item, []() {
                 CreateFriskCar();
             });
         };
@@ -155,7 +166,7 @@ void WindowFrisk::CreateFriskCar()
         button->m_StringAtRight = InventoryItems::FormatItemAmount(item);
     }
 
-     auto button_close = window->AddButton("~r~Finalizar revista");
+     auto button_close = window->AddButton(GetLanguageLine("finish_frisk"));
     button_close->onClick = []()
     {
         Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;

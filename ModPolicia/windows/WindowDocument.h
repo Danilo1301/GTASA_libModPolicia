@@ -6,6 +6,8 @@
 
 #include "../menu/Menu.h"
 
+#include "menu/IMenuVSL.h"
+
 enum DOC_TYPE {
 	RG,
 	CNH
@@ -13,12 +15,15 @@ enum DOC_TYPE {
 
 class WindowDocument {
 public:
-    static Window* m_Window;
+    static IWindow* m_Window;
     static DOC_TYPE m_DocumentType;
     static Ped* m_Ped;
 	static std::function<void()> m_OnClose;
 
     static CVector2D m_TestPosition;
+
+	static CSprite2d m_RG_sprite;
+	static CSprite2d m_CNH_sprite;
 
 private:
 	static void Create();

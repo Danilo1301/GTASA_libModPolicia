@@ -1,0 +1,153 @@
+{
+	"close": "~r~Close",
+	"back": "~r~Back",
+	"confirm": "Confirm",
+	
+	"duty": "Duty",
+	"enter_duty": "Enter on duty",
+	"leave_duty": "Leave duty",
+	"edit_barriers": "Edit barriers",
+	"edit_spikes": "Edit spikes",
+	"edit_bodycam": "Edit bodycam",
+	"enable_test_options": "Enable test options",
+	
+	"partner": "Partner",
+	"partner_weapon": "Weapon ID",
+	"partner_skin": "Skin ID",
+	"spawn_partner": "Spawn partner",
+	"remove_partners": "Remover partners",
+	
+	"barriers": "Barriers / Spikes",
+	"barrier_skin": "Skin",
+	"barrier_vehicle": "Vehicle",
+	
+	"pullover": "Pullover",
+	"ask_ped_to_wait": "Ask to wait",
+	"dialogs": "Dialogue",
+	"frisk_car": "Frisk car",
+	"check_plate": "Check plate",
+	"frisk": "Frisk",
+	"breathalyzer": "Breathalyzer",
+	"ask_for_id": "Ask for ID",
+	"ask_for_drivers_license": "Ask for Driver's License",
+	"issue_ticket": "Issue ticket",
+	"call_tow_truck": "Call tow truck",
+	"scorch_criminal": "Scorch",
+	"free_from_pullover": "~r~Free ped",
+	
+	"ask_to_leave_car": "Ask to leave the vehicle",
+	"ask_to_park_right": "Park vehicle at right",
+	
+	"call_a_police_car": "Call police car",
+	"scorch_by_yourself": "Scorch",
+	"teleport": "Teleport",
+	
+	"dialog": "Dialogue",
+	
+	"frisk_ped": "Frisk ped",
+	"frisk_item": "Frisk (item)",
+	"frisk_vehicle": "Frisk vehicle",
+	"finish_frisk": "~r~Finish",
+	"wallet_money": "Money: $ %d",
+	"check_imei": "Check IMEI",
+	"seize": "Seize",
+	"smoke": "Smoke",
+	
+	"car_menu": "Car menu",
+	"enable_mod": "Enable mod",
+	"disable_mod": "Disable mod",
+	"equip": "Equip",
+	"edit_trunk": "Edit trunk",
+	"config_backup": "Config backup",
+	
+	"config_backup_item": "Edit %s",
+	
+	"num_of_peds": "Amount of peds",
+	"backup_weapon": "Weapon",
+	
+	"backup_ls": "LS",
+	"backup_bike": "BIKE",
+	"backup_fbi": "FBI",
+	"backup_sf": "SF",
+	"backup_lv": "LV",
+	"backup_ranger": "Ranger",
+	"backup_helicopter": "Helicopter",
+	"backup_swat": "SWAT",
+	
+	"check_id": "Check RG",
+	
+	"dialog_officer": "~b~Officer:",
+	"dialog_ped": "~y~Suspect:",
+	
+	"DIALOG_COMING_FROM": "Where are you coming from?",
+	"DIALOG_COMING_FROM my_house": "From my house",
+	"DIALOG_COMING_FROM family_house": "From my family's house",
+	"DIALOG_COMING_FROM friend_house": "From a friend's house",
+	"DIALOG_COMING_FROM work": "From work"
+	
+	"DIALOG_VEHICLE_OWNER": "Whose vehicle is it?",
+	"DIALOG_VEHICLE_OWNER mine": "It's mine",
+	"DIALOG_VEHICLE_OWNER dad": "It's my dad's",
+	"DIALOG_VEHICLE_OWNER unknown": "I don't know"
+	
+	"DIALOG_CRIMES": "Any record?",
+	"DIALOG_CRIMES no": "No, sir",
+	"DIALOG_CRIMES yes": "Yes, for %s",
+
+	"DIALOG_ARRESTED": "Have you been arrested?",
+	"DIALOG_ARRESTED no": "I've never been arrested, sir",
+	"DIALOG_ARRESTED yes": "Yes, I have, sir"
+	
+	"DIALOG_ILLEGAL_STUFF_IN_CAR": "Is there anything illegal in the car?",
+	"DIALOG_ILLEGAL_STUFF_IN_CAR no": "There’s nothing, no",
+	"DIALOG_ILLEGAL_STUFF_IN_CAR yes": "There are just a few things",
+
+	"voice_pullover_ped": "~b~[Officer] ~w~Stop, this is the police!",
+	"voice_pullover_car": "~b~[Officer] ~w~Pull the car over!",
+	"voice_pullover_notfound": "No one was found to approach",
+	"suspect_ran_away": "~r~The suspect fled!",
+	"voice_ask_for_id": "~b~[Officer] ~w~Give me your ID",
+	"here_it_is": "Here it is!",
+	"i_forgot_home": "I forgot it at home",
+	"voice_check_imei": "~b~[Officer] ~w~Central, checking IMEI...",
+	"voice_imei_stolen": "~g~[Central] ~w~IMEI registered as stolen property",
+	"voice_imei_ok": "~g~[Central] ~w~No records found on IMEI",
+	"voice_free_ped": "~b~[Officer] ~w~You're free to go!",
+	"warning_too_far": "~y~[Warning] ~w~You're too far away!",
+	"get_closer": "Get closer!",
+	"move_to_local": "Proceed to the ~y~location",
+	"callout_ended": "Incident ~g~closed~w~!",
+	"voice_check_plate": "~b~[Officer] ~w~Central, checking plate...",
+	"voice_plate_stolen": "~g~[Central] ~w~Vehicle registered as stolen",
+	"voice_plate_ok": "~g~[Central] ~w~Vehicle has no complaints",
+	"voice_check_id": "~b~[Officer] ~w~Central, checking individual...",
+	"voice_id_warrant": "~g~[Central] ~w~The individual has an active arrest warrant",
+	"voice_id_ok": "~g~[Central] ~w~Individual has no complaints",
+	"voice_wait_here": "~b~[Officer] ~w~Wait here",
+	"voice_request_scorch_policecar": "~b~[Officer] ~w~Central, requesting a car to transport a suspect",
+	"ticket_issued": "Ticket issued!",
+	"voice_begin_breathalyzer": "~b~[Officer] ~w~I'll administer a breathalyzer test",
+	"breathalyzer_result": "Breathalyzer result: %.2f mg/l",
+	"reward": "You received a reward of $%d",
+
+	"ticket1": "Reckless driving",
+	"ticket2": "Ignoring traffic signals",
+	"ticket3": "Using phone while driving",
+	"ticket4": "Driving without a helmet",
+
+	"request_backup": "~b~[Officer] ~w~Central, requesting backup for pursuit",
+	"request_backup_bike": "~b~[Officer] ~w~Central, requesting ROCAM support",
+	"request_backup_heli": "~b~[Officer] ~w~Central, requesting helicopter support",
+	"request_backup_special": "~b~[Officer] ~w~Central, requesting a special patrol unit",
+	"request_barrier": "~b~[Officer] ~w~Central, requesting a roadblock unit",
+	"request_spikes": "~b~[Officer] ~w~Central, requesting spikes on the road",
+	"request_ambulance": "~b~[Officer] ~w~Central, requesting ambulance support",
+	"request_iml": "~b~[Officer] ~w~Central, requesting support from the IML",
+	"request_tow_truck": " ~b~[Officer] ~w~Central, requesting a tow truck",
+
+	"CALLOUT_ASSAULT": "~g~[Central] ~w~Requesting a unit for a disturbance call",
+	"CALLOUT_GANG_SHOTS_FIRED": "~g~[Central] ~w~Requesting a unit for reported gunfire",
+	"CALLOUT_STOLEN_VEHICLE": "~g~[Central] ~w~A stolen vehicle was identified by surveillance cameras",
+	"CALLOUT_HOUSE_INVASION": "~g~[Central] ~w~A home invasion was reported",
+	"CALLOUT_CHASE": "~g~[Central] ~w~A unit requests backup for an ongoing pursuit"
+}

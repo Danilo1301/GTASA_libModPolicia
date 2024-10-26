@@ -45,9 +45,8 @@ public:
     int birthMonth;
     int birthYear;
 
-    int rg[2];
-
-    int cpf[2];
+    std::string rg;
+    std::string cpf;
 
     int cnhRegisterNum;
     int cnhValidDay;

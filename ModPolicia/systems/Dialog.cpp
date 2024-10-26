@@ -4,59 +4,53 @@ std::map<eDialogId, Dialog> Dialogs::m_Dialogs = {
     {
         eDialogId::DIALOG_COMING_FROM,
         {
-            "De onde voce ta vindo?",
-            175,
+            "DIALOG_COMING_FROM",
             {
-                176,
-                177,
-                178,
-                179
+                "DIALOG_COMING_FROM my_house",
+                "DIALOG_COMING_FROM family_house",
+                "DIALOG_COMING_FROM friend_house",
+                "DIALOG_COMING_FROM work"
             }
         }
     },
     {
         eDialogId::DIALOG_VEHICLE_OWNER,
         {
-            "De quem e o veiculo?",
-            180,
+            "DIALOG_VEHICLE_OWNER",
             {
-                181,
-                182,
-                183
+                "DIALOG_VEHICLE_OWNER mine",
+                "DIALOG_VEHICLE_OWNER dad",
+                "DIALOG_VEHICLE_OWNER unknown"
             }
         }
     },
     {
         eDialogId::DIALOG_CRIMES,
         {
-            "Tem passagem?",
-            185,
+            "DIALOG_CRIMES",
             {
-                186,
-                187,
-                188
+                "DIALOG_CRIMES no",
+                "DIALOG_CRIMES yes",
             }
         }
     },
     {
         eDialogId::DIALOG_ARRESTED,
         {
-            "Ja foi preso?",
-            189,
+            "DIALOG_ARRESTED",
             {
-                190,
-                191
+                "DIALOG_ARRESTED no",
+                "DIALOG_ARRESTED yes"
             }
         }
     },
     {
         eDialogId::DIALOG_ILLEGAL_STUFF_IN_CAR,
         {
-            "Ta com algo de errado no carro?",
-            218,
+            "DIALOG_ILLEGAL_STUFF_IN_CAR",
             {
-                219,
-                220
+                "DIALOG_ILLEGAL_STUFF_IN_CAR no",
+                "DIALOG_ILLEGAL_STUFF_IN_CAR yes"
             }
         }
     }

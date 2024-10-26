@@ -8,215 +8,45 @@
 #include "Mod.h"
 #include "SoundSystem.h"
 #include "PoliceDepartment.h"
+#include "systems/Names.h"
 
-Window* WindowBackup::m_Window = NULL;
-//Window* WindowBackup::m_BackupConfigWindow = NULL;
-bool WindowBackup::m_CloseToBackupWindow = false;
+IWindow* WindowBackup::m_Window = NULL;
+
+extern IMenuVSL* menuVSL;
 
 void WindowBackup::Create()
 {
-    auto window = m_Window = Menu::AddWindow(6);
-    window->showPageControls = true;
-
-    auto button_normalBackup = window->AddButton(75);
-    button_normalBackup->onClick = []()
-    {
-        Remove();
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[0]);
-    };
-
-    auto button_backupRocam = window->AddButton(76);
-    button_backupRocam->onClick = []()
-    {
-        Remove();
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[1]);
-    };
-
-    auto button_backupHeli = window->AddButton(87);
-    button_backupHeli->onClick = []()
-    {
-        Remove();
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX88", 0, 0, 0, 3000, 1); //apoio
-        Backup::CallBackupHeli();
-    };
-
-    auto button_roadblocks = window->AddButton(122);
-    button_roadblocks->onClick = []()
-    {
-        Remove();
-
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX124", 0, 0, 0, 3000, 1); //apoio bloqueio
-
-        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_ROADBLOCK_", false);
-
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto position = GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
-
-        Chase::AddRoadBlocks(position);
-    };
-
-    auto button_spikestrips = window->AddButton(123);
-    button_spikestrips->onClick = []()
-    {
-        Remove();
-
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX125", 0, 0, 0, 3000, 1); //apoio espinhos
-
-        SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/SPIKES_DEPLOYED_", false);
-
-        auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-        auto position = GetPedPositionWithOffset(playerActor, CVector(0, 100, 0));
-
-        Chase::AddSpikestrips(position);
-    };
-
-    auto button_backupFBI = window->AddButton(93);
-    button_backupFBI->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-        Remove();
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[2]);
-    };
-
-    auto button_backupSf = window->AddButton(95);
-    button_backupSf->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        Remove();
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[3]);
-    };
-
-    auto button_backupLv = window->AddButton(96);
-    button_backupLv->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
-        Remove();
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[4]);
-    };
-
-    auto button_backupRanger = window->AddButton(98);
-    button_backupRanger->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-        Remove();
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
-    };
-
-    auto button_backupSWAT = window->AddButton(138);
-    button_backupSWAT->onClick = []()
-    {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-        Remove();
-        Backup::CallBackupCar(&Backup::m_DataBackupVehicles[7]);
-    };
-
-    auto button_config = window->AddButton(107);
-    button_config->onClick = [window]()
-    {
-        CreateBackupConfig(window);
-    };
-
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
-    button_close->onClick = []()
-    {
-        Remove();
-    };
 }
 
 void WindowBackup::Remove()
 {
     if(m_Window)
     {
-        m_Window->RemoveThisWindow();
+        m_Window->SetToBeRemoved();
         m_Window = NULL;
     }
-
-    /*
-    if(m_BackupConfigWindow)
-    {
-        m_BackupConfigWindow->RemoveThisWindow();
-        m_BackupConfigWindow = NULL;
-    }
-    */
 }
 
-void WindowBackup::CreateBackupConfig(Window* parent)
+void WindowBackup::CreateBackupConfig(IWindow* parent)
 {
-    auto window = Menu::AddWindow(6, parent);
-    window->showPageControls = true;
-    window->btnBack->onClick = [window]()
+    auto window = menuVSL->AddWindow();
+    window->m_Parent = parent;
+    window->m_ShowBackButton = true;
+    window->m_Title = GetLanguageLine("config_backup");
+
+    for(int i = 0; i < Backup::m_DataBackupVehicles.size(); i++)
     {
-        window->GoToPrevWindow();
-    };
+        auto data = &Backup::m_DataBackupVehicles[i];
 
-    window->AddText(107);
+        std::string backupName = GetLanguageLine(data->name);
+        std::string buttonText = GetLanguageLine("config_backup_item", backupName.c_str());
 
-    auto button_normalBackup = window->AddButton(75);
-    button_normalBackup->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[0]);
-    };
-
-    auto button_backupRocam = window->AddButton(76);
-    button_backupRocam->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[1]);
-    };
-
-    auto button_backupFBI = window->AddButton(93);
-    button_backupFBI->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[2]);
-    };
-
-
-    auto button_backupSf = window->AddButton(95);
-    button_backupSf->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[3]);
-    };
-
-    auto button_backupLv = window->AddButton(96);
-    button_backupLv->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[4]);
-    };
-
-    auto button_backupRanger = window->AddButton(98);
-    button_backupRanger->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[5]);
-    };
-
-    auto button_backupSWAT = window->AddButton(138);
-    button_backupSWAT->onClick = [window]()
-    {
-        Remove();
-        CreateBackupConfigForBackup(window, &Backup::m_DataBackupVehicles[7]);
-    };
-
-    /*
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
-    button_close->onClick = []()
-    {
-        Remove();
-        
-        if(m_CloseToBackupWindow) {
-            Create();
-            m_CloseToBackupWindow = false;
-        } else {
-            WindowCarMenu::Create(WindowCarMenu::m_Vehicle);
-        }
-    };
-    */
+        auto button = window->AddButton(buttonText);
+        button->onClick = [window, data]()
+        {
+            CreateBackupConfigForBackup(window, data);
+        };
+    }
 }
 
 int GetOptionByWeaponId(int weaponId)
@@ -230,33 +60,22 @@ int GetOptionByWeaponId(int weaponId)
     return 0;
 }
 
-void WindowBackup::CreateBackupConfigForBackup(Window* parent, BackupVehicle* backupVehicle)
+void WindowBackup::CreateBackupConfigForBackup(IWindow* parent, BackupVehicle* backupVehicle)
 {
-    auto window = Menu::AddWindow(6, parent);
-    window->showPageControls = true;
-    window->btnBack->onClick = [window]()
-    {
-        window->GoToPrevWindow();
-    };
+    auto window = menuVSL->AddWindow();
+    window->m_Parent = parent;
+    window->m_ShowBackButton = true;
+    window->m_Title = GetLanguageLine("config_backup");
     
-    window->AddIntRange(106, &backupVehicle->numPeds, 1, backupVehicle->maxPeds, 1);
+    window->AddIntRange(GetLanguageLine("num_of_peds"), &backupVehicle->numPeds, 1, backupVehicle->maxPeds, 1);
 
-    auto weaponOptions = window->AddOptions(108);
-    weaponOptions->optionsValue = GetOptionByWeaponId(backupVehicle->weaponId);
+    auto weaponOptions = window->AddOptions(GetLanguageLine("backup_weapon"));
     for(auto weapon : PoliceDepartment::m_Weapons)
     {
-        weaponOptions->AddOption(weapon.gxtId, 0, 0);
+        weaponOptions->AddOption(weapon.weaponId, Names::GetWeaponName(weapon.weaponId));
     }
+    weaponOptions->SetCurrentOption(backupVehicle->weaponId);
     weaponOptions->onValueChange = [weaponOptions, backupVehicle]() {
-        backupVehicle->weaponId = PoliceDepartment::m_Weapons[weaponOptions->optionsValue].weaponId;
+        backupVehicle->weaponId = weaponOptions->GetCurrentOption().value;
     };
-
-    /*
-    auto button_close = window->AddButton(7, CRGBA(170, 70, 70));
-    button_close->onClick = []()
-    {
-        Remove();
-        CreateBackupConfig();
-    };
-    */
 }

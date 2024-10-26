@@ -10,6 +10,7 @@ Check EN and PT .fxt
 Check .fxt mod version (EN and PT)
 Check game more than once to make sure
 Check if config is saving
+Check chances on settings.ini
 
 Change version file in the .zip
 

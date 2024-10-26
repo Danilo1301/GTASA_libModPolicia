@@ -15,6 +15,8 @@
 
 #include "windows/WindowPD_Menu.h"
 
+extern IMenuVSL* menuVSL;
+
 std::vector<Base*> PoliceDepartment::m_Bases;
 
 int PoliceDepartment::m_PartnerWeaponIndex = 0;
@@ -26,22 +28,22 @@ int PoliceDepartment::m_PDSphere = 0;
 CVector PoliceDepartment::m_SphereAndMarkerPosition = CVector(0, 0, 0);
 
 std::vector<Weapon> PoliceDepartment::m_Weapons = {
-    {143, 22, 346}, //9mm
-    {144, 24, 348}, //desert
-    {145, 25, 349}, //shotgun
-    {146, 29, 353}, //mp5
-    {147, 31, 356}, //m4
+    {22, 346}, //9mm
+    {24, 348}, //desert
+    {25, 349}, //shotgun
+    {29, 353}, //mp5
+    {31, 356}, //m4
 };
 std::vector<PartnerSkin> PoliceDepartment::m_PartnerSkins = {
-    {150, 280}, //LAPD
-    {151, 281}, //SFPD
-    {152, 282}, //LVPD
-    {153, 283}, //Country Sheriff
-    {154, 284}, //Motorbike
-    {155, 285}, //SWAT
-    {156, 286}, //FBI
-    {157, 287}, //Army
-    {158, 288}, //Desert Sheriff
+    {280}, //LAPD
+    {281}, //SFPD
+    {282}, //LVPD
+    {283}, //Country Sheriff
+    {284}, //Motorbike
+    {285}, //SWAT
+    {286}, //FBI
+    {287}, //Army
+    {288}, //Desert Sheriff
 };
 std::vector<int> PoliceDepartment::m_VehicleIds = {
     596,
@@ -141,7 +143,8 @@ void PoliceDepartment::UpdateTrunkScorch(int dt)
         //money
         int moneyGained = m_MoneyReward * peds.size();
         CleoFunctions::ADD_MONEY(0, moneyGained);
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX168", moneyGained, 0, 0, 3000, 1); //resultado
+
+        menuVSL->ShowMessage(GetLanguageLine("reward", moneyGained), 3000);
     }
     
     //reset if closest dp changes

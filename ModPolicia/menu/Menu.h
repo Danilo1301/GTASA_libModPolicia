@@ -40,15 +40,6 @@ struct MenuPopup
 	float width = 200.0f;
 };
 
-struct MenuCredits {
-	int gfxId = 6;
-	bool hasShownCredits = false;
-	int time = 0;
-	int timeElapsed = 0;
-	int fadeTime = 1000;
-	int height = 80;
-};
-
 struct MenuStyle {
 	CRGBA COLOR_BUTTON_DEFAULT;
 	CRGBA COLOR_BUTTON_SECONDARY;
@@ -66,7 +57,6 @@ public:
 	static Window* m_MainWindow;
 
 	static MenuPopup* m_PopUp;
-	static MenuCredits* m_Credits;
 
 	static bool m_DrawCursor;
 
@@ -84,7 +74,6 @@ public:
 	static Window* AddConfirmWindow(Window* parent, int textGxtId, std::function<void()> ohYes, std::function<void()> ohNo);
 
 	static void ShowPopup(int gfxId, int val1, int val2, int time, float width = 200.0f);
-	static void ShowCredits(int gfxId, int time, int height);
 
 	static void Update(int dt);
 	static void Draw();

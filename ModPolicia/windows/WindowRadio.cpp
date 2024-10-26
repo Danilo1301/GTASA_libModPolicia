@@ -68,7 +68,7 @@ void WindowRadio::Create()
     auto window = m_WindowMenu = menuVSL->AddWindow();
     window->m_Title = "Radio";
 
-    auto abortCallout = window->AddButton("Abort callout", CRGBA(255, 255, 255));
+    auto abortCallout = window->AddButton("Abort callout");
     abortCallout->onClick = []()
     {
         Remove();
@@ -88,7 +88,7 @@ void WindowRadio::Create()
         CreateTestOptions();
     }
 
-    auto button_close = window->AddButton("~r~Close", CRGBA(255, 255, 255));
+    auto button_close = window->AddButton("~r~Close");
     button_close->onClick = []()
     {
         Remove();
@@ -105,21 +105,21 @@ void WindowRadio::CreateTestOptions()
 {
     auto window = m_WindowMenu;
 
-    auto button_pedPullover = window->AddButton("Create pullover ped", CRGBA(255, 255, 255));
+    auto button_pedPullover = window->AddButton("Create pullover ped");
     button_pedPullover->onClick = []()
     {
         Remove();
         Pullover::CreateTestPullOverPed();
     };
 
-    auto button_carPullover = window->AddButton("Create pullover car", CRGBA(255, 255, 255));
+    auto button_carPullover = window->AddButton("Create pullover car");
     button_carPullover->onClick = []()
     {
         Remove();
         Pullover::CreateTestPullOverVehicle();
     };
 
-    auto button_chaseEnd = window->AddButton("End chase", CRGBA(255, 255, 255));
+    auto button_chaseEnd = window->AddButton("End chase");
     button_chaseEnd->onClick = []()
     {
         Remove();
@@ -136,7 +136,7 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
-    auto button_freezeCarChase = window->AddButton("Freeze car", CRGBA(255, 255, 255));
+    auto button_freezeCarChase = window->AddButton("Freeze car");
     button_freezeCarChase->onClick = []()
     {
         Remove();
@@ -149,7 +149,7 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
-    auto button_test11 = window->AddButton("Chase closest car", CRGBA(255, 255, 255));
+    auto button_test11 = window->AddButton("Chase closest car");
     button_test11->onClick = []()
     {
         Remove();
@@ -157,7 +157,7 @@ void WindowRadio::CreateTestOptions()
         Pullover::TestChaseClosestVehicle();
     };
 
-    auto button_test10 = window->AddButton("Test IML", CRGBA(255, 255, 255));
+    auto button_test10 = window->AddButton("Test IML");
     button_test10->onClick = []()
     {
         Remove();
@@ -201,7 +201,7 @@ void WindowRadio::CreateTestOptions()
         testStep++;
     };
 
-    auto button_test7 = window->AddButton("Create criminal", CRGBA(255, 255, 255));
+    auto button_test7 = window->AddButton("Create criminal");
     button_test7->onClick = []()
     {
         Remove();
@@ -216,7 +216,7 @@ void WindowRadio::CreateTestOptions()
         Callouts::AddPedToCriminalList(ped);
     };
 
-    auto button_test8 = window->AddButton("Deflate tires (chase)", CRGBA(255, 255, 255));
+    auto button_test8 = window->AddButton("Deflate tires (chase)");
     button_test8->onClick = []()
     {
         Remove();
@@ -226,7 +226,7 @@ void WindowRadio::CreateTestOptions()
         if(chasingPed) Chase::DeflateCarTires(chasingPed->hVehicleOwned);
     };
     
-    auto button_test6 = window->AddButton("Mark dead peds", CRGBA(255, 255, 255));
+    auto button_test6 = window->AddButton("Mark dead peds");
     button_test6->onClick = []()
     {
         Remove();
@@ -243,7 +243,7 @@ void WindowRadio::CreateTestOptions()
         Log::Level(LOG_LEVEL::LOG_BOTH) << peds.size() << " dead peds found" << std::endl;
     };
 
-    auto button_test1 = window->AddButton("Test opcodes", CRGBA(255, 255, 255));
+    auto button_test1 = window->AddButton("Test opcodes");
     button_test1->onClick = []()
     {
         Remove();
@@ -301,7 +301,7 @@ void WindowRadio::CreateTestOptions()
         }
     };
 
-    auto button_test2 = window->AddButton("Test messages", CRGBA(255, 255, 255));
+    auto button_test2 = window->AddButton("Test messages");
     button_test2->onClick = []()
     {
         Remove();
@@ -561,7 +561,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 1: //VIATURA LS
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup"), 3000);
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[0]);
 
                 ToggleRadioOff(true);
@@ -572,7 +572,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 2: //ROCAM
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX78", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup_bike"), 3000);
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[1]);
 
                 ToggleRadioOff(true);
@@ -583,7 +583,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 3: //HELICOPTERO
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX88", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup_heli"), 3000);
+
                 Backup::CallBackupHeli();
 
                 ToggleRadioOff(true);
@@ -603,7 +604,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         switch (frequencyId)
         {
         case 1: //OBSTACULOS
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX124", 0, 0, 0, 3000, 1); //apoio bloqueio
+
+            menuVSL->ShowMessage(GetLanguageLine("request_barrier"), 3000);
 
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("roadblocks/REQUEST_ROADBLOCK_", false);
 
@@ -612,7 +614,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
             ToggleRadioOff(true);
             break;
         case 2: //ESPINHOS
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX125", 0, 0, 0, 3000, 1); //apoio espinhos
+            menuVSL->ShowMessage(GetLanguageLine("request_spikes"), 3000);
 
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("roadblocks/REQUEST_SPIKES_", false);
 
@@ -634,7 +636,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 1: //VIATURA SF
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup"), 3000); //apoio, 77
+
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[3]);
 
                 ToggleRadioOff(true);
@@ -645,7 +648,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 2: //VIATURA LV
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX77", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup"), 3000); //apoio, 77
+
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[4]);
 
                 ToggleRadioOff(true);
@@ -656,7 +660,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 3: //RANGER
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup_special"), 3000);
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
 
                 ToggleRadioOff(true);
@@ -681,7 +685,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 1:
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_AMBULANCE_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX120", 0, 0, 0, 3000, 1); //apoio ambulancia
+            
+            menuVSL->ShowMessage(GetLanguageLine("request_ambulance"), 3000);
 
             Ambulance::CallAmbulance(playerPosition);
 
@@ -690,7 +695,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 2:
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_IML_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX121", 0, 0, 0, 3000, 1); //apoio IML
+            
+            menuVSL->ShowMessage(GetLanguageLine("request_iml"), 3000);
 
             Ambulance::CallIML(playerPosition);
 
@@ -701,7 +707,8 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
             {
                 SoundSystem::PlayHTAudio();
                 SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_TOW_TRUCK_", false);
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX110", 0, 0, 0, 3000, 1); //solicito guincho
+                
+                menuVSL->ShowMessage(GetLanguageLine("request_tow_truck"), 3000);
 
                 closestVehicle->AddBlip();
                 Scorch::CallTowTruckToVehicle(closestVehicle);
@@ -725,7 +732,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 1: //FBI
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup_special"), 3000);
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[2]);
 
                 ToggleRadioOff(true);
@@ -736,7 +743,7 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
         case 2: //SWAT
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
+                menuVSL->ShowMessage(GetLanguageLine("request_backup_special"), 3000);
                 Backup::CallBackupCar(&Backup::m_DataBackupVehicles[7]);
 
                 ToggleRadioOff(true);
@@ -745,13 +752,11 @@ void WindowRadio::SelectFrequency(int channelId, int frequencyId)
             }
             break;
         case 3: //EXERCITO
-            /*
             if(hasCriminals)
             {
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX94", 0, 0, 0, 3000, 1); //apoio
-                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[5]);
+                menuVSL->ShowMessage(GetLanguageLine("request_backup_special"), 3000);
+                Backup::CallBackupCar(&Backup::m_DataBackupVehicles[8]);
             }
-            */
             ToggleRadioOff(false);
 
             break;

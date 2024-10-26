@@ -7,6 +7,7 @@
 #include "Locations.h"
 
 #include "menu/Menu.h"
+#include "menu/IMenuVSL.h"
 
 struct ScorchPedData {
     Ped* ped = NULL;
@@ -24,7 +25,7 @@ public:
     static Ped* m_CarryingPed;
     static int m_CarryObject;
 
-    static Window* m_CarryWindow;
+    static IWindow* m_CarryWindow;
 
     static void Update(int dt);
     static void UpdateTowTrucks(int dt);

@@ -13,16 +13,19 @@
 #include "Locations.h"
 #include "Backup.h"
 #include "systems/Skins.h"
+#include "menu/IMenuVSL.h"
+
+extern IMenuVSL* menuVSL;
 
 float Callouts::CALLOUT_DISTANCE = 400.0f;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
-    {CALLOUT_TYPE::CALLOUT_ASSAULT,             81, 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
-    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED,    89, 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
-    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE,      97, 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
-    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION,      114, 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"},
-    {CALLOUT_TYPE::CALLOUT_CHASE,               160, 1.0f, "callouts/CALLOUT_CHASE.wav"}
+    {CALLOUT_TYPE::CALLOUT_ASSAULT,             "CALLOUT_ASSAULT", 1.0f, "callouts/CALLOUT_ASSAULT.wav"},
+    {CALLOUT_TYPE::CALLOUT_GANG_SHOTS_FIRED,    "CALLOUT_GANG_SHOTS_FIRED", 1.0f, "callouts/CALLOUT_GANG_SHOTS_FIRED.wav"},
+    {CALLOUT_TYPE::CALLOUT_STOLEN_VEHICLE,      "CALLOUT_STOLEN_VEHICLE", 1.0f, "callouts/CALLOUT_STOLEN_VEHICLE.wav"},
+    {CALLOUT_TYPE::CALLOUT_HOUSE_INVASION,      "CALLOUT_HOUSE_INVASION", 1.0f, "callouts/CALLOUT_HOUSE_INVASION.wav"},
+    {CALLOUT_TYPE::CALLOUT_CHASE,               "CALLOUT_CHASE", 1.0f, "callouts/CALLOUT_CHASE.wav"}
 };
 CALLOUT_TYPE Callouts::m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 CALLOUT_TYPE Callouts::m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
@@ -60,9 +63,7 @@ void Callouts::Update(int dt)
 
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Modulating callout " << m_ModulatingCalloutIndex << std::endl;
 
-                char buffer[256];
-                sprintf(buffer, "MPFX%i", callout.gxtId);
-                CleoFunctions::SHOW_TEXT_3NUMBERS(buffer, 0, 0, 0, 5000, 1);
+                menuVSL->ShowMessage(GetLanguageLine(callout.text), 3000);
 
                 SoundSystem::PlayHTAudio();
                 m_ModulatingCalloutAudio = SoundSystem::PlayStreamFromAudiosFolder(callout.audio, false);
@@ -90,6 +91,7 @@ void Callouts::Update(int dt)
 
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Accepting callout " << m_CurrentCalloutIndex << std::endl;
 
+                menuVSL->ShowMessage(GetLanguageLine("move_to_local"), 3000);
                 CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX82", 0, 0, 0, 3000, 1);
                     
                 m_AproachingCallout = true;
@@ -182,7 +184,7 @@ void Callouts::UpdateCriminals(int dt)
             Log::Level(LOG_LEVEL::LOG_BOTH) << "Criminal number is 0, clearing callout" << std::endl;
             m_CurrentCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;
 
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX90", 0, 0, 0, 3000, 1);
+            menuVSL->ShowMessage(GetLanguageLine("callout_ended"), 3000);
         }
     }
 }

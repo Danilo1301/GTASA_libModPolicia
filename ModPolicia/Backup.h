@@ -21,6 +21,7 @@ std::string soundRequest;
 std::string soundIncoming;
 */
 struct BackupVehicle {
+    std::string name;
     int vehicleModelId;
     int pedModelId;
     int numPeds;

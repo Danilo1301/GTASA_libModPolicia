@@ -28,6 +28,8 @@ FRISK_TYPE Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
 
 bool waitForReleaseButtons = false;
 
+extern IMenuVSL* menuVSL;
+
 void Pullover::Update(int dt)
 {
     UpdateWidgetPress(dt);
@@ -137,7 +139,7 @@ void Pullover::PullOverPed(int hPed)
 
     if(waitTime != 0)
     {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
+        menuVSL->ShowMessage(GetLanguageLine("voice_pullover_ped"), 3000);
         SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_STOP_PEDESTRIAN_", false);
     }
 
@@ -209,7 +211,7 @@ void Pullover::TryPullOverCar()
     //if no car is found
     if(randomCar <= 0)
     {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
+        menuVSL->ShowMessage(GetLanguageLine("voice_pullover_notfound"), 3000);
         return;
     }
 
@@ -218,7 +220,7 @@ void Pullover::TryPullOverCar()
     //if has no driver
     if(driver <= 0)
     {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX32", 0, 0, 0, 2000, 1); //nao encontrado
+        menuVSL->ShowMessage(GetLanguageLine("voice_pullover_notfound"), 3000);
         return;
     }
 
@@ -238,7 +240,7 @@ void Pullover::PullOverCar(int hVehicle)
             CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "CopTraf_Stop", "POLICE", 4.0f, 0, 0, 0, 0, -1);
     }
 
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX31", 0, 0, 0, 2000, 1); //parado!
+    menuVSL->ShowMessage(GetLanguageLine("voice_pullover_car"), 3000);
     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/ASK_STOP_VEHICLE_", false);
 
     /*
@@ -269,7 +271,7 @@ void Pullover::PullOverCar(int hVehicle)
     //if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
     if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
     {
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX74", 0, 0, 0, 3000, 1); //apreendeu fuga!
+        menuVSL->ShowMessage(GetLanguageLine("suspect_ran_away"), 3000);
 
         Chase::MakeCarStartRunning(vehicle, ped);
         return;
@@ -282,7 +284,7 @@ void Pullover::PullOverCar(int hVehicle)
 
         CleoFunctions::CAR_TURN_OFF_ENGINE(hVehicle);
     
-        CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX63", 0, 0, 0, 3000, 1); //chegue mais perto
+        menuVSL->ShowMessage(GetLanguageLine("get_closer"), 3000);
 
         Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting to get closer to the car" << std::endl;
 
@@ -301,7 +303,8 @@ void Pullover::PullOverCar(int hVehicle)
             if(distance > PULLOVER_MAX_DISTANCE)
             {
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away" << std::endl;
-                CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX56", 0, 0, 0, 3000, 1); //muito longe
+
+                menuVSL->ShowMessage(GetLanguageLine("warning_too_far"), 3000);
                 cancel();
                 return;
             }
@@ -423,7 +426,7 @@ void Pullover::FreePed()
 {
     //CleoFunctions::SET_PLAYER_CAN_MOVE(m_PullingPed->hPed, true);
 
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX55", 0, 0, 0, 3000, 1); //liberado
+    menuVSL->ShowMessage(GetLanguageLine("voice_free_ped"), 3000);
     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/PULLOVER_FREE_PED_", false);
 
     m_PullingPed->RemoveBlip();
@@ -439,7 +442,7 @@ void Pullover::FreePed()
 
 void Pullover::MakePedWait()
 {
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX80", 0, 0, 0, 3000, 1); //aguarde no local
+    menuVSL->ShowMessage(GetLanguageLine("voice_wait_here"), 3000);
 
     //m_PullingPed->RemoveBlip();
     if(m_PullingPed->hVehicleOwned > 0) {
@@ -453,7 +456,7 @@ void Pullover::MakePedWait()
 
 void Pullover::FreeVehicle()
 {
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX55", 0, 0, 0, 3000, 1); //liberado
+    menuVSL->ShowMessage(GetLanguageLine("voice_free_ped"), 3000);
     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/PULLOVER_FREE_PED_", false);
     
     m_PullingPed->driveAfterEnterCar = true;
@@ -560,7 +563,8 @@ void Pullover::CheckVehiclePlate(int hVehicle, std::function<void()> callback)
 {
     SoundSystem::PlayHTAudio();
     SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/CHECK_VEHICLE_PLATE_", false);
-    CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX68", 0, 0, 0, 3000, 1); //consultar placa
+
+    menuVSL->ShowMessage(GetLanguageLine("voice_check_plate"), 3000);
 
     CleoFunctions::WAIT(4000, [hVehicle, callback]() {
         auto vehicle = Vehicles::GetVehicleByHandle(hVehicle);
@@ -569,11 +573,13 @@ void Pullover::CheckVehiclePlate(int hVehicle, std::function<void()> callback)
         {
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/VEHICLE_PLATE_STOLEN_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX70", 0, 0, 0, 3000, 1); //produto de roubo
+            
+            menuVSL->ShowMessage(GetLanguageLine("voice_plate_stolen"), 3000);
         } else {
             SoundSystem::PlayHTAudio();
             SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/VEHICLE_PLATE_OK_", false);
-            CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX69", 0, 0, 0, 3000, 1); //sem queixas
+            
+            menuVSL->ShowMessage(GetLanguageLine("voice_plate_ok"), 3000);
         }
 
         callback();

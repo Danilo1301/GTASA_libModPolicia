@@ -24,11 +24,9 @@ Ped::Ped(int hPed)
     this->birthMonth = GetRandomNumber(1, 12);
     this->birthYear = GetRandomNumber(1964, 1990);
 
-    this->rg[0] = GetRandomNumber(100, 999);
-    this->rg[1] = GetRandomNumber(100, 999);
+    this->rg = Names::GenerateRandomRG();
 
-    this->cpf[0] = GetRandomNumber(100, 999);
-    this->cpf[1] = GetRandomNumber(100, 999);
+    this->cpf = Names::GenerateRandomCPF();
 
     int currentYear = 2024;
     
