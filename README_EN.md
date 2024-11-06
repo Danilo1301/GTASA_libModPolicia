@@ -10,10 +10,13 @@ SprintFixByYuna.csa
 
 <h1>Install</h1>
 
-## Required libs (download separatedly)
+## (DOWNLOAD) Required libs
   * Menu VSL (https://github.com/Danilo1301/GTASA_libMenuVSL)
 
-## Required libs (comes with the .zip)
+## (DON'T DOWNLOAD) Required libs
+
+(comes with the .zip, update if you can)
+
   * AML (https://github.com/RusJJ/AndroidModLoader)
   * SAUtils (https://github.com/AndroidModLoader/SAUtils)
   * CLEO Mod (https://github.com/AndroidModLoader/GTA_CLEOMod)
@@ -28,11 +31,12 @@ The APK is in the channel '⭐official-apk-plugins', then in the 'APK+INFO'
 
 ## How to install
 
-1. Download the **ModPolicia-0.0.0__en.zip** file in [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
-2. Open the folder "1. required libs" and copy the "mods" folder to your game folder (in com.rockstargames.gtasa)
-3. Open the folder "2. inside game folder", copy the folder "com.rockstargames.gtasa" and paste it where your game folder is located (ex: in Android/data)
-4. OPTIONAL: Open the folder "optional lib (for audio playing)" and copy the "mods" folder to your "mods" folder (in com.rockstargames.gtasa/mods)
-5. Install the mod textures inside the 'txd.txt' using 'TXD Tool' (Tutorials below)
+1. Download the most recent APK from AML Discord
+2. Download the required libs
+3. Download the **ModPolicia-0.0.0.zip** file in [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
+4. Open the folder "1. required libs" and copy the "mods" folder to your game folder (in com.rockstargames.gtasa)
+5. Open the folder "2. inside game folder", copy the folder "com.rockstargames.gtasa" and paste it where your game folder is located (ex: in Android/data)
+6. Install the mod textures and models using 'TXD Tool' e 'GTA IMG Tool' (Tutorials below)
 
 <h1>How to use</h1>
 
@@ -42,11 +46,10 @@ The APK is in the channel '⭐official-apk-plugins', then in the 'APK+INFO'
 * To stop in foot: aim to someone and press horn button
 * To stop from a vehicle: press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE))
 * To open the radio menu: press the cellphone widget ([example](https://imgur.com/gallery/radio-ofyko9e))
-* Press the 'imaginary buttons' 2 e 8 ([example](https://imgur.com/gallery/WNUf5Ye)) for 0.5s to open the test menu (you need to enable in the settings.ini)
 
 <h1>Tutorials</h1>
 
-* Installing the police mod: https://youtu.be/U-JmGorku38
+* Installing the police mod: https://youtu.be/GLMgw8ekCT0
 * Installing GTA SA 2.00 with original data: https://youtu.be/wT4N_NAYFOI
 * Installing the textures of the mod: https://youtu.be/ghzIKrxtvx4
 * Installing the radio and the textures: https://youtu.be/3RkYI10-icU
