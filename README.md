@@ -14,10 +14,13 @@ SprintFixByYuna.csa
 
 <h1>Instalação</h1>
 
-## Libs necessárias (baixar separado)
+## (BAIXAR) Libs necessárias
   * Menu VSL (https://github.com/Danilo1301/GTASA_libMenuVSL)
 
-## Libs necessárias (vêm junto do .zip)
+## (NAO BAIXAR) Libs necessárias
+
+(vêm junto do .zip)
+
   * AML (https://github.com/RusJJ/AndroidModLoader)
   * SAUtils (https://github.com/AndroidModLoader/SAUtils)
   * CLEO Mod (https://github.com/AndroidModLoader/GTA_CLEOMod)
@@ -31,11 +34,12 @@ Link do Discord do AML: https://discord.com/invite/aml-android-mod-loader-877187
 O APK se encontra no canal '⭐official-apk-plugins', depois em 'APK+INFO'
 
 ## Como instalar
-1. Baixe o **ModPolicia-0.0.0__pt-br.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
-2. Abra a pasta "1. libs necessárias" e copie a pasta "mods" para dentro da pasta raíz do jogo (em com.rockstargames.gtasa)
-3. Abra a pasta "2. dentro da pasta do jogo", copie a pasta "com.rockstargames.gtasa" e cole na pasta onde fica a sua data (ex: em Android/data)
-4. OPCIONAL: Para ouvir os sons, abra a pasta "lib opcional (para tocar sons)" e copie a pasta "mods" para a sua pasta "mods" (em com.rockstargames.gtasa/mods)
-5. Coloque as texturas do mod no seu 'txd.txt' usando o 'TXD Tool' (Tutoriais abaixo)
+1. Instale o APK mais recente do Discord do AML
+2. Baixe as libs necessárias
+3. Baixe o **ModPolicia-0.0.0.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
+4. Abra a pasta "1. required libs" e copie a pasta "mods" para dentro da pasta raíz do jogo (em com.rockstargames.gtasa)
+5. Abra a pasta "2. inside game folder", copie a pasta "com.rockstargames.gtasa" e cole na pasta onde fica a sua data (ex: em Android/data)
+6. Coloque as texturas e modelos do mod usando o 'TXD Tool' e 'GTA IMG Tool' (Tutoriais abaixo)
 
 <h1>Como usar</h1>
 
@@ -45,11 +49,10 @@ O APK se encontra no canal '⭐official-apk-plugins', depois em 'APK+INFO'
 * Para abordar a pé: mire em alguém e aperte o botão de buzina
 * Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE))
 * Para abrir o menu do rádio: aperte o widget do celular ([exemplo](https://imgur.com/gallery/radio-ofyko9e))
-* Pressione os 'números imaginários' 2 e 8 ([exemplo](https://imgur.com/gallery/WNUf5Ye)) por 0.5s para abrir o menu de testes (precisa ativar nas settings.ini)
 
 <h1>Tutoriais</h1>
 
-* Instalando o mod polícia: https://youtu.be/U-JmGorku38
+* Instalando o mod polícia: https://youtu.be/GLMgw8ekCT0
 * Instalando GTA SA 2.00 com data original: https://youtu.be/wT4N_NAYFOI
 * Instalando as texturas do mod: https://youtu.be/ghzIKrxtvx4
 * Instalando o rádio e as texturas: https://youtu.be/3RkYI10-icU
