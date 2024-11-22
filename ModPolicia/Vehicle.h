@@ -8,6 +8,8 @@
 
 #include "TrunkData.h"
 
+#include "menu/IScreenButton.h"
+
 enum ACTION_STATUS {
     ACTION_NONE = 0,
 
@@ -36,7 +38,6 @@ enum ACTION_STATUS {
 class Vehicle {
 public:
     static float CHANCE_VEHICLE_BEEING_STOLEN;
-    static float CHANCE_VEHICLE_HAVING_GUNS;
 
     int hVehicle;
     CVehicle* pVehicle = NULL;
@@ -72,6 +73,8 @@ public:
 
     unsigned int timeOnCar = 0;
 
+    IScreenButton* screenButton = NULL;
+
     Vehicle(int hVehicle);
 	~Vehicle();
 
@@ -79,7 +82,11 @@ public:
     void UpdateLeaveScene(int dt);
     void UpdateCarMenuWidget();
 
+    void Draw();
+
     void UpdateInventory();
+
+    void UpdateInventoryAndOwners();
 
     bool IsPoliceCar();
     bool IsPoliceHelicopter();

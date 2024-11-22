@@ -170,6 +170,7 @@ bool ModConfig::CreateTestOptionsInRadioMenu = false;
 bool ModConfig::EnableModWhenGameStarts = false;
 bool ModConfig::StartGameWithRadio = false;
 bool ModConfig::DrawInfoAbovePed = true;
+CVector2D ModConfig::MenuDefaultPosition = CVector2D(400, 200);
 
 void ModConfig::MakePaths()
 {
@@ -285,6 +286,7 @@ void ModConfig::SaveSettings()
     generalSection->AddLine("");
 
     generalSection->AddInt("time_between_callouts", Callouts::m_TimeBetweenCallouts);
+    generalSection->AddInt("callout_message_duration", Callouts::CALLOUT_MESSAGE_DURATION);
     generalSection->AddInt("money_reward", PoliceDepartment::m_MoneyReward);
     generalSection->AddIntFromBool("enable_deep_log", Log::deepLogEnabled);
     generalSection->AddIntFromBool("pullover_play_animation", Pullover::PULLOVER_PLAY_ANIMATION);
@@ -309,7 +311,6 @@ void ModConfig::SaveSettings()
     chancesSection->AddFloat("CHANCE_PED_BEEING_WANTED", Ped::CHANCE_PED_BEEING_WANTED);
 
     chancesSection->AddFloat("CHANCE_VEHICLE_BEEING_STOLEN", Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
-    chancesSection->AddFloat("CHANCE_VEHICLE_HAVING_GUNS", Vehicle::CHANCE_VEHICLE_HAVING_GUNS);  
 
     //
 
@@ -322,6 +323,9 @@ void ModConfig::SaveSettings()
     auto cameraSection = file.AddSection("Camera");
     cameraSection->AddCVector2D("position", Camera::m_Position);
     cameraSection->AddCVector2D("size", Camera::m_Size);
+
+    auto menuSection = file.AddSection("Menu");
+    menuSection->AddCVector2D("position", ModConfig::MenuDefaultPosition);
 
     //
 
@@ -466,7 +470,9 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("enable_test_options_in_radio_menu", &ModConfig::CreateTestOptionsInRadioMenu);
         generalSection->GetBoolFromInt("enable_mod_when_game_starts", &ModConfig::EnableModWhenGameStarts);        
         generalSection->GetInt("time_between_callouts", &Callouts::m_TimeBetweenCallouts);
+        generalSection->GetInt("callout_message_duration", &Callouts::CALLOUT_MESSAGE_DURATION);
         generalSection->GetInt("money_reward", &PoliceDepartment::m_MoneyReward);
+
         generalSection->GetBoolFromInt("enable_deep_log", &Log::deepLogEnabled);
         generalSection->GetBoolFromInt("pullover_play_animation", &Pullover::PULLOVER_PLAY_ANIMATION);  
         generalSection->GetBoolFromInt("start_game_with_radio", &ModConfig::StartGameWithRadio);  
@@ -490,7 +496,6 @@ void ModConfig::LoadSettings()
         chancesSection->GetFloat("CHANCE_PED_BEEING_WANTED", &Ped::CHANCE_PED_BEEING_WANTED);
 
         chancesSection->GetFloat("CHANCE_VEHICLE_BEEING_STOLEN", &Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
-        chancesSection->GetFloat("CHANCE_VEHICLE_HAVING_GUNS", &Vehicle::CHANCE_VEHICLE_HAVING_GUNS);
     }
 
     //
@@ -511,6 +516,14 @@ void ModConfig::LoadSettings()
 
         cameraSection->GetCVector2D("position", &Camera::m_Position);
         cameraSection->GetCVector2D("size", &Camera::m_Size);
+    }
+
+    auto menuSections = file.GetSections("Menu");
+    if (menuSections.size() > 0)
+    {
+        auto menuSection = menuSections[0];
+
+        menuSection->GetCVector2D("position", &ModConfig::MenuDefaultPosition);
     }
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Success reading settings.ini" << std::endl;
@@ -666,6 +679,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.6.4");
     VersionControl::AddVersion("1.6.5");
     VersionControl::AddVersion("1.7.0");
+    VersionControl::AddVersion("1.8.0");
 
     VersionControl::SetVersion(ReadVersionFile(), GetModVersion());
 }

@@ -16,6 +16,7 @@ void WindowPD_Menu::Create()
 	if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("duty");
 
     if(!Mod::m_Enabled)
@@ -69,6 +70,19 @@ void WindowPD_Menu::Create()
 
     window->AddCheckbox(GetLanguageLine("enable_test_options"), &ModConfig::CreateTestOptionsInRadioMenu);
 
+    auto button_positionMenu = window->AddButton("Menu position");
+    button_positionMenu->onClick = [window]() {
+
+        menuVSL->AddVector2WindowEx(window, &ModConfig::MenuDefaultPosition, -1000.0f, 1000.0f, 0.5f, []() {
+
+            //change
+        }, []() {
+            //back
+
+            ModConfig::SaveSettings();
+        });
+    };
+
     auto button_close = window->AddButton(GetLanguageLine("close"));
     button_close->onClick = []()
     {
@@ -87,6 +101,7 @@ void WindowPD_Menu::CreatePartnerMenu()
     if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("partner");
 
     auto weaponOptions = window->AddOptions(GetLanguageLine("partner_weapon"));
@@ -165,6 +180,7 @@ void WindowPD_Menu::CreateEditBarrier(BarrierModel* barrierModel)
     if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("barriers");
 
     // skin options
@@ -215,6 +231,7 @@ void WindowPD_Menu::CreateEditCamera()
     // window->showPageControls = true;
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = "Bodycam";
 
     window->AddCheckbox("Enable bodycam", &Camera::m_Enabled);

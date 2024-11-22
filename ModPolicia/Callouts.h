@@ -31,6 +31,7 @@ struct Callout
 class Callouts {
 public:
     static float CALLOUT_DISTANCE;
+    static int CALLOUT_MESSAGE_DURATION;
     static int m_TimeBetweenCallouts;
     static int m_TimeToCallout;
     static std::vector<Callout> m_Callouts;

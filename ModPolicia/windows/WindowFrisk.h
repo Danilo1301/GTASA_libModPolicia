@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../pch.h"
+#include "pch.h"
 
-#include "../menu/Menu.h"
 #include "menu/IMenuVSL.h"
 
-#include "../InventoryItem.h"
+#include "InventoryItem.h"
+#include "Vehicle.h"
 
 class WindowFrisk {
 public:
@@ -18,5 +18,5 @@ public:
 	static void CreateItemActions(InventoryItem* item, std::function<void()> onClose);
 	static void RemoveItemActions();
 
-	static void CreateFriskCar();
+	static void CreateFriskCar(Vehicle* vehicle);
 };

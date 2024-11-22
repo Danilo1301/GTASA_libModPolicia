@@ -9,6 +9,7 @@
 
 #include "IWindow.h"
 #include "IDebug.h"
+#include "IScreenButton.h"
 
 #define _debug menuVSL->debug
 #define GetLanguageLine menuVSL->GetLanguageLineFormatted
@@ -84,4 +85,8 @@ public:
     virtual void ShowMessage(std::string key, int time) = 0;
 
     virtual void AddModCredits(std::string key) = 0;
+
+    /* 1.5.0 */
+
+    virtual IScreenButton* AddScreenButton(CVector2D position, std::string texture, CVector2D size) = 0;
 };

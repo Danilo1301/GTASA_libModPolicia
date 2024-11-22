@@ -14,7 +14,8 @@ void WindowTrunk::Create()
 	if (m_Window) return;
 
     auto window = m_Window = menuVSL->AddWindow();
-    m_Window->m_Title = "Trunk";
+    window->m_Position = ModConfig::MenuDefaultPosition;
+    window->m_Title = "Trunk";
 
     auto button_editTrunk1 = window->AddButton("Edit trunk 0");
     button_editTrunk1->onClick = []() {
@@ -49,7 +50,8 @@ void WindowTrunk::CreateEditTrunk(int trunkIndex)
     auto trunkData = &Trunk::m_TrunkModels[vehicle->modelId];
 
     auto window = m_Window = menuVSL->AddWindow();
-    m_Window->m_Title = "Trunk " + std::to_string(trunkIndex);
+    window->m_Position = ModConfig::MenuDefaultPosition;
+    window->m_Title = "Trunk " + std::to_string(trunkIndex);
 
     auto button_position = window->AddButton("Edit position");
     button_position->onClick = [window, trunkData, vehicle, trunkIndex]() {

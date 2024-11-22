@@ -5,6 +5,7 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(07A3, GOTO_CHAR_AIMING, iiff); //07A3: AS_actor $GUNNER run_to_and_follow_actor $VICTIM wait_radius_between 0.5 and 1.0
 static DEFOPCODE(01B9, SET_ACTOR_ARMED_WEAPON, ii); //01B9: set_actor 2@ armed_weapon_to 0 
 static DEFOPCODE(0635, AIM_AT_ACTOR, iii); //0635: AS_actor -1 aim_at_actor $PLAYER_ACTOR 2000 ms 
 static DEFOPCODE(03A3, ACTOR_MALE, i); //03A3: actor 0@ male 
@@ -222,6 +223,11 @@ WaitFunction* CleoFunctions::AddCondition(std::function<void(std::function<void(
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::GOTO_CHAR_AIMING(int handle, int target, float radiusFrom, float radiusTo)
+{
+    sautils->ScriptCommand(&scm_GOTO_CHAR_AIMING, handle, target, radiusFrom, radiusTo);
 }
 
 void CleoFunctions::SET_ACTOR_ARMED_WEAPON(int _char, int weaponType)

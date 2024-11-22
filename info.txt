@@ -226,6 +226,20 @@ Fixing chase:
 [X] ADD: GTA V Menu
 [X] ADD: support to multi languages
 
+[1.8.0]
+[x] ADD: buttons on top of the car
+[X] ADD: pickpocket callout
+[X] impedir o pickpocket de spawnar em ocorrencias
+[X] IMPORTANTE: deletar os veículos quando eles não estiverem mais definidos
+[X] extender o tempo da msg da ocorrencia (dwiki do Discord) e anotar no site a sugestão (callout_message_duration)
+[ ] ADD: change menu position
+
+[-] revistar o carro pelo menu do carro crasha? 
+[ ] fazer o pickpocket sumir depois de uns 20s
+
+
+
+[ ] window_ticket não tem tradução
 
 
 

@@ -17,6 +17,7 @@
 #include "WindowBackup.h"
 #include "Debug.h"
 
+#include "systems/BikePickpocket.h"
 #include "systems/Camera.h"
 
 extern IMenuVSL* menuVSL;
@@ -66,6 +67,7 @@ void WindowRadio::Create()
 	if (m_WindowMenu) return;
 
     auto window = m_WindowMenu = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = "Radio";
 
     auto abortCallout = window->AddButton("Abort callout");
@@ -225,6 +227,13 @@ void WindowRadio::CreateTestOptions()
 
         if(chasingPed) Chase::DeflateCarTires(chasingPed->hVehicleOwned);
     };
+
+    auto button_testPickpocket = window->AddButton("Spawn pickpocket");
+    button_testPickpocket->onClick = []()
+    {
+        Remove();
+        BikePickpocket::SpawnPickpocketCloseToPlayer();
+    };
     
     auto button_test6 = window->AddButton("Mark dead peds");
     button_test6->onClick = []()
@@ -351,7 +360,7 @@ void WindowRadio::ToggleRadio(bool enabled)
 
     if(enabled)
     {
-        auto window = m_WindowRadio = Menu::AddWindow(6);
+        auto window = m_WindowRadio = Menu::AddWindow(7);
         window->position = CVector2D(0, 0);
         
         auto left_button = m_LeftButton = window->AddFloatingButton(1, 0, 0, CVector2D(0, 0), CVector2D(50, 50));

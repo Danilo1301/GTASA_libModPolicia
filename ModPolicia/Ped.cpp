@@ -183,6 +183,11 @@ void Ped::UpdateInventory()
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
         stolenCellphone->isStolen = true;
     }
+
+    if(Mod::CalculateProbability(0.20))
+    {
+        inventory->AddItemToInventory(Item_Type::REVOLVER_38);
+    }
 }
 
 void Ped::UpdateBreathalyzer()
@@ -198,7 +203,7 @@ void Ped::UpdateBreathalyzer()
     {
         int maximunValue = 4;
 
-        bool drankTooMuch = GetRandomNumber(0, 1) == 0;
+        bool drankTooMuch = Mod::CalculateProbability(0.7);
 
         if(drankTooMuch) maximunValue = 50;
 

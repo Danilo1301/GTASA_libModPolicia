@@ -32,6 +32,7 @@ public:
     static bool EnableModWhenGameStarts;
     static bool StartGameWithRadio;
     static bool DrawInfoAbovePed;
+	static CVector2D MenuDefaultPosition;
 
 	static void MakePaths();
 	static bool DirExists(std::string path);

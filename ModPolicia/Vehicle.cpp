@@ -7,13 +7,14 @@
 #include "Peds.h"
 #include "SoundSystem.h"
 #include "Debug.h"
+#include "ModConfig.h"
 
 #include "windows/WindowCarMenu.h"
 
 extern void* (*GetVehicleFromRef)(int);
+extern IMenuVSL* menuVSL;
 
 float Vehicle::CHANCE_VEHICLE_BEEING_STOLEN = 0.1;
-float Vehicle::CHANCE_VEHICLE_HAVING_GUNS = 0.2;
 
 Vehicle::Vehicle(int hVehicle)
 {
@@ -30,7 +31,7 @@ Vehicle::Vehicle(int hVehicle)
 
 Vehicle::~Vehicle()
 {
-    
+    if(screenButton) screenButton->SetToBeRemoved();
 }
 
 void Vehicle::Update(int dt)
@@ -175,23 +176,70 @@ void Vehicle::UpdateLeaveScene(int dt)
 
 void Vehicle::UpdateCarMenuWidget()
 {
-    if(!IsPoliceCar()) return;
+    // if(!IsPoliceCar()) return;
     
-    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    // auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
-    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
+    // if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
     
-    auto distance = DistanceBetweenPoints(GetCarPosition(hVehicle), GetPedPosition(playerActor));
+    // auto distance = DistanceBetweenPoints(GetCarPosition(hVehicle), GetPedPosition(playerActor));
 
-    if(distance < 2.0f)
+    // if(distance < 2.0f)
+    // {
+    //     if(!WindowCarMenu::m_Window)
+    //     {
+    //         if(Widgets::IsWidgetJustPressed(69))
+    //         {
+    //             WindowCarMenu::Create(this);
+    //         }
+    //     }
+    // }
+}
+
+void Vehicle::Draw()
+{
+    auto position = GetCarPosition(hVehicle);
+
+    auto playerActor = GetPlayerActor();
+    //auto pedPosition = GetPedPosition(playerActor);
+
+    auto distanceFromPed = DistanceFromPed(playerActor, position);
+
+    auto isInAnyVehicle = CleoFunctions::IS_CHAR_IN_ANY_CAR(GetPlayerActor());
+
+    auto showButton = distanceFromPed < 4.0f && !isInAnyVehicle;
+
+    if(showButton)
     {
-        if(!WindowCarMenu::m_Window)
+        if(!screenButton)
         {
-            if(Widgets::IsWidgetJustPressed(69))
-            {
-                WindowCarMenu::Create(this);
-            }
+            auto vehicle = this;
+
+            std::string path = ModConfig::GetConfigFolder() + "/assets/button_car.png";
+            screenButton = menuVSL->AddScreenButton(CVector2D(0, 0), path, CVector2D(60, 60));
+            screenButton->m_Text = "Ver opcoes";
+            screenButton->onClick = [vehicle]() {
+
+                vehicle->UpdateInventoryAndOwners();
+
+                WindowCarMenu::Create(vehicle);
+            };
         }
+    } else {
+        if(screenButton)
+        {
+            screenButton->SetToBeRemoved();
+            screenButton = NULL;
+        }
+    }
+ 
+    auto topPosition = position + CVector(0, 0, 1.5f);
+
+    auto buttonPos = menuVSL->ConvertWorldPositionToScreenPosition(topPosition);
+
+    if(screenButton)
+    {
+        screenButton->m_Position = buttonPos;
     }
 }
 
@@ -201,30 +249,51 @@ void Vehicle::UpdateInventory()
 
     inventory->created = true;
 
-    if(Mod::CalculateProbability(0.3))
+    if(Mod::CalculateProbability(0.30))
     {
         inventory->AddItemToInventory(Item_Type::WEED);
     }
 
-    if(Mod::CalculateProbability(0.5))
+    if(Mod::CalculateProbability(0.50))
     {
         inventory->AddItemToInventory(Item_Type::BEER);
     }
 
-    if(Mod::CalculateProbability(CHANCE_VEHICLE_HAVING_GUNS))
+    if(Mod::CalculateProbability(0.25))
     {
         inventory->AddItemToInventory(Item_Type::REVOLVER_38);
 
-        if(Mod::CalculateProbability(0.5))
+        if(Mod::CalculateProbability(0.60))
         {
             inventory->AddItemToInventory(Item_Type::PISTOL);
         }
     }
 
-    if(Mod::CalculateProbability(0.1))
+    if(Mod::CalculateProbability(0.2))
     {
         auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
         stolenCellphone->isStolen = true;
+    }
+}
+
+void Vehicle::UpdateInventoryAndOwners()
+{
+    auto vehicle = this;
+
+    vehicle->UpdateInventory();
+    vehicle->SetDriverAndPassengersOwners();
+
+    if(hDriverOwner > 0)
+    {
+        auto ped = Peds::TryCreatePed(hDriverOwner);
+        ped->UpdateInventory();
+    }
+
+    auto passengersHandle = vehicle->GetPassengers();
+    for(auto passengerHandle : passengersHandle)
+    {
+        auto passenger = Peds::TryCreatePed(passengerHandle);
+        passenger->UpdateInventory();
     }
 }
 
@@ -516,22 +585,26 @@ void Vehicle::SetDriverAndPassengersOwners()
 
     hDriverOwner = GetDriver();
 
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "driver onwer: " << hDriverOwner << std::endl;
+
     //set vehicle owned for driver
-    auto driverPed = Peds::TryCreatePed(hDriverOwner);
-    driverPed->hVehicleOwned = hVehicle;
+    if(hDriverOwner > 0)
+    {
+        auto driverPed = Peds::TryCreatePed(hDriverOwner);
+        driverPed->hVehicleOwned = hVehicle;
+    }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "getting passengers..." << std::endl;
 
     hPassengersOwner.clear();
     auto passengersHandle = GetPassengers();
     for(auto passengerHandle : passengersHandle)
     {
         hPassengersOwner.push_back(passengerHandle);
-    }
-
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "driver onwer: " << hDriverOwner << std::endl;
-    for(auto passengerHandle : hPassengersOwner)
-    {
         Log::Level(LOG_LEVEL::LOG_BOTH) << "passenger onwer: " << passengerHandle << std::endl;
     }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << hPassengersOwner.size() << " passengers" << std::endl;
 }
 
 bool Vehicle::IsAllDriverAndPassengersInsideCar()

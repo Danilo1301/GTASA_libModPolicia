@@ -18,6 +18,7 @@
 extern IMenuVSL* menuVSL;
 
 float Callouts::CALLOUT_DISTANCE = 400.0f;
+int Callouts::CALLOUT_MESSAGE_DURATION = 5000;
 int Callouts::m_TimeBetweenCallouts = 50000;
 int Callouts::m_TimeToCallout = 0;
 std::vector<Callout> Callouts::m_Callouts = {
@@ -63,7 +64,7 @@ void Callouts::Update(int dt)
 
                 Log::Level(LOG_LEVEL::LOG_BOTH) << "Modulating callout " << m_ModulatingCalloutIndex << std::endl;
 
-                menuVSL->ShowMessage(GetLanguageLine(callout.text), 3000);
+                menuVSL->ShowMessage(GetLanguageLine(callout.text), CALLOUT_MESSAGE_DURATION);
 
                 SoundSystem::PlayHTAudio();
                 m_ModulatingCalloutAudio = SoundSystem::PlayStreamFromAudiosFolder(callout.audio, false);
@@ -71,7 +72,7 @@ void Callouts::Update(int dt)
         }
     } else {
         m_TimeToCallout += dt;
-        if(m_TimeToCallout >= 5000)
+        if(m_TimeToCallout >= CALLOUT_MESSAGE_DURATION)
         {
             m_TimeToCallout = 0;
             m_ModulatingCalloutIndex = CALLOUT_TYPE::CALLOUT_NONE;

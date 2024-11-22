@@ -8,6 +8,7 @@
 #include "Mod.h"
 #include "SoundSystem.h"
 #include "PoliceDepartment.h"
+#include "ModConfig.h"
 #include "systems/Names.h"
 
 IWindow* WindowBackup::m_Window = NULL;
@@ -30,6 +31,7 @@ void WindowBackup::Remove()
 void WindowBackup::CreateBackupConfig(IWindow* parent)
 {
     auto window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Parent = parent;
     window->m_ShowBackButton = true;
     window->m_Title = GetLanguageLine("config_backup");

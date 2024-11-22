@@ -26,6 +26,7 @@
 #include "systems/Skins.h"
 #include "systems/Camera.h"
 #include "systems/SocketServer.h"
+#include "systems/BikePickpocket.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -109,6 +110,8 @@ void Mod::Update(int dt)
     //Log::Level(LOG_LEVEL::LOG_UPDATE) << "ambulance" << std::endl;
    
     Ambulance::Update(dt);
+
+    BikePickpocket::Update(dt);
 
     WindowRadio::Update(dt);
     WindowRadio::Draw();
@@ -254,6 +257,15 @@ void Mod::Draw()
 
     if(!hasCleoInitialized) return;
 
+    if(!testSprite.m_pTexture)
+    {
+        char path[512];
+        sprintf(path, "%s/assets/button_info.png", ModConfig::GetConfigFolder().c_str());
+        testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
+    }
+
+    Vehicles::Draw();
+
     for(auto base : PoliceDepartment::m_Bases)
     {
         auto position = base->m_PickupPartner->position;
@@ -269,14 +281,30 @@ void Mod::Draw()
         }
     }
 
+    // for(auto vehicle : Vehicles::GetDefinedVehicles())
+    // {
+    //     auto playerActor = GetPlayerActor();
+    //     auto playerPosition = GetPedPosition(playerActor);
+    //     auto vehiclePosition = GetCarPosition(vehicle->hVehicle);
+
+    //     auto vehicleDistanceFromPlayer = DistanceFromPed(ped->hPed, vehiclePosition);
+
+    //     if(vehicleDistanceFromPlayer > 5.0f) continue;
+
+    //     CVector vehicleTopPos = vehiclePosition + CVector(0, 0, 1.5f);
+
+    //     menuVSL->SetDrawWithFixedScale(false);
+
+    //     auto imagePos = menuVSL->ConvertWorldPositionToScreenPosition(vehicleTopPos);
+    //     auto buttonSize = CVector2D(50, 50);
+    //     imagePos.x -= buttonSize.x/2;
+    //     imagePos.y -= buttonSize.y;
+
+    //     menuVSL->DrawSprite(&testSprite, imagePos, buttonSize);
+    // }
+
     if(m_DrawTest)
     {
-        if(!testSprite.m_pTexture)
-        {
-            char path[512];
-            sprintf(path, "%s/assets/button_info.png", ModConfig::GetConfigFolder().c_str());
-            testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
-        }
 
         for(auto p : Peds::m_Peds)
         {

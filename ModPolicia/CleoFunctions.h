@@ -38,6 +38,7 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void GOTO_CHAR_AIMING(int handle, int target, float radiusFrom, float radiusTo);
     static void SET_ACTOR_ARMED_WEAPON(int _char, int weaponType);
     static void AIM_AT_ACTOR(int _char, int target, int time);
     static bool ACTOR_MALE(int _char);
@@ -253,4 +254,10 @@ static int GetVehiclePedIsUsing(int hPed)
     if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed)) return 0;
 
     return CleoFunctions::ACTOR_USED_CAR(hPed);
+}
+
+static void ClearPedAnimations(int hPed)
+{
+    CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(hPed);
+    CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "hndshkfa_swt", "gangs", 200.0f, 0, 0, 0, 0, 10);
 }

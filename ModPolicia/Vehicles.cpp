@@ -6,6 +6,9 @@
 #include "CleoFunctions.h"
 #include "Mod.h"
 
+#include "menu/IMenuVSL.h"
+extern IMenuVSL* menuVSL;
+
 extern uintptr_t* pVehiclePool;
 extern int (*GetVehicleRef)(int);
 
@@ -15,11 +18,22 @@ void Vehicles::Update(int dt)
 {
     TryFindNewVehicles();
 
-    for(auto pair : m_Vehicles)
+    TryDeleteVehicles();
+
+    for(auto pair : m_Vehicles) //should I change to GetDefinedVehicles()?
     {
         auto vehicle = pair.second;
 
         vehicle->Update(dt);
+    }
+    
+}
+
+void Vehicles::Draw()
+{
+    for(auto vehicle : GetDefinedVehicles())
+    {
+        vehicle->Draw();
     }
 }
 
@@ -53,7 +67,31 @@ void Vehicles::TryFindNewVehicles()
             //Log::Level(LOG_LEVEL::LOG_BOTH) << "driver " << driver << std::endl;
 
             auto vehicle = TryCreateVehicle(ref);
+
+            menuVSL->debug->AddLine("found vehicle " + std::to_string(ref) + ", total: " + std::to_string(m_Vehicles.size()));
         }
+    }
+}
+
+void Vehicles::TryDeleteVehicles()
+{
+    std::vector<Vehicle*> vehiclesToDelete;
+
+    for(auto pair : m_Vehicles)
+    {
+        auto vehicle = pair.second;
+
+        if(!CleoFunctions::CAR_DEFINED(vehicle->hVehicle))
+        {
+            vehiclesToDelete.push_back(vehicle);
+        }
+    }
+
+    for(auto vehicle : vehiclesToDelete)
+    {
+        RemoveVehicle(vehicle);
+
+        menuVSL->debug->AddLine("vehicle " + std::to_string(vehicle->hVehicle) + " removed, total: " + std::to_string(m_Vehicles.size()));
     }
 }
 
@@ -83,6 +121,17 @@ Vehicle* Vehicles::TryCreateVehicle(int hVehicle)
 	m_Vehicles[hVehicle] = vehicle;
 
     return vehicle;
+}
+
+void Vehicles::RemoveVehicle(Vehicle* vehicle)
+{
+    auto it = m_Vehicles.find(vehicle->hVehicle);
+
+    if (it == m_Vehicles.end()) return;
+    
+    m_Vehicles.erase(it); 
+
+    delete vehicle;
 }
 
 Vehicle* Vehicles::GetVehicleByHandle(int hVehicle)

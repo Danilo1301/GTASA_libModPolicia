@@ -2,7 +2,6 @@
 
 #include "WindowDocument.h"
 #include "WindowFrisk.h"
-#include "WindowTicket.h"
 
 #include "../Pullover.h"
 #include "../Scorch.h"
@@ -11,6 +10,7 @@
 #include "../Vehicles.h"
 #include "../SoundSystem.h"
 #include "systems/Dialog.h"
+#include "ModConfig.h"
 
 extern IMenuVSL* menuVSL;
 
@@ -22,6 +22,7 @@ void WindowPullover::CreatePullingPed()
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("pullover");
 
     window->AddText("- Ped ID: " + std::to_string(ped->hPed), CRGBA(255, 255, 255));
@@ -39,76 +40,6 @@ void WindowPullover::CreatePullingPed()
         Remove();
         CreateDialogWindow();
     };
-
-
-    if(ped->hVehicleOwned > 0)
-    {
-        auto button_revistarcarro = window->AddButton(GetLanguageLine("frisk_car"));
-        button_revistarcarro->onClick = [ped]()
-        {
-            Remove();
-
-            menuVSL->ShowMessage(GetLanguageLine("get_closer"), 3000);
-
-            CleoFunctions::AddCondition([ped] (std::function<void()> complete, std::function<void()> cancel) {
-                if(!CleoFunctions::ACTOR_DEFINED(ped->hPed))
-                {
-                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Ped is not defined anymore" << std::endl;
-                    cancel();
-                    return;
-                }
-
-                if(!CleoFunctions::CAR_DEFINED(ped->hVehicleOwned))
-                {
-                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Car owned is not defined anymore" << std::endl;
-                    cancel();
-                    return;
-                }
-
-                auto vehicle = Vehicles::GetVehicleByHandle(ped->hVehicleOwned);
-                auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-                auto distance = Pullover::GetDistanceBetweenPedAndCar(playerActor, vehicle->hVehicle);
-
-                if(distance > Pullover::PULLOVER_MAX_DISTANCE)
-                {
-                    Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away!" << std::endl;
-
-                    menuVSL->ShowMessage(GetLanguageLine("warning_too_far"), 3000);
-
-                    cancel();
-                    return;
-                }
-
-                if(distance < Pullover::PULLOVER_MIN_DISTANCE_VEHICLE)
-                {
-                    complete();
-                    return;
-                }
-            }, []() {
-                Pullover::m_FriskType = FRISK_TYPE::FRISK_VEHICLE;
-                Pullover::FriskVehicle();
-            }, []() {
-                Pullover::m_PullingVehicle = NULL;
-                Pullover::m_PullingPed = NULL;
-            });
-        };
-    }
-    
-    if(ped->hVehicleOwned > 0)
-    {
-        auto button_consultarplaca = window->AddButton(GetLanguageLine("check_plate"));
-        button_consultarplaca->onClick = [ped]()
-        {
-            Remove();
-
-            Pullover::CheckVehiclePlate(ped->hVehicleOwned, [] () {
-                CleoFunctions::WAIT(1000, []() {
-                    CreatePullingPed();
-                });
-            });
-        };
-    }
 
     auto button_revistar = window->AddButton(GetLanguageLine("frisk"));
     button_revistar->onClick = [playerActor, ped]()
@@ -147,7 +78,6 @@ void WindowPullover::CreatePullingPed()
                 return;
             }
         }, []() {
-            Pullover::m_FriskType = FRISK_TYPE::FRISK_PED;
             Pullover::FriskPed();
         }, []() {
             Pullover::m_PullingVehicle = NULL;
@@ -223,36 +153,6 @@ void WindowPullover::CreatePullingPed()
         });
     };
 
-    if(ped->hVehicleOwned > 0)
-    {
-        auto button_ticket = window->AddButton(GetLanguageLine("issue_ticket"));
-        button_ticket->onClick = [ped]()
-        {
-            Remove();
-            WindowTicket::Create();
-        };
-    }
-
-    if(ped->hVehicleOwned > 0)
-    {
-        auto button_guincho = window->AddButton(GetLanguageLine("call_tow_truck"));
-        button_guincho->onClick = [ped]()
-        {
-            if(!CleoFunctions::CAR_DEFINED(ped->hVehicleOwned))
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "Tried to call tow truck to a not defined vehicle" << std::endl;
-                return;
-            }
-
-            SoundSystem::PlayHTAudio();
-            SoundSystem::PlayStreamFromAudiosFolderWithRandomVariation("voices/REQUEST_TOW_TRUCK_", false);
-            menuVSL->ShowMessage(GetLanguageLine("request_tow_truck"), 3000);
-
-            Remove();
-            Scorch::CallTowTruckToVehicle(Vehicles::GetVehicleByHandle(ped->hVehicleOwned));
-        };
-    }
-
     auto button_conduzir = window->AddButton(GetLanguageLine("scorch_criminal"));
     button_conduzir->onClick = []()
     {
@@ -274,6 +174,8 @@ void WindowPullover::CreatePullingPed()
     };
 }
 
+// i wont use this menu anymore i think
+/*
 void WindowPullover::CreatePullingCar()
 {
     auto vehicle = Pullover::m_PullingVehicle;
@@ -303,6 +205,7 @@ void WindowPullover::CreatePullingCar()
         Pullover::FreeVehicle();
     };
 }
+*/
 
 void WindowPullover::CreateScorchWindow()
 {
@@ -310,6 +213,7 @@ void WindowPullover::CreateScorchWindow()
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("scorch_criminal");
 
     auto button_callVehicle = window->AddButton(GetLanguageLine("call_a_police_car"));
@@ -341,6 +245,7 @@ void WindowPullover::CreateDialogWindow()
     auto ped = Pullover::m_PullingPed;
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("dialog");
     window->m_Width = 500.0f;
     

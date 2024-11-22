@@ -1,11 +1,13 @@
 #include "WindowFrisk.h"
 
 #include "WindowPullover.h"
+#include "WindowCarMenu.h"
 
 #include "Pullover.h"
 #include "Log.h"
 #include "CleoFunctions.h"
 #include "SoundSystem.h"
+#include "ModConfig.h"
 
 IWindow* WindowFrisk::m_Window = NULL;
 IWindow* WindowFrisk::m_WindowItemActions = NULL;
@@ -19,6 +21,7 @@ void WindowFrisk::Create()
     auto ped = Pullover::m_PullingPed;
 
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("frisk_ped");
     
     for(auto item : ped->inventory->items)
@@ -58,6 +61,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     auto vehicle = Pullover::m_PullingVehicle;
 
     auto window = m_WindowItemActions = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("frisk_item");
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->name << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
@@ -145,32 +149,31 @@ void WindowFrisk::RemoveItemActions()
     m_WindowItemActions = NULL;
 }
 
-void WindowFrisk::CreateFriskCar()
+void WindowFrisk::CreateFriskCar(Vehicle* vehicle)
 {
-    auto vehicle = Pullover::m_PullingVehicle;
-
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("frisk_vehicle");
 
     for(auto item : vehicle->inventory->items)
     {
         auto button = window->AddButton(item->name);
-        button->onClick = [item]()
+        button->onClick = [item, vehicle]()
         {
             Remove();
-            CreateItemActions(item, []() {
-                CreateFriskCar();
+            CreateItemActions(item, [vehicle]() {
+                WindowFrisk::CreateFriskCar(vehicle);
             });
         };
         
         button->m_StringAtRight = InventoryItems::FormatItemAmount(item);
     }
 
-     auto button_close = window->AddButton(GetLanguageLine("finish_frisk"));
-    button_close->onClick = []()
+    auto button_close = window->AddButton(GetLanguageLine("finish_frisk"));
+    button_close->onClick = [vehicle]()
     {
         Pullover::m_FriskType = FRISK_TYPE::FRISK_NONE;
         Remove();
-        WindowPullover::CreatePullingPed();
+        WindowCarMenu::Create(vehicle);
     };
 }

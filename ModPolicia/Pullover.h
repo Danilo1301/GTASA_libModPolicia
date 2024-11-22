@@ -38,7 +38,7 @@ public:
     static void TestChaseClosestVehicle();
 
     static void FriskPed();
-    static void FriskVehicle();
+    static void FriskVehicle(Vehicle* vehicle);
 
     static void FreePed();
     static void MakePedWait();

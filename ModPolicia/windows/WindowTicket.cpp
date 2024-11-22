@@ -1,8 +1,10 @@
 #include "WindowTicket.h"
 
 #include "WindowPullover.h"
+#include "WindowCarMenu.h"
 
-#include "../CleoFunctions.h"
+#include "ModConfig.h"
+#include "CleoFunctions.h"
 
 extern IMenuVSL* menuVSL;
 
@@ -11,6 +13,7 @@ IWindow* WindowTicket::m_Window = NULL;
 void WindowTicket::Create()
 {
     auto window = m_Window = menuVSL->AddWindow();
+    window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("window_ticket");
 
     for(int i = 1; i <= 4; i++)
@@ -26,7 +29,8 @@ void WindowTicket::Create()
     button_close->onClick = []()
     {
         Remove();
-        WindowPullover::CreatePullingPed();
+
+        WindowCarMenu::Create(WindowCarMenu::m_Vehicle);
     };
 }
 
@@ -39,7 +43,12 @@ void WindowTicket::Remove()
 void WindowTicket::IssueTicket(int price)
 {
     Remove();
-    WindowPullover::CreatePullingPed();
-
+    
     menuVSL->ShowMessage(GetLanguageLine("ticket_issued"), 3000);
+
+    //retorna pro menu de abordagem de ped
+    //WindowPullover::CreatePullingPed();
+
+    //retorna pro menu do carro
+    WindowCarMenu::Create(WindowCarMenu::m_Vehicle);
 }

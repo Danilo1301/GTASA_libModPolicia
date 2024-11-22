@@ -15,6 +15,7 @@
 #include "windows/WindowTest.h"
 #include "windows/WindowFrisk.h"
 #include "windows/WindowPullover.h"
+#include "windows/WindowCarMenu.h"
 
 double Pullover::PULLOVER_MIN_DISTANCE_PED = 1;
 double Pullover::PULLOVER_MIN_DISTANCE_VEHICLE = 2;
@@ -252,19 +253,16 @@ void Pullover::PullOverCar(int hVehicle)
     */
 
     auto vehicle = Vehicles::TryCreateVehicle(hVehicle);
-    vehicle->UpdateInventory();
+    vehicle->UpdateInventoryAndOwners();
     vehicle->AddBlip();
-    vehicle->SetDriverAndPassengersOwners();
-
+    
     auto ped = Peds::TryCreatePed(driver);
-    ped->UpdateInventory();
     ped->AddBlip();
 
     auto passengersHandle = vehicle->GetPassengers();
     for(auto passengerHandle : passengersHandle)
     {
         auto passenger = Peds::TryCreatePed(passengerHandle);
-        passenger->UpdateInventory();
         passenger->AddBlip();
     }
 
@@ -286,41 +284,42 @@ void Pullover::PullOverCar(int hVehicle)
     
         menuVSL->ShowMessage(GetLanguageLine("get_closer"), 3000);
 
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting to get closer to the car" << std::endl;
+        // Log::Level(LOG_LEVEL::LOG_BOTH) << "waiting to get closer to the car" << std::endl;
 
-        CleoFunctions::AddCondition([playerActor, hVehicle] (std::function<void()> complete, std::function<void()> cancel) {
-            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
+        // CleoFunctions::AddCondition([playerActor, hVehicle] (std::function<void()> complete, std::function<void()> cancel) {
+        //     if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) return;
 
-            if(!CleoFunctions::CAR_DEFINED(hVehicle))
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is not defined anymore" << std::endl;
-                cancel();
-                return;
-            }
+        //     if(!CleoFunctions::CAR_DEFINED(hVehicle))
+        //     {
+        //         Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is not defined anymore" << std::endl;
+        //         cancel();
+        //         return;
+        //     }
 
-            auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
+        //     auto distance = GetDistanceBetweenPedAndCar(playerActor, hVehicle);
 
-            if(distance > PULLOVER_MAX_DISTANCE)
-            {
-                Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away" << std::endl;
+        //     if(distance > PULLOVER_MAX_DISTANCE)
+        //     {
+        //         Log::Level(LOG_LEVEL::LOG_BOTH) << "Car is too far away" << std::endl;
 
-                menuVSL->ShowMessage(GetLanguageLine("warning_too_far"), 3000);
-                cancel();
-                return;
-            }
+        //         menuVSL->ShowMessage(GetLanguageLine("warning_too_far"), 3000);
+        //         cancel();
+        //         return;
+        //     }
 
-            if(distance < PULLOVER_MIN_DISTANCE_VEHICLE)
-            {
-                complete();
-                return;
-            }
-        }, []() {
-            Log::Level(LOG_LEVEL::LOG_BOTH) << "Create pulling car menu" << std::endl;
-            WindowPullover::CreatePullingCar();
-        }, [] () {
-            Pullover::m_PullingVehicle = NULL;
-            Pullover::m_PullingPed = NULL;
-        });
+        //     if(distance < PULLOVER_MIN_DISTANCE_VEHICLE)
+        //     {
+        //         complete();
+        //         return;
+        //     }
+        // }, []() {
+        //     Log::Level(LOG_LEVEL::LOG_BOTH) << "Create pulling car menu" << std::endl;
+        //     WindowPullover::CreatePullingCar();
+        // }, [] () {
+        //     Pullover::m_PullingVehicle = NULL;
+        //     Pullover::m_PullingPed = NULL;
+        // });
+
     });
 }
 
@@ -400,6 +399,8 @@ void Pullover::TestChaseClosestVehicle()
 
 void Pullover::FriskPed()
 {
+    Pullover::m_FriskType = FRISK_TYPE::FRISK_PED;
+    
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "hndshkfa_swt", "gangs", 2.0f, 0, 0, 0, 0, -1);
@@ -411,14 +412,16 @@ void Pullover::FriskPed()
     });
 }
 
-void Pullover::FriskVehicle()
+void Pullover::FriskVehicle(Vehicle* vehicle)
 {
+    Pullover::m_FriskType = FRISK_TYPE::FRISK_VEHICLE;
+
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
 
     CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(playerActor, "hndshkfa_swt", "gangs", 2.0f, 0, 0, 0, 0, -1);
 
-    CleoFunctions::WAIT(3500, []() {
-        WindowFrisk::CreateFriskCar();
+    CleoFunctions::WAIT(3500, [vehicle]() {
+        WindowFrisk::CreateFriskCar(vehicle);
     });
 }
 
@@ -432,7 +435,8 @@ void Pullover::FreePed()
     m_PullingPed->RemoveBlip();
     m_PullingPed->shouldHandsup = false;
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Remove references to actor " << m_PullingPed->hPed << std::endl;
+    ClearPedAnimations(m_PullingPed->hPed);
+
     CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(m_PullingPed->hPed);
         
     CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(m_PullingPed->hPed, "hndshkfa_swt", "gangs", 200.0f, 0, 0, 0, 0, 10);
@@ -529,7 +533,7 @@ void Pullover::AskPedToStopCarOnRight(Vehicle* vehicle)
     CleoFunctions::CAR_DRIVE_TO(vehicle->hVehicle, stopPosition.x, stopPosition.y, stopPosition.z);
 
     CleoFunctions::WAIT(2000, [sphere]() {
-        WindowPullover::CreatePullingCar();
+        WindowCarMenu::Create(WindowCarMenu::m_Vehicle);
 
         CleoFunctions::DESTROY_SPHERE(sphere);
     });
