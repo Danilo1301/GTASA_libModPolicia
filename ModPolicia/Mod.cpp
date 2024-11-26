@@ -27,6 +27,7 @@
 #include "systems/Camera.h"
 #include "systems/SocketServer.h"
 #include "systems/BikePickpocket.h"
+#include "systems/PlaceObjects.h"
 
 #include "windows/WindowDocument.h"
 #include "windows/WindowTest.h"
@@ -102,6 +103,8 @@ void Mod::Update(int dt)
     //Log::Level(LOG_LEVEL::LOG_UPDATE) << "scorch" << std::endl;
 
     Scorch::Update(dt);
+
+    PlaceObjects::Update(dt);
    
     //Log::Level(LOG_LEVEL::LOG_UPDATE) << "callouts" << std::endl;
    
@@ -544,6 +547,12 @@ void Mod::AddModelsToLoad()
     Load::AddModelToLoad(1459); //barrier
     Load::AddModelToLoad(2899); //spikes
     Load::AddModelToLoad(2328); //small box
+
+    for(auto objectId : PlaceObjects::m_AvailableObjects)
+    {
+        Load::AddModelToLoad(objectId);
+    }
+
 
     //pickups
     //https://www.open.mp/docs/scripting/resources/pickupids

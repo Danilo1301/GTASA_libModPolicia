@@ -5,6 +5,11 @@
 #include "isautils.h"
 extern ISAUtils* sautils;
 
+static DEFOPCODE(02EB, RESTORE_CAMERA_WITH_JUMPCUT, ); //02EB: restore_camera_with_jumpcut
+
+static DEFOPCODE(015F, SET_CAMERA_POSITION, ffffff); //015F: set_camera_position 1@ 2@ 3@ rotation 0.0 0.0 0.0
+static DEFOPCODE(0160, SET_CAMERA_POINT_AT, fffi); //0160: set_camera_point_at 1@ 2@ 3@ switchstyle 1
+static DEFOPCODE(01BC, PUT_OBJECT_AT, ifff); //01BC: put_object 0@ at $72 $73 $74 
 static DEFOPCODE(07A3, GOTO_CHAR_AIMING, iiff); //07A3: AS_actor $GUNNER run_to_and_follow_actor $VICTIM wait_radius_between 0.5 and 1.0
 static DEFOPCODE(01B9, SET_ACTOR_ARMED_WEAPON, ii); //01B9: set_actor 2@ armed_weapon_to 0 
 static DEFOPCODE(0635, AIM_AT_ACTOR, iii); //0635: AS_actor -1 aim_at_actor $PLAYER_ACTOR 2000 ms 
@@ -223,6 +228,26 @@ WaitFunction* CleoFunctions::AddCondition(std::function<void(std::function<void(
 void CleoFunctions::WAIT(int time, std::function<void()> callback)
 {
     AddWaitFunction(time, callback);
+}
+
+void CleoFunctions::RESTORE_CAMERA_WITH_JUMPCUT()
+{
+    sautils->ScriptCommand(&scm_RESTORE_CAMERA_WITH_JUMPCUT);
+}
+
+void CleoFunctions::SET_CAMERA_POSITION(float x, float y, float z, float rotX, float rotY, float rotZ)
+{
+    sautils->ScriptCommand(&scm_SET_CAMERA_POSITION, x, y, z, rotX, rotY, rotZ);
+}
+
+void CleoFunctions::SET_CAMERA_POINT_AT(float x, float y, float z, int switchStyle)
+{
+    sautils->ScriptCommand(&scm_SET_CAMERA_POINT_AT, x, y, z, switchStyle);
+}
+
+void CleoFunctions::PUT_OBJECT_AT(int object, float x, float y, float z)
+{
+    sautils->ScriptCommand(&scm_PUT_OBJECT_AT, object, x, y, z);
 }
 
 void CleoFunctions::GOTO_CHAR_AIMING(int handle, int target, float radiusFrom, float radiusTo)

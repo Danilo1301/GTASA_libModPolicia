@@ -1,0 +1,70 @@
+{$CLEO .csa}
+03A4: script_name 'Test'
+
+0000:
+0@ = 0
+jump @PRELOAD
+ 
+//----------------------------------------
+:MAIN
+wait 0
+
+if 
+    0256: player $PLAYER_CHAR defined
+jf @MAIN
+
+if
+    0A51: is_widget_pressed 76 //left arrow small
+then
+    0@ += 1
+    
+    02FF: show_text_3numbers GXT 'MPFX1' numbers 0@ 0 0 time 1000 flag 1
+            
+    if 0@ == 1
+    then
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 0.0 5.0
+        0160: set_camera_point_at 1@ 2@ 3@ switchstyle 1
+        
+        3@ -= 1.0
+        
+        0107: $Object = create_object 1237 at 1@ 2@ 3@
+            
+        04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 5.0 5.0
+        015F: set_camera_position 1@ 2@ 3@ rotation 0.0 0.0 0.0
+        
+        wait 1000
+    end
+    
+    if 0@ == 2
+    then
+         02EB: restore_camera_with_jumpcut 
+
+         wait 1000
+    end
+    
+    if 0@ == 3
+    then
+       0@ = 0
+    end
+end 
+   
+jump @MAIN
+
+//----------------------------------------          
+
+:PRELOAD
+
+0247: load_model 1237
+038B: load_requested_models
+
+jump @PRELOAD_WAIT
+
+//----------------------------------------
+
+:PRELOAD_WAIT
+
+if
+    0248: model 1237 available
+jf @PRELOAD_WAIT
+
+jump @MAIN

@@ -234,12 +234,19 @@ Fixing chase:
 [X] extender o tempo da msg da ocorrencia (dwiki do Discord) e anotar no site a sugestão (callout_message_duration)
 [ ] ADD: change menu position
 
-[-] revistar o carro pelo menu do carro crasha? 
+[1.9.0]
+[X] FIX: crash ao apreender um item na revista pelo menu do carro
+[X] ADD: object system
+
+[ ] adicionar os itens q o cara do dsicord pediu
+
+
 [ ] fazer o pickpocket sumir depois de uns 20s
-
-
-
 [ ] window_ticket não tem tradução
+
+
+------------
+
 
 
 

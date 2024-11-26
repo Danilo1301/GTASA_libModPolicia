@@ -38,6 +38,10 @@ public:
 
     static void WAIT(int time, std::function<void()> callback);
 
+    static void RESTORE_CAMERA_WITH_JUMPCUT();
+    static void SET_CAMERA_POSITION(float x, float y, float z, float rotX, float rotY, float rotZ);
+    static void SET_CAMERA_POINT_AT(float x, float y, float z, int switchStyle);
+    static void PUT_OBJECT_AT(int object, float x, float y, float z);
     static void GOTO_CHAR_AIMING(int handle, int target, float radiusFrom, float radiusTo);
     static void SET_ACTOR_ARMED_WEAPON(int _char, int weaponType);
     static void AIM_AT_ACTOR(int _char, int target, int time);

@@ -58,7 +58,7 @@ void WindowFrisk::Remove()
 void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> onClose)
 {
     auto ped = Pullover::m_PullingPed;
-    auto vehicle = Pullover::m_PullingVehicle;
+    auto vehicle = WindowCarMenu::m_Vehicle;
 
     auto window = m_WindowItemActions = menuVSL->AddWindow();
     window->m_Position = ModConfig::MenuDefaultPosition;
@@ -141,7 +141,6 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         onClose();
     };
 }
-
 
 void WindowFrisk::RemoveItemActions()
 {

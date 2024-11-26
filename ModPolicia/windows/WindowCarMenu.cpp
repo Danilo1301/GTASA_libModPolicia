@@ -10,6 +10,8 @@
 #include "Scorch.h"
 #include "SoundSystem.h"
 
+#include "systems/PlaceObjects.h"
+
 #include "WindowBackup.h"
 #include "WindowTrunk.h"
 #include "WindowPD_Menu.h"
@@ -246,6 +248,16 @@ void WindowCarMenu::Create(Vehicle* vehicle)
         // };
     } else {
         
+    }
+
+    if(isPoliceCar)
+    {
+        auto button_cone = window->AddButton("Objects");
+        button_cone->onClick = []()
+        {
+            Remove();
+            PlaceObjects::StartSelectingObjects();
+        };
     }
 
     auto button_close = window->AddButton(GetLanguageLine("close"));
