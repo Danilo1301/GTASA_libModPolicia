@@ -3,21 +3,21 @@
 #include "Mod.h"
 #include "Log.h"
 
-bool Inventory::HasItemOfType(Item_Type type)
+bool Inventory::HasItemOfType(ItemType type)
 {
     for(auto item : items)
     {
-        if(item->type == type) return true;
+        if(item->itemData->type == type) return true;
     }
     return false;
 }
 
-std::vector<InventoryItem*> Inventory::GetItemsOfType(Item_Type type)
+std::vector<InventoryItem*> Inventory::GetItemsOfType(ItemType type)
 {
     std::vector<InventoryItem*> foundItems;
     for(auto item : items)
     {
-        if(item->type == type)
+        if(item->itemData->type == type)
         {
             foundItems.push_back(item);
         }
@@ -25,24 +25,9 @@ std::vector<InventoryItem*> Inventory::GetItemsOfType(Item_Type type)
     return foundItems;
 }
 
-InventoryItem* Inventory::AddItemToInventory(Item_Type type)
+InventoryItem* Inventory::AddItemToInventory(std::string id)
 {
-    auto item = new InventoryItem();
-
-    for(auto itemInfo : InventoryItems::m_Items)
-    {
-        if(itemInfo.type != type) continue;
-
-        item->name = itemInfo.name;
-        item->itemNameGxtId = itemInfo.itemNameGxtId;
-        item->type = itemInfo.type;
-        item->amount = GetRandomNumber(itemInfo.amountMin, itemInfo.amountMax);
-        item->amountMin = itemInfo.amountMin;
-        item->amountMax = itemInfo.amountMax;
-        item->isStolen = itemInfo.isStolen;
-        item->canBeAprehended = itemInfo.canBeAprehended;
-        item->measure = itemInfo.measure;
-    }
+    auto item = InventoryItems::CreateInventoryItem(id);
 
     items.push_back(item);
 
@@ -73,24 +58,22 @@ void Inventory::CopyFrom(Inventory* fromInventory)
 
     for(auto item : items)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Item: " << item->type << " x" << item->amount << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Item: " << item->itemData->name << " x" << item->amount << std::endl;
     }
 
     RemoveAllItemsFromInventory();
 
     for(auto item : fromInventory->items)
     {
-        auto newItem = AddItemToInventory(item->type);
+        auto newItem = AddItemToInventory(item->itemData->id);
         newItem->amount = item->amount;
         newItem->isStolen = item->isStolen;
-        newItem->canBeAprehended = item->canBeAprehended;
-        newItem->measure = item->measure;
     }
 
     Log::Level(LOG_LEVEL::LOG_BOTH) << "After copying:" << std::endl;
 
     for(auto item : items)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "Item: " << item->type << " x" << item->amount << std::endl;
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Item: " << item->itemData->name << " x" << item->amount << std::endl;
     }
 }

@@ -106,6 +106,7 @@ void PlaceObjects::CreateSelectionMenu()
 
         RemoveSelectionMenu();
         CleoFunctions::RESTORE_CAMERA_WITH_JUMPCUT();
+        RemoveDisplayObject();
     };
 
     auto select = window->AddButton("Select", CRGBA(0, 173, 17));
@@ -118,6 +119,7 @@ void PlaceObjects::CreateSelectionMenu()
         RemoveSelectionMenu();
         StartCarryingObject(m_AvailableObjects[displayIndex]);
         CleoFunctions::RESTORE_CAMERA_WITH_JUMPCUT();
+        RemoveDisplayObject();
     };
 
     auto removeAll = window->AddButton("Remove all", CRGBA(255, 106, 0));
@@ -130,6 +132,7 @@ void PlaceObjects::CreateSelectionMenu()
         RemoveSelectionMenu();
         RemoveAllObjects();
         CleoFunctions::RESTORE_CAMERA_WITH_JUMPCUT();
+        RemoveDisplayObject();
     };
 }
 
@@ -143,13 +146,18 @@ void PlaceObjects::CreateDisplayObject()
 {
     if(displayObject != -1)
     {
-        CleoFunctions::DESTROY_OBJECT(displayObject);
-        displayObject = -1;
+        RemoveDisplayObject();
     }
 
     displayObject = CleoFunctions::CREATE_OBJECT(m_AvailableObjects[displayIndex], displayObjectPosition.x, displayObjectPosition.y, displayObjectPosition.z);
 
     menuVSL->ShowMessage("ID " + std::to_string(m_AvailableObjects[displayIndex]), 2000);
+}
+
+void PlaceObjects::RemoveDisplayObject()
+{
+    CleoFunctions::DESTROY_OBJECT(displayObject);
+    displayObject = -1;
 }
 
 void PlaceObjects::StartCarryingObject(int objectId)

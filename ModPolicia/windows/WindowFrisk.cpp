@@ -26,9 +26,7 @@ void WindowFrisk::Create()
     
     for(auto item : ped->inventory->items)
     {
-        Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->name << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
-
-        auto button = window->AddButton(item->name);
+        auto button = window->AddButton(item->itemData->name);
         button->onClick = [item]()
         {
             Remove();
@@ -63,17 +61,15 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
     auto window = m_WindowItemActions = menuVSL->AddWindow();
     window->m_Position = ModConfig::MenuDefaultPosition;
     window->m_Title = GetLanguageLine("frisk_item");
-
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "item " << item->name << " canBeAprehended: " << (item->canBeAprehended ? "TRUE" : "FALSE") << std::endl;
     
-    if(item->type == Item_Type::DOCUMENTS)
+    if(item->itemData->type == ItemType::DOCUMMENTS)
     {
         std::string moneyText = GetLanguageLine("wallet_money", ped->money);
 
         window->AddText(moneyText, CRGBA(255, 255, 255));
     }
 
-    if(item->type == Item_Type::CELLPHONE)
+    if(item->itemData->type == ItemType::CELLPHONE)
     {
         auto button_imei = window->AddButton(GetLanguageLine("check_imei"));
         button_imei->onClick = [item]()
@@ -99,7 +95,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         };
     }
 
-    if(item->canBeAprehended)
+    if(item->itemData->canConfiscate)
     {
         auto button_apreender = window->AddButton(GetLanguageLine("seize"));
         button_apreender->onClick = [ped, vehicle, item, onClose]()
@@ -121,7 +117,7 @@ void WindowFrisk::CreateItemActions(InventoryItem* item, std::function<void()> o
         };
     }
 
-    if(item->type == Item_Type::WEED)
+    if(item->itemData->type == ItemType::ILEGAL_DRUG)
     {
         auto button_fumar = window->AddButton(GetLanguageLine("smoke"));
         button_fumar->onClick = [ped, vehicle, item, onClose]()
@@ -156,7 +152,7 @@ void WindowFrisk::CreateFriskCar(Vehicle* vehicle)
 
     for(auto item : vehicle->inventory->items)
     {
-        auto button = window->AddButton(item->name);
+        auto button = window->AddButton(item->itemData->name);
         button->onClick = [item, vehicle]()
         {
             Remove();

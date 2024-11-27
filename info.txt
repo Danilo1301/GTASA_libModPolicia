@@ -238,7 +238,13 @@ Fixing chase:
 [X] FIX: crash ao apreender um item na revista pelo menu do carro
 [X] ADD: object system
 
-[ ] adicionar os itens q o cara do dsicord pediu
+[1.9.1]
+[X] ADD: options to add custom items
+
+[ ] Adicionar as pastas do modPolicia dos itens
+
+
+
 
 
 [ ] fazer o pickpocket sumir depois de uns 20s

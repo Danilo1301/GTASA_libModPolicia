@@ -2,61 +2,61 @@
 
 #include "pch.h"
 
-enum Item_Type {
+enum ItemType
+{
+    UNKNOWN,
+    DOCUMMENTS,
     CELLPHONE,
-    DOCUMENTS,
-    CIGARETTE,
-    WEED,
-    BEER,
-    REVOLVER_38,
-    PISTOL,
-    STOLEN_WATCH,
-    STOLEN_WALLET,
-    CRACK,
-    COCAINE,
-    K9,
-    METHAMPHETAMINE,
-    LANCA_PERFUME
+    COMMON_ITEM,
+    STOLEN_ITEM,
+    ILEGAL_GUN,
+    ILEGAL_DRUG,
+    ALCOHOL_DRINK
 };
 
-enum ITEM_MEASURE {
+
+enum ItemMeasure {
     MEASURE_X,
     MEASURE_G
 };
 
-/*
-std::string name;
-int itemNameGxtId
-Item_Type type
-int amount
-int amountMin
-int amountMax
-ITEM_MEASURE measure
-bool isStolen
-bool canBeAprehended
-*/
-struct InventoryItem {
+struct ItemData {
+    std::string id;
     std::string name;
-    int itemNameGxtId;
 
-    Item_Type type;
+    ItemType type;
 
-    int amount = 0;
     int amountMin = 1;
     int amountMax = 1;
-    ITEM_MEASURE measure = ITEM_MEASURE::MEASURE_X;
+    ItemMeasure measure = ItemMeasure::MEASURE_X;
 
+    bool canConfiscate = false;
+    bool canSpawnInPeds = false;
+    bool canSpawnInVehicles = false;
+
+    float chance = 1.00;
+};
+
+struct InventoryItem {
+    ItemData* itemData;
+
+    int amount = 0;
     bool isStolen = false;
-    bool canBeAprehended = false;
 };
 
 class InventoryItems {
 public:
-    static std::vector<InventoryItem> m_Items;
-    static std::map<ITEM_MEASURE, int> m_MeasureGxtId;
+    static std::map<std::string, ItemData*> m_ItemDatas;
 
     static void Init();
 
-    static int GetMeasureGxtId(ITEM_MEASURE measureType);
+    static void LoadItems();
+    
+    static ItemData* CreateItemData(std::string id, std::string name, ItemType type, ItemMeasure measure, int min, int max, bool canAprehend);
+    static bool HasItemData(std::string id);
+    static std::vector<ItemData*> GetItemsDataOfType(ItemType type);
+
+    static InventoryItem* CreateInventoryItem(std::string id);
+
     static std::string FormatItemAmount(InventoryItem* item);
 };

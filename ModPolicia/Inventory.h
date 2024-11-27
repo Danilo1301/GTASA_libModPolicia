@@ -10,9 +10,9 @@ public:
 
     bool created = false;
 
-    bool HasItemOfType(Item_Type type);
-    std::vector<InventoryItem*> GetItemsOfType(Item_Type type);
-    InventoryItem* AddItemToInventory(Item_Type type);
+    bool HasItemOfType(ItemType type);
+    std::vector<InventoryItem*> GetItemsOfType(ItemType type);
+    InventoryItem* AddItemToInventory(std::string id);
     void RemoveItemFromInventory(InventoryItem* item);
     void RemoveAllItemsFromInventory();
     void CopyFrom(Inventory* fromInventory);

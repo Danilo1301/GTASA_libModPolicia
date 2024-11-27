@@ -251,27 +251,46 @@ void Vehicle::UpdateInventory()
 
     if(Mod::CalculateProbability(0.30))
     {
-        inventory->AddItemToInventory(Item_Type::WEED);
+        inventory->AddItemToInventory("weed");
     }
 
-    if(Mod::CalculateProbability(0.50))
+    for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::ALCOHOL_DRINK))
     {
-        inventory->AddItemToInventory(Item_Type::BEER);
+        if(Mod::CalculateProbability(itemData->chance))
+        {
+            inventory->AddItemToInventory(itemData->id);
+        }
+    }
+
+    for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::COMMON_ITEM))
+    {
+        if(itemData->canSpawnInVehicles)
+        {
+            if(Mod::CalculateProbability(itemData->chance))
+            {
+                inventory->AddItemToInventory(itemData->id);
+            }
+        }
     }
 
     if(Mod::CalculateProbability(0.25))
     {
-        inventory->AddItemToInventory(Item_Type::REVOLVER_38);
+        inventory->AddItemToInventory("revolver38");
 
         if(Mod::CalculateProbability(0.60))
         {
-            inventory->AddItemToInventory(Item_Type::PISTOL);
+            inventory->AddItemToInventory("pistol");
+        }
+
+        if(Mod::CalculateProbability(0.60))
+        {
+            inventory->AddItemToInventory("rifle");
         }
     }
 
     if(Mod::CalculateProbability(0.2))
     {
-        auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
+        auto stolenCellphone = inventory->AddItemToInventory("cellphone");
         stolenCellphone->isStolen = true;
     }
 }
@@ -319,9 +338,9 @@ bool Vehicle::HasIlegalStuff()
 {
     if(HasGuns()) return true;
     
-    if(inventory->HasItemOfType(Item_Type::CELLPHONE))
+    if(inventory->HasItemOfType(ItemType::CELLPHONE))
     {
-        for(auto cellphone : inventory->GetItemsOfType(Item_Type::CELLPHONE))
+        for(auto cellphone : inventory->GetItemsOfType(ItemType::CELLPHONE))
         {
             if(cellphone->isStolen) return true;
         }
@@ -331,8 +350,7 @@ bool Vehicle::HasIlegalStuff()
 
 bool Vehicle::HasGuns()
 {
-    if(inventory->HasItemOfType(Item_Type::REVOLVER_38)) return true;
-    if(inventory->HasItemOfType(Item_Type::PISTOL)) return true;
+    if(inventory->HasItemOfType(ItemType::ILEGAL_GUN)) return true;
     return false;
 }
 

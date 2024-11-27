@@ -424,6 +424,8 @@ void ModConfig::Load()
 
     PoliceDepartment::LoadBases();
 
+    InventoryItems::LoadItems();
+
     auto languagesFolder = GetConfigFolder() + "/languages/";
     menuVSL->LoadLanguagesFolder(languagesFolder);
 
@@ -680,6 +682,8 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.6.5");
     VersionControl::AddVersion("1.7.0");
     VersionControl::AddVersion("1.8.0");
+    VersionControl::AddVersion("1.9.0");
+    VersionControl::AddVersion("1.9.1");
 
     VersionControl::SetVersion(ReadVersionFile(), GetModVersion());
 }

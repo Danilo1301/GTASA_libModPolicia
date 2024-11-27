@@ -405,9 +405,9 @@ void Callouts::StartHouseInvasionCallout()
 
             criminal->UpdateInventory();
 
-            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::CELLPHONE);
-            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WALLET);
-            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory(Item_Type::STOLEN_WATCH);
+            for(int i = 0; i < GetRandomNumber(1, 2); i++) criminal->inventory->AddItemToInventory("cellphone");
+            for(int i = 0; i < GetRandomNumber(1, 1); i++) criminal->inventory->AddItemToInventory("stolen_wallet");
+            for(int i = 0; i < GetRandomNumber(1, 1); i++) criminal->inventory->AddItemToInventory("stolen_watch");
         }
     }, []() {});
 }

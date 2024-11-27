@@ -152,7 +152,7 @@ void Ped::UpdateInventory()
     bool hasDocuments = !Mod::CalculateProbability(CHANCE_PED_FORGETTING_DOCUMENTS_AT_HOME);
     if(hasDocuments)
     {
-        inventory->AddItemToInventory(Item_Type::DOCUMENTS);
+        inventory->AddItemToInventory("documments");
     }
 
     //
@@ -175,18 +175,37 @@ void Ped::UpdateInventory()
     bool hasCellphone = Mod::CalculateProbability(0.92);
     if(hasCellphone)
     {
-        auto cellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
+        auto cellphone = inventory->AddItemToInventory("cellphone");
     }
 
     if(Mod::CalculateProbability(0.1))
     {
-        auto stolenCellphone = inventory->AddItemToInventory(Item_Type::CELLPHONE);
+        auto stolenCellphone = inventory->AddItemToInventory("cellphone");
         stolenCellphone->isStolen = true;
     }
 
     if(Mod::CalculateProbability(0.20))
     {
-        inventory->AddItemToInventory(Item_Type::REVOLVER_38);
+        inventory->AddItemToInventory("revolver38");
+    } else if(Mod::CalculateProbability(0.20))
+    {
+        inventory->AddItemToInventory("handmade_gun");
+    } else if(Mod::CalculateProbability(0.10))
+    {
+        inventory->AddItemToInventory("knife");
+    }
+
+    
+
+    for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::COMMON_ITEM))
+    {
+        if(itemData->canSpawnInPeds)
+        {
+            if(Mod::CalculateProbability(itemData->chance))
+            {
+                inventory->AddItemToInventory(itemData->id);
+            }
+        }
     }
 }
 
@@ -197,7 +216,7 @@ void Ped::UpdateBreathalyzer()
     updatedBreathalyzer = true;
 
     auto vehicle = Vehicles::GetVehicleByHandle(hVehicleOwned);
-    bool hasBeer = vehicle->inventory->HasItemOfType(Item_Type::BEER);
+    bool hasBeer = vehicle->inventory->HasItemOfType(ItemType::ALCOHOL_DRINK);
     
     if(hasBeer)
     {
@@ -215,13 +234,12 @@ bool Ped::HasDocuments()
 {
     UpdateInventory();
 
-    return inventory->HasItemOfType(Item_Type::DOCUMENTS);
+    return inventory->HasItemOfType(ItemType::DOCUMMENTS);
 }
 
 bool Ped::HasGuns()
 {
-    if(inventory->HasItemOfType(Item_Type::REVOLVER_38)) return true;
-    if(inventory->HasItemOfType(Item_Type::PISTOL)) return true;
+    if(inventory->HasItemOfType(ItemType::ILEGAL_GUN)) return true;
     return false;
 }
 
@@ -281,7 +299,7 @@ void Ped::AddDrugs(bool drugDealer)
 
     if(drugRng == 0)
     {
-        auto drug = inventory->AddItemToInventory(Item_Type::WEED);
+        auto drug = inventory->AddItemToInventory("weed");
         if(drugDealer)
         {
             drug->amount = GetRandomNumber(10, 50);
@@ -290,7 +308,7 @@ void Ped::AddDrugs(bool drugDealer)
 
     if(drugRng == 1)
     {
-        auto drug = inventory->AddItemToInventory(Item_Type::CRACK);
+        auto drug = inventory->AddItemToInventory("crack");
         if(drugDealer)
         {
             drug->amount = GetRandomNumber(10, 50);
@@ -299,7 +317,7 @@ void Ped::AddDrugs(bool drugDealer)
 
     if(drugRng == 2)
     {
-        auto drug = inventory->AddItemToInventory(Item_Type::COCAINE);
+        auto drug = inventory->AddItemToInventory("cocaine");
         if(drugDealer)
         {
             drug->amount = GetRandomNumber(10, 50);
@@ -308,7 +326,7 @@ void Ped::AddDrugs(bool drugDealer)
 
     if(drugRng == 3)
     {
-        auto drug = inventory->AddItemToInventory(Item_Type::K9);
+        auto drug = inventory->AddItemToInventory("k9");
         if(drugDealer)
         {
             drug->amount = GetRandomNumber(10, 50);
@@ -317,7 +335,7 @@ void Ped::AddDrugs(bool drugDealer)
 
     if(drugRng == 4)
     {
-        auto drug = inventory->AddItemToInventory(Item_Type::METHAMPHETAMINE);
+        auto drug = inventory->AddItemToInventory("metanfetamina");
         if(drugDealer)
         {
             drug->amount = GetRandomNumber(10, 50);
@@ -326,7 +344,12 @@ void Ped::AddDrugs(bool drugDealer)
 
     if(Mod::CalculateProbability(0.3))
     {
-        inventory->AddItemToInventory(Item_Type::LANCA_PERFUME);
+        inventory->AddItemToInventory("lanca_perfume");
+    }
+
+    if(Mod::CalculateProbability(0.5))
+    {
+        inventory->AddItemToInventory("pino_de_po");
     }
 }
 

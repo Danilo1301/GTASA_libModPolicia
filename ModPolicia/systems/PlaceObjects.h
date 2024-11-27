@@ -17,6 +17,7 @@ private:
     static void CreateSelectionMenu();
     static void RemoveSelectionMenu();
     static void CreateDisplayObject();
+    static void RemoveDisplayObject();
 
     static void StartCarryingObject(int objectId);
     static void StopCarryingObject();
