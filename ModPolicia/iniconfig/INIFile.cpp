@@ -2,6 +2,13 @@
 
 #include "Log.h"
 
+void trimEnd(std::string& str) {
+    // Remove all trailing whitespace characters, including \n, \r, space, and tab
+    while (!str.empty() && (str.back() == '\n' || str.back() == '\r' || str.back() == ' ' || str.back() == '\t')) {
+        str.pop_back();
+    }
+}
+
 INISection* INIFile::AddSection(std::string key)
 {
 	std::cout << "AddSection " << key << std::endl;
@@ -104,9 +111,13 @@ bool INIFile::Read(std::string path)
 			//
 
 			std::string value = line.substr(line.find("=") + 1);
-			value.erase(std::remove_if(value.begin(), value.end(), ::isspace), value.end());
-			
-			//Log::Level(LOG_LEVEL::LOG_BOTH) << "INIFile: AddString " << key << " | " << value << std::endl;
+
+			size_t firstNonSpace = value.find_first_not_of(' ');
+			value = value.substr(firstNonSpace);
+
+			trimEnd(value);
+
+			//Log::Level(LOG_LEVEL::LOG_BOTH) << "INIFile: AddString (" << key << ") | (" << value << ")" << std::endl;
 			section->AddString(key, value);
 		}
 

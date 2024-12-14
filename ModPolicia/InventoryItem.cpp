@@ -38,22 +38,15 @@ void InventoryItems::Init()
     auto lanca_perfume = CreateItemData("lanca_perfume", "Lanca perfume", ItemType::ILEGAL_DRUG, ItemMeasure::MEASURE_X, 1, 1, CAN_CONFISCATE);
     auto pino_de_po = CreateItemData("pino_de_po", "Pino de po", ItemType::ILEGAL_DRUG, ItemMeasure::MEASURE_X, 1, 3, CAN_CONFISCATE);
 
-    auto revolver38 = CreateItemData("revolver38", "Revolver 38", ItemType::ILEGAL_GUN, ItemMeasure::MEASURE_X, 1, 1, CAN_CONFISCATE);
-    auto pistol = CreateItemData("pistol", "Pistola", ItemType::ILEGAL_GUN, ItemMeasure::MEASURE_X, 1, 1, CAN_CONFISCATE);
-    auto rifle = CreateItemData("rifle", "Fuzil", ItemType::ILEGAL_GUN, ItemMeasure::MEASURE_X, 1, 1, CAN_CONFISCATE);
-    auto handmade_gun = CreateItemData("handmade_gun", "Arma caseira", ItemType::ILEGAL_GUN, ItemMeasure::MEASURE_X, 1, 1, CAN_CONFISCATE);
-    auto knife = CreateItemData("knife", "Faca", ItemType::ILEGAL_GUN, ItemMeasure::MEASURE_X, 1, 1, CAN_CONFISCATE);
-    
     auto stolen_watch = CreateItemData("stolen_watch", "Relogio roubado", ItemType::STOLEN_ITEM, ItemMeasure::MEASURE_X, 1, 2, CAN_CONFISCATE);
     auto stolen_wallet = CreateItemData("stolen_wallet", "Carteira roubada", ItemType::STOLEN_ITEM, ItemMeasure::MEASURE_X, 1, 2, CAN_CONFISCATE);
 }
 
-void InventoryItems::LoadItems()
+void InventoryItems::LoadItemsFromFolder(std::string folder, ItemType type)
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "InventoryItems: LoadItems" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "InventoryItems: LoadItems from " << folder << std::endl;
 
-    auto path = ModConfig::GetConfigFolder() + "/items/common_items/";
-    auto type = ItemType::COMMON_ITEM;
+    auto path = ModConfig::GetConfigFolder() + "/items/" + folder + "/";
 
     if(!ModConfig::DirExists(path))
     {
@@ -96,6 +89,14 @@ void InventoryItems::LoadItems()
             Log::Level(LOG_LEVEL::LOG_BOTH) << "ModConfig: Error reading " << filePath << std::endl;
         }
     }
+}
+
+void InventoryItems::LoadItems()
+{
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "InventoryItems: LoadItems" << std::endl;
+
+    LoadItemsFromFolder("common_items", ItemType::COMMON_ITEM);
+    LoadItemsFromFolder("ilegal_guns", ItemType::ILEGAL_GUN);
 }
 
 ItemData* InventoryItems::CreateItemData(std::string id, std::string name, ItemType type, ItemMeasure measure, int min, int max, bool canConfiscate)

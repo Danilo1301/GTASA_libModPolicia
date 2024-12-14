@@ -273,18 +273,14 @@ void Vehicle::UpdateInventory()
         }
     }
 
-    if(Mod::CalculateProbability(0.25))
+    for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::ILEGAL_GUN))
     {
-        inventory->AddItemToInventory("revolver38");
-
-        if(Mod::CalculateProbability(0.60))
+        if(itemData->canSpawnInVehicles)
         {
-            inventory->AddItemToInventory("pistol");
-        }
-
-        if(Mod::CalculateProbability(0.60))
-        {
-            inventory->AddItemToInventory("rifle");
+            if(Mod::CalculateProbability(itemData->chance))
+            {
+                inventory->AddItemToInventory(itemData->id);
+            }
         }
     }
 

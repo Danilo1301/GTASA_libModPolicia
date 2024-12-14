@@ -50,6 +50,7 @@ public:
 
     static void Init();
 
+    static void LoadItemsFromFolder(std::string folder, ItemType type);
     static void LoadItems();
     
     static ItemData* CreateItemData(std::string id, std::string name, ItemType type, ItemMeasure measure, int min, int max, bool canAprehend);

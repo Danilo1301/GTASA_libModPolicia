@@ -184,20 +184,29 @@ void Ped::UpdateInventory()
         stolenCellphone->isStolen = true;
     }
 
-    if(Mod::CalculateProbability(0.20))
-    {
-        inventory->AddItemToInventory("revolver38");
-    } else if(Mod::CalculateProbability(0.20))
-    {
-        inventory->AddItemToInventory("handmade_gun");
-    } else if(Mod::CalculateProbability(0.10))
-    {
-        inventory->AddItemToInventory("knife");
-    }
-
-    
+    // if(Mod::CalculateProbability(0.20))
+    // {
+    //     inventory->AddItemToInventory("revolver38");
+    // } else if(Mod::CalculateProbability(0.20))
+    // {
+    //     inventory->AddItemToInventory("handmade_gun");
+    // } else if(Mod::CalculateProbability(0.10))
+    // {
+    //     inventory->AddItemToInventory("knife");
+    // }
 
     for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::COMMON_ITEM))
+    {
+        if(itemData->canSpawnInPeds)
+        {
+            if(Mod::CalculateProbability(itemData->chance))
+            {
+                inventory->AddItemToInventory(itemData->id);
+            }
+        }
+    }
+
+    for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::ILEGAL_GUN))
     {
         if(itemData->canSpawnInPeds)
         {
