@@ -8,8 +8,6 @@ std::function<void()> onLoadAllCallback;
 
 void Load::AddModelToLoad(int modelId)
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Load: Adding model " << modelId << std::endl;
-
     modelsToLoad.push_back(modelId);
 }
 
@@ -20,8 +18,6 @@ void Load::AddAnimationToLoad(std::string anim)
 
 void Load::LoadAll(std::function<void()> callback)
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Load: LoadAll" << std::endl;
-    
     onLoadAllCallback = callback;
 
     if(modelsToLoad.size() == 0) return;
@@ -33,13 +29,13 @@ void Load::LoadFirstModel()
 {
     auto modelId = modelsToLoad[0];
 
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "Load: Loading " << modelId << " (" << modelsToLoad.size() << " left)" << std::endl;
-
     if(CleoFunctions::MODEL_AVAILABLE(modelId))
     {
         ModelLoaded(modelId);
         return;
     }
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Load: Loading " << modelId << " (" << modelsToLoad.size() << " left)" << std::endl;
 
     CleoFunctions::LOAD_MODEL(modelId);
     CleoFunctions::LOAD_REQUESTED_MODELS();

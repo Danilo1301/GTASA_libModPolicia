@@ -55,6 +55,9 @@ CAudioStream* test3dAudio = NULL;
 
 bool appliedTest = false;
 
+const int TIME_BETWEEN_RELAD_MODELS = 30000;
+int timeToReloadModels = TIME_BETWEEN_RELAD_MODELS;
+
 void Mod::Update(int dt)
 {
     Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update" << std::endl;
@@ -72,6 +75,15 @@ void Mod::Update(int dt)
         auto dw = Draw::m_DrawItems[0];
         Draw::m_DrawItems.erase(std::find(Draw::m_DrawItems.begin(), Draw::m_DrawItems.end(), dw));
         delete dw;
+    }
+
+    timeToReloadModels -= dt;
+
+    if(timeToReloadModels <= 0)
+    {
+        timeToReloadModels = TIME_BETWEEN_RELAD_MODELS;
+
+        ReloadModels();
     }
 
     //    
@@ -572,6 +584,17 @@ void Mod::AddModelsToLoad()
         Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: All models loaded!" << std::endl;
     });
 }
+
+// seems like gta is unloading some?
+void Mod::ReloadModels()
+{
+    menuVSL->debug->AddLine("Reloading models...");
+
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Mod: Reloading models..." << std::endl;
+    
+    AddModelsToLoad();
+}
+
 
 bool Mod::CalculateProbability(float chance)
 {

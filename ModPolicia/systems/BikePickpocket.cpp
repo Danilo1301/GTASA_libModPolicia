@@ -10,6 +10,7 @@
 #include "Pullover.h"
 #include "Mod.h"
 #include "Callouts.h"
+#include "Log.h"
 
 #include "menu/IMenuVSL.h"
 extern IMenuVSL* menuVSL;
@@ -126,8 +127,12 @@ void BikePickpocket::SpawnPickpocket(CVector position)
 
     //test: TestPickpocket
 
+
     //009A: $VICTIM = create_actor_pedtype 23 model 12 at 1@ 2@ 3@
     auto victimSkin = Skins::GetRandomSkin(SkinGenre::BOTH, SkinGang::GANG_NONE);
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Spawning pickpocket, skin: " << victimSkin.modelId << std::endl;
+
     auto victimHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE(4, victimSkin.modelId, position.x, position.y, position.z);
     victim = Peds::TryCreatePed(victimHandle);
     victim->shouldHandsup = true;
@@ -140,6 +145,9 @@ void BikePickpocket::SpawnPickpocket(CVector position)
     // 00A5: $BIKE = create_car 461 at 1@ 2@ 3@
     // 0918: set_car $BIKE engine_operation 1
 
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Spawning pickpocket bike: " << 461 << std::endl;
+
+
     CVector bikePosition = position + CVector(0, 2, 0);
 
     auto bikeHandle = CleoFunctions::CREATE_CAR_AT(461, bikePosition.x, bikePosition.y, bikePosition.z);
@@ -151,8 +159,11 @@ void BikePickpocket::SpawnPickpocket(CVector position)
     //driver    
     // 0129: $DRIVER = create_actor_pedtype 4 model 48 in_car $BIKE driverseat 
 
-    // 0186: $MARKER = create_marker_above_car $BIKE
     auto driverSkin = Skins::GetRandomSkin(SkinGenre::SKIN_MALE, SkinGang::GANG_NONE);
+
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Spawning driver, skin: " << driverSkin.modelId << std::endl;
+
+    // 0186: $MARKER = create_marker_above_car $BIKE
     auto driverHandle = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(bikeHandle, 4, driverSkin.modelId);
     driver = Peds::TryCreatePed(driverHandle);
     driver->AddBlip();

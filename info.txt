@@ -241,6 +241,10 @@ Fixing chase:
 [1.9.1]
 [X] ADD: options to add custom items
 
+[1.9.2]
+[X] ATTEMPT TO FIX a crash when loading peds
+
+
 [ ] Separar as armas do .so e colocar por ini
 
 [ ] CRASH spawnpano um ped com skin 13, talvez tenha q dar load denovo

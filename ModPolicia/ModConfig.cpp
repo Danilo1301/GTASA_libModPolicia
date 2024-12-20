@@ -684,6 +684,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.8.0");
     VersionControl::AddVersion("1.9.0");
     VersionControl::AddVersion("1.9.1");
+    VersionControl::AddVersion("1.9.2");
 
     VersionControl::SetVersion(ReadVersionFile(), GetModVersion());
 }

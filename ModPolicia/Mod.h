@@ -17,6 +17,8 @@ public:
 
     static void AddModelsToLoad();
 
+    static void ReloadModels();
+
     /**
       *   \brief Calculate probability
       *
