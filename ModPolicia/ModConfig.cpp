@@ -29,6 +29,7 @@
 
 #include "systems/Names.h"
 #include "systems/Camera.h"
+#include "systems/BikePickpocket.h"
 
 #include "windows/WindowRadio.h"
 
@@ -301,6 +302,8 @@ void ModConfig::SaveSettings()
 
     generalSection->AddFloat("chase_vehicle_max_speed", Chase::CHASE_VEHICLE_MAX_SPEED);
 
+    generalSection->AddFloat("time_between_bike_pickpockets", BikePickpocket::m_TimeBetweenPickpockets);
+
     //
 
     auto chancesSection = file.AddSection("Chances");
@@ -482,6 +485,7 @@ void ModConfig::LoadSettings()
         generalSection->GetBoolFromInt("transparent_radio_buttons", &WindowRadio::m_TransparentButtons);
         generalSection->GetFloat("spawn_emergency_vehicles_distance", &Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
         generalSection->GetFloat("chase_vehicle_max_speed", &Chase::CHASE_VEHICLE_MAX_SPEED);
+        generalSection->GetFloat("time_between_bike_pickpockets", &BikePickpocket::m_TimeBetweenPickpockets);
     }
 
     //

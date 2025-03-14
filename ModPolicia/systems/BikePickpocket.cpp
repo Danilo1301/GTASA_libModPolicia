@@ -15,9 +15,10 @@
 #include "menu/IMenuVSL.h"
 extern IMenuVSL* menuVSL;
 
-float timeBetweenPickpockets = 180 * 1000;
+float BikePickpocket::m_TimeBetweenPickpockets = 180 * 1000;
+
 CVector pickpocketPosition = CVector(0, 0, 0);
-int timeToSpawnPickpocket = timeBetweenPickpockets;
+int timeToSpawnPickpocket = -1;
 int timeToAlert = 0;
 bool pickpocketInProgress = false;
 
@@ -91,6 +92,8 @@ void BikePickpocket::UpdateSpawnPickpocket(int dt)
     if(Pullover::m_PullingPed || Pullover::m_PullingVehicle) return;
     if(!Mod::m_Enabled) return;
         
+    if(timeToSpawnPickpocket == -1) timeToSpawnPickpocket = BikePickpocket::m_TimeBetweenPickpockets;
+
     timeToSpawnPickpocket -= dt;
 
     timeToAlert -= dt;
@@ -102,6 +105,8 @@ void BikePickpocket::UpdateSpawnPickpocket(int dt)
 
     if(timeToSpawnPickpocket <= 0)
     {
+        timeToSpawnPickpocket = 0;
+
         SpawnPickpocketCloseToPlayer();
     }
 }
@@ -196,5 +201,5 @@ void BikePickpocket::FinishPickpocket()
 
     pickpocketInProgress = false;
     enteringBike = false;
-    timeToSpawnPickpocket = timeBetweenPickpockets;
+    timeToSpawnPickpocket = BikePickpocket::m_TimeBetweenPickpockets;
 }

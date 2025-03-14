@@ -245,6 +245,12 @@ Fixing chase:
 [X] ATTEMPT TO FIX a crash when loading peds
 
 
+CRASH: quando o cara perseguido vai muito longe e some
+CRASH: O meu só fecha quando uso menu mesmo aperto em liberar aí fecha o que lhe falei,mas é só quando o guincho some com o carro, quando o carro do motorista npc tá perto não fecha
+
+
+
+
 [ ] Separar as armas do .so e colocar por ini
 
 [ ] CRASH spawnpano um ped com skin 13, talvez tenha q dar load denovo
