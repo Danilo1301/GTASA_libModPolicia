@@ -44,11 +44,11 @@ O APK se encontra no canal '⭐official-apk-plugins', depois em 'APK+INFO'
 <h1>Como usar</h1>
 
 * Para ativar o mod: entre na DP e ative por lá, ou abra o menu do carro policial e ative o mod
-* Para abrir o menu do carro policial: chegue perto de uma viatura (carro) e aperte o widget de checkmark ([exemplo](https://imgur.com/gallery/checkmark-apBNac1))
+* Para abrir o menu do carro policial: chegue perto de uma viatura (carro) e aperte o widget de checkmark ([exemplo](https://imgur.com/gallery/car-menu-GL7uO31))
 * Você precisa estar a pé ou de carro para abordar
 * Para abordar a pé: mire em alguém e aperte o botão de buzina
-* Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/Ua4WzpE))
-* Para abrir o menu do rádio: aperte o widget do celular ([exemplo](https://imgur.com/gallery/radio-ofyko9e))
+* Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/2-horn-vQwZCR6))
+* Para abrir o menu do rádio: aperte o widget do celular ([exemplo](https://imgur.com/gallery/radio-VwkFlcQ))
 
 <h1>Tutoriais</h1>
 
