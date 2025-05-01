@@ -41,11 +41,11 @@ The APK is in the channel '⭐official-apk-plugins', then in the 'APK+INFO'
 <h1>How to use</h1>
 
 * To enable the mod: enter the PD and enable there, or open the police car menu and enable the mod
-* To open the police car menu: get closer to a police car and press the checkmark widget ([example](https://imgur.com/gallery/checkmark-apBNac1))
+* To open the police car menu: get closer to a police car and press the checkmark widget ([example](https://imgur.com/gallery/car-menu-GL7uO31))
 * You need to be on foot or in a vehicle to pull over
 * To stop in foot: aim to someone and press horn button
-* To stop from a vehicle: press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/Ua4WzpE))
-* To open the radio menu: press the cellphone widget ([example](https://imgur.com/gallery/radio-ofyko9e))
+* To stop from a vehicle: press the 'imaginary button' 2 + horn button ([example](https://imgur.com/gallery/2-horn-vQwZCR6))
+* To open the radio menu: press the cellphone widget ([example](https://imgur.com/gallery/radio-VwkFlcQ))
 
 <h1>Tutorials</h1>
 
