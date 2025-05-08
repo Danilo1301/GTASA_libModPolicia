@@ -37,6 +37,7 @@ enum ACTION_STATUS {
 
 class Vehicle {
 public:
+    static float CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY;
     static float CHANCE_VEHICLE_BEEING_STOLEN;
 
     int hVehicle;
@@ -92,7 +93,8 @@ public:
     bool IsPoliceHelicopter();
     
     bool HasIlegalStuff();
-    bool HasGuns();
+    std::vector<InventoryItem*> GetGunsInInventory();
+    bool HasStolenCellphone();
 
     int AddBlip();
     int AddBlip(int color);

@@ -14,7 +14,7 @@ void Widgets::Update(int dt)
         if(data->isPressed)
         {
             data->pressTime += dt;
-            Log::Level(LOG_LEVEL::LOG_UPDATE) << "Widget " << widgetId << " pressTime: " << data->pressTime << std::endl;
+            //Log::Level(LOG_LEVEL::LOG_UPDATE) << "Widget " << widgetId << " pressTime: " << data->pressTime << std::endl;
         }
 
         data->hasJustPressed = false;

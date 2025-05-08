@@ -313,6 +313,7 @@ void ModConfig::SaveSettings()
     chancesSection->AddFloat("CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE", Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE);
     chancesSection->AddFloat("CHANCE_PED_BEEING_WANTED", Ped::CHANCE_PED_BEEING_WANTED);
 
+    chancesSection->AddFloat("CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY", Vehicle::CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY);
     chancesSection->AddFloat("CHANCE_VEHICLE_BEEING_STOLEN", Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
 
     //
@@ -501,6 +502,7 @@ void ModConfig::LoadSettings()
         chancesSection->GetFloat("CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE", &Ped::CHANCE_PED_HAVING_EXPIRED_DRIVER_LICENSE);
         chancesSection->GetFloat("CHANCE_PED_BEEING_WANTED", &Ped::CHANCE_PED_BEEING_WANTED);
 
+        chancesSection->GetFloat("CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY", &Vehicle::CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY);
         chancesSection->GetFloat("CHANCE_VEHICLE_BEEING_STOLEN", &Vehicle::CHANCE_VEHICLE_BEEING_STOLEN);
     }
 
@@ -689,6 +691,7 @@ void ModConfig::DefineVersions()
     VersionControl::AddVersion("1.9.0");
     VersionControl::AddVersion("1.9.1");
     VersionControl::AddVersion("1.9.2");
+    VersionControl::AddVersion("1.9.3");
 
     VersionControl::SetVersion(ReadVersionFile(), GetModVersion());
 }

@@ -255,7 +255,7 @@ void Chase::MakeCarStartRunning(Vehicle* vehicle, Ped* ped)
 
     vehicle->SetDriverAndPassengersOwners();
 
-    if(vehicle->HasGuns() || ped->HasGuns()) ped->willShootAtCops = true;
+    if(vehicle->GetGunsInInventory().size() > 0 || ped->HasGuns()) ped->willShootAtCops = true;
     //ped->willShootAtCops = false;
 
     //CleoFunctions::SHOW_TEXT_3NUMBERS("MPFX1", ped->willShootAtCops ? 1 : 0, 0, 0, 3000, 1);

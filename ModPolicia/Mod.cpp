@@ -60,7 +60,7 @@ int timeToReloadModels = TIME_BETWEEN_RELAD_MODELS;
 
 void Mod::Update(int dt)
 {
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update --------------" << std::endl;
 
     if(dt > 60)
     {
@@ -248,7 +248,7 @@ void Mod::Update(int dt)
     //     Menu::ShowCredits(6, 5000, 80 + 50 + 10);
     // }
 
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update end" << std::endl;
+    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Update end --------------" << std::endl;
 }
 
 void Mod::Init()
@@ -264,20 +264,18 @@ void Mod::Init()
     SocketServer::Init();
 }
 
-CSprite2d testSprite;
+//CSprite2d testSprite;
 
 void Mod::Draw()
 {
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Draw" << std::endl;
-
     if(!hasCleoInitialized) return;
 
-    if(!testSprite.m_pTexture)
-    {
-        char path[512];
-        sprintf(path, "%s/assets/button_info.png", ModConfig::GetConfigFolder().c_str());
-        testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
-    }
+    // if(!testSprite.m_pTexture)
+    // {
+    //     char path[512];
+    //     sprintf(path, "%s/assets/button_info.png", ModConfig::GetConfigFolder().c_str());
+    //     testSprite.m_pTexture = (RwTexture*)menuVSL->LoadRwTextureFromFile(path, "test", true);
+    // }
 
     Vehicles::Draw();
 
@@ -371,7 +369,7 @@ void Mod::Draw()
                     imagePos.x -= buttonSize.x/2;
                     imagePos.y -= buttonSize.y;
 
-                    menuVSL->DrawSprite(&testSprite, imagePos, buttonSize);
+                    //menuVSL->DrawSprite(&testSprite, imagePos, buttonSize);
                 }
 
                 bool drawHealthbar = true;
@@ -403,8 +401,6 @@ void Mod::Draw()
     }
 
     WindowDocument::Draw();
-
-    Log::Level(LOG_LEVEL::LOG_UPDATE) << "Draw end" << std::endl;
 }
 
 void Mod::CleoInit()
@@ -598,8 +594,8 @@ void Mod::ReloadModels()
 
 bool Mod::CalculateProbability(float chance)
 {
-    int i = GetRandomNumber(0, 100);
-    return i <= (int)(chance * 100.0f);
+    int i = GetRandomNumber(0, 99);
+    return i < (int)(chance * 100.0f);
 }
 
 void Mod::ProcessMenuButtons(int dt)

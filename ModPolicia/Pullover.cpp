@@ -228,9 +228,48 @@ void Pullover::TryPullOverCar()
     PullOverCar(randomCar);
 }
 
+bool CanVehicleRunAway(Vehicle* vehicle, Ped* ped)
+{
+    bool wouldRunAway = !Mod::CalculateProbability(Vehicle::CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY);
+
+    if(vehicle->HasIlegalStuff())
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle has ilegal stuff" << std::endl;
+
+        auto guns = vehicle->GetGunsInInventory();
+        
+        for(auto gun : guns)
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle has a gun: " << gun->itemData->name << std::endl;
+        }
+
+        if(vehicle->HasStolenCellphone())
+        {
+            Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle has stolen cellphone" << std::endl;
+        }
+
+        return wouldRunAway;
+    }
+    
+    if(vehicle->isStolen || ped->isWanted)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle is stolen" << std::endl;
+        return wouldRunAway;
+    }
+
+    if(ped->isWanted)
+    {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Driver is wanted" << std::endl;
+        return wouldRunAway;
+    }
+
+
+    return false;
+}
+
 void Pullover::PullOverCar(int hVehicle)
 {
-    Log::Level(LOG_LEVEL::LOG_BOTH) << "pulling over car " << hVehicle << std::endl;
+    Log::Level(LOG_LEVEL::LOG_BOTH) << "Pulling over car " << hVehicle << std::endl;
     
     int driver = CleoFunctions::GET_DRIVER_OF_CAR(hVehicle);
     int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
@@ -266,13 +305,18 @@ void Pullover::PullOverCar(int hVehicle)
         passenger->AddBlip();
     }
 
-    //if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted || true)
-    if(vehicle->HasIlegalStuff() || vehicle->isStolen || ped->isWanted)
+    bool runAway = CanVehicleRunAway(vehicle, ped);
+
+    if(runAway)
     {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle is running away" << std::endl;
+
         menuVSL->ShowMessage(GetLanguageLine("suspect_ran_away"), 3000);
 
         Chase::MakeCarStartRunning(vehicle, ped);
         return;
+    } else {
+        Log::Level(LOG_LEVEL::LOG_BOTH) << "Vehicle is not going to run away" << std::endl;
     }
 
     m_PullingVehicle = vehicle;

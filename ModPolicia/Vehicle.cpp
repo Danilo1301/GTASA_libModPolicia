@@ -14,6 +14,7 @@
 extern void* (*GetVehicleFromRef)(int);
 extern IMenuVSL* menuVSL;
 
+float Vehicle::CHANCE_VEHICLE_DECIDE_NOT_TO_RUN_AWAY = 0.3;
 float Vehicle::CHANCE_VEHICLE_BEEING_STOLEN = 0.1;
 
 Vehicle::Vehicle(int hVehicle)
@@ -332,8 +333,21 @@ bool Vehicle::IsPoliceHelicopter()
 
 bool Vehicle::HasIlegalStuff()
 {
-    if(HasGuns()) return true;
+    if(GetGunsInInventory().size() > 0) return true;
     
+    if(HasStolenCellphone()) return true;
+
+    return false;
+}
+
+std::vector<InventoryItem*> Vehicle::GetGunsInInventory()
+{
+    auto items = inventory->GetItemsOfType(ItemType::ILEGAL_GUN);
+    return items;
+}
+
+bool Vehicle::HasStolenCellphone()
+{
     if(inventory->HasItemOfType(ItemType::CELLPHONE))
     {
         for(auto cellphone : inventory->GetItemsOfType(ItemType::CELLPHONE))
@@ -341,12 +355,6 @@ bool Vehicle::HasIlegalStuff()
             if(cellphone->isStolen) return true;
         }
     }
-    return false;
-}
-
-bool Vehicle::HasGuns()
-{
-    if(inventory->HasItemOfType(ItemType::ILEGAL_GUN)) return true;
     return false;
 }
 
