@@ -274,21 +274,24 @@ void Vehicle::UpdateInventory()
         }
     }
 
-    for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::ILEGAL_GUN))
+    if(Mod::CalculateProbability(0.30))
     {
-        if(itemData->canSpawnInVehicles)
+        for(auto itemData : InventoryItems::GetItemsDataOfType(ItemType::ILEGAL_GUN))
         {
-            if(Mod::CalculateProbability(itemData->chance))
+            if(itemData->canSpawnInVehicles)
             {
-                inventory->AddItemToInventory(itemData->id);
+                if(Mod::CalculateProbability(itemData->chance))
+                {
+                    inventory->AddItemToInventory(itemData->id);
+                }
             }
         }
-    }
 
-    if(Mod::CalculateProbability(0.2))
-    {
-        auto stolenCellphone = inventory->AddItemToInventory("cellphone");
-        stolenCellphone->isStolen = true;
+        if(Mod::CalculateProbability(0.2))
+        {
+            auto stolenCellphone = inventory->AddItemToInventory("cellphone");
+            stolenCellphone->isStolen = true;
+        }
     }
 }
 
