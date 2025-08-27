@@ -1,45 +1,74 @@
 # Mod Polícia
 
-[English version](https://github.com/Danilo1301/GTASA_libModPolicia/blob/main/README_EN.md)
+English version:
+https://github.com/Danilo1301/GTASA_libModPolicia/blob/main/README_EN.md
 
-<br>
+(Acima é a versão para quem sabe falar inglês)
+
+<h1>Como baixar e instalar</h1>
+
+Nessa versão do tutorial, serei mais direto.
+
+Versão do tutorial em vídeo, caso queira: Instalando o mod polícia: https://youtu.be/GLMgw8ekCT0
+
+1. É necessário ter um apk atualizado com AML
+
+Não tem o APK mais recente? Veja "Baixar o APK"
+
+2. É necessário ter uma data já instalada no local correto
+
+3. Antes de baixar o mod polícia, baixe e instale o mod MenuVSL, que é um mod importante para funcionar o mod polícia
+
+MenuVSL: https://github.com/Danilo1301/GTASA_libMenuVSL
+
+4. Baixe o mod polícia agora
+
+O .zip do mod vai estar em Releases: https://github.com/Danilo1301/GTASA_libModPolicia/releases
+
+Não sabe qual baixar? Pesquise como baixar algo pelo Github. Ou baixe o primeiro .zip com o nome do mod, da versão mais recente
+
+5. Agora vamos instalar o .zip que você baixou
+
+A pasta "1. required libs" são as libs necessárias pro mod funcionar. Abra ela e copie a pasta "mods" para a pasta raíz do jogo
+
+Pasta raíz é a /com.rockstargames.gtasa
+
+A pasta "2. inside game folder" são os arquivos que você vai jogar na pasta raíz do seu jogo. Abra ela e copie a pasta "com.rockstargames.gtasa" para sua pasta "data"
+
+6. Agora vamos instalar as texturas e modelos 3d do mod
+
+Instalando o rádio e as texturas: https://www.youtube.com/watch?v=3RkYI10-icU
+
+7. Basta abrir o jogo e testar
+
+<h1>Baixar o APK</h1>
+
+Baixe do discord do AML, ou baixe este APK um pouco mais antigo aqui
+
+https://drive.google.com/file/d/1RH5sYnx0zFKeg7ucJnKd-0AyhwDaSSJ0/view
+
+Link do Discord do AML: https://discord.com/invite/aml-android-mod-loader-877187821511794730
+
+Não sabe a diferença entre os dois apks? Vá até "Qual apk escolher?"
+
+<h1>Qual APK escolher?</h1>
+
+No apk normal, a data fica em Android/data
+
+No apk unprotected, a data fica em Android_unprotected/data
+
+Você escolhe qualquer uma dessas versões. É preferência sua
 
 <h1>APKs testados</h1>
 
 * GTASA 2.00 AML 1.2.1 FLA 7.2
 
-<h1>Not compatible with:</h1>
-
-SprintFixByYuna.csa
-
-<h1>Instalação</h1>
-
-## (BAIXAR) Libs necessárias
-  * Menu VSL (https://github.com/Danilo1301/GTASA_libMenuVSL)
-
-## (NAO BAIXAR) Libs necessárias
-
-(vêm junto do .zip)
+<h1>Libs necessárias usadas</h1>
 
   * AML (https://github.com/RusJJ/AndroidModLoader)
   * SAUtils (https://github.com/AndroidModLoader/SAUtils)
   * CLEO Mod (https://github.com/AndroidModLoader/GTA_CLEOMod)
   * BASS Mod (https://github.com/AndroidModLoader/BASSMod)
-
-## APK
-Baixe e instale o APK mais recente do Discord do AML
-
-Link do Discord do AML: https://discord.com/invite/aml-android-mod-loader-877187821511794730
-
-O APK se encontra no canal '⭐official-apk-plugins', depois em 'APK+INFO'
-
-## Como instalar
-1. Instale o APK mais recente do Discord do AML
-2. Baixe as libs necessárias
-3. Baixe o **ModPolicia-0.0.0.zip** em [Releases](https://github.com/Danilo1301/GTASA_libModPolicia/releases)
-4. Abra a pasta "1. required libs" e copie a pasta "mods" para dentro da pasta raíz do jogo (em com.rockstargames.gtasa)
-5. Abra a pasta "2. inside game folder", copie a pasta "com.rockstargames.gtasa" e cole na pasta onde fica a sua data (ex: em Android/data)
-6. Coloque as texturas e modelos do mod usando o 'TXD Tool' e 'GTA IMG Tool' (Tutoriais abaixo)
 
 <h1>Como usar</h1>
 
@@ -49,26 +78,6 @@ O APK se encontra no canal '⭐official-apk-plugins', depois em 'APK+INFO'
 * Para abordar a pé: mire em alguém e aperte o botão de buzina
 * Para abordar com um veículo: aperte o 'número imaginário' 2 + o botão de buzina ([exemplo](https://imgur.com/gallery/2-horn-vQwZCR6))
 * Para abrir o menu do rádio: aperte o widget do celular ([exemplo](https://imgur.com/gallery/radio-VwkFlcQ))
-
-<h1>Tutoriais</h1>
-
-* Instalando o mod polícia: https://youtu.be/GLMgw8ekCT0
-* Instalando GTA SA 2.00 com data original: https://youtu.be/wT4N_NAYFOI
-* Instalando as texturas do mod: https://youtu.be/ghzIKrxtvx4
-* Instalando o rádio e as texturas: https://youtu.be/3RkYI10-icU
-
-<h1>Problemas</h1>
-
-<h3>Mods cleo sumiram do menu</h3>
-
-Bastar ir no jogo, em "Opções" > "Game" e mudar a opção do "CLEO LOCATION"<br>
-
-* OLD CLEO - com.rockstargames.gtasa/ mod.csi
-* OLD CLEO (+CLEO) - com.rockstargames.gtasa/cleo/ mod.csi
-* ../FILES/CLEO - com.rockstargames.gtasa/files/cleo/ mod.csi
-* CLEO 2.0.1 - storage/emulated/0/cleo/sa/ mod.csi
-
-(Não se esqueça de reiniciar o jogo para aplicar as modificações)
 
 <h3>Menu muito pra esquerda</h3>
 

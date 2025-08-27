@@ -1,33 +1,9 @@
 # Mod Polícia
 
-<h1>Tested APKs</h1>
-
-* GTASA 2.00 AML 1.2.1 FLA 7.2
-
-<h1>Not compatible with:</h1>
-
-SprintFixByYuna.csa
-
 <h1>Install</h1>
 
 ## (DOWNLOAD) Required libs
   * Menu VSL (https://github.com/Danilo1301/GTASA_libMenuVSL)
-
-## (DON'T DOWNLOAD) Required libs
-
-(comes with the .zip, update if you can)
-
-  * AML (https://github.com/RusJJ/AndroidModLoader)
-  * SAUtils (https://github.com/AndroidModLoader/SAUtils)
-  * CLEO Mod (https://github.com/AndroidModLoader/GTA_CLEOMod)
-  * BASS Mod (https://github.com/AndroidModLoader/BASSMod)
-
-## APK
-Download and install the latest APK from AML Discord
-
-Link of AML Discord: https://discord.com/invite/aml-android-mod-loader-877187821511794730
-
-The APK is in the channel '⭐official-apk-plugins', then in the 'APK+INFO'
 
 ## How to install
 
@@ -55,17 +31,6 @@ The APK is in the channel '⭐official-apk-plugins', then in the 'APK+INFO'
 * Installing the radio and the textures: https://youtu.be/3RkYI10-icU
 
 <h1>Issues</h1>
-
-<h3>Mods cleo not showing on menu</h3>
-
-You just need to go in the game, then "Options" > "Game" and change the "CLEO LOCATION"<br>
-
-* OLD CLEO - com.rockstargames.gtasa/ mod.csi
-* OLD CLEO (+CLEO) - com.rockstargames.gtasa/cleo/ mod.csi
-* ../FILES/CLEO - com.rockstargames.gtasa/files/cleo/ mod.csi
-* CLEO 2.0.1 - storage/emulated/0/cleo/sa/ mod.csi
-
-(Don't forget to restart the game to apply the changes)
 
 <h3>Menu too much to the left</h3>
 

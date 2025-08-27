@@ -303,6 +303,7 @@ void ModConfig::SaveSettings()
     generalSection->AddFloat("chase_vehicle_max_speed", Chase::CHASE_VEHICLE_MAX_SPEED);
 
     generalSection->AddFloat("time_between_bike_pickpockets", BikePickpocket::m_TimeBetweenPickpockets);
+    generalSection->AddInt("iml_vehicle_id", Ambulance::m_IMLSystem->m_VehicleModelId);
 
     //
 
@@ -487,6 +488,7 @@ void ModConfig::LoadSettings()
         generalSection->GetFloat("spawn_emergency_vehicles_distance", &Ambulance::SPAWN_EMERGENCY_VEHICLES_DISTANCE);
         generalSection->GetFloat("chase_vehicle_max_speed", &Chase::CHASE_VEHICLE_MAX_SPEED);
         generalSection->GetFloat("time_between_bike_pickpockets", &BikePickpocket::m_TimeBetweenPickpockets);
+        generalSection->GetInt("iml_vehicle_id", &Ambulance::m_IMLSystem->m_VehicleModelId);
     }
 
     //
